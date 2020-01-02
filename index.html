@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: index</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>index</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/172424230628.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="633">
+    <h2>Faster searches with non-prefix fields in composite indices</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Here’s a horrid hack or neat trick to work around a gaping inefficiency in the MySQL
+                query planner:</p><p>Imagine you have a very large table and a composite index e.g. the
+                fields <i><b>A</b></i>, <i><b>B</b></i>, <i><b>C</b></i>
+                and <i><b>D</b></i>.</p><p>Imagine you have a query WHERE <b><i>A</i>
+                = ?</b> AND <b><i>C</i> = ?</b></p><p>MySQL will use the index
+                to check all the values of <b><i>A</i></b> but dereference each row with the
+                matching <b><i>A</i></b> before checking the <b><i>C</i></b>.</p><p>You
+                can see what is happening using EXPLAIN SELECT by looking at the KEY and KEY_LEN columns: the index will
+                be named the KEY (good so far!) and the KEY_LEN will be the max size of column <b><i>A</i></b>
+                (ugh!). </p><p>If you supply a dummy clause constraining <b><i>B</i></b>
+                too then you can force MySQL to check the <b><i>C</i></b> constraint before it
+                dereferences any rows: SELECT … WHERE <b><i>A</i> = ?</b> AND <b><i>B</i>
+                != ?</b> AND <b><i>C</i> = ?</b> (where <b><i>B</i></b>
+                can be checked against some value that it can’t possibly be).</p><p>You can confirm this is
+                happening by looking that the EXPLAIN SELECT again: the KEY will still be the name of the index (if it
+                isn’t, you can force the index to be used with a USE INDEX clause) and the KEY_LEN will now be the
+                maximum length of the <b><i>A</i></b>, <b><i>B</i></b>
+                and <b><i>C</i></b> fields combined.</p><p>You can even use this
+                trick to get an index used even if the very first field in the composite index is not constrained, e.g.
+                WHERE <b><i>A</i> != ?</b> AND <b><i>B</i> = ?</b></p><p>This
+                isn’t foolproof - you always need to benchmark with your database!  Using any index and the additional
+                dereference cost compared to just doing a table scan in the first place assumes that the index is
+                dramatically cheaper to walk and will dramatically reduce the number of rows that need to be
+                dereferenced.  If only a tiny subset of the table needs to be dereferenced, the index will help; if a
+                large proportion of the table is going to be dereferenced anyway then it’d be better to do a table scan
+                from the get-go.</p><p><i>However</i>, if you have very large tables and you
+                have composite keys that cover your fields but which some of the composite keys unconstrained then its
+                well worth evaluating this approach which, in the right circumstances, can give orders of magnitude
+                improvements.</p><p>Why doesn’t MySQL use this trick internally?  Well, it should!  If its
+                already decided to use a composite ordered index for some prefix of the constrained fields, then it
+                should always check all constraints it can before dereferencing any actual rows. If MySQL used this
+                trick you wouldn’t have to find some impossible value to fake a check against either.</p><p>Its
+                a bit harder to say if it can work out when to use a composite index when there is no prefix at all. 
+                And of course it doesn’t work with hash indices.</p><p>Does MariaDB use this trick
+                internally automatically?  I don’t know but I doubt it.</p><p>Does PostgreSQL?  No idea. 
+                Etc.</p><p><i>If you liked this</i> you might like my recent stats on <a href="post/160628887798.html">database
+                compression</a> or browse some of my <a href="https://this blog">earlier
+                posts</a> </p>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#633'">perf</button>  <button class="page-link" onclick="window.location='db.html#633'">db</button>  <button class="page-link" onclick="window.location='mysql.html#633'">mysql</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/160628887798.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="635">
+    <h2>Compressing MySQL databases</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><i>TL;DR: use TokuDB.  Always.  It massively reduces storage requirements and
+                is massively faster than InnoDB, even on low end hardware.  My tables were compressed to just <b>12%</b>
+                original size and that’s fairly typical.</i></p><p>A very simple structure:<br/></p><pre>CREATE
+                TABLE test (<br/>      date DATE NOT NULL,<br/>      site VARCHAR(8) NOT NULL,<br/>  
+                   order_id VARCHAR(64) NOT NULL,<br/>      time TIME NOT NULL,<br/>      kind ENUM(...) NOT
+                NULL,<br/>      account INTEGER,<br/>      user INTEGER,<br/>      client_price
+                BIGINT,<br/>      supplier_id INTEGER,<br/>      supplier_cost BIGINT,<br/>    
+                 client_ref VARCHAR(32),<br/>      data JSON,<br/>      PRIMARY KEY (date, site, order_id),<br/>
+                     INDEX (account, user, client_ref)
+                ) DEFAULT CHARSET utf8<br/>PARTITION BY RANGE (TO_DAYS(date)) ( ...<br/></pre><p>This
+                system is using the RDBMS as a document store; the order items are being flattened into a document store
+                (the ‘data’ field).</p><p>The ETL is upserting order events as they are processed, using
+                multi-row INSERT INTO … ON DUPLICATE KEY UPDATE …</p><p>And I’ve been
+                running performance tests with some real data.  27M rows of real data, all on the same day (so all in
+                the same partition).  37M upsert statements inserting or updating those 27M rows, issued in batches of
+                1K-2K per multi-row statement.  This is enough rows to be able to get a grasp of upsert performance and
+                extrapolate storage requirements.</p><p>The test box is an AWS t2.medium instance.  This is
+                a very weak VM with 2 (virtual) CPUs and 4GB RAM.  Not normal DB fare, so performance beware.</p><p>The
+                27M rows take 10.48GB uncompressed.  It takes InnoDB 10 hours to load all the data.</p><!--
+                more --><p>In the old days, MySQL InnoDB offered ‘row_compression’.  This compresses individual
+                rows.  This reduces disk requirements to 5.73GB (<b>45% space saved</b>).  So it halves the
+                disk space!  Sadly, the test now took 15 hours instead of 10 hours.</p><p>More recently,
+                MySQL introduced ‘table compression’.  (MariaDB also added it, calling it ‘page compression’; the CREATE
+                TABLE syntax is infuriatingly slightly different).</p><p>Underneath, InnoDB is organized
+                as ‘pages’.  This table compression intercepts these page reads and writes and, as pages are written to
+                disk, they are individually compressed and written as a ‘sparse’ file.</p><p>As these InnoDB
+                pages are larger than the file system pages, there is the opportunity for a ‘hole’ to be ‘punched’ in
+                each InnoDB page.  Imagine an InnoDB page is 12KB, and the file system page size is 4KB.  The page may
+                compress down to 1KB, meaning it only needs the first file system page (4KB),  and 8KB would be saved.
+                 This example illustrates how wasteful this approach can be; there can still be a lot of slack in each
+                page.  The total file-size as reported by ls is unchanged, but the actual used disk space (as shown by
+                e.g. ls -s) is reduced.  Page compression compresses this table to 4.07GB (<b>61% savings</b>).
+                 The bad news is that performance sinks awfully!  I aborted the run after 32 hours, as upsert speed had
+                dropped to under 100 orders/sec.  I’ve seen this on MariaDB RDS and on my little t2.medium.  Its
+                atrocious!</p><p><b><i>TokuDB is an alternative storage engine to InnoDB</i></b>.
+                 It is nicely packaged by Percona so its very straightforward to install.</p><p>TokuDB
+                compresses databases with zlib by default.  It compresses pages, but doesn’t store them as sparse files;
+                instead, the total file size you see on disk is the total file size.</p><p>TokuDB with zlib
+                compresses to <b>1.45GB (86% savings)</b>!  This is the same compression algorithm as InnoDB
+                page compression and operating at much the same logical page level, but conferring much bigger savings
+                because each ‘page’ is not rounded up to a multiple of the file system page size.</p><p>Because
+                InnoDB puts the whole table (or, as in this case, partition) into a single file you cannot see how much
+                of the storage is for the primary rows and how much is for secondary indexes.  TokuDB, however, has
+                separate files for each index.  So in this case there are two files for the partition, and I can see
+                that the 27M rows takes 1.02GB and the by-client index takes 0.44GB.</p><p>TokuDB allows you
+                to specify other compression algorithms.  The weakest (thus fastest) is ‘snappy’, which is an LZ77
+                compressor without entropy coding.  It compresses to 2.31GB (78% savings; same ratio rows to index).</p><p>There
+                is also QuickLZ (between snappy and zlib in CPU requirements; 1.95GB; 81% savings) and LZMA (stronger
+                than zlib; <b>1.23GB; 88% savings!</b>).</p><p>LZMA is a clear winner here.
+                 What’s fascinating about the TokuDB though is not just its space-saving but also its performance: it
+                takes<b> just 2 hours</b> to run my ETL and choice of compression algorithm has no
+                noticeable effect on that!</p><p>Now the dire uncompressed InnoDB performance is perhaps the
+                classic “InnoDB is not good with databases that don’t fit into RAM”.  I was using Percona packages so
+                the defaults were not as mad as they used to be out-of-the-box with other linux sources, but I did up it
+                to 2GB and a big log.  Configuring InnoDB optimally is like reading tea leaves and no amount of doing it
+                makes me confident I’ve hit the sweat spot for any particular workload.  This upsert workload seems to
+                be particularly stressful.  The t2.medium has two (virtual) CPUs, and as upsert performance dropped I
+                saw ‘top’ reporting load average over 2.0 even though ETL was waiting on the DB.  Not good.</p><p>However
+                the dire compressed InnoDB performance I saw repeated on a MariaDB RDS m4.2xlarge with the same
+                data-set.  There’s something wrong with either InnoDB page compression, or with EBS spare file
+                performance!</p><p>On the other hand, TokuDB shows how to do things properly!  The
+                out-of-the-box defaults are very sane (it doesn’t use O_DIRECT; instead, it takes 50% to store
+                uncompressed pages, and lets the OS cache the compressed pages in the normal file buffer cache.
+                 Inspired!).  And the performance is just so stable!  On the t2.medium, which is a piddling little box,
+                I saw 5000 orders/sec sustained throughout the entire run.</p><p>I think I’ve heard that
+                TokuDB is marginally slower than (uncompressed) InnoDB on small tables.  And perhaps most users have
+                small tables.  I don’t think there’s actually that measurable a gap when everything is tiny.  But the
+                moment you go over a million rows or contemplate partitioning then I think TokuDB is the obvious choice.
+                 In fact it would make a very good default.</p><p>Oh, and for kicks, try a COUNT(*) on a big
+                InnoDB table.  And then go make a coffee!  TokuDB … snap!  Not based on meta-data like MyIASM
+                did neither; just so much faster.</p><p>TokuDB redefines what a ‘small’ database is.  It
+                moves the goalposts.  It means I can build bigger systems without scaling sideways.  I don’t get why
+                everyone still uses InnoDB ;)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#635'">perf</button>  <button class="page-link" onclick="window.location='db.html#635'">db</button>  <button class="page-link" onclick="window.location='mysql.html#635'">mysql</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145830743193.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="637">
+    <h2>My attack on the Enigma cipher machine</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" data-orig-height="250" data-orig-width="166" src="media/old/145830743193_1.jpg" style="float: left;"/><i>see also:</i><br/></p><ul><li><a href="post/145304200648.html">Enigma
+                Machine on Paper and Python</a></li>
+                <li><a href="post/145557308308.html">Fast
+                Enigma sim in C++</a></li>
+                <li><a href="post/145745642718.html">A
+                brief history of the Enigma and the pre-war cracking of it</a></li>
+                <li><a href="post/19946053957.html">Enigma
+                in a spreadsheet!</a></li>
+                </ul><p>My favourite book was <a href="http://simonsingh.net/books/fermats-last-theorem/">Fermat’s
+                Last Theorem</a> by Simon Singh.  So when in 1999 I saw his new book - <a href="http://simonsingh.net/books/the-code-book/">The Code Book</a> - in shops I just had to
+                buy it, despite it being incredibly expensive (for a very poor student like myself).  I then took my new
+                prize procession with me expectantly on the summer holiday.  And when I reached the end of the book that
+                I discovered it contained a <a href="http://simonsingh.net/cryptography/cipher-challenge/the-ciphertexts/">Cipher Challenge</a>!</p><p>I
+                set about cracking the ciphers with gusto.  By chance I happened to have my 286 computer with me, and my
+                hobby language of choice - Turbo Pascal 7. </p><p>I think I skipped the ADFGVX cipher, so
+                excited was I at the prospect of cracking the <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma</a>
+                stage 8 of the contest.  Unfortunately, when I reached the Enigma, I was stumped.  I couldn’t
+                make any headway with simulating the Enigma.  I wrongly assumed that the message would begin with the
+                message key encrypted with the day key twice.  But my biggest mistake was not understanding how rings
+                affected things.  I didn’t understand how rings affected things because The Code Book didn’t
+                actually explain them!  The book instructed the intrepid explorer to search the Internet for more
+                details and I didn’t take any heed of this because a) I couldn’t imagine the book
+                wouldn’t actually give me everything I needed to crack the challenge, and b) I didn’t
+                have any Internet.  The Enigma I was trying to crack wasn’t even an accurate Enigma.</p><p>So
+                17 years later I find myself on a whim tacking the Enigma once again.  And my computer is a bit faster
+                too.  But I want to attack it my way, putting myself as much as possible in the shoes of my old self 17
+                years ago, only this time with Internet so I can double-check the correctness and completeness of my
+                implementation of the Engima cipher machine.</p><p>This is my attack on the Enigma.  I will
+                describe my attack on an M3 Enigma (used by the army and air force) and then I will generalize it to
+                attack the M4 (used by the U-boats; what Alan Turing is famous for cracking).</p><!-- more --></post-body>
+ <button class="page-link" onclick="window.location='rec.html#637'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#637'">enigma</button> 
+<button class="page-link" onclick="window.location='post/145830743193.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145745642718.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="638">
+    <h2>A brief history of the Enigma and the pre-war cracking of it</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A lot of people now think that Alan Turing cracked the Enigma.  A lot of people like
+                to correct those people and say that it was the Poles who truly cracked the Enigma.  So we really need
+                to correct everyone and set things straight, because it was far more nuanced than that, with far more
+                people involved, and different versions of Enigma were cracked even earlier.  If you read enough about
+                code breaking you end up with a fuzzy timeline in your head pieced together from all the various
+                sources.  Here’s what I’ve osmosed:</p><img data-orig-height="328" data-orig-width="900" src="media/old/145745642718_1.jpg"/><!-- more --></post-body>
+ <button class="page-link" onclick="window.location='rec.html#638'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#638'">enigma</button> 
+<button class="page-link" onclick="window.location='post/145745642718.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145557308308.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="639">
+    <h2>Fast Enigma sim in C++</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Following on from my <a href="post/145304200648.html">Python
+                Enigma cipher machine simulator</a>, I re-wrote it in C++ for maximum speed.</p>
+
+                <p>The settings for each rotor - its start position and ring setting - can actually be combined
+                into a single offset. This is perhaps why all the popular treatments of the subject just ignore the
+                impact of the rings on the number of combinations. In truth, their impact is hard to explain. The rings
+                change when rotors rotate, and do have an impact on the number of combinations, but many initial
+                starting positions are equivilent for short messages because the rings cancel out the rotor start
+                position and do not cause a rotation because the message is too short.</p>
+
+                <p>The M4 Enigma - as infamously used by the U-boats - is usually described as a ‘four
+                rotor’ machine. And that’s strictly true, I suppose, but I think I have a better way
+                of describing it:</p>
+
+                <p>The M4 was a normal 3-rotor M3 Enigma chassis. A new 'thin’ reflector design was
+                developed that could take a new, thinner 'greek’ non-rotating wheel. The thin greek wheel
+                could be placed in any of 26 positions and clicked into the thin reflector. This could then be placed in
+                the chassis in the normal reflector position.</p>
+
+                <p>So basically the M4 is an M3 Enigma with a configurable reflector.</p>
+
+                <p>I wrote the fast Enigma sim to serve as a basis of a statistical attack on the Enigma. In fact,
+                if you look at my test vectors, you’ll notice one of them is <a href="http://simonsingh.net/cryptography/cipher-challenge/" target="_blank">Simon Singh’s
+                Cipher Challenge Enigma stage 8</a>, which I cracked using my statistical attack! More on that in
+                the next post :)</p>
+
+                <p>And here’s the code. As you can see, the vast majority of the code is just test
+                vectors to ensure its correctness:</p>
+
+
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='rec.html#639'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#639'">enigma</button> 
+<button class="page-link" onclick="window.location='post/145557308308.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145304200648.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="640">
+    <h2>Enigma Machine on Paper and Python</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(<i>don’t forget to also read: <a href="post/145830743193.html">my
+                attack on the Enigma cipher machine</a></i>)</p>
+
+                <p>It turns out my kids have been sending each other secret messages, enciphered with a
+                substitution cipher of their own invention!  They only let me see the secret key when I agreed to help
+                them mix up a very complicated recipe for invisible ink:</p><img alt="image" data-orig-height="640" data-orig-width="480" src="media/old/145304200648_1.jpg"/><p>This reawakened
+                fond memories of a young me getting a good way through Simon Singh’s The Code Book <a href="http://simonsingh.net/cryptography/cipher-challenge/">cipher challenge</a> :)  (Also, see
+                the <a href="post/19946053957.html">Enigma
+                Spreadsheet</a> my friend made a few years ago!)</p><p>So my mind raced considering
+                how fast todays laptops can brute-force, say, Enigma?  Even non-brute-force attacks are on a different
+                scale if you have a computer.  For example, with Enigma, can you ignore the plugboard and go through
+                every combination of day and message key, using a histogram to spot possible text that you then attack
+                as a substitution cipher?</p><p>First I needed an accurate Enigma simulator.  To be honest,
+                I found most descriptions a bit light on detail.  But I quickly found a <a href="http://wiki.franklinheath.co.uk/index.php/Enigma/Paper_Enigma">paper Enigma</a>, which I
+                made:</p><img alt="image" data-orig-height="1432" data-orig-width="1910" src="media/old/145304200648_2.jpg"/><p>From this, I was
+                able to create a <a href="https://gist.github.com/williame/94beef4b9afea659864950c29d402b90">Python
+                Enigma machine!  Source available here</a>:</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='rec.html#640'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#640'">enigma</button> 
+<button class="page-link" onclick="window.location='post/145304200648.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/143376853353.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="643">
+    <h2>Ludum Dare #35 Mosaic</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Its becoming a Ludum Dare tradition that I make a mosaic for each competition. I
+                didn’t enter this time, but I still made a nice mosaic:</p><img data-orig-height="282" data-orig-width="320" src="media/old/143376853353_1.jpg"/>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#643'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#643'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#643'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/136598180858.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="646">
+    <h2>Where are all the Raspberry Pi robots?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My daughters are really into robots.  They love going to the science camps during
+                school holidays and the highlight is always programming the lego mindstorm robots.</p><p>So
+                I got all excited about getting them a robot for xmas, and so I went looking.  My friend Roy recently
+                blogged about robots (<a href="http://royvanrijn.com/blog/2015/12/hacking-a-broken-roomba/">hacking
+                a Roomba!</a> and <a href="http://royvanrijn.com/blog/2015/12/makeblock-robots-for-kids-an-adults/">Makeblock</a>)
+                and this really wetted my appetite :)</p><p>In the end I got them a SparkFun Redbot inventor
+                kit.  Its an Arduino with line followers, whiskers, accelerometer for bump detection and magnetic wheel
+                rotation counters.</p><img alt="image" data-orig-height="600" data-orig-width="600" src="media/old/136598180858_1.jpg"/><p>But its really
+                bugging me how limited the Arduino is!</p><p>Here’s the Raspberry Pi Zero that I read about
+                recently:</p><!-- more --></post-body>
+ <button class="page-link" onclick="window.location='rec.html#646'">rec</button>  <button class="page-link" onclick="window.location='robots.html#646'">robots</button> 
+<button class="page-link" onclick="window.location='post/136598180858.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/134911547413.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="647">
+    <h2>Why Swift?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The programming blogosphere is chock full of hype with Apple open-sourcing their
+                Swift language.</p><p>So is this exciting?  No, not really.  I can’t see what all the hype
+                is about.</p><p>Swift is very much tied to Apple’s walled-garden of iOS app development.
+                 Anyone developing for iPhone has to pick between anarchic Objective C and new shiny Swift.  Its a
+                captive audience.  Its an audience unaffected by whether Swift is open-source or not.</p><p>Will
+                Swift be used for anything else any time soon?  I think not.</p><p>If you’re developing for
+                the server, are you going to adopt Swift?  For me, the fact that IBM is backing server-side Swift is all
+                the death knell you need ;)</p><p>If you’re developing for the server you already have a
+                myriad of languages to pick from.  From scripting languages like Ruby, Python and Javascript, to
+                compiled languages like Java, C/C++ and Go, you have a full range.  If you want a ‘safer’ language you
+                can go Haskell or Rust.  What is so compelling about adopting Swift on the server-side?   I can’t spot
+                anything at all.</p><p>Swift on the server is going to be about as popular as C#.  Its a
+                language you use if key parts of your project on other platforms are forced to use it.</p><p>I
+                like how Swift reasons about integer overflow and nil.  I wish there was a ‘safe’ C.  But that’s not
+                making me itching to go use Swift for server-side programming.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#647'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/127137593983.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="649">
+    <h2>LudumDare 33 wallpapers</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Aurel Bílý made this nice wallpaper, and <a href="http://thenet.sk/?blog/0007">told
+                us how he did it</a>:<br/></p><img data-orig-height="500" data-orig-width="500" src="media/old/127137593983_1.png"/><p>Here are a couple of mosaics I
+                made from the LD32 thumbnails:</p><img data-orig-height="1428" data-orig-width="3350" src="media/old/127137593983_1.jpg"/><img data-orig-height="1617" data-orig-width="2784" src="media/old/127137593983_2.jpg"/>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#649'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#649'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#649'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/117234199303.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="650">
+    <h2>SSIM vs MSE for Mosaics</h2>
+</a>
+<?xml version="1.0" ?><post-body><img data-orig-height="125" data-orig-width="600" src="media/old/117234199303_1.jpg"/><p>(On the left, a target image.
+                 On the right, a <a href="http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/">mosaic made from
+                thumbnails of all the Ludum Dare 32 games</a>, positioned using an MSE score metric.)</p><p>Making
+                mosaics is in two steps:</p><ol><li>score each tile in each position</li><li>determine
+                the optimal positioning of all tiles to maximize the total likeness</li></ol><p>The
+                second part is easy (although I tried imprecise approximations at first, and only discovered it fairly
+                recently): use the <a href="http://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
+                that first step that’s tricky.</p><p>I have been using <a href="http://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
+                been fairly happy with the result.  But readers have pondered if there aren’t better metrics that better
+                account for shape and contrast and such…</p><p>So to please some Ludum Darers
+                (and because I was curious), I tried out some algorithms.</p><p>First, <a href="http://Peak%20signal-to-noise%20ratio">Peak Signal to Noise Ratio (PSNR)</a> is just a
+                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="http://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
+                 This was a promising avenue to explore.  My mosaic maker is Python and there’s a scikit helper, but
+                scikit doesn’t work with pypy (and neither does a stock numpy; trying to get the mosaic maker to work
+                happily in pypy with these kinds of dependencies has been a nightmare).  In the end I went with pyssim
+                which turned out to not work in pypy either due to dependencies but I stuck with it on cpython anyway.
+                 Its about 4x slower than MSE and most of the cost seems to be comparison overhead and not really
+                affected by how big the patches I compared were.</p><p>SSIM is actually working in luma (eh
+                fancy term for grayscale) and trying to account for shape not colour.</p><p>The results:</p><img alt="image" data-orig-height="200" data-orig-width="387" src="media/old/117234199303_2.jpg"/><p>(On the left, the
+                original.  In the middle, MSE.  And on the right, SSIM.  Tiles are the thumbnails of <b><a href="http://ludumdare.com/compo/ludum-dare-32/">2819 Ludum Dare 32 games</a></b>
+                (omitting 2 games with broken thumbnails!))</p><p>So I tried blending the MSE and SSIM
+                scores (suitably scaled of course) but couldn’t get even a little bit of SSIM to help:</p><img alt="image" data-orig-height="200" data-orig-width="137" src="media/old/117234199303_3.jpg"/><p>(Here 70% MSE and
+                30% SSIM.  I even tried 8% SSIM and it looked much the same.)</p><p>I also tested using the
+                YCbCr colour-space too; results were much the same (as all the tiles are screenshots they are invariably
+                natively RGB; if the tiles were made from photos there’s a good chance that YUV makes much more sense).</p><p>Now
+                I am making a novice interpretation of this but my guess is that in mosaics, which are best viewed from
+                a great distance where the tiles are increasingly pixel-sized, tile colour dominates over shapes within
+                the tile?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#650'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#650'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#650'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/102953980123.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="651">
+    <h2>Home Made Space Rockets</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Last Monday evening I got to look around, talk to and distract the <a href="http://www.copsub.com" target="_blank">Copenhagen Suborbitals</a> team in Copenhagen. 
+                Mondays is their planning day and perhaps I was bit in the way but the project is their favourite
+                subject so perhaps they appreciated a willing listener ;)</p>
+                <p>They are an enthusiastic bunch of amateurs building a real proper space rocket!  They are
+                aiming to launch a team-mate 100km straight up and bring them back down safely.  If I lived nearer I
+                know I’d be sucked in and hopelessly trapped; there are like 20 or 40 of them or something and
+                there’s people there every evening and often daytimes too and people are putting in 40+hours
+                and stuff!  It reminds me of early accounts of <a href="http://en.wikipedia.org/wiki/Armadillo_Aerospace" target="_blank">Armadillo Aerospace</a>.</p>
+                <p>Here’s some old prototypes from their “museum corner”:</p>
+                <p><img alt="image" data-orig-height="333" data-orig-width="500" src="media/old/102953980123_1.jpg"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#651'">rec</button>  <button class="page-link" onclick="window.location='robots.html#651'">robots</button> 
+<button class="page-link" onclick="window.location='post/102953980123.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/97634254788.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="653">
+    <h2>Ludum Dare 30 results are in!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>By far my best score ever!  Over 1000 other Jam entries, and I got Silver for
+                Innovation and 4th for Theme!   Really really so so very very pleased about this! :D</p>
+                <p><img data-orig-height="196" data-orig-width="500" src="media/old/97634254788_1.png"/></p>
+
+                <p>In other news, <a href="http://notch.net/2014/09/im-leaving-mojang/"><em>Notch</em>
+                sells Mojang</a> to Microsoft and goes “back to doing <strong>Ludum Dares</strong>
+                and small web experiments”!</p>
+                <p><a href="http://www.ludumdare.com/compo/2014/09/15/results-for-ludum-dare-30/">Full
+                results here.</a> </p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#653'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#653'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/96349268773.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="654">
+    <h2>Ludum Dare Stats</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>As <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">my
+                game</a> scrapes the <a href="http://www.ludumdare.com/compo/" target="_blank">LD30</a> game
+                contest entries, I get to gather a lot of stats about who comments on whom.  And, I believe, comments
+                are a good proxy for playings and ratings.</p>
+                <p>We’re over a week into the 3 week voting time, and already the activity on the site
+                has dropped significantly.</p>
+                <p>Here’s the comments over time (PDT):</p>
+                <p><img data-orig-height="168" data-orig-width="500" src="media/old/96349268773_1.png"/></p>
+                <p>The high peaks are at 12 noon each day; it seems people play and rate in their lunch hours!
+                 Even as the number of comments per hour drops steadily, it still has a local maximum at 12 noon each
+                day. </p>
+                <p>I know I play, rate and comment during my lunch breaks … but I’m not in
+                the PDT timezone.</p>
+                <p>In fact, I have the supposed location of 617 players so far so I could actually do an ok job of
+                determining the local time they comment, and perhaps its not their lunchtimes?  I may do this…</p>
+                <p>I was expecting the comment rate to pick up again at the weekend, but seemingly not.</p>
+                <p>The top-10 commented-on games are:</p>
+                <p>212 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=36254">Close
+                Your Eyes - <em>nonetheless</em></a></p>
+                <p>195 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=28182">Sinister
+                - <em>Joe Williamson</em></a></p>
+                <p>187 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=11391">Heart
+                Star - <em>AdventureIslands</em></a></p>
+                <p><strong>175 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Connecting
+                LD30 to the Real World - <em>Will Edwards</em></a></strong></p>
+                <p>161 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=2982">Chipset-0
+                - <em>deepnight</em></a></p>
+                <p>153 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=40452">Waterfly
+                Octus - <em>gillenew</em></a></p>
+                <p>136 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=39357">Starpiercer
+                - <em>Schrodinger Games</em></a></p>
+                <p>133 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=3935">NOODLE
+                FEELING - <em>Magdev</em></a></p>
+                <p>128 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=41215">Super
+                Alien Bro - <em>nerd burglars</em></a></p>
+                <p>128 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=37445">This
+                Little Piggy… - <em>InfectionTeam</em></a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#654'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#654'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/95981602928.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="655">
+    <h2>All the LD30 games in one mosaic!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I updated my <a href="post/84505278488.html">mosaic script</a>
+                to consider rotations of three tiles as well as straight swaps.  To be honest, its diminishing returns,
+                but the mosaic is one of the prettiest yet:</p>
+                <p><a href="http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/"><img data-orig-height="255" data-orig-width="500" src="media/old/95981602928_1.jpg"/></a></p>
+                <p><a href="http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/">More
+                on the LD web site :)</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#655'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#655'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#655'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/95981048318.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="656">
+    <h2>Connecting Ludum Dare to the Real World</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/" target="_blank">Ludum Dare</a> is
+                a really popular game making contest.  Three or so times a year several thousand competitors all over
+                the world wait for the theme to be announced and the contest to start!</p>
+                <p>Last weekend was the 30th contest (LD30) and the theme was “Connected Worlds”.</p>
+                <p>The <a href="http://www.ludumdare.com/compo/2014/08/16/ludum-dare-30-theme-voting-begins/" target="_blank">voting</a> wasn’t even close, which is a shame as I was very lukewarm
+                to the theme.  I feared there’d be lots of platform games where you run two levels in
+                parallel, or can swap between levels, etc.</p>
+                <p>And that’s what 90% of games are, sadly.  I don’t mean they are bad games -
+                many of them are really exceptionally good! - I just mean the theme lent itself to a very literal
+                interpretation.</p>
+                <p>My interpretation was to try and connect Ludum Darers to the <em>real</em> world
+                instead :)</p>
+                <p>I recalled that hidden away on the LD website was a map where LDers could record their position
+                on a map.  It was not terribly well known, but there were several hundred player’s latitude
+                and longitude in there.  It was enough to make sure that any map wasn’t completely empty for
+                the first player…</p>
+                <p>So I made a ‘game’ where you report your position, and then see other
+                contestants near you and can browse LD games on the real world map.</p>
+                <p>The game aspect is the gamification of rating LD games.  In order to discover the overall LD
+                winner, contestants play each other’s games and rate them.  They have 3 weeks to do this, and
+                then the standings are announced.  And I wanted to encourage that participation, as there’s
+                really games that go unplayed and contestants that don’t play.</p>
+                <p>I scrape the LD website and, as a proxy for rating others games, I note who has commented on
+                whom.  As well as rating games you can comment on games, and whilst these are distinct they are often
+                done together.</p>
+                <p>So I draw the map with line art, and use a GL stencil buffer to expose an underlying map where
+                you’ve commented on games or others have commented on your game:</p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313"><img alt="image" data-orig-height="223" data-orig-width="500" src="media/old/95981048318_1.png"/></a></p>
+                <p><strong><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Play
+                it online here!</a></strong>  If you’re not an LD player, you can <em>pretend</em>
+                to be!</p>
+                <p>The map that you expose is illustrated by me and the usual suspect, who goes by the handle <a href="post/30793134312.html" target="_blank">Wombatica</a> on the LD site.</p>
+                <p>I’ve been overwelmed by the popular appeal and compliments!  I hadn’t
+                expected to get so many appreciative LDers!  I’ve been rated over 150 times already, which is
+                many times the ratings I’ve received on previous contests.  People keep coming back, and
+                people keep checking progress.</p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">People
+                are saying</a> the nicest things too!  Here’s some of the over-the-top ones :)</p>
+                <blockquote>
+                <ul><li>WOW. Now that is original. Genius. I’ll be playing it for the next few
+                weeks.</li>
+                <li>Hah, what an awesome idea, gamification of Ludum Dare! This it how I’m going to vote
+                all entries from now, keeps voting fun! </li>
+                <li>Thumbs up for innovation/originality!</li>
+                <li>super awesome idea, have all my stars!</li>
+                <li>Now the fourth wall have been shattered.  thank you.</li>
+                <li>Will - really, really good job… This should win I think, just for the sheer cheek
+                of subverting the idea and pointing LD at itself, can see this becoming a favourite interface for LD in
+                the future… very great !</li>
+                <li>You made playing games a game, that’s a 5 stars on innovation, no doubt. Also,
+                connecting the LD world with the real world… Another 5 stars for theme!</li>
+                <li>Man. This is SO neat! This game wins like all of the LDs. Amazing job!</li>
+                <li>I gave you an award on your profile for this game.</li>
+                <li>Oh my god this is briljant!</li>
+                </ul></blockquote>
+                <p>Oh there’s more.  <em><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Lots more :)</a></em>
+                 Now excuse me while I float off ecstatically tired…</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#656'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#656'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#656'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/94734034483.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="658">
+    <h2>Python annotations and type checking</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="https://mail.python.org/pipermail/python-ideas/2014-August/028618.html">Someone
+                got at Guido</a>!  He comes back from some talk with the idea of blessing <a href="http://mypy-lang.org/">mypy</a> type checking annotations in Python!</p><p>Now
+                those following along may recall my own type-checking library <b><a href="post/33185451698.html">obiwan</a></b>
+                that also uses annotations.  Its on <a href="https://pypi.python.org/pypi/obiwan">pypi</a>
+                so you can use it already today!  What are you waiting for?</p>
+                <p>I’m keen on static checkers, although I prefer static type <i>inference</i>
+                and have ideas along those lines such as <a href="post/15203221199.html">Static Single
+                Type Assignment</a> (SSTA).</p>
+                <p>Fundamentally, though, restricted Python isn’t Python.  We want a dynamic language,
+                and this hits on the limits of static checking.  Obiwan’s runtime checking is a compliment to
+                a static checker and its ability to check external data e.g. tainted JSON input from an API is a major
+                plus too.</p>
+                <p>What we want is for static checkers, auto-completion in IDEs and runtime checkers like obiwan
+                to <i>all use the same syntax and conventions.</i></p>
+                <p><i>But</i> I don’t like the mypy syntax; its baroque and it even
+                overloads comments (yuck!).  I much prefer obiwan’s style and would like annotations to be
+                supported in-block as well as on the boundaries i.e. declarations.</p>
+                <p>Consider this mypy example:</p>
+                <pre> from typing import List, Dict
+
+                def word_count(input: List[str]) -&gt; Dict[str, int]:
+                ...
+                </pre>
+                <p>Obiwan would instead say:</p>
+                <pre> def word_count(input: [str]) -&gt; {str: int}:
+                ...
+                </pre>
+                <p>Which I consider far <i>clearer</i> and pythonic.</p>
+                <p><a href="https://mail.python.org/pipermail/python-ideas/2014-August/028684.html">My reply
+                to the list is here</a>.</p>
+                <p>FWIW, I don’t imagine anything will come from this.  There is unlikely to be
+                consensus, and although I’d like a solid PEP that puts annotations into blocks it would so
+                risk slowing down programs that I think it unlikely to be adopted.  So we may be left with a clear
+                message that people are to use mypy or whatever, but no actual solid move forwards.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#658'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/87682811573.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="662">
+    <h2>Compressing Scrabble Dictionaries</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The newest r<a href="http://www.azspcs.net/" target="_blank">ec.math Al
+                Zimmermann Programming Contest</a> is a solitaire Scrabble puzzle called ’<a href="http://www.azspcs.net/Contest/AlphabetCity" target="_blank">Alphabet City</a>’.</p>
+                <p>Wait, what do you mean you’re not entering that programming contest??  Its a really
+                really nice clean problem and it’s addictive as 2048!</p>
+                <p>To lookup scrabble words quickly, people use a <a href="http://en.wikipedia.org/wiki/GADDAG" target="_blank">GADDAG</a>.  The GADDAG is a tree data-structure.  Each node represents a
+                character, and has pointers to all the child nodes that continue all possible words.</p>
+                <p>The key thing is that every rotation of each word is stored in the GADDAG.  To have a GADDAG of
+                the words ALL, BALL and CALL, for each word we add all rotations.  This is LLA@, LA@L, A@LL for <em>ALL</em>,
+                and LLAB@, LAB@L, AB@LL, B@ALL for <em>BALL</em> and so on.  (@ is my choice of ‘start-of-word’
+                marker; its a good choice because in ASCII its the character before A.  When you have arrays of child
+                nodes [A..Z], this can easily be extended to have a slot pointing at the start-of-word node [@..Z].  And
+                it looks nice enough in the graphs too.)</p>
+                <p>To speed up Scrabble searches, the prefix of each word is stored <em>reversed</em>
+                which facilitates 'hook’ searches.  To search for all words with one letter then A then
+                another empty then L (?A?L), you start with the first known letter - A - and look for all those with one
+                character in front (a child with a @ child), terminated by an L.</p>
+                <p>A naive sparse implementation of a GADDAG takes absolutely loads of memory: over a GB is not
+                startling.  Almost all those nodes will be duplicates of other parts of the tree and almost all possible
+                children will exist.  So we really want to get the memory usage down if we want to avoid our program
+                waiting on <a href="https://gist.github.com/jboner/2841832" target="_blank">main memory</a>
+                all the time: bottom cache is typically in the tens of nanoseconds away, whereas main memory is around a
+                hundred nanoseconds away.  Getting the GADDAG small enough to fit into cache, even the bottom level
+                cache (as in slowest and biggest), can mean an order of magnitude speedup!  So its well worth
+                compressing your GADDAG.</p>
+                <p>The <a href="http://www.ericsink.com/downloads/faster-scrabble-gordon.pdf" target="_blank">original
+                paper</a> describes compression and gives an example of partial compression.  I will talk these
+                through with graphs:</p>
+                <p><img alt="image" data-orig-height="518" data-orig-width="500" src="media/old/87682811573_1.png"/></p>
+
+                <p>Here’s the uncompressed tree.  Sorry it takes so much screen space .. it has a lot of
+                nodes in it, which is a point I want to make :)</p>
+                <p>3 words, 11 rotations and 27 nodes.</p>
+                <p>Lets start compressing it:</p>
+                <p>The first thing to note is that, unlike the ALL, BALL, CALL <a href="http://nullwords.wordpress.com/2013/02/27/gaddag-data-structure/" target="_blank">example</a> on
+                NullWords blog, I am storing the terminating characters (the blue nodes) in a separate set off the node.
+                 This is how the prefix LLA is followed by a single node with both B and C in it.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#662'">rec</button>  <button class="page-link" onclick="window.location='comp.html#662'">comp</button> 
+<button class="page-link" onclick="window.location='post/87682811573.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/86488099258.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="663">
+    <h2>pycon 2014 Sweden: the bad bits</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="right" border="3" height="172" src="http://upload.wikimedia.org/wikipedia/commons/4/4d/Djurgarden.jpg" title="en.wikipedia.org/wiki/File:Djurgarden.jpg" width="263"/></p>
+                <p>I’m just back from <a href="http://2014.pycon.se/" target="_blank">pycon 2014
+                Sweden</a>.</p>
+                <p>And all the tweets and commentary will be positive, as they <em>always</em> are. If
+                you want to say something negative its best to not say it at all?</p>
+                <p>Hmm, not me.  Someone has to give this feedback; we can’t sweep it under the carpet.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='lang.html#663'">lang</button> 
+<button class="page-link" onclick="window.location='post/86488099258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/84505278488.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="664">
+    <h2>Making Image Mosaics</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
+                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" target="_blank">contest entries</a>.
+                 It <a href="post/71966020187.html">started</a>
+                <a href="post/84225291373.html">basic</a>,
+                and its got <a href="post/84317701363.html">better</a>.
+                 Each of the ‘pixels’ in the Mona Lisa is actually a screenshot of a game!  <em><strong>Here’s
+                how</strong></em>:</p>
+                <p>We have an target image, for example the Mona Lisa, and we have some large number of small
+                input images which we want to arrange so that, when squinted at from a distance, it approximates the
+                target image.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#664'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#664'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#664'">mosaic</button> 
+<button class="page-link" onclick="window.location='post/84505278488.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

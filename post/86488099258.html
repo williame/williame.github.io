@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>pycon 2014 Sweden: the bad bits : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>pycon 2014 Sweden: the bad bits</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><img align="right" border="3" height="172" src="http://upload.wikimedia.org/wikipedia/commons/4/4d/Djurgarden.jpg" title="en.wikipedia.org/wiki/File:Djurgarden.jpg" width="263"/></p>
+                <p>I’m just back from <a href="http://2014.pycon.se/" target="_blank">pycon 2014
+                Sweden</a>.</p>
+                <p>And all the tweets and commentary will be positive, as they <em>always</em> are. If
+                you want to say something negative its best to not say it at all?</p>
+                <p>Hmm, not me.  Someone has to give this feedback; we can’t sweep it under the carpet.</p>
+                <p><!-- more -->First, <strong>the good bits:</strong></p>
+                <p>James Powell’s talk on embedding CPython in CPython was … fascinating!
+                 Whilst the whole point of the exercise is questionable, to say the least, his infectious enthusiasm,
+                pace and style really got the audience swinging.</p>
+                <p>Kenneth Reitz’s talk on Python 2 vs Python 3 - nobody’s using Python 3, and
+                Kenneth thinks we have to start or we’ll lose our beloved Python - was super interesting to
+                everybody.  OK, so his actual slides were, well, hmm, silly… really, the whole evolution
+                angle was so riddled with false analogies that the first half of the talk would have been better
+                skipped.  But by the end he had everyone’s attention about such a sensitive and important
+                topic that affects us all.  If &lt;5% of users are using Python 3, just who have the Python core
+                devs been working for these past five years?</p>
+                <p>Laurens Van Houtven’s crypto 101 talk was also fascinating.  OK, so he knows that
+                even his claim that Twisted validates certs is questionable in the aftermath of the heartbleed
+                mass-revocation, but I think if he can get everyone to use TLS always, we’ll stand a better
+                chance of upgrading that when we’ve secured it (the whole CA angle, which I’ve been
+                fascinated by for ages, seems less tractable than the cipher issues and I didn’t buy his
+                dismissal of RC4 either) is a tad higher?</p>
+                <p>So these are the international speaker circuit.  They do these trips and give these talks
+                because they are good at them.  But the lesson isn’t to only use tried-and-tested
+                international speakers, because <em>all</em> the lightning talk slots were fascinating too.
+                 The audience was technical, and when the audience put themselves forward to present, they had something
+                to say that was interesting to the audience.  The audience were full of good potential future talks for
+                next year.</p>
+                <p>And the first keynote, by Helena Bengtsson, was interesting too.  Nothing python-related
+                really, and she only talked about the <em>why</em> not the how, but investigative journalism
+                is interesting and the audience enjoyed it.</p>
+                <p><strong>Still good:</strong></p>
+                <p>Isaac Bernat’s talk was a good talk but could have had more <em>how</em>
+                and less <em>why</em>.  Questions got a bit caught up in the need to abort builds if there
+                are TODOs in them, which is a shame because there’d have been a lot of good talking to be had
+                about how he pipes together things in bash, and perhaps why he doesn’t use multiprocessing to
+                pipe together tools and filters instead.</p>
+                <p>And Beatrice Åkerblom’s research into dynamic languages and counting
+                the occurrences of dynamic usage in a Python corpus was interesting.  The subject matter deeply
+                interests me so I perhaps paid closer attention than others.  He delivery was a bit non-committal, and
+                if she’s been at it since SourceForge was mainstream then I hope she’s been busy
+                with other things because she showed what you can get from a few days effort.  Her results also
+                surprised me, but there’s a few things I’ve learned from my attempts at statifying
+                Python that might mislead results, namely the duckability of truthiness, collections and so on, and the
+                re-use of variables that, when thought about using <a href="post/15203221199.html">SSTA</a>,
+                goes away.</p>
+                <p>Attendees are doubtless tying to work out by my omissions what I thought was <em>bad…</em></p>
+                <p><strong>The Bad bits:</strong></p>
+                <p>A couple of talks simply weren’t right.</p>
+                <p>I’m not sure why Jack Palmer came to talk about his startup plot.ly but he sure did
+                just read the slides and drown the audience in apathy.  He brightened up and acted sharp to questions,
+                so he’s got passion for the subject deep down, but it completely hid during his main
+                presentation.  A shame.  Not everyone is a born presenter.</p>
+                <p>The worst though was Jacqueline Kazil.  I mean, what on earth was her point?  I trust our
+                ticket money didn’t fund her trip!  And after a sequence of disjoint incomplete slides - the
+                only highlights being photos she’d inserted of other people’s talks - she goes and
+                finishes super early.  No questions from the audience… so there you go, I think she got the
+                message.</p>
+                <p><strong>But the worst bit?</strong></p>
+                <p>The waiting around.  The schedule had absolutely massive wastelands of waiting.  The lunch
+                break alone was scheduled for 2 hours.  And when Kazil finished super early, there was even a wait for
+                the food.</p>
+                <p>Programmers are not a social bunch, and not good at <strike>smalltalk</strike>
+                small talk.  Those that came with buddies clustered around them and talked to their buddies.  Those that
+                travelled alone stood alone, waiting.  Everyone had their arms crossed and even the organizers -
+                programmers, obviously - exhibited this behaviour.</p>
+                <p>And I don’t think you can really blame us programmers for this.  We aren’t
+                going to get a crash course on polite conversation with strangers simply by having to endure two hour
+                waits.</p>
+                <p>Kenneth Reitz’s audience polling showed that the audience were firmly experienced
+                programmers and really none of the “Python is my first language” people that -
+                apparently, I haven’t met them - exist.  There was very little scientist angle, and very all
+                the journalists were speakers not audience.  So know the audience!  The audience wanted pure uncensored
+                programming, and didn’t really get it.  The just got long awkward waits. </p>
+                <p>The lightning talks showed the crowd was full of people with interesting things to share and
+                say.  The lightning talks, if they’d allowed for questions, would have been excellent at four
+                times the allotted time.</p>
+                <p>If the schedule had been over full and over technical, and everyone rushing and hurrying, I
+                think the buzz would have built and <em>then</em> programmers would have started getting
+                social.</p>
+                <p>I have a dirty little secret: when faced with a 150 minute wait on the second day after Kazil’s
+                piss poor talk, I just waited long enough for the baguettes to arrive before strolling off into the
+                Stockholm sunshine and going to see the town.  Stockholm is a super-lovely pretty town, with a
+                super-safe feeling as you wander around.  Well recommend visiting.  If you’ve never seen the
+                <a href="http://en.wikipedia.org/wiki/Vasa_(ship)" target="_blank">Vasa</a>, you really
+                really really should.</p>
+                <p>I’d have liked to see the Machine Learning talk, but I’ve already seen it
+                on youtube from the main pycon, and it finished at 6 which would have been hard on the airport journey,
+                so I reluctantly skipped it.  My feedback would be “please give the same talk next year, but
+                use <a href="post/15581427232.html">Collaborative
+                Filtering</a>” ;)</p>
+                <p><strong>So, next year…</strong></p>
+                <p>Much more <em>technical</em> talks.  No real breaks.  Much more rushing around and
+                bustle.  If everyone complains they couldn’t see it all, and that they finished exhausted,
+                that’s a <em>good</em> conference!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#663'">index</button>  <button class="page-link" onclick="window.location='lang.html#663'">lang</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

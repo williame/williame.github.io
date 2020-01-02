@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Direct Pixel Access in Cython : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Direct Pixel Access in Cython</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><div>
+                <p>I wanted to ‘plot’ a few thousand points over an image, so I did the most
+                obvious thing:</p>
+                <pre><code>
+                class MyWidget(gtk.Widget):
+                ...
+                do_expose_event(self,event):
+                # get the context
+                gc = self.window.cairo_create()
+                gc.rectangle(event.area.x,event.area.y,event.area.width,event.area.height)
+                gc.clip()
+                # draw the image
+                gc.set_source_surface(self.image)
+                gc.paint()
+                # draw the points on top
+                for point in self.points:
+                gc.move_to(point.x-2,point.y)
+                gc.rel_line_to(+4,0)
+                gc.rel_move_to(-2,-2)
+                gc.rel_line_to(0,+4)
+                gc.stroke()
+                </code></pre>
+                <p>Well, that’s the usual bowdlerised translation of what I was doing, so cut-n-pasters
+                beware!</p>
+                <p>Anyway, it was dog slow.</p>
+                <p>So I got out the profiler:</p>
+                <p><code> python -m cProfile -o prof my_script.py<br/> runsnake prof </code></p>
+                <p>And the time taken was all that stroking! A friendly cairo hacker suggested that I draw the
+                cross once onto a bitmap and then use that as a brush or something. I didn’t follow through on
+                that. Instead, I moved it all across into cython. I couldn’t work out how to get from an <code>ImageSurface.get_data()</code>
+                to a <code>char*</code>, but I could work out how to get an ImageSurface to wrap (“proxy”)
+                a buffer the cython code allocated. So I made a nice little class that plots to an array of pixel data,
+                and has an ImageSurface proxy. And because it’s cython, its fantastically zipply. Ok, not as
+                blazingly zippy as, say, C++. But now the cost of the plotting has evaporated from the profiling
+                hitlist.</p>
+                <pre><code>
+                import array
+                import cairo
+
+                cdef class FastOverlay:
+                cdef int w, h
+                cdef int stride
+                cdef size_t size
+                cdef pixels # an array of the actual pixel data for us to manipulate directly
+                cdef readonly image # the cairo ImageSurface object that proxies those pixels
+                def __init__(self,w,h):
+                self.w, self.h = w, h
+                # allocate a buffer for the pixels
+                self.stride = cairo.ImageSurface.format_stride_for_width(cairo.FORMAT_ARGB32,w)
+                self.size = h * self.stride
+                self.pixels = array.array(&quot;B&quot;,&quot;\0&quot;*self.size)
+                # create an ImageSurface to proxy it
+                self.image = cairo.ImageSurface.create_for_data(self.pixels,cairo.FORMAT_ARGB32,w,h)
+                # this is an example of a function that does direct pixel access
+                def void plot_points(self,points):
+                # each function we want to do direct-pixel access, we get a naked pointer
+                cdef char* pixels = (self.pixels.buffer_info()[0])
+                cdef char* sentinal = pixels + self.size
+                cdef int stride = self.stride, ofs
+                for point in points:
+                # this is a 'set_pixel' bit of code; you could refactor this into
+                # a nice cdef inline etc
+                # I'm just plotting a pixel, not drawing a cross, but you can
+                # extrapolate how to do more advanced drawing
+                ofs = int(point.y)*stride+int(point.x)*4
+                # you probably want to double-check you're in bounds
+                if (ofs &lt; pixels) or (ofs &gt;= sentinal):
+                # whatever
+                continue
+                pixels[ofs+1] = 255 # G
+                pixels[ofs+3] = 255 # A
+                return self.image
+                </code></pre>
+                <p>And to call it:</p>
+                <pre><code>
+                # draw the image
+                gc.set_source_surface(self.image)
+                gc.paint()
+                # draw the points on top
+                if self.point_overlay is None:
+                overlay = FastOverlay(self.image.get_width(),self.image.get_height())
+                self.point_overlay = overlay.plot_points(self.points)
+                gc.set_source_surface(self.point_overlay)
+                gc.paint()
+                </code></pre>
+                <p>Hopefully this gives the component parts needed by anyone wanting to move some custom drawing
+                code into cython.</p>
+                </div>
+            </post-body>
+ <button class="page-link" onclick="window.location='index6.html#947'">index</button>  <button class="page-link" onclick="window.location='lang1.html#947'">lang</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

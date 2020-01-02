@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>If you defend those involved in the OpenGL ES specification, you are an idiot : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>If you defend those involved in the OpenGL ES specification, you are an idiot</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Jamie Zawinski (jwz), <a href="http://www.jwz.org/about.html" target="_blank">famed</a>
+                hacker and nightclub owner, has called a lot of people idiots over the years.  Just now he called out
+                <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">those
+                who wrote the OpenGL ES specs</a>.  I wholeheartedly agree with him; I’ve run into the
+                same hassle before e.g. <a href="post/14011115100.html" target="_blank">OpenGLES I want my quads back</a></p>
+                <p><strong><em>Who’s an idiot?</em></strong></p>
+                <p>The reception to Jamie’s sentiment on-line has been blistering.  There’s a
+                very vocal bunch on <a href="http://news.ycombinator.com/item?id=4134426" target="_blank">Hacker
+                News</a> and <a href="http://www.reddit.com/r/opengl/comments/vawln/jwz_if_you_were_involved_in_the_opengl_es/" target="_blank">reddit</a> who disagree strongly (with whatever they understand Jamie’s
+                point to be).</p>
+                <p>Its hard to say if its a minority or majority because the non-vocal ones don’t get
+                counted.  Most who read these sites don’t comment; <a href="post/18839832580.html" target="_blank">I have stats</a>.  So lets give everyone the benefit of the doubt and think its
+                just a misguided, inexperienced minority who are idiots ;)</p>
+                <p><strong><em>Why are they idiots?</em></strong></p>
+                <p>Jamie’s argument is that OpenGL ES, being a big pruning-down of OpenGL, has stopped
+                old OpenGL apps running on new platforms and that this is a stupid, stupid thing.</p>
+                <p>This isn’t that Jamie is mistaking OpenGL ES for OpenGL!  I was on the sidelines when
+                OpenGL ES was hatched and <strong>the whole point is that we shouldn’t have OpenGL ES</strong>! 
+                We should just have had OpenGL.</p>
+                <p>I used to be a graphics stack architect and then technical product manager for graphics at a
+                smart-phone <a href="http://en.wikipedia.org/wiki/UIQ" target="_blank">platform</a> back in
+                the mid 2000s.  I’m <em>not</em> going to argue from authority - I was a
+                super-small side-sitter who was in no way ‘in’ nor involved with the Khronos
+                committee members.  But I did know a few members (whom I should apologise in advance to) and had quite a
+                few more visit me.  <a href="http://www.khronos.org/" target="_blank">Khronos Group</a> is
+                where these committees thrash out these standards.</p>
+                <p>There is only one reason that these industry committees threw out OpenGL backwards
+                compatibility: the interests of the committee member companies.</p>
+                <p>The reason that the apologists trot out is technical though, so I’ll elaborate on
+                that at the end.</p>
+                <p><strong><em>Committee member company self-interest:</em></strong></p>
+                <p><!-- more -->Surprise surprise the committee members are overwhelmingly representing the
+                interests of the GPU makers.  Their mission is to subtly improve their position with regards the
+                competition they are sitting around a table with e.g. by pushing things slightly in a direction that
+                their hardware does well and pushing away from - by deprecation, omission - those areas that would
+                require investment.</p>
+                <p>OpenGL ES was hatched to ensure that the devices could be labeled “OpenGL”
+                without actually having to those mobile phone GPU companies having to invest engineering time in making
+                it so! </p>
+                <p>And the motivation was money, not technical purity nor vision.</p>
+                <p>And the kind of people who get sent to committees are often not the pragmatic get-things-done
+                type of people.  Companies quickly build “system architecture” teams to put the
+                dangerous architecture astronauts as far away from the get-things-done teams as possible, and give them
+                tasks like sitting on standards committees to occupy them.</p>
+                <p>So you end up with a bunch of people sitting around conference tables and in email chains who
+                are not the kind of people trying to actually ship 3rd party software nor even the next iteration of the
+                actual mobile phone OS.   If those doers ever turn up at the table, they’d be treated as a
+                curiosity at best and dangerously short-sighted at worst.</p>
+                <p>The thing is, the people participating probably don’t see their bias.  They probably
+                think they contribute for the greater good.</p>
+                <p>Now these architecture astronauts may have brought the technical argument that Jamie thinks so
+                weak.  They may believe that the old way of doing things is slow:</p>
+                <p><strong><em>But isn’t there an insurmountable technical problem?</em></strong></p>
+                <p>Well, hmm, `<code>glVertex3f</code>` is a call into a DLL provided by the GPU maker
+                (or OS platform).  The key thing is, some code can do something with that vertex in local code.  It
+                doesn’t have to be an expensive syscall or something at that point.  It can be put into an
+                array to be shipped somewhere when swap-buffers is called.</p>
+                <p>Chrome’s native client does just this.  And the only problem you have with this model
+                is <a href="http://www.opengl.org/sdk/docs/man/xhtml/glGetError.xml" target="_blank">`<code>glGetError</code>`</a>.</p>
+                <p>Symbian moved from immediate-mode drawing to retained-mode drawing, which is analogous, with
+                very few bumps.</p>
+                <p>Jamie’s code for stuffing OpenGL draw calls into arrays and such did it too.  <em>And
+                it took him 3 days to write</em>.</p>
+                <p>The gap between supporting the old, legacy, deprecated OpenGL and the new way of doing things
+                is astonishingly small and the barriers are largely <em>imaginary</em>.  And the performance
+                - given that these programs are by definition built to run on a previous generation hardware - is
+                actually very good.</p>
+                <p>The drivers have to pick the right shaders to optimise the fixed-function pipeline based on
+                what you’re doing.  But that’s the kind of problem that’s quite solvable.</p>
+                <p>You can take any insurmountable problem with supporting OpenGL 1.x well and work out how to
+                overcome it without sacrificing performance, I promise you.</p>
+                <p>So really OpenGL ES can be seen as a variation on the <a href="http://www.jwz.org/doc/cadt.html" target="_blank">CADT development model</a>, although
+                the age-group and motives might not align.</p>
+                <p><strong><em>Now let me rip into the GPU maker’s approach to software</em></strong>;
+                I have to pick that out as a third dynamic here:</p>
+                <p>I look at the current driver stacks from all the manufacturers and shake my head in dismay.</p>
+                <p>I’m never going to get an invite to look around an NVidia offfice (after this) but I
+                can <em>imagine</em> how its run.  I’ve seen it a gazillion times at various
+                hardware and driver suppliers I’ve met in the past, and I’ve worked for some really
+                dysfunctional companies in this regard like the old Motorola.</p>
+                <p>There will be schedules, there will be plans to leverage previously written code and
+                contracted-out code.  And, interestingly, there’ll be too many programmers.  But they’ll
+                all be viewed as interchangeable cogs with little real deep wider respect for them.</p>
+                <p>What there won’t be programmers being allowed to be in the zone and do things
+                properly.  There won’t be programmers allowed to excel.</p>
+                <p>The driver in upper management will be to have a driver for the next card.  There’ll
+                be no interest in actually making the drivers for existing, already sold, cards better.</p>
+                <p>You’ve gotta respect any programmers fighting the good fight for us 3rd parties in
+                these companies.</p>
+                <p><em><strong>What’s the big deal?</strong></em></p>
+                <p>Jamie <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">says it great</a>:</p>
+                <blockquote>
+                <p>If there are old features that you would like to discourage the use of, then you mark them as
+                obsolete – but you <em>do not remove them</em> because <em>thou shalt not
+                break working code.</em></p>
+                <p>If you don’t agree with that, then please, get out of the software industry right
+                now. Find another line of work. Please.</p>
+                </blockquote>
+                <p>But don’t think its the its programmers at fault; I blame their <em>companies</em>. 
+                And the sad thing is?  OpenGL support across phones, desktop and so on is in really bad shape.  However
+                much I find Direct3D to actually run 1.6x slower than OpenGL, its not flaky, and its not nearly as
+                moving a target.</p>
+                <p><em><strong>But we still got 3D on the first smart-phones, right?</strong></em></p>
+                <p>Who was to be the very first 'customer’ of OpenGL on the mobile?  The game ports!</p>
+                <p>And when OpenGL did turn up on the mobile, it wasn’t actually OpenGL; it was OpenGL
+                ES.</p>
+                <p>Suddenly ports were more like rewrites and the costs changed dramatically and you didn’t
+                get to play great 3D games on your phone after all.</p>
+                <p>I recall much swearing and teeth gnashing behind closed doors with phone manufacturers.  Bloody
+                standards bodies, who do they think they serve?  Oh, right…</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#831'">index</button>  <button class="page-link" onclick="window.location='classic.html#831'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

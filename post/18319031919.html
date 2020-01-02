@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Programming Language Readability : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Programming Language Readability</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Lets compare some Python to Haskell for solving the same problem.  The problem we’ll
+                pick is <a href="http://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
+                for auto-completions.  We are interested not so much in the nitty gritty of the algorithm, but in the
+                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a href="http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" target="_blank">Python</a> and a <a href="http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" target="_blank">Haskell</a> solver have turned up.</p>
+                <!-- more -->
+                <p>Here’s the <a href="https://github.com/vivekn/autocomplete/blob/master/trie.py" target="_blank">Python</a>:</p>
+                <pre><code>&quot;&quot;&quot;
+                A fast data structure for searching strings with autocomplete support.
+                &quot;&quot;&quot;
+
+                class Trie(object):
+                def __init__(self, value=None):
+                self.children = {}
+                self.value = value
+                self.flag = False # Flag to represent that a word ends at this node
+
+                def add(self, char):
+                val = self.value + char if self.value else char
+                self.children[char] = Trie(val)
+
+                def insert(self, word):
+                node = self
+                for char in word:
+                if char not in node.children:
+                node.add(char)
+                node = node.children[char]
+                node.flag = True
+
+                def find(self, word):
+                node = self
+                for char in word:
+                if char not in node.children:
+                return None
+                node = node.children[char]
+                return node.value
+
+                def all_prefixes(self):
+                results = set()
+                if self.flag:
+                results.add(self.value)
+                if not self.children: return results
+                return reduce(lambda a, b: a | b, [node.all_prefixes() for node in self.children.values()]) | results
+
+                def autocomplete(self, prefix):
+                node = self
+                for char in prefix:
+                if char not in node.children:
+                return set()
+                node = node.children[char]
+                return node.all_prefixes() <br/></code></pre>
+                <p>And here’s the <a href="https://github.com/rostayob/suggest/blob/master/TST.hs" target="_blank">Haskell</a>:</p>
+                <pre><code>module TST
+                ( TST
+                , empty
+                , singleton
+                , toList
+                , fromList
+                , insert
+                , prefix
+                , matchWL
+                , lookup
+                ) where
+
+                import Control.Arrow (first)
+
+                import Wildcard
+
+                import Prelude hiding (lookup)
+
+                data TST c a = Branch c (TST c a) (TST c a) (TST c a)
+                | End a (TST c a)
+                | Null
+
+                instance (Ord c, Show c, Show a) =&gt; Show (TST c a) where
+                show = (&quot;fromList &quot; ++) . show . toList
+
+                instance (Ord c, Eq c, Eq a) =&gt; Eq (TST c a) where
+                t1 == t2 = toList t1 == toList t2
+
+                empty :: TST l a
+                empty = Null
+
+                singleton :: [c] -&gt; a -&gt; TST c a
+                singleton [] v = End v Null
+                singleton (c : s) v = Branch c Null (singleton s v) Null
+
+                toList :: Ord c =&gt; TST c a -&gt; [([c], a)]
+                toList = prefix []
+
+                fromList :: Ord c =&gt; [([c], a)] -&gt; TST c a
+                fromList = foldr (uncurry insert) empty
+
+                insert :: Ord c =&gt; [c] -&gt; a -&gt; TST c a -&gt; TST c a
+                insert [] v Null = End v Null
+                insert [] v (End _ t) = End v t
+                insert [] v (Branch c l m r) = Branch c (insert [] v l) m r
+                insert s v Null = singleton s v
+                insert s v1 (End v2 t) = End v2 (insert s v1 t)
+                insert (c1 : s) v (Branch c2 l m r) =
+                case compare c1 c2 of
+                LT -&gt; Branch c2 (insert (c1 : s) v l) m r
+                EQ -&gt; Branch c2 l (insert s v m) r
+                GT -&gt; Branch c2 l m (insert (c1 : s) v r)
+
+                prefix :: Ord c =&gt; [c] -&gt; TST c a -&gt; [([c], a)]
+                prefix _ Null = []
+                prefix [] (End v t) = ([], v) : prefix [] t
+                prefix [] (Branch c l m r) =
+                prefix [] l ++ map (first (c :)) (prefix [] m) ++ prefix [] r
+                prefix s (End _ t) = prefix s t
+                prefix (c1 : s) (Branch c2 l m r) =
+                case compare c1 c2 of
+                LT -&gt; prefix (c1 : s) l
+                EQ -&gt; map (first (c1 :)) (prefix s m)
+                GT -&gt; prefix (c1 : s) r
+
+                matchWL :: Ord c =&gt; WildList c -&gt; TST c a -&gt; [([c], a)]
+                matchWL _ Null = []
+                matchWL [] (End v _) = [([], v)]
+                matchWL [] (Branch _ l _ _) = matchWL [] l
+                matchWL s (End _ t) = matchWL s t
+                matchWL (w : s) (Branch c2 l m r) =
+                let left = matchWL (w : s) l
+                middle = map (first (c2 :)) (matchWL s m)
+                right = matchWL (w : s) r
+                in case w of
+                Wildcard -&gt; left ++ middle ++ right
+                El c1 -&gt; case compare c1 c2 of
+                LT -&gt; left
+                EQ -&gt; middle
+                GT -&gt; right
+
+                lookup :: Ord c =&gt; [c] -&gt; TST c a -&gt; Maybe a
+                lookup s t =
+                case prefix s t of
+                ((s', v):_) -&gt; if s == s' then Just v else Nothing
+                _ -&gt; Nothing
+                </code></pre>
+                <p><strong>Wow.  Stand back from the monitor and squint at them :)</strong></p>
+                <p>My opinion is that Python is massively more readable than Haskell.</p>
+                <p><strong>Why is Python more readable?</strong></p>
+                <p>The Python is executable pseudo-code.  Python has this wonderful ability to read like a
+                description of the algorithm you are implementing.  <small>If a list comprehension or something
+                isn’t obvious, you could just rewrite the Python in a less-pretentious way and recover this
+                readability.</small></p>
+                <p>The Python has indent and this is important to speed-reading.  It is telling you which lines
+                you have to study - the function names, mostly, at first glance - and which bits you don’t. 
+                Indent is very important to readability.</p>
+                <p>Second is the use of short words instead of symbols.  Perhaps the Haskell is trying a little to
+                hard to feel like algebra?  In that direction lays APL (<a href="http://www.youtube.com/watch?v=a9xAKttWgP4" target="_blank">mind blowing cool video</a>)
+                but few call it readable.</p>
+                <p>Python goes further than most to use short concise words; COBOL used long words (I studied
+                COBOL; mercifully forgotten it all now) and the curly-brackets club use more symbols than words, as
+                though being less typing is faster.  (FWIW, typing curly brackets on non-US keyboards requires an
+                ambidextrous octopus.  And just you try and find the back-tick!)</p>
+                <p>Python is so readable because of significant whitespace, its conciseness and use of small words
+                instead of symbols.</p>
+                <p>Haskell is doing neither of these.  There is some nicely indented functions but you get the
+                feeling they are frowned upon by Haskellers.  Haskell can move to `case` instead of all those duplicate
+                left-aligned pattern preambles, but it seems sorely under-used.  And still the symbols add noise in the
+                squint test.</p>
+                <p>You really have to read each line of Haskell code, building a mental model of the Python-style
+                indented functions and such <em>in your head</em> as, examining each line, you mentally
+                juggle how it mutates this model.</p>
+                <p>(Side topic: I don’t think its about being <a href="post/18677906103.html" target="_blank">declarative or imperative</a>.)</p>
+                <p>Most of the training material on Haskell that I’ve read is aimed at students with no
+                prior programming experience.  Almost as though, by learning Haskell first, you can avoid the tainting
+                impurities of imperativeness and be a better programmer!  Perhaps Haskell’s unreadability is
+                meant as a cleverness-filter to keep the practitioners elitist?  Just joking.  Perhaps more likely is
+                that after staring at chalk-filled blackboards the idea of notation instead of short words seems no
+                barrier at all, and they just have to find ascii line-art to bare a passing resemblance to such
+                algebra.  Perhaps C was popular because its Pascal with more symbols, so it must be cooler?  If its hard
+                to write it should be hard to understand mentality?</p>
+                <p>You can make functional languages in the Python readability style; you don’t have to
+                try so hard to look like algebra.  You can make <a href="post/18144725601.html" target="_blank">static fast languages</a> in Python readability style too.  This readability vs
+                symbols is really the defining difference between Ruby and Python too.</p>
+                <p>There are as many new languages as ever; <a href="post/18144725601.html" target="_blank">my dream programming language</a> post got suggestions other than Haskell,
+                including <a href="http://www.rust-lang.org/" target="_blank">Rust</a>, <a href="http://dlang.org/" target="_blank">D</a> and <a href="http://code.google.com/p/tart/" target="_blank">Tart</a>.  Those three are curly bracket languages again though.  Big
+                opportunity miss.</p>
+                <p>End is the same as a curly bracket; look at this Ruby:</p>
+                <pre><code>class CreateUsers &lt; ActiveRecord::Migration
+                def change
+                create_table :users do |t|
+                t.string :role
+                t.string :name
+
+                t.timestamps
+                end
+                end
+                end</code></pre>
+                <p>I once asked a friend to do a line-count on their Lua code.  Fully 30% of non-empty lines
+                contained just the keyword `end`.  Talk about noise cluttering up and making the nesting less readable!</p>
+                <p><em>I lament that all languages aren’t trying to be readable the Python way; to
+                my thinking, it ought to be goal number 0.</em></p>
+                <p><strong>Spelling Suggestions Problem</strong></p>
+                <p>The Haskell goes on to use <a href="http://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">Levenshtein distance</a> - <em>edit distance</em> - (<a href="https://github.com/rostayob/suggest/blob/master/Suggest.hs" target="_blank">here</a>) to
+                offer spelling corrections.  Interestingly, Dr Pete Norvig has written <a href="http://www.norvig.com/spell-correct.html" target="_blank">a neat essay</a> on this with
+                Python source-code.  Lets focus on readability over algorithm.  <em>Compare and contrast them too</em>.</p>
+                <p><strong>Test-Driven-Problem-Solving</strong></p>
+                <p>Dr Pete Norvig’s spelling corrector leads us off on two nice tangents.</p>
+                <p>Firstly, A long time ago, the Test-Driven-Development gurus imagined that by writing test-cases
+                and evolving the code to pass it they could solve problems they couldn’t actually sit down and
+                solve the traditional understanding-the-problem way.  <em><strong><a href="http://devgrind.com/2007/04/25/how-to-not-solve-a-sudoku/" target="_blank">And it is so worth a
+                read</a></strong></em> :)</p>
+                <p>As usual, tangents spring to mind: TDD evolving solutions is really paralleled in my old
+                adventures in <a href="http://redcoder.sourceforge.net/" target="_blank">genetic programming </a>and
+                also <a href="http://en.wikipedia.org/wiki/Kolmogorov_complexity" target="_blank">Kolmogorov
+                Complexity</a>.</p>
+                <p>Secondly and sadly less compelling reading, I’ve been looking at tries vs sets for
+                spelling correctors in the <a href="post/16756548314.html" target="_blank">Causes challenge</a>.  Just thought experiments.  A very long time ago I wrote
+                a fast C crossword solver for an otherwise-Python entry in Al Zimmerman’s <a href="http://www.recmath.org/contest/WordsSearch/index.php" target="_blank">word search</a>
+                contest.  (Luckily a link that works; newer Al Zimmerman’s contests have been pushed off-line
+                and lost forever it seems.)  It was a trie where at each depth it stored a linked list across words so
+                you could find all words with an unknown at a particular point by iterating down the peers on each
+                side.  Its an idea that hasn’t found so much favor in <a href="post/13265611752.html" target="_blank">compression</a>
+                but which I think could be applied to <a href="http://code.google.com/p/lz4/" target="_blank">LZ4</a>
+                <a href="http://code.google.com/p/lz4/source/browse/trunk/lz4.c#357" target="_blank">encoders</a>
+                perhaps.  (Yet another rainy-day project.)  And so I could imagine using a node in trie to navigate its
+                peers to iterate over those that are edit-distance-1 -away, rather than generating all the possible
+                words and seeing if they are in a word-list.  This would be seeing if cache locality can ever beat O(1)
+                random lookups in a hash table :)</p>
+                <p>(This post is inspired to explain why “looks like Python” is all through
+                <a href="post/18144725601.html" target="_blank">my dream programming language</a> requirements.  If you liked this, you may
+                also like the <a href="archive" target="_blank">rest of the
+                blog</a> ;) )</p>
+                <p>[Every blog post contains a small word-misuse for the grammar glue-chewers; this post its <em>bare</em>
+                instead of <em>bear</em>.  Do tell me if you spot any others that are accidental :) ]</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#889'">index</button>  <button class="page-link" onclick="window.location='lang.html#889'">lang</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

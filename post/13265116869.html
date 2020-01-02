@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Files and Programmatic Streams : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Files and Programmatic Streams</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><div><span>I originally published this on an OS hobby site in 2004; as I started
+                actually working as an engineer on an operating system at that time, I stopped publishing ideas as a
+                hobby ;)</span><br/><br/>This article offers feature suggestions to budding OS
+                developers looking for that neat edge.
+                <p>Conventionally, each file on a computer system has a type. Different operating systems
+                typically had different ways of working out the logical type of a file. UNIX uses a special flag to see
+                if a file was ‘executable’, otherwise it is 'data’. Therefore,
+                applications on UNIX have a variety of strategies for determining the file type. Some programs use the
+                file extension as a hint (.jpeg is probably an image, for example) whereas others use more advanced
+                heuristics (e.g. the UNIX 'file’ command) sometimes called 'magic’. MS-DOS and
+                MS-Windows use the file extension to determine the type (.exe for executables, .txt for text files etc).
+                More recent operating systems have embraced more recent classification systems such as MIME. In BeOS,
+                for example, a server scans files and marks the MIME type of them in an attribute (basically caching the
+                guess from the UNIX-style 'file’ heuristics) so that it can easily be looked at later. Almost
+                all Internet content is marked with a MIME type (web pages, files received via email etc) and this can
+                clearly indicate to the receiving computer the intended type of a file.</p>
+                <p>Now let me introduce something slightly novel and new! Imagine that our new hobby operating
+                system supports multi-stream files. Each stream in a file is a certain MIME type. Some of these streams
+                might be generated programmatically on-the-fly, and basically encapsulate conversion. These programmatic
+                streams allow plug-in filters and converters to be integrated into the operating system and used by
+                programs. Let us explore what this might mean and how it might be used by programs:</p>
+                <p>The operating system knows the actual MIME type of a file. It also has a list of programmatic
+                stream plug-ins associated with each MIME type to handle the interpretation of a stream of one type into
+                that of another. An obvious plug-in would be to filter text/html so that it was text/plain, stripping
+                out the markup. Another plug-in might convert image/jpeg to image/gif. Another might extract the
+                soundtrack of a movie file and present it as audio/wav.</p>
+                <p>An application/x-idx file might have a programmatic stream of type text/gnu-makefile, while
+                another programmatic stream might convert text/gnu-makefile streams into application/bash shell scripts.
+                Therefore the operating system can string together these streams transparently, making an
+                application/x-idx file executable in at a bash prompt.</p>
+                <p>Encodings and character sets might also be incorporated into the same system, for on-the-fly
+                conversion between various sets. A code snippet:</p>
+                <p>FILE *f = fopen_ex(“ftp://stop.blogging.com/varfar/myos.zip/documents/filesystem.pdf”,“rb”,“text/html;charset=
+                iso-8859-1”);</p>
+                <p>A file selector dialog might have the file type set as a MIME type and display all documents
+                that match a specific MIME type that the application understands without the application having to
+                understand the conversion process.</p>
+                <p>Most conversions are lossy ’ they remove information and meta-data, downgrading the
+                quality of a source. Therefore, it is anticipated that almost all programmatic streams might be
+                read-only. Many programmatic plug-ins’ might be easiest to implement if they support
+                sequential access only. For this reason, it makes sense for the file selector dialog to be able to
+                filter out streams with inappropriate access (e.g. only display application/ogg streams that are
+                writeable and support random access). However, the opportunity is there for super plug-ins that
+                facilitates content stored as one type to be completely edited as another, e.g. reading and writing to
+                an application/ms-word file with an application that only understands application/x-multipart-html.</p>
+                <p>Let me extend the idea even further. Not only might a file be multi-streamed, it might also be
+                multi-part! Many file formats encapsulate multiple content parts ’ a movie has both image
+                frames and a soundtrack; a rich document has text, drawing and images embedded; a mail message might
+                contain a plain-text version, a rich text version or two and many attachments. An archive contains
+                multiple files inside.</p>
+                <p>Such files could be presented to programs as directories. You could now use your favorite
+                drawing program to edit the individual frames of a movie!</p>
+                <p>Directories themselves can have streams too. In the case of a virtual directory being generated
+                from a single file, the directory’s stream would be the actual physical file (and programmatic
+                streams that convert it). A conventional directory might have a text/html stream the serves the
+                index.html file that it contains; another directory stream might provide a tar file of it and its
+                children.</p>
+                <p>Conversion libraries on most operating systems abound. Typically these libraries are
+                fragmented, often unwieldy, often exposing technical details, and not pervasively used.</p>
+                <p>A new hobby operating system has the opportunity to provide a uniform interface between
+                applications and these conversion filters, in a way that is minimum effort for application programmers
+                and in a way that is extendable (by providing more conversion filter plug-ins) without requiring extra
+                code nor recompiling or re-linking of all applications. Placing this conversion into the way that files
+                are provided to applications is, in my opinion, an excellent way to achieve this.</p>
+                <p>Programmatic streams do not expose many parameters to tweak conversion and therefore do not
+                completely replace the need for dedicated, detailed conversion libraries for dedicated programs. But
+                they do further the usability of the average program in the normal operating scenario.</p>
+                </div>
+            </post-body>
+ <button class="page-link" onclick="window.location='index6.html#946'">index</button>  <button class="page-link" onclick="window.location='classic1.html#946'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

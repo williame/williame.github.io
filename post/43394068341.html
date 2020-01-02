@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Ruby&#39;s Principle of Too Much Power : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Ruby&#39;s Principle of Too Much Power</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
+                is Ruby bad security?</a></em></p>
+                <p><strong>TL;DR</strong></p>
+                <ul><li>Ruby libraries need to stop being too powerful.</li>
+                <li>Programmers need to understand the libraries they are using.</li>
+                </ul><hr/><p>So, lets recap on the recent Ruby on Rails security woes.  For some
+                non-obvious reason, Ruby on Rails supported YAML form parameters.</p>
+                <p>And it turned out that the Ruby YAML parser can … instantiate complex objects.</p>
+                <p>Why can the Ruby YAML parser instantiate complex objects, and why did the YAML author <a href="https://github.com/tenderlove/psych/issues/119" target="_blank">not see</a> this as a
+                problem?</p>
+                <p>So we swatted that bug; we stopped Rails allowing YAML.</p>
+                <p><em>Only it then turns out</em> that Rails also supported XML form parameters.</p>
+                <p>Now there are lots of nasty attacks against XML parsers like recursive entities and external
+                entities and ways of DOSing the server; but that’s no different from attacking the hash-table
+                used to store form parameters, I guess.</p>
+                <p>The nasty thing about the <em>Ruby</em> XML parser is that it can embed YAML.</p>
+                <p>Why can the XML parser embed YAML?</p>
+                <p>Lets swat that vulnerability too.  Lets make sure that Rails only supports HTML form
+                parameters.  On, and JSON.</p>
+                <p><em>Only it then turns out</em> that the Ruby JSON parser … yes, you’ve
+                guessed it … the <em>Ruby</em> JSON parser can instantiate complex objects too.</p>
+                <p><!-- more -->I mean, come on, Javascript <strong>Simple</strong> Object
+                Notation?  Not in Ruby it ain’t.</p>
+                <p>The idea that its a Rails-only problem really falls down at this point; that Rails supported
+                YAML and XML forms is, well, obviously crazy.  That Rails supports JSON forms is obviously expectable. 
+                Its really a bigger Ruby problem in how the engineering approach across the Ruby community differs from
+                the more classic approaches seen even in similar-placed languages like Python.</p>
+                <p>Lisp’s boast is that <em>Code is Data</em>.  Ruby accidentally and
+                regrettably allowed Data to become Code.  Oops.</p>
+                <p><strong>The principle of least power</strong></p>
+                <p>There’s a good, old-fashioned engineering principle called the <a href="http://en.wikipedia.org/wiki/Rule_of_least_power" target="_blank">principle of least power</a>. 
+                As I see it, its <em>not</em> just for data formats (like JSON, XML and YAML) but also a
+                mindset for developing things.</p>
+                <p>Don’t take a detour to facilitate future expansion.  Don’t build
+                special-case logic into a general-purpose library.  Compose complex systems from simple libraries
+                instead of large, opaque libraries bristling with special-case support.</p>
+                <p>I’ve said its a Ruby psyche thing.  <a href="http://www.reddit.com/r/programming/comments/18o4e4/your_xml_parser_will_destroy_everything_you_have/c8gkppx" target="_blank">Others</a> blame Rubyist inexperience:</p>
+                <blockquote>
+                <p><a href="post/42912076785.html" target="_blank">[Will]</a> says that “The aim is to be so declarative, so high-level
+                as to no longer see nor understand what is happening beneath and before.” What really happens
+                is that most people that work with ruby are simply not educated enough to understand what is happening
+                “beneath and before.” Ruby tries to go the extra step to make programming seem
+                closer to a normal language. This means that more people will be able to become sufficiently proficient
+                in it to think they actually understand what they are actually doing, and will proceed to try their hand
+                at writing complex systems. Unfortunately without some very solid grounding in much lower level
+                languages, and language design in general, that apparent proficiency is just an illusion.</p>
+                <p>In other words I wouldn’t necessarily blame ruby for bad code, any more than I would
+                blame potassium nitrate for facilitating gun crime. Both are powerful tools that are useful in the right
+                situations, and extremely dangerous in others. People simply need to learn not to take this power for
+                granted. This is particularly true in the rails ecosystem, which is based around using gem upon gem upon
+                gem without really understanding what most of them do</p>
+                </blockquote>
+                <p>Perhaps it is inexperience?  You and I might never dream of building in ways to escape from
+                formats like XML to enable the embedding of YAML or that the JSON library should be able to
+                serialise/deserialise complex objects by default and we’d say that was because we were <em>experienced</em>.</p>
+                <p>But we will agree the whole Rubyist lets-bang-gems-you-couldn’t-write-together
+                mindset has to go.  Programmers should know what the libraries they use do.  And those libraries should
+                do what you expect them to do <em>and</em> <em>nothing more</em>.  There’s
+                a whole <a href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment" target="_blank">principle
+                of least surprise</a> in library functionality.</p>
+                <p>And always pay double-attention to deserialising data into code; never build that into the
+                deserialisation library, always build that into a library that sits on top of the deserialisation
+                library.</p>
+                <p>I think the whole XML-embedded YAML - and JSON - vulnerability is under-explored.  These are
+                data interchange formats and supporting arbitrary object instantiating in them is mind-bendingly wrong. 
+                There must be a whole host of applications that process externally-received XML and JSON and, just like
+                the rubygems YAML exploit, some Ruby app somewhere is deserialising XML or JSON that’s been
+                stored in a database right now and … bang!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#756'">index</button>  <button class="page-link" onclick="window.location='lang.html#756'">lang</button>  <button class="page-link" onclick="window.location='classic.html#756'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

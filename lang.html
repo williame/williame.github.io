@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: lang</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>lang</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='lang1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/134911547413.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="647">
+    <h2>Why Swift?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The programming blogosphere is chock full of hype with Apple open-sourcing their
+                Swift language.</p><p>So is this exciting?  No, not really.  I can’t see what all the hype
+                is about.</p><p>Swift is very much tied to Apple’s walled-garden of iOS app development.
+                 Anyone developing for iPhone has to pick between anarchic Objective C and new shiny Swift.  Its a
+                captive audience.  Its an audience unaffected by whether Swift is open-source or not.</p><p>Will
+                Swift be used for anything else any time soon?  I think not.</p><p>If you’re developing for
+                the server, are you going to adopt Swift?  For me, the fact that IBM is backing server-side Swift is all
+                the death knell you need ;)</p><p>If you’re developing for the server you already have a
+                myriad of languages to pick from.  From scripting languages like Ruby, Python and Javascript, to
+                compiled languages like Java, C/C++ and Go, you have a full range.  If you want a ‘safer’ language you
+                can go Haskell or Rust.  What is so compelling about adopting Swift on the server-side?   I can’t spot
+                anything at all.</p><p>Swift on the server is going to be about as popular as C#.  Its a
+                language you use if key parts of your project on other platforms are forced to use it.</p><p>I
+                like how Swift reasons about integer overflow and nil.  I wish there was a ‘safe’ C.  But that’s not
+                making me itching to go use Swift for server-side programming.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#647'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/94734034483.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="658">
+    <h2>Python annotations and type checking</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="https://mail.python.org/pipermail/python-ideas/2014-August/028618.html">Someone
+                got at Guido</a>!  He comes back from some talk with the idea of blessing <a href="http://mypy-lang.org/">mypy</a> type checking annotations in Python!</p><p>Now
+                those following along may recall my own type-checking library <b><a href="post/33185451698.html">obiwan</a></b>
+                that also uses annotations.  Its on <a href="https://pypi.python.org/pypi/obiwan">pypi</a>
+                so you can use it already today!  What are you waiting for?</p>
+                <p>I’m keen on static checkers, although I prefer static type <i>inference</i>
+                and have ideas along those lines such as <a href="post/15203221199.html">Static Single
+                Type Assignment</a> (SSTA).</p>
+                <p>Fundamentally, though, restricted Python isn’t Python.  We want a dynamic language,
+                and this hits on the limits of static checking.  Obiwan’s runtime checking is a compliment to
+                a static checker and its ability to check external data e.g. tainted JSON input from an API is a major
+                plus too.</p>
+                <p>What we want is for static checkers, auto-completion in IDEs and runtime checkers like obiwan
+                to <i>all use the same syntax and conventions.</i></p>
+                <p><i>But</i> I don’t like the mypy syntax; its baroque and it even
+                overloads comments (yuck!).  I much prefer obiwan’s style and would like annotations to be
+                supported in-block as well as on the boundaries i.e. declarations.</p>
+                <p>Consider this mypy example:</p>
+                <pre> from typing import List, Dict
+
+                def word_count(input: List[str]) -&gt; Dict[str, int]:
+                ...
+                </pre>
+                <p>Obiwan would instead say:</p>
+                <pre> def word_count(input: [str]) -&gt; {str: int}:
+                ...
+                </pre>
+                <p>Which I consider far <i>clearer</i> and pythonic.</p>
+                <p><a href="https://mail.python.org/pipermail/python-ideas/2014-August/028684.html">My reply
+                to the list is here</a>.</p>
+                <p>FWIW, I don’t imagine anything will come from this.  There is unlikely to be
+                consensus, and although I’d like a solid PEP that puts annotations into blocks it would so
+                risk slowing down programs that I think it unlikely to be adopted.  So we may be left with a clear
+                message that people are to use mypy or whatever, but no actual solid move forwards.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#658'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/86488099258.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="663">
+    <h2>pycon 2014 Sweden: the bad bits</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="right" border="3" height="172" src="http://upload.wikimedia.org/wikipedia/commons/4/4d/Djurgarden.jpg" title="en.wikipedia.org/wiki/File:Djurgarden.jpg" width="263"/></p>
+                <p>I’m just back from <a href="http://2014.pycon.se/" target="_blank">pycon 2014
+                Sweden</a>.</p>
+                <p>And all the tweets and commentary will be positive, as they <em>always</em> are. If
+                you want to say something negative its best to not say it at all?</p>
+                <p>Hmm, not me.  Someone has to give this feedback; we can’t sweep it under the carpet.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index.html#663'">index</button> 
+<button class="page-link" onclick="window.location='post/86488099258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/78636919764.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="671">
+    <h2>Table-based Template Translation in C++</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>This is a great technique I devised for simplifying the optimization of translation
+                functions.  Its broadly applicable to performance-critical code beyond software graphics.  I’d love to
+                know if there’s a proper name for this pattern, and if anyone else has ever used it and for what?</p>
+                <p>At UIQ (a Symbian smartphone UI maker) we needed really fast bitmap <a href="http://en.wikipedia.org/wiki/Bit_blit" target="_blank">blitting</a> performance in the
+                Symbian software graphics library and we just weren’t getting it.</p>
+                <p>If two bitmaps are the same format, you can just memcpy (or blend or whatever) pixels from one
+                to the other.</p>
+                <p>If two bitmaps are different formats, you have to translate the source bitmap’s pixels to the
+                destination bitmap’s format.</p>
+                <p>However, the Symbian libraries themselves were shooting us in the foot.  There were some
+                special-cased blits for same-format source and destinations, and a hand-coded special-case for 16-bit
+                colour with a separate 8-bit alpha mask bitmap into a 24-bit destination with 32-bit alignment, and that
+                was it.</p>
+                <p>All other conversions went via two virtual method calls… one to convert from source to a 32-bit
+                RGBA universal internal format, and the other to convert to destination format.</p>
+                <p>Who would use virtual inheritance per-pixel for critical-path colour conversion on a
+                constrained device?  I know their name ;)</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index1.html#671'">index</button> 
+<button class="page-link" onclick="window.location='post/78636919764.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/77728726964.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="672">
+    <h2>Flame Graphs!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A long time ago now I made a novel little <a href="post/35134924139.html" target="_blank">sampling profiler for Python</a>:</p>
+                <p><img data-orig-height="261" data-orig-width="500" src="media/old/77728726964_1.jpg"/></p>
+                <p>Well, I was just looking through the excellent slides about <a href="http://www.slideshare.net/brendangregg/what-linux-can-learn-from-solaris-performance-and-viceversa" target="_blank">Linux and Solaris performance</a>, and stumbled across <a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank">Flame Graphs</a></p>
+                <p><img data-orig-height="313" data-orig-width="500" src="media/old/77728726964_1.png"/></p>
+                <p>There are fundamental differences, particularly on the x axis, but still.. :)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index1.html#672'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/76953709099.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="673">
+    <h2>obiwan type-checker for Python 1.0.1 released!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="post/33185451698.html">Obiwan</a>
+                actually has a very small - but very active - community :)</p>
+                <p>So I’ve put it on <a href="https://pypi.python.org/pypi/obiwan" target="_blank">pypi</a>.
+                 Its my first Python package but it works.  Here, perhaps, it might be more accessible to more people.</p>
+                <p>You can use lambdas as checkers e.g.:</p>
+                <p><code>template = {<br/>    ...<br/>    'month': lambda x: x in
+                [&quot;jan&quot;,&quot;feb&quot;,&quot;mar&quot;,...],<br/>    ...<br/> }</code></p>
+                <p>You can specify <em>options</em> for dictionaries such as <em>strict</em>
+                keys (extra unspecified keys not allowed) and <em>subtype</em>.</p>
+                <p>Subtype is cool - you can specify that a dictionary template should inherit the specification
+                of any number of parent templates!</p>
+                <p>You can also specify that a <em>duck</em> inherits its attributes from any number
+                of parent ducks too.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index1.html#673'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/67262193555.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="691">
+    <h2>PyParallel getting around the GIL</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://vimeo.com/79539317">This is a fascinating and exciting talk</a> (<a href="https://speakerdeck.com/trent/pyparallel-how-we-removed-the-gil-and-exploited-all-cores-1">slides</a>)
+                about a patch/extension to make CPython use IOCP on Windows for completion-based asynchronous IO.</p>
+                <p>Its in direct response to the recent async IO stuff in Python which <a href="post/34819857693.html">I’ve
+                looked at previously.</a>  There’s some <a href="http://www.reddit.com/r/programming/comments/1qrnew/pyparallel_how_we_removed_the_gil_and_exploited/cdfwg6x">coverage
+                on Proggit</a>.</p>
+                <p>PyParallel makes it so you can run Python protocol handlers and worker tasks in <em>lightweight
+                processes</em>.  Its a bit like goroutines really, and it could be suitable for computational
+                tasks too: share by communicating, not communicate by sharing.</p>
+                <p>The key idea is that you can utilise all CPU cores without spawning a whole bunch of processes.</p>
+                <p>I think the exact same approach can be ported to Linux, using edge-triggered epoll consumed by
+                a set of worker threads.  (IIRC FreeBSD’s kqueue is <em>not</em> thread safe
+                though; so it may be challenging to be efficient on all platforms?)</p>
+                <p>These lightweight processes run outside the GIL so can all run at once.  When they are running,
+                though, the main loop cannot run.  I am unsure of the details of this and it raises alerts in my eyes; I’d
+                really want the main Python loop to run truly in parallel.</p>
+                <p>What my mind wanders to is having a CPython where the multiprocessing module does not use
+                processes, but instead uses the same VM but separate lightweight stacks/heaps in a work-stealing
+                approach.  This gives up fair preemptive scheduling (by the kernel) for cheaper passing between tasks.
+                 Its the same tradeoff that is serving Go so well and I think the PyParallel prototype shows how this
+                can fit into Python and make Python perform better.  The GIL would become per-conceptual process, rather
+                than truly global.</p>
+                <p>For example, I expect most SQL statements are not part of a transaction; web apps and so on are
+                continuously just SELECTing the user and so forth.  You could imagine a web app that isn’t
+                particularly aware that its blocking DB calls are being multiplexed over a set of worker threads and
+                that the DB layer is aware of this and using a connection pool approach itself.  You might even imagine
+                it trying to do something clever like my <a href="post/16516763725.html">asynchronous
+                batching</a>.</p>
+                <p>You might even move away from CSP and allow code in a worker to mutate shared state by
+                acquiring the GIL of the thread that created the variable in the first place; mutating shared state
+                could be slightly slower but effective.</p>
+                <p>And what about yielding when it is used in a coroutine manner as in Tornado?</p>
+                <p>From all this you can imagine a new dialect of Python emerging, where multiprocessing and
+                gorutines are built in?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index1.html#691'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/66265513623.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="693">
+    <h2>Animated GIFs the Easy Way</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The article “<a href="http://www.sublimetext.com/~jps/animated_gifs_the_hard_way.html">Animated GIFs the Hard Way</a>”
+                has got some <a href="http://www.reddit.com/r/programming/comments/1q2udb/animated_gifs_the_hard_way_sublime_text_2/">attention</a>
+                again.  I recall enjoying the article back when it was first published.</p>
+                <p>I had just one concern, though… why not just use GIF?</p>
+                <p>The perceived problem is that GIFs are a) large and b) are limited to 256 colours.</p>
+                <p>Well, first lets kill the 256 colours thing: GIFs aren’t limited to 256 colours.
+                 They are limited to 256 colours per frame, but are made from an arbitrary number of frames and each
+                frame can have its own palette.  Converting animations with lots of colours to GIF is quite a fun
+                subject and there are lots of fun tools to do it in various ways.</p>
+                <p>But the chap said that all the GIFs of the content were megabytes in size, but his
+                PNG+javascript was only 100KB.</p>
+                <p>Luckily, what looks like his test vector is in the <a href="https://github.com/sublimehq/anim_encoder/tree/master/example">github</a> project.  So
+                its just to make a classic proper GIF of these PNG frames and see how big it would be…</p>
+                <p>Using Imagemagick, that’d be:</p>
+                <pre>convert -delay 20 -loop 0 screen_66030*.png -layers Optimize test.gif</pre>
+                <p>And the output is… drumroll please!  <em><strong>100KB</strong></em>.</p>
+                <p>And here it is:</p>
+                <p><a href="http://i.imgur.com/lNI4Ncc.gif"><img alt="image" src="http://i.imgur.com/lNI4Ncc.gif"/></a></p>
+                <p>(click for original size)</p>
+                <p>So why not just use GIF after all?</p>
+                <p>This all reminds me of when I wrote a custom animation format for the splash screens of
+                Motorola phones, but that was quite a bit different under the hood and perhaps that’d make a
+                nice future blog post ;)</p>
+                <p>Where I could see client-side animation making sense is for animating screen recordings that
+                contain composition of semi-transparent layers.  The recording of the screen would work best if it
+                recorded draw-ops rather than bitmaps.  I did something like this at UIQ/Symbian for <a href="post/13316924653.html">Content
+                Embedding</a> and the Transition Engine.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index1.html#693'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/46548666358.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="741">
+    <h2>hand-written asm.js</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://asmjs.org/" target="_blank">asm.js</a> leaves me
+                divided.  I agree to a large extent with <a href="http://mrale.ph/blog/2013/03/28/why-asmjs-bothers-me.html" target="_blank">this old V8 coder</a>.</p>
+                <p>I care a lot about pure Javascript performance.  A recent project had me making a web worker
+                that had to do lots of path finding.  And no matter how fast your priority queue implementation is, it
+                isn’t fast enough.</p>
+                <p>I’ve been basing my priority queue on <a href="http://eloquentjavascript.net/appendix2.html" target="_blank">this one</a>.  The hottest
+                function is the scoring function; its not a big function - <code>function(a,b) { return a[0] &lt;
+                b[0]; }</code> - but its called a lot.</p>
+                <p>In my problem domain the maximum size of the queue is bounded by the size of the board and the
+                objects I want to prioritise can be expressed as a list of integers and the prioritisation can be based
+                on the comparison of the first element in each slot.</p>
+                <p>So you could imagine an asm.js priority queue that used an Int32Array view (tidier if you could
+                use an Int16Array in my case but coercion to ints is a 32bit thing) of its heap and exposed push and pop
+                methods.</p>
+                <p>But the problem became how the push and pop signatures would work and how to generalise it. 
+                The functions have to take numbers and return numbers.  I ended up imagining having to reserve some part
+                of the heap for passing in and out the values and writing a non-asm.js wrapper that keeps the heap and
+                the priority queue code internally and does the wrapping unwrapping in non-asm.js code at non-asm.js
+                speed.</p>
+                <p>Altogether I wish that asm.js wasn’t so extraordinarily narrow.  I want it to read
+                and write objects, and be more of a Cython-for-Javascript.</p>
+                <p>And then I want actually for a tool that highlights your type-determined-local-variable code
+                that the Javascript runtime can make optimise, so I can move more and more code in the fast path into
+                this implicitly-but-statically-typed subset.  And this is tooling, and <em>doesn’t</em>
+                need asm.js.</p>
+                <p>Being told the |0 and such tricks is just frustrating.  Its saying that if you write code thats
+                hard and verbose for humans to understand and correct, the compiler has it easy.  Its pushing for me to
+                write my stuff in something I can emscripten into an unreadable tangle of Javascript, rather than
+                writing fast Javascript by hand.</p>
+                <p>Javascript has lots of issues.  From a performance aspect it has the albatross of dynamic
+                typing and late binding meaning lots of checks and hash tables (although lack of threads can help make
+                things better than Python blah blah).  Asm.js isn’t really addressing any of this.</p>
+                <p>I want colour-coding in Firebug so I can see profiling information in the sourcecode rather
+                than in profiler reports and I want coloured annotations so I can see all the inferred properties -
+                constness, data types, cacheability etc - of my code and strive to optimise as humans can.</p>
+                <p>I want tools and a generic Javascript runtime that can infer what asm.js wants the coder to
+                specify.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#741'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/43394068341.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="756">
+    <h2>Ruby&#39;s Principle of Too Much Power</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
+                is Ruby bad security?</a></em></p>
+                <p><strong>TL;DR</strong></p>
+                <ul><li>Ruby libraries need to stop being too powerful.</li>
+                <li>Programmers need to understand the libraries they are using.</li>
+                </ul><hr/><p>So, lets recap on the recent Ruby on Rails security woes.  For some
+                non-obvious reason, Ruby on Rails supported YAML form parameters.</p>
+                <p>And it turned out that the Ruby YAML parser can … instantiate complex objects.</p>
+                <p>Why can the Ruby YAML parser instantiate complex objects, and why did the YAML author <a href="https://github.com/tenderlove/psych/issues/119" target="_blank">not see</a> this as a
+                problem?</p>
+                <p>So we swatted that bug; we stopped Rails allowing YAML.</p>
+                <p><em>Only it then turns out</em> that Rails also supported XML form parameters.</p>
+                <p>Now there are lots of nasty attacks against XML parsers like recursive entities and external
+                entities and ways of DOSing the server; but that’s no different from attacking the hash-table
+                used to store form parameters, I guess.</p>
+                <p>The nasty thing about the <em>Ruby</em> XML parser is that it can embed YAML.</p>
+                <p>Why can the XML parser embed YAML?</p>
+                <p>Lets swat that vulnerability too.  Lets make sure that Rails only supports HTML form
+                parameters.  On, and JSON.</p>
+                <p><em>Only it then turns out</em> that the Ruby JSON parser … yes, you’ve
+                guessed it … the <em>Ruby</em> JSON parser can instantiate complex objects too.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index2.html#756'">index</button>  <button class="page-link" onclick="window.location='classic.html#756'">classic</button> 
+<button class="page-link" onclick="window.location='post/43394068341.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/42912076785.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="760">
+    <h2>Why is Ruby bad security?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>More: <em><a href="post/43394068341.html" target="_blank">Ruby’s Principle of Too Much Power</a></em></p>
+                <p>Another week, another <a href="http://www.zweitag.de/en/blog/ruby-on-rails-vulnerable-to-mass-assignment-and-sql-injection" target="_blank">Ruby on Rails exploit</a>.  <a href="http://rubysource.com/anatomy-of-an-exploit-an-in-depth-look-at-the-rails-yaml-vulnerability/" target="_blank">Again</a> it attacks derserialisation libraries that can, it turns out,
+                instantiate complex objects.  Not all the flaws can be blamed on over-ambition of the serialisation
+                libraries like YAML and now JSON, though.  There was a spate of <a href="http://blog.mhartl.com/2008/09/21/mass-assignment-in-rails-applications/" target="_blank">mass-assignment
+                </a>vulnerabilities and others and doubtless some I’ve forgotten.</p>
+                <p><em><strong>update</strong></em>: I spoke too soon: there’s
+                <a href="https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/AFBKNY7VSH8" target="_blank">yet another</a> assignment vulnerability right now, again….</p>
+                <p>Why, deep down, does Ruby have whack-a-mole security problems?  I don’t by the
+                popularity argument at all; its not because Rails has suddenly become a big enough target to encourage
+                attackers.</p>
+                <p>I think its much deeper in the Ruby psyche.</p>
+                <p>Why <em>doesn’t</em> the Python JSON serialiser try and instantiate
+                non-standard data-types?</p>
+                <p><strong>Ruby delights in spooky action at a distance</strong>.  Rubyists and
+                Railites delights in an perverse, extreme object-orientation.  In Convention-over-configuration and Don’t-Repeat-Yourself
+                mantras.</p>
+                <p>The aim is to be so declarative, so high-level as to no longer see nor understand what is
+                happening beneath and before.</p>
+                <p>Even Python apps are much shallower than Ruby apps.  Ruby is the queen of indirection and
+                nesting.</p>
+                <p>I just can’t see Go and Python frameworks suffering in the same way and to such a
+                large endemic extent.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#760'">index</button>  <button class="page-link" onclick="window.location='classic.html#760'">classic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/37902348240.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="766">
+    <h2>Tiny git-based web-server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve updated my <a href="post/29152502348.html" target="_blank">tiny
+                git-based web-server</a>. <em><strong> <a href="https://github.com/williame/barebones.js/blob/gh-pages/tiny1web.py" target="_blank">tiny1web.py</a></strong></em>
+                is now on github in my <a href="https://github.com/williame/barebones.js/" target="_blank">barebones.js</a>
+                library.</p>
+                <p>You can run it on bare repos, e.g.:</p>
+                <pre><code>screen -S myrepo-git-webserver-1<br/>cd ~/myrepo.git<br/>git show
+                gh-pages:tiny1web.py | python - --branch=gh-pages --access=user1:password1,user2:password2<br/></code></pre>
+                <p>Or run it from a normal repo.</p>
+                <p>New features:</p>
+                <ul><li>You can now <strong>download a zip-ball</strong>.  The name of the zip
+                file is based on the folder name you run it in.  If you’re running it in a folder called
+                barebones.js then the folder name would be barebones.zip.  The zip’s name is printed to the
+                console when you run the server, so you don’t have to guess it.</li>
+                <li>you can <strong>upload and edit files</strong>.  If you have enabled access
+                control, you can also <code>--enable_upload</code>.  If you do so, calls to /upload with
+                message, folder and file get committed to the repo.  This works even for bare repos (by the server
+                handling checkouts and pushes via temporary folders).  The author is set to the name of the
+                authenticated user.  Here’s an example upload form:</li>
+                </ul><pre><code>&lt;div id=&quot;upload&quot;&gt;<br/>    &lt;form
+                action=&quot;/upload&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;<br/>        &amp;nbsp;file&amp;nbsp;&lt;input
+                type=&quot;file&quot; name=&quot;file&quot; size=&quot;40&quot;/&gt;<br/>        &amp;nbsp;path&amp;nbsp;&lt;input
+                type=&quot;text&quot; name=&quot;folder&quot; size=&quot;10&quot; value=&quot;/&quot;/&gt;<br/>        &amp;nbsp;message&amp;nbsp;&lt;input
+                type=&quot;text&quot; name=&quot;message&quot; size=&quot;10&quot; value=&quot;(edited online)&quot;/&gt;<br/>        &lt;input
+                type=&quot;submit&quot; value=&quot;upload!&quot;/&gt;<br/>    &lt;/form&gt;<br/>&lt;/div&gt;<br/><br/></code></pre>
+                <p><a href="https://github.com/williame/barebones.js/" target="_blank">barebones.js</a>
+                has a lot of fixes and tidy ups and features added itself.  I plan to use it for this weekend’s
+                <em><strong><a href="http://www.ludumdare.com/compo/" target="_blank">Ludum Dare 25
+                competition</a></strong></em>, and I plan for my co-conspirators to be able to add
+                content using the HTML5 File API and, after making adjustments in an edit-mode in-game, pressing ‘save’
+                to upload it to the server running on a little VPS…</p>
+                <p>No more artists mailing me files and me having to publish them so they can see what they look
+                like in-game!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#766'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/33185451698.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="784">
+    <h2>Obiwan: Typescript for Python</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Being rather the <a href="post/18144725601.html" target="_blank">static-typing-in-Python</a> kind of person, and being rather taken with
+                Microsoft’s new <a href="post/32737068654.html" target="_blank">Typescript</a>,
+                I quickly cleaned up and reimplemented my JSON validator as a Python 3 annotations parser:</p>
+                <pre><code> def add_employee(employee: {&quot;name&quot;:str,&quot;dob&quot;:int, ...}) -&gt; int:</code></pre>
+                <p>It also has a JSON load/dump wrapper that supports a template parameter:</p>
+                <pre><code> employees = json.load(f,template=[{&quot;id&quot;:int,&quot;name&quot;:str,&quot;dob&quot;:int, ...}])</code></pre>
+                <p>My ambition would be that its syntax is widely adopted and eventually static type checkers
+                support it and IDEs can do auto-complete ala Typescript.</p>
+                <p>follow/fork it on github:  <a href="https://github.com/williame/obiwan" target="_blank">https://github.com/williame/obiwan</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#784'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/31869685894.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="790">
+    <h2>Intrusive List for Java</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Intrusive lists are one of those neat data-structures that are <a href="http://www.altdevblogaday.com/2011/12/06/intrusive-lists/" target="_blank">often</a> <a href="http://www.codeofhonor.com/blog/avoiding-game-crashes-related-to-linked-lists" target="_blank">overlooked</a>.</p>
+                <p><em><strong>TL;DR</strong> </em>download <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a></p>
+                <p>Intrusive lists have O(1) remove if you already have the address of the object, and O(1) insert
+                too at head/tail or if you already have the address of an adjacent object.  This is because they store
+                their previous and next pointers in the object itself, rather than having some separately allocated
+                ‘list node’ object.  This makes them very memory efficient and cache-friendly too.</p>
+                <p>They are common enough inside performance critical code, e.g. in games and operating system
+                kernels.</p>
+                <p><em>Its generally better</em> to just put objects you want to get at in a
+                hash-map/set.  That, too, has O(1) add and remove (amortized blah blah).  Hash-tables a good fit outside
+                the extreme performance code or for set operations or maps and so on.</p>
+                <p>Intrusive lists have advantages for some scenarios: for example, they are ideally suited to
+                most-recently-used lists.  They preserve order and it is O(1) to move an item from the middle of the
+                list to the head when it gets used.</p>
+                <p>In C/C++ and so on there are various tricks you can do with <a href="http://en.wikipedia.org/wiki/Offsetof" target="_blank">offsetof()</a> and macros to make
+                utility code that you can mix-in.  In Java, you cannot easily encapsulate a classic intrusive list in a
+                class because its intrusive.  You have to actually put your own prev and next pointers into your class
+                and write your own linking and unlinking code.  This can be error prone.</p>
+                <p><em>Or</em> you can allocate a linked node pointer.  Its a compromise you can make,
+                knowing that it’ll likely be allocated adjacent to the main class in memory and have the same
+                lifetime and so on.  If you’re chasing performance in Java you start thinking about <a href="http://mechanical-sympathy.blogspot.se/" target="_blank">mechanical sympathy</a> and
+                avoiding garbage collection and so on.</p>
+                <p>I offer you a simple <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a>
+                class that I use.</p>
+                <p>Store an instance of it in a (final) attribute on your item.  You can then <code>link()</code>
+                and <code>unlink()</code> it from other items.  You can also create head/tail nodes with
+                <code>makeList()</code> which can be useful.</p>
+                <p>Classic iteration over all nodes looks like this:</p>
+                <pre><code>for(Item item = list.getNext(); item!=null; item = item.list.getNext()) ...</code></pre>
+                <p>To move an item to the top of the list is as simple as:</p>
+                <pre><code>item.list.link(list);</code></pre>
+                <p>MRUs have never been simpler nor faster!</p>
+                <p>The class could easily be extended to use weak-references.  Locking and concurrency are harder
+                to add.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#790'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/29152502348.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="808">
+    <h2>A tiny git web-server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I run <code>git</code> on a little server.</p>
+                <p><a href="https://gist.github.com/3318684" target="_blank">Here’s a little tiny
+                tornado web-server</a> utility that I’ve written to serve up the git repo files over
+                HTTP.  It works happily with bare repos and supports very basic insecure username-password control.</p>
+                <p>To run it, <code>ch</code> into your repo folder and run it; command-line options
+                are:</p>
+                <ul><li><code>--port=...</code> (defaults to 8888)</li>
+                <li><code>--branch=...</code> (defaults to master)</li>
+                <li><code>--access=...</code> (username:password comma-separated list; default no
+                protection)</li>
+                </ul><p>e.g.</p>
+                <pre><code>screen -S myrepo-git-webserver-1<br/>cd ~/myrepo.git<br/>python
+                ../tiny_git_webserver.py --branch=gh-pages --access=user1:password1,user2:password2 </code></pre>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#808'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/18319031919.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="889">
+    <h2>Programming Language Readability</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Lets compare some Python to Haskell for solving the same problem.  The problem we’ll
+                pick is <a href="http://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
+                for auto-completions.  We are interested not so much in the nitty gritty of the algorithm, but in the
+                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a href="http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" target="_blank">Python</a> and a <a href="http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" target="_blank">Haskell</a> solver have turned up.</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index4.html#889'">index</button> 
+<button class="page-link" onclick="window.location='post/18319031919.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/18200335569.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="890">
+    <h2>The history of Hellepoll</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="https://github.com/williame/hellepoll" target="_blank">Hellepoll</a>
+                is the open-sourcing of a framework that was built for a live video transcoding and exploding server. 
+                (Like <a href="http://www.wowza.com/" target="_blank">wowza</a> on steroids.)  Live video
+                streams would come in and need transcoding to several formats, framerates and resolutions and then
+                served up to a large number of clients who were are all getting the same video at the same time-point.</p>
+                <p>Latency is the time gap between incoming video and outgoing video to all these clients, and it
+                has to be in single-digit seconds.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#890'">index</button> 
+<button class="page-link" onclick="window.location='post/18200335569.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/18005723026.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="896">
+    <h2>Deterministic Testing of Async Loops</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A lot of in-production phone crashes I’ve debugged over the years have
+                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="http://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
+                <p>Hackers like working on tools and hackers are often attracted to writing test frameworks.  I
+                know I was.  So while working at UIQ (we made a smartphone OS) I wrote a simple exhaustive exception
+                generator.</p>
+                <p>By hooking into <em>malloc</em> and file/network/IPC calls, I made them
+                deterministically fail.  By starting the app and making allocation 1 fail, then restarting it and making
+                allocation 2 fail and so on it found buckets of defects in the start-up code for the Symbian app
+                framework.  Most of this code only worked on the happy path.  Symbian engineers loved the tool and
+                zapped masses of broken cleanup code in app framework startup and it took them about one day to do it :)</p>
+                <p>However, Opera refused to run it on the browser they were making for us.  Their excuse was that
+                the browser was using Symbian’s ActiveObject asynchronous worker task framework; like all
+                event-loops that relies on external events like files opening or IO this makes the run of the program
+                quickly non-deterministic.</p>
+                <p>Fair enough, we could fix that :)  Here’s how:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#896'">index</button> 
+<button class="page-link" onclick="window.location='post/18005723026.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13316924653.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="931">
+    <h2>Better Permissions in Android</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>During my time at UIQ, Symbian introduced a capabilities-based security
+                architecture.  Its analogous to the permissions in Android.</p>
+                <p>I’m a very big fan of the pattern.</p>
+                <p>The problem was we imagined our UI getting more and more integrated.  To illustrate, it was
+                imagined that everywhere you had a phone number it would automatically resolve the contact and give
+                dialing buttons and such in the UI.  I don’t mean just that phone numbers are underlined and
+                launchable; I mean that we’d look in your address book, recognise it, and show the person’s
+                name and online status and such.  Maybe even a map of where that person is.  And so on.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index5.html#931'">index</button> 
+<button class="page-link" onclick="window.location='post/13316924653.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13265364121.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="943">
+    <h2>popen3</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I was a bit confused; there didn’t seem to be a <code>popen3</code>
+                function for c/c++ anywhere.  Sure, there are some <code>popen2</code> out there, but to my
+                eye all those I found were buggy. And what about <code>STDERR</code>?<br/><br/>
+                Remember, if you’re using this, to make heavy use of <code>O_CLOEXEC</code> (that’s
+                backwards! I think its broken that you have to say which you want closed, rather than having to
+                specifically say which you want to remain open). Or you could add some horrid forced closing of all
+                possible file handles (there is a fast, portable way to do that?).<br/><br/> I tend to
+                immediately set the returned descriptors to <code>O_NONBLOCKING</code> and that works great.<br/><br/>
+                Here’s a bowdlerised version of my <code>popen3()</code>:<br/><br/></p>
+                <pre> 3 <strong>int</strong> popen3<strong>(</strong><strong>int</strong>
+                fd<strong>[</strong>3<strong>]</strong><strong>,</strong><strong>const</strong>
+                <strong>char</strong> <strong>*</strong><strong>*</strong><strong>const</strong>
+                cmd<strong>)</strong> <strong>{</strong>
+                4 <strong>int</strong> i<strong>,</strong> e<strong>;</strong>
+                5 <strong>int</strong> p<strong>[</strong>3<strong>]</strong><strong>[</strong>2<strong>]</strong><strong>;</strong>
+                6 pid_t pid<strong>;</strong>
+                7 // set all the FDs to invalid
+                8 <strong>for</strong><strong>(</strong>i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                9 p<strong>[</strong>i<strong>]</strong><strong>[</strong>0<strong>]</strong>
+                <strong>=</strong> p<strong>[</strong>i<strong>]</strong><strong>[</strong>1<strong>]</strong>
+                <strong>=</strong> <strong>-</strong>1<strong>;</strong>
+                10 // create the pipes
+                11 <strong>for</strong><strong>(</strong><strong>int</strong> i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                12 <strong>if</strong><strong>(</strong>pipe<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>)</strong><strong>)</strong>
+                13 <strong>goto</strong> error<strong>;</strong>
+                14 // and fork
+                15 pid <strong>=</strong> fork<strong>(</strong><strong>)</strong><strong>;</strong>
+                16 <strong>if</strong><strong>(</strong><strong>-</strong>1 <strong>=</strong><strong>=</strong>
+                pid<strong>)</strong>
+                17 <strong>goto</strong> error<strong>;</strong>
+                18 // in the parent?
+                19 <strong>if</strong><strong>(</strong>pid<strong>)</strong> <strong>{</strong>
+                20 // parent
+                21 fd<strong>[</strong>STDIN_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>;</strong>
+                22 close<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                23 fd<strong>[</strong>STDOUT_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>;</strong>
+                24 close<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                25 fd<strong>[</strong>STDERR_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>;</strong>
+                26 close<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                27 // success
+                28 <strong>return</strong> 0<strong>;</strong>
+                29 <strong>}</strong> <strong>else</strong> <strong>{</strong>
+                30 // child
+                31 dup2<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>,</strong>STDIN_FILENO<strong>)</strong><strong>;</strong>
+                32 close<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                33 dup2<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>,</strong>STDOUT_FILENO<strong>)</strong><strong>;</strong>
+                34 close<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                35 dup2<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>,</strong>STDERR_FILENO<strong>)</strong><strong>;</strong>
+                36 close<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                37 // here we try and run it
+                38 execv<strong>(</strong><strong>*</strong>cmd<strong>,</strong>const_cast<strong>&lt;</strong><strong>char</strong><strong>*</strong><strong>const</strong><strong>*</strong><strong>&gt;</strong><strong>(</strong>cmd<strong>)</strong><strong>)</strong><strong>;</strong>
+                39 // if we are there, then we failed to launch our program
+                40 perror<strong>(</strong>&quot;Could not launch&quot;<strong>)</strong><strong>;</strong>
+                41 fprintf<strong>(</strong>stderr<strong>,</strong>&quot; \&quot;%s\&quot;\n&quot;<strong>,</strong><strong>*</strong>cmd<strong>)</strong><strong>;</strong>
+                42 _exit<strong>(</strong>EXIT_FAILURE<strong>)</strong><strong>;</strong>
+                43 <strong>}</strong>
+                44 error<strong>:</strong>
+                45 // preserve original error
+                46 e <strong>=</strong> errno<strong>;</strong>
+                47 <strong>for</strong><strong>(</strong>i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                <strong>{</strong>
+                48 close<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                49 close<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                50 <strong>}</strong>
+                51 errno <strong>=</strong> e<strong>;</strong>
+                52 <strong>return</strong> <strong>-</strong>1<strong>;</strong>
+                53 <strong>}</strong></pre>
+            </post-body>
+ <button class="page-link" onclick="window.location='index6.html#943'">index</button> 
+
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='lang1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

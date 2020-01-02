@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>An Eight in a Million chance : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>An Eight in a Million chance</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><strong>This is a real story involving consultants, interns and MS Access.</strong></p>
+                <p>A very long time ago, as a student - that <em>was</em> a long time ago - I worked
+                my summers at British Telecom.  They had this lovely big sprawling labs at Martlesham Heath.</p>
+                <p>BT was itself a pretty big sprawling company and projects moved glacially.  Out of this grew a 
+                small internal team called ‘FastTrack’ who cut corners and implemented stop-gap IT
+                projects while the actual project was being worked on.  I think that was the idea.  It seemed we were
+                often doing projects that were just too small for the main IT process and that we were the cowboys.</p>
+                <p>One of the mentors that I worked particularly closely with was an old hippy called Simon.  He
+                was a really nice bloke and we got along extremely well.  He was not a trained coder; he somehow got
+                into coding by solving little computer problems for people.  His tool for this was Microsoft Excel.  And
+                his trick was encoding information and state into all the attributes you might have in a cell such as
+                colour and border and font and such!  That’s the kind of self-taught hacking that can land you
+                a job at a research lab in Suffolk in those days :)  It reminds me of the <a href="http://en.wikipedia.org/wiki/The_Story_of_Mel" target="_blank">story of Mel</a>.</p>
+                <p>Simon had an especially striking appearance; he was a genuine hippy with long straggly hair and
+                a long nail that he chiseled to a flat tip that he called his screwdriver nail.  He was so thin he was
+                was skeletal and he smoked roll-ups.  Oh, and he wore a three piece suit.  Striking.  He would often
+                clean under his nails with a large lock knife.</p>
+                <p>I remember him sitting on the top deck of a red London bus in his three piece suit cleaning his
+                nails and telling me tales of a rough childhood in London.  The bus took a sudden turn and he dropped
+                this massive lock knife which hit the floor point first and stuck there in the aisle twanging
+                menacingly.  I turned around just in time to see the last of our fellow passengers evacuating down the
+                stairs.  I felt like a gangster :)  So why was I in London with Simon?  Lets get to that:</p>
+                <p><!-- more -->Far away in the Angel, Islington, was the division of BT that sold satellite
+                telephony.  The customers were mostly ships although there were some journalists in far-away war-zones
+                and such.  The main satellite provider was called Inmarsat.</p>
+                <p>At this time the mobile phones were just beginning to appear; I didn’t have a mobile
+                phone, almost nobody did, but I had <em>seen</em> one and everyone knew they were going to
+                be big.  Big for BT too.  But bad news for satellite divisions.</p>
+                <p>The boss of the satellite division in Angel became convinced that the phone bill from the
+                provider, Inmarsat, was wrong.  He just had to <em>prove</em> that Inmarsat were
+                overcharging and he could get them to pay back all the overcharging that had accumulated for years and
+                he’d be famous and save the division and such.  At least that’s how I remember it,
+                getting the rumour second hand as I did.</p>
+                <p>So he brought in his golfing buddy who happened to be a partner at KPMG.  And KPMG put a team
+                on it, looking for proof of overcharging.</p>
+                <p>The KPMG team were experts in meetings and agendas and report writing, but not actually
+                technical.  A couple of very sharp business analysts, particularly a chap called Rory, took the project
+                on.</p>
+                <p>Now this is where Simon and I came in.  BT provided the engineers to crunch the data and give
+                the KPMG team answers to the questions they posed.  BT of course had to find coders in a hurry, and
+                turned to FastTrack.  FastTrack didn’t have many people to spare on such a tiny project so
+                lent out an intern called Will and a chap called Simon to keep an eye on Will.  We stayed at Simon’s
+                mum’s town house on Baker Street as she was off motorcycling around Vietnam.  Everything about
+                Simon was striking.</p>
+                <p>There were three sets of itemised phone bills (call data records, CDRs, they were called). 
+                Inmarsat sent them every month.  The ground station - a massive dish in Goonhilly, Cornwall - had a
+                Sybase database (how do I remember this stuff?) that recorded the calls as it saw them, and a BT billing
+                system called Compass in some dungeon in London took those CDRs and billed the customers.</p>
+                <p>BT had at least 30 different billing systems - divisions commissioned their own ones for each
+                and every new product line I think.</p>
+                <p>When the satellite system was commissioned it really wasn’t feasible, or at least
+                practical, to actually check these three sets of CDRs agreed with each other.</p>
+                <p>But by the mid nineties when this story takes place it was just within reach of a undergrad to
+                reconcile one day at a time using Microsoft Access.  To this end Simon and I were given the meanest PCs
+                of the time; Pentium Pros at about 200MHz with 384MB of RAM or so.</p>
+                <p>These CDRs were full of curious quirks.  Inmarsat was measuring slightly different things and
+                from slightly different timing to Goonhilly.  And the clocks were not in sync, and they drifted
+                slightly.  If a call spanned midnight it might get split into two in one system but remain as one CDR in
+                another.  Not all calls actually connected successfully.  And so on.</p>
+                <p>The traffic was in different classes based on the age of the system.  The most traffic was 'A’
+                and that was the oldest system and Simon took that.  He had to put each day’s traffic in a
+                separate database and then make a database that had each day’s data as a remote table.</p>
+                <p>I took the other traffic which was B and I think M or something and together they didn’t
+                add up to as much traffic as A but was a bit more of a tangle.</p>
+                <p>There were fun error codes to decipher like the one called “cable unwind”. 
+                Apparently when you have a dish on a ship the dish is constantly turning to face the satellite.  When
+                the ship goes round in circles, the dish eventually ties itself in knots and has to drop calls and
+                literally unwind.</p>
+                <p>I was pretty uncomfortable when I found that mayday calls were being charged at the highest
+                rate - £8 per minute if I recall correctly - even though Inmarsat itself explicitly carried those calls
+                for free.  I remember the manager I asked about that, when I found those calls in real logs, not meeting
+                my eyes as he talked distantly about why that was.</p>
+                <p>Having no formal clue how to solve the reconciliation problem we tackled it by elimination. 
+                Some CDRs were easy to match.  Matching them eliminated some ambiguity and after that it was multiple
+                passes of guessing and aligning until we got a best fit.</p>
+                <p>It took a couple of days (the code was all VB in Access 2, remember) to sort a single day’s
+                traffic.  Then we got it down to hours.  I remember clearly when we were ready for the first real run on
+                a whole month.  Simon arranged for the script to open Netscape Navigator Gold on a special webpage that
+                would send an SMS to his phone when the job was finished.  The web, and SMS, were not yet mainstream.  I
+                was tingling with excitement.</p>
+                <p>Estimating from dry runs that it would take until the next afternoon, Simon and I went across
+                the road to the pub and waited it out until, on the second day of our pool table vigil, our game was
+                interrupted by an SMS on his phone.  It was the first SMS I had ever seen.  It was just a single number;
+                8.  Was it an error code?  Had the reconciliation worked?</p>
+                <p>Meanwhile KPMG had a whole side thing going; from being asked to analyse the business they
+                ’<em>grew the engagement</em>’ to replacing the billing system that had
+                not yet been reconciled but was presumed broken.  They pointed out that BT’s billing system
+                Compass was antiquated.  KPMG had a partnership with this Israeli billing company called AmDocs, so
+                whilst the reconciliation project was still underway a whole cubicle row filled up with AmDocs
+                programmers consulting.</p>
+                <p>As we settled in to Angel, despite Simon and me sticking out, we became the go-to people for IT
+                problems.  I remember for example some manager taking me aside one day to quiz me about whether
+                FastTrack could build a mini billing system for some new upcoming satellite constellation from Motorola
+                called Iridium.  Despite being an intern I was talking for FastTrack but I could smell that there wasn’t
+                anything for us in this.  One of the KPMG analysts paused in passing and I knowingly let him start
+                selling KPMG consulting on that too and so<em> grew the engagement</em>…  He
+                could buy me a beer later.</p>
+                <p>Then came the shock.  KPMG turned up with boxes of bound reports on a sack barrow, which they
+                started handing out to all the managers.  I was never given a copy ;)</p>
+                <p>The temperature in Angel changed very suddenly; the rumour was that KPMG had presented their
+                bill for one million quid for the two KPMG analysts reconciliation.  Pounds sterling, that is.  A lot of
+                money.  And presumably the replacing of Compass was going to cost a whole massive wad more.</p>
+                <p>And that SMSed result?  Each month, Inmarsat were <em>underbilling</em> BT by
+                roughly eight dollars; they rounded down, and BT rounded up.  8 dollars.</p>
+                <p>The fallout was massive; I think the BT satellite division boss got the chop, and I’m
+                fairly certain the whole division with its new AmDocs billing solution was sold off to Rogers Telecom in
+                Canada.  Or something like that.</p>
+                <p>I knew I wanted to be a consultant when I grew up ;)</p>
+                <p><sub>Read all the way to the bottom?  Thank you</sub></p>
+                <p>Links to <a href="http://news.ycombinator.com/item?id=3570018" target="_self">Hacker News</a>
+                and <a href="http://www.reddit.com/r/technology/comments/phh6f/an_eight_in_a_million_chance/" target="_self">Reddit</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#902'">index</button>  <button class="page-link" onclick="window.location='classic.html#902'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

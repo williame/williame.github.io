@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: index</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>index</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index2.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 4 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index4.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/37902348240.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="766">
+    <h2>Tiny git-based web-server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve updated my <a href="post/29152502348.html" target="_blank">tiny
+                git-based web-server</a>. <em><strong> <a href="https://github.com/williame/barebones.js/blob/gh-pages/tiny1web.py" target="_blank">tiny1web.py</a></strong></em>
+                is now on github in my <a href="https://github.com/williame/barebones.js/" target="_blank">barebones.js</a>
+                library.</p>
+                <p>You can run it on bare repos, e.g.:</p>
+                <pre><code>screen -S myrepo-git-webserver-1<br/>cd ~/myrepo.git<br/>git show
+                gh-pages:tiny1web.py | python - --branch=gh-pages --access=user1:password1,user2:password2<br/></code></pre>
+                <p>Or run it from a normal repo.</p>
+                <p>New features:</p>
+                <ul><li>You can now <strong>download a zip-ball</strong>.  The name of the zip
+                file is based on the folder name you run it in.  If you’re running it in a folder called
+                barebones.js then the folder name would be barebones.zip.  The zip’s name is printed to the
+                console when you run the server, so you don’t have to guess it.</li>
+                <li>you can <strong>upload and edit files</strong>.  If you have enabled access
+                control, you can also <code>--enable_upload</code>.  If you do so, calls to /upload with
+                message, folder and file get committed to the repo.  This works even for bare repos (by the server
+                handling checkouts and pushes via temporary folders).  The author is set to the name of the
+                authenticated user.  Here’s an example upload form:</li>
+                </ul><pre><code>&lt;div id=&quot;upload&quot;&gt;<br/>    &lt;form
+                action=&quot;/upload&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;<br/>        &amp;nbsp;file&amp;nbsp;&lt;input
+                type=&quot;file&quot; name=&quot;file&quot; size=&quot;40&quot;/&gt;<br/>        &amp;nbsp;path&amp;nbsp;&lt;input
+                type=&quot;text&quot; name=&quot;folder&quot; size=&quot;10&quot; value=&quot;/&quot;/&gt;<br/>        &amp;nbsp;message&amp;nbsp;&lt;input
+                type=&quot;text&quot; name=&quot;message&quot; size=&quot;10&quot; value=&quot;(edited online)&quot;/&gt;<br/>        &lt;input
+                type=&quot;submit&quot; value=&quot;upload!&quot;/&gt;<br/>    &lt;/form&gt;<br/>&lt;/div&gt;<br/><br/></code></pre>
+                <p><a href="https://github.com/williame/barebones.js/" target="_blank">barebones.js</a>
+                has a lot of fixes and tidy ups and features added itself.  I plan to use it for this weekend’s
+                <em><strong><a href="http://www.ludumdare.com/compo/" target="_blank">Ludum Dare 25
+                competition</a></strong></em>, and I plan for my co-conspirators to be able to add
+                content using the HTML5 File API and, after making adjustments in an edit-mode in-game, pressing ‘save’
+                to upload it to the server running on a little VPS…</p>
+                <p>No more artists mailing me files and me having to publish them so they can see what they look
+                like in-game!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#766'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/37291851878.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="768">
+    <h2>Making the History of Worlds Religions map</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em><strong>TL;DR</strong></em> compressing better than GZip,
+                in Javascript, at the bottom ;)</p>
+                <p>An interactive, clickable map of the worlds religions is available on-line at <a href="http://williame.github.com/map_of_worlds_religions/" target="_blank">http://williame.github.com/map_of_worlds_religions/</a></p>
+                <p>Here’s a time-lapse of it running, with the narrative (which you can mute in the
+                interactive version) ↓</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/mEIxdquRnJc" width="560"> </iframe></p>
+                <p>The real making of the map was excellent research by <a href="post/30793134312.html" target="_blank">the usual suspect</a>.  After his <a href="post/19946053957.html" target="_blank">Enigma</a><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=cmnMlvfTDoM" target="_blank">
+                spreadsheet</a>, and other side projects, he recently took it into his head to make a world
+                religion time-line spreadsheet.  And my blog post about how we moved from a spreadsheet to a web-page
+                can’t really hide that the hard work wasn’t technical, it was research.  But here’s
+                a technical article:</p>
+                <p>My friend’s an Excel wizard, but he chose to use <strike>Sun</strike>/<strike>Open</strike>/LibreOffice
+                Calc.  Oh boy what a mistake!</p>
+                <p>Of course he roped me in to critique and fix.</p>
+                <p><em><strong>LibreOffice Calc sucks!</strong></em></p>
+                <p>His first version had a macro that went through the cells on the map and looked up their
+                religion of that year on the main data set and then looked that religion up to determine the colour.</p>
+                <pre><code>for x in width:<br/>     for y in height:<br/>         religion =
+                cell(x+year,y,data_sheet)<br/>         colour = default_colour<br/>         for i = 0; i
+                &lt; numReligions; i++:<br/>             if cell(0,i,lookup_sheet).text == religion:<br/>
+                                colour = cell(0,i,lookup_sheet).text.background_colour<br/>                 break<br/>
+                        cell(x,y,map_sheet).background_colour = colour</code></pre>
+                <p>The map is 70x80 (so 5,600 cells), and the most popular religions are at the top of the lookup
+                list.</p>
+                <p>And yet <em>that</em> took 20 to 30+ seconds to run on modern laptops.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='classic.html#768'">classic</button> 
+<button class="page-link" onclick="window.location='post/37291851878.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/36660467688.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="770">
+    <h2>Rendering Spheres with Triangles</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="http://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
+                <p>There are two general approaches:</p>
+                <p><img height="94" src="http://i.stack.imgur.com/kSSSF.png" width="200"/></p>
+                <p>The leftmost is termed the <em><strong>uv-sphere</strong></em> and the
+                rightmost an <em><strong>icosphere</strong></em>.</p>
+                <p>The uv-sphere looks like a globe. For many purposes it is perfectly fine, but for some use
+                cases, e.g. if you want to deform the sphere, it is disadvantageous that the density of vertices is
+                greater around the poles.  The icosphere vertices are distributed evenly.</p>
+                <p>GLUT tends to use the uv approach: look at the function <code>glutSolidSphere()</code>
+                in the <a href="http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" target="_blank">freeglut sourcecode</a>.</p>
+                <p>And <strong>webGL</strong> doesn’t have <code>glutSolidSphere()</code>. 
+                Oh well.  <strong><a href="https://gist.github.com/4153824" target="_blank">Here’s
+                my code for creating an untextured icosphere online</a>.</strong></p>
+                <p>Here is an excellent article on producing an icosphere: <a href="http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html" target="_blank">http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html</a></p>
+                <p>I’ve also experiemented with tiling spheres for RTS games etc.  Here’s an
+                excellent guide to how you might divide the sphere surface into zones: <a href="http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
+                <p>Finally, texturing.  <a href="http://vterrain.org/Textures/spherical.html" target="_blank">http://vterrain.org/Textures/spherical.html</a>
+                gives an excellent description of how you might choose to texture them, and <a href="http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
+                is - as iñigo is - brilliant.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#770'">rec</button>  <button class="page-link" onclick="window.location='game.html#770'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/35858593837.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="771">
+    <h2>tic-tac-toe</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My daughters have made a little tic-tac-toe game.  Its a little 3x3 board, played
+                with 3 coloured stones each.  You take turns to place stones and try and get 3-in-a-row, as in
+                tic-tac-toe.  But when you make your forth move onwards, as you have only three stones, you move a stone…</p>
+                <p>And, as I was playing against them, I began to brute-force it in my head…  well, you
+                would too!</p>
+                <p>Of course I had difficulty stopping thinking about this little game, and ended up seeking
+                closure by implementing a <a href="https://gist.github.com/4087469" target="_blank">Python solver</a>
+                in my lunch-break.</p>
+                <p>It was very clensing coding.  Its nice to return to noddy, pure problems sometimes.  My biggest
+                hurdle was making sure I canonicalise the board so that rotations and mirrorings are not mistaken for
+                new positions.  I opted for a simple generator that produced all mirrorings and rotations and simply
+                checked to see if any of them had been seen before.</p>
+                <p>My code run first time!  No typos, and seeming to be doing what I wanted, and from random
+                inspection of outputted board positions to next moves, it seemed correct.</p>
+                <p>There are 744 boards and 4361 moves.</p>
+                <p>But how would you visualise it?  Sounds like a job for graphviz!  It was simplicity itself to
+                just change my printouts to print a dot file instead.</p>
+                <p>And then dot chewed on it for half an hour and then seg-faulted.</p>
+                <p>I tried other graphviz tools (which treat the graph as undirected), but was unhappy with their
+                output:</p>
+                <p><img height="249" src="http://i.stack.imgur.com/orvyk.png" width="314"/></p>
+                <p><img height="972" src="http://i.stack.imgur.com/GJfeQ.png" width="957"/></p>
+                <p>I asked for help on <a href="http://stackoverflow.com/questions/13417411/laying-out-a-large-graph-with-graphviz" target="_blank">StackOverflow</a>.</p>
+                <p>And a chap kindly showed me a zoomed-out layout that works:</p>
+                <p><img height="1032" src="http://i.stack.imgur.com/L4LJ3.png" width="1250"/></p>
+                <p>At that ridiculous zoom, there’s a definite pattern there…</p>
+                <p>Only problem is, whilst I can get graphviz to generate that chart, I can’t view it!</p>
+                <p>The image is a monster.  PNG 20380x16854, 59.73MB compressed …</p>
+                <p>I hit swap as soon as I try and view it in all the image viewers I can find.</p>
+                <p>I mulled the problem a bit and imagined simplifying the problem.  You could, for example, start
+                pruning pointless moves and those moves that allow the opponent to immediately win and so on.</p>
+                <p>But distilling the winning moves seems like a cop-out.  These days, big data shouldn’t
+                be scary!</p>
+                <p>I considered making my own image-manipulation code.  But that quickly gets into making your own
+                layout engine too, and … well, I welcome anyone who can master graphviz and has more RAM than
+                I :)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#771'">rec</button>  <button class="page-link" onclick="window.location='game.html#771'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/35134924139.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="774">
+    <h2>A novel profiler for Python</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em><strong>UPDATE</strong></em>: now on <a href="https://github.com/williame/will_profile" target="_blank">github</a> with a <a href="http://williame.github.com/will_profile/example.html" target="_blank">clickable example</a>! 
+                You can even use the <a href="http://williame.github.com/will_profile/will_profile.html" target="_blank">on-line viewer</a> for your own traces.</p>
+                <p>At work, I’ve been trying to profile a very CPU-intensive part of a long-running
+                Python server.</p>
+                <p>There was a time, back in the dark ages, when randomly stopping your program in a debugger and
+                memorising the stack trace was a perfectly respectable way to ‘profile’ your code!</p>
+                <p>And it actually worked very well.  But somehow, with the advent of fancy profiling tools, the
+                simple and robust approach became forgotten…</p>
+                <p><a href="http://stackoverflow.com/questions/9819142/profiling-a-long-running-python-server" target="_blank">In order to profile my servers</a>, I’ve added the <a href="http://code.google.com/p/yappi/" target="_blank">yappi</a> profiler in such a way that it
+                can be started and stopped via a debug HTTP interface.  So you can, remotely, turn on and off profiling
+                and recover the log.</p>
+                <p>This has worked better than nothing, but I’ve found it problematic; yappi - and other
+                Python profilers - are so intrusive that they can slow the whole server down by nearly a factor of 3,
+                and this can cause a whole cascade of timeouts and other problems which interfere with the path you are
+                trying to profile.  Additionally, <em>interpreting</em> the output can be difficult.  The
+                functions that glow most are the utility functions, and the actual what-your-application-is-doing feel
+                just isn’t there.</p>
+                <p>So, in desperation, this morning I made a full-stack-sampling profiler.  N-times a second it
+                will save a snapshot of the current stack.  Sampling the stack, say, 10 times per second has no
+                noticeable impact on run-time and doesn’t distort the program being profiled:</p>
+                <p><img src="media/old/35134924139_1.jpg"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='perf.html#774'">perf</button> 
+<button class="page-link" onclick="window.location='post/35134924139.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/33185451698.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="784">
+    <h2>Obiwan: Typescript for Python</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Being rather the <a href="post/18144725601.html" target="_blank">static-typing-in-Python</a> kind of person, and being rather taken with
+                Microsoft’s new <a href="post/32737068654.html" target="_blank">Typescript</a>,
+                I quickly cleaned up and reimplemented my JSON validator as a Python 3 annotations parser:</p>
+                <pre><code> def add_employee(employee: {&quot;name&quot;:str,&quot;dob&quot;:int, ...}) -&gt; int:</code></pre>
+                <p>It also has a JSON load/dump wrapper that supports a template parameter:</p>
+                <pre><code> employees = json.load(f,template=[{&quot;id&quot;:int,&quot;name&quot;:str,&quot;dob&quot;:int, ...}])</code></pre>
+                <p>My ambition would be that its syntax is widely adopted and eventually static type checkers
+                support it and IDEs can do auto-complete ala Typescript.</p>
+                <p>follow/fork it on github:  <a href="https://github.com/williame/obiwan" target="_blank">https://github.com/williame/obiwan</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#784'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/31869685894.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="790">
+    <h2>Intrusive List for Java</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Intrusive lists are one of those neat data-structures that are <a href="http://www.altdevblogaday.com/2011/12/06/intrusive-lists/" target="_blank">often</a> <a href="http://www.codeofhonor.com/blog/avoiding-game-crashes-related-to-linked-lists" target="_blank">overlooked</a>.</p>
+                <p><em><strong>TL;DR</strong> </em>download <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a></p>
+                <p>Intrusive lists have O(1) remove if you already have the address of the object, and O(1) insert
+                too at head/tail or if you already have the address of an adjacent object.  This is because they store
+                their previous and next pointers in the object itself, rather than having some separately allocated
+                ‘list node’ object.  This makes them very memory efficient and cache-friendly too.</p>
+                <p>They are common enough inside performance critical code, e.g. in games and operating system
+                kernels.</p>
+                <p><em>Its generally better</em> to just put objects you want to get at in a
+                hash-map/set.  That, too, has O(1) add and remove (amortized blah blah).  Hash-tables a good fit outside
+                the extreme performance code or for set operations or maps and so on.</p>
+                <p>Intrusive lists have advantages for some scenarios: for example, they are ideally suited to
+                most-recently-used lists.  They preserve order and it is O(1) to move an item from the middle of the
+                list to the head when it gets used.</p>
+                <p>In C/C++ and so on there are various tricks you can do with <a href="http://en.wikipedia.org/wiki/Offsetof" target="_blank">offsetof()</a> and macros to make
+                utility code that you can mix-in.  In Java, you cannot easily encapsulate a classic intrusive list in a
+                class because its intrusive.  You have to actually put your own prev and next pointers into your class
+                and write your own linking and unlinking code.  This can be error prone.</p>
+                <p><em>Or</em> you can allocate a linked node pointer.  Its a compromise you can make,
+                knowing that it’ll likely be allocated adjacent to the main class in memory and have the same
+                lifetime and so on.  If you’re chasing performance in Java you start thinking about <a href="http://mechanical-sympathy.blogspot.se/" target="_blank">mechanical sympathy</a> and
+                avoiding garbage collection and so on.</p>
+                <p>I offer you a simple <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a>
+                class that I use.</p>
+                <p>Store an instance of it in a (final) attribute on your item.  You can then <code>link()</code>
+                and <code>unlink()</code> it from other items.  You can also create head/tail nodes with
+                <code>makeList()</code> which can be useful.</p>
+                <p>Classic iteration over all nodes looks like this:</p>
+                <pre><code>for(Item item = list.getNext(); item!=null; item = item.list.getNext()) ...</code></pre>
+                <p>To move an item to the top of the list is as simple as:</p>
+                <pre><code>item.list.link(list);</code></pre>
+                <p>MRUs have never been simpler nor faster!</p>
+                <p>The class could easily be extended to use weak-references.  Locking and concurrency are harder
+                to add.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#790'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/30793134312.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="799">
+    <h2>Cage Flight post-mortem #2: the graphics guy</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(<a href="http://www.ludumdare.com/compo/2012/09/02/cage-flight-post-mortem-2-the-graphics-guy/" target="_blank">Originally posted</a> to Ludum Dare; this was written by my co-conspirator)</p>
+                <p><img src="media/old/30793134312_1.jpg"/></p>
+                <p><em>At the ungodly hour of 7am on Saturday 25th August we found out the theme, and had a
+                bit of a brainstorm whereby we arrived at fighting, in space, in a cage. Obvious really.</em></p>
+                <p>To play Cage Flight: <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313">http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313</a></p>
+
+                <p>For a more technical post-mortem see <a href="http://www.ludumdare.com/compo/2012/08/30/cage-flight-autopsy/">http://www.ludumdare.com/compo/2012/08/30/cage-flight-autopsy/</a></p>
+                <p>We started a bit behind due to time zones, and we had a bit shorter anyway as although the
+                deadline for jam entries is not until Monday evening, Monday is a work day for both of the team. But
+                that’s no excuse, we still had plenty of time to build a game. Our team this time were:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#799'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#799'">ludum-dare</button> 
+<button class="page-link" onclick="window.location='post/30793134312.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/30509144101.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="800">
+    <h2>Cage Flight autopsy</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Played <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">Cage Flight</a> yet?  Its a multi-player on-line space-fighter game!  You are
+                in a cage, weaving around trying to shoot down the other players; distilled survival of the fittest!</p>
+                <p><img src="media/old/30509144101_1.jpg"/></p>
+                <p>Its the game we wanted to play, so we made it!  We are super pleased and proud of it.  We
+                didn’t settle on what we would make until the theme was announced; I had hoped we’d fly around a fractal
+                landscape and put a lot of preparation time into learning ray-tracing.  In the end I think we
+                shoe-horned the theme Evolution into it acceptably and got the very best game we’ve made to boot.<br/><br/>How
+                would I sum up Cage Flight as a creator?  Fun and then tears.  Sorry for the hurt and drama in this
+                post:<br/><br/><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#800'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#800'">ludum-dare</button> 
+<button class="page-link" onclick="window.location='post/30509144101.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/30340192066.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="801">
+    <h2>my game: Cage Flight!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em>First rule of Flight Club:</em> <strong>tell everyone about
+                Flight Club</strong>!</p>
+                <p>This weekend we made a space fighter game for the Ludum Dare competition.</p>
+                <p>There are over 1163 other entries as I type this, and a few more might turn up before the
+                deadline.</p>
+                <p>Here’s the link to the game: <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313</a></p>
+                <p>And here’s a gameplay video:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/yGSGiY9sISs" width="420"> </iframe></p>
+                <p>The Ludum Dare theme was evolution.  Now we figured that everyone will be doing evolving kind
+                of things. Soups and stuff.  Oh, and platform games as ever.</p>
+                <p>So we set out to think about unnatural selection; this became a discussion about dueling and
+                then cage fights and then the vision emerged: <strong>multi-player on-line space fighter dueling
+                in a cage!</strong></p>
+                <p>The game uses webGL, the new Web Audio API and websockets.  Its written in Javascript without
+                libs.  (The server is Python.)  Any jitter is because of lag between you and my server in Sweden, sorry.</p>
+                <p>What are you waiting for?  Tell your friends to meet you in the cage right now!!!</p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank"><strong>PLAY ONLINE NOW</strong><br/></a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec2.html#801'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#801'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/30199218747.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="802">
+    <h2>LudumDare24 game underway</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>And its called Cage Flight.</p>
+                <p>Subtitle: Survival of the Fittest</p>
+                <p>Ho ho.</p>
+                <p>You are thrust into battle - massive multi-player on-line (MMO) kind of battle - in a space
+                fighter in a big cage.</p>
+                <p>Here’s the end-of-day-1 video:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/fS-JMsLi2E0" width="420"> </iframe></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec2.html#802'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#802'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/29813057651.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="805">
+    <h2>Ludum Dare 24 contest approaches</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img src="media/old/29813057651_1.jpg"/></p>
+                <p><a href="http://www.ludumdare.com/compo/" target="_blank">Yippee, its time again!</a> 
+                We are planning a Jam contest entry.  As you can see, our artist has been sharpening his pencils and
+                doing team <strike>building</strike> pictures.  I think the ears and sandals chap is me.</p>
+                <p>Previously <a href="post/16322614828.html" target="_blank">we’ve tried</a> to show that platform games don’t need to
+                be made from blocks and tiles, and that <a href="post/21677376271.html" target="_blank">text
+                adventures</a> can be pretty.  Neither wowed the audiences sadly.  I really rather liked the text
+                adventure particularly, but then maybe I’m a bit stuck in the 90s with my gaming preferences. 
+                Without Internet access games were supposed to be deep and thoughtful or pushing the boundaries (like
+                Harpoon and flight sims; making you think your computer could do what the big computers did in the Cold
+                War).</p>
+                <p>But nobody really plays sims any more.  <a href="post/20163196047.html" target="_blank">Not even SimCity</a>.  Ludum Dare is full of platform games and 3D shooters
+                dominate the real marketplace.</p>
+                <p>We keep coming back towards RTS.  We have a history of doing <a href="http://www.megaglest.com/" target="_blank">Glest mods</a> - and Tiberian Sun mods and
+                modding tools if you go back far enough - so its natural that we think RTS is cool.  But it’d
+                be hard to make an RTS that is popular, I think.  Its a niche.</p>
+                <p>This time I think we’re definitely going Javascript webGL.  Its maturing enough to be
+                a good enough platform.  It means no heavy computation, but that’s fine.  It has a few
+                secrets; websockets, for example.  The Web Audio API isn’t really there but works well enough
+                in Chrome to be usable in LD.</p>
+                <p>Just a few days to go.  If you want to join our team, do let me know!</p>
+                <p>Previously: <a href="post/21865366869.html" target="_self">LD23</a>, <a href="post/16322614828.html" target="_blank">miniLD31</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec2.html#805'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#805'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/29152502348.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="808">
+    <h2>A tiny git web-server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I run <code>git</code> on a little server.</p>
+                <p><a href="https://gist.github.com/3318684" target="_blank">Here’s a little tiny
+                tornado web-server</a> utility that I’ve written to serve up the git repo files over
+                HTTP.  It works happily with bare repos and supports very basic insecure username-password control.</p>
+                <p>To run it, <code>ch</code> into your repo folder and run it; command-line options
+                are:</p>
+                <ul><li><code>--port=...</code> (defaults to 8888)</li>
+                <li><code>--branch=...</code> (defaults to master)</li>
+                <li><code>--access=...</code> (username:password comma-separated list; default no
+                protection)</li>
+                </ul><p>e.g.</p>
+                <pre><code>screen -S myrepo-git-webserver-1<br/>cd ~/myrepo.git<br/>python
+                ../tiny_git_webserver.py --branch=gh-pages --access=user1:password1,user2:password2 </code></pre>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#808'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/28935319219.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="809">
+    <h2>Rod-marching on the GPU</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My <strong><a href="post/26628848007.html" target="_blank">rod-marching</a></strong>
+                was an order-of-magnitude faster than classic per-pixel ray-marching on the CPU.</p>
+                <p>I have now <a href="http://williame.github.com/Mandel_1" target="_blank">approximated it
+                on the GPU</a> - try it <strong>live in your browser</strong> and report back on your
+                performance statistics please :)</p>
+                <p>First, you render the scene to a small texture, then use this texture as input to the bigger
+                scene.</p>
+                <p>E.g. you may render a 64x64 texture of the scene using a small number of maximum ray-steps. 
+                Then you render to a 256x256 texture using the 64x64 texture as input and another small number of ray
+                steps.  And finally you render to the screen with normal ray-steps and the 256x256 texture as input.</p>
+                <p>Sadly, the SIMD nature of GPUs works against the big gains seen on the CPU.  Also, the cost of
+                changing render targets adds overhead.  On wimpy laptop ATI GPUs I’ve <a href="http://www.fractalforums.com/index.php?topic=12906.0" target="_blank">had speed reports</a>
+                of 25 to 50% improvement.  This is not to be sniffed at if it takes you from 10 fps to 15 fps it takes
+                you from unplayable to barely tolerable :)</p>
+                <p>What is perhaps more interesting is the code I wrote to get webGL going.  I have a nice little
+                gluOrtho2D / glOrtho and gluPerspective as well as mat4 inverse function in there for you to copy.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#809'">rec</button>  <button class="page-link" onclick="window.location='game.html#809'">game</button> 
+<button class="page-link" onclick="window.location='post/28935319219.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/27049047015.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="816">
+    <h2>Every programmer should make a ray tracer</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Its a rite of passage.</p>
+                <p>The joy you get from seeing a scene get rendered, and the extreme ‘I made that’
+                euphoria as you gaze at it…</p>
+                <p><a href="http://www.redcode.nl/blog/2012/07/mandelbulb-rendering/" target="_blank">Here’s
+                one</a> that <a href="http://www.redcode.nl/" target="_blank">Roy</a> just made in an
+                afternoon.</p>
+                <p>Why, <em>you</em> should go make one right now too!</p>
+                <p>Programming is art.  Mastering the computer is making the computer make something and
+                procedural pictures and music is the distilled essence of that mastery.</p>
+                <p>Here’s a meme we can hope takes off: everyone writes Javascript ray tracers and puts
+                them on their 404 pages…</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#816'">rec</button>  <button class="page-link" onclick="window.location='game.html#816'">game</button> 
+<button class="page-link" onclick="window.location='post/27049047015.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26628848007.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="817">
+    <h2>Rod Marching</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="left" height="240" src="http://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Mandelboxpwr2.png/240px-Mandelboxpwr2.png" width="240"/>Fractal 3D fly-throughs are just perfect thought experiments.</p>
+                <p>Have you seen how beautiful they look?  Take the <a href="http://en.wikipedia.org/wiki/Mandelbox" target="_blank">mandelbox</a> (left) for example…
+                <a href="http://sourceforge.net/projects/boxplorer/" target="_blank">boxplorer</a> renders
+                it at 1.2 fps on my creaky laptop with integrated Intel GPU.</p>
+                <p>These days these are drawn on the GPU using a pixel shader.  The classic algorithm is <a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">ray marching</a>.</p>
+                <p>Normal ray casting works by casting a ray for each screen pixel and testing all objects to see
+                which it strikes first.</p>
+                <p>Ray marching, on the other hand, walks a ray forward towards the scene.  Each step, it sees the
+                closest distance to <em>any</em> part of the scene.  It then moves forward that much.  A
+                picture (<a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">src</a>) makes it much clearer:</p>
+                <p><img src="media/old/26628848007_1.png"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#817'">rec</button>  <button class="page-link" onclick="window.location='game.html#817'">game</button> 
+<button class="page-link" onclick="window.location='post/26628848007.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26577448929.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="819">
+    <h2>Radar Game</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>One of the sizes specified for <a href="http://www.ludumdare.com/compo/2012/05/09/minild-34-aspect/" target="_blank">Ludum Dare mini
+                #34 “Aspect”</a> was a 500px-diameter circle.</p>
+                <p>This immediately brought to mind a <a href="http://en.wikipedia.org/wiki/Plan_position_indicator" target="_blank">radar</a>.</p>
+                <p>Making a radar sweep animation is really trivial.  Here’s mine:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/byofNKujV-Q" width="420"> </iframe></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec2.html#819'">rec</button>  <button class="page-link" onclick="window.location='game.html#819'">game</button> 
+<button class="page-link" onclick="window.location='post/26577448929.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26063783576.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="827">
+    <h2>LevelDB isn&#39;t the fastest kid in town</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://www.sqlite.org/src4/doc/trunk/www/index.wiki" target="_blank">SQLite4</a>
+                <a href="http://www.sqlite.org/src4/doc/trunk/www/design.wiki" target="_blank">is faster</a>:</p>
+                <blockquote>
+                <p>The default built-in storage engine is a log-structured merge database. It is very fast, faster
+                than LevelDB, supports nested transactions, and stores all content in a single disk file.</p>
+                </blockquote>
+                <p>How much faster, or faster <a href="http://stackoverflow.com/a/9819411/15721" target="_blank">for what</a> they don’t say.</p>
+                <p>So this brings the speed demons to three:</p>
+                <ul><li><a href="http://code.google.com/p/leveldb/" target="_blank">LevelDB</a>,
+                a <a href="http://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/" target="_blank">log-structured merge</a> database</li>
+                <li>SQLite4, with the default storage-engine which is a log-structured merge database too</li>
+                <li><a href="http://www.tokutek.com/" target="_blank">TokuDB</a>, a <a href="http://www.tokutek.com/resources/technology/" target="_blank">fractal tree</a> database</li>
+                </ul><p>It will of course be exciting to see how fast they actually are on realistic
+                workloads.</p>
+                <p>Wouldn’t it be nice if <em>all three</em> were storage engines for
+                SQLite4?  Allowing for a good comparison to be made.</p>
+                <p>Tokutek have a simple key-value store engine that seems to be close to a 1:1 match for slotting
+                into SQLite4.</p>
+                <p>What’s exciting you the storage engine front?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#827'">perf</button>  <button class="page-link" onclick="window.location='db.html#827'">db</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25564136097.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="831">
+    <h2>If you defend those involved in the OpenGL ES specification, you are an idiot</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Jamie Zawinski (jwz), <a href="http://www.jwz.org/about.html" target="_blank">famed</a>
+                hacker and nightclub owner, has called a lot of people idiots over the years.  Just now he called out
+                <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">those
+                who wrote the OpenGL ES specs</a>.  I wholeheartedly agree with him; I’ve run into the
+                same hassle before e.g. <a href="post/14011115100.html" target="_blank">OpenGLES I want my quads back</a></p>
+                <p><strong><em>Who’s an idiot?</em></strong></p>
+                <p>The reception to Jamie’s sentiment on-line has been blistering.  There’s a
+                very vocal bunch on <a href="http://news.ycombinator.com/item?id=4134426" target="_blank">Hacker
+                News</a> and <a href="http://www.reddit.com/r/opengl/comments/vawln/jwz_if_you_were_involved_in_the_opengl_es/" target="_blank">reddit</a> who disagree strongly (with whatever they understand Jamie’s
+                point to be).</p>
+                <p>Its hard to say if its a minority or majority because the non-vocal ones don’t get
+                counted.  Most who read these sites don’t comment; <a href="post/18839832580.html" target="_blank">I have stats</a>.  So lets give everyone the benefit of the doubt and think its
+                just a misguided, inexperienced minority who are idiots ;)</p>
+                <p><strong><em>Why are they idiots?</em></strong></p>
+                <p>Jamie’s argument is that OpenGL ES, being a big pruning-down of OpenGL, has stopped
+                old OpenGL apps running on new platforms and that this is a stupid, stupid thing.</p>
+                <p>This isn’t that Jamie is mistaking OpenGL ES for OpenGL!  I was on the sidelines when
+                OpenGL ES was hatched and <strong>the whole point is that we shouldn’t have OpenGL ES</strong>! 
+                We should just have had OpenGL.</p>
+                <p>I used to be a graphics stack architect and then technical product manager for graphics at a
+                smart-phone <a href="http://en.wikipedia.org/wiki/UIQ" target="_blank">platform</a> back in
+                the mid 2000s.  I’m <em>not</em> going to argue from authority - I was a
+                super-small side-sitter who was in no way ‘in’ nor involved with the Khronos
+                committee members.  But I did know a few members (whom I should apologise in advance to) and had quite a
+                few more visit me.  <a href="http://www.khronos.org/" target="_blank">Khronos Group</a> is
+                where these committees thrash out these standards.</p>
+                <p>There is only one reason that these industry committees threw out OpenGL backwards
+                compatibility: the interests of the committee member companies.</p>
+                <p>The reason that the apologists trot out is technical though, so I’ll elaborate on
+                that at the end.</p>
+                <p><strong><em>Committee member company self-interest:</em></strong></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='classic.html#831'">classic</button> 
+<button class="page-link" onclick="window.location='post/25564136097.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25426541504.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="833">
+    <h2>Stackoverflow unwinding?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(more recently: <a href="post/26580091073.html" target="_blank">StackOverflow Humour Underflow</a>)</p>
+                <p>I was active in the early days of <a href="http://stackoverflow.com/" target="_blank">StackOverflow</a>. 
+                It was a breath of fresh air and it was exciting and fun to help people.</p>
+                <p>Increasingly though, its changing as it ages.  I’m not sure <em>matures</em>
+                is the right word.  Its floundering and myspacing.</p>
+                <p>The effort to branch sideways into other silo Q&amp;As - to become the reddit of Q&amp;As
+                I guess - has really fallen flat.</p>
+                <p>Questions are getting fewer and fewer quality answers.  Moderators and “close this”
+                clickers are getting increasingly narrow.  And the whole ‘migrate this to &lt;empty
+                other-site&gt;’ thing really bugs me to bits.</p>
+                <p>I guess any sufficiently large 'community’ (there’s not a community on
+                Stack Exchanges, of course; they are fairly anti-community) ends up attracting those wanting to curate
+                the resource and purify it, until those competent to answer and help have had their fill and no longer
+                feel welcome?</p>
+                <p>I’ve blogged about what I see as a solution before - <a href="post/15581427232.html" target="_blank">self-organising</a>
+                - but in SO’s case I think they have to re-enage with programming community, throw out the
+                gazillion-sub-site silliness and broaden allowed topics for discussion.</p>
+                <p>When was the last time <em>you</em> asked - and got answered - a good question on
+                SO?</p>
+                <p><small>(Apologies to the 20+ posts that disqus just lost; not sure where they all went or
+                why.  Anyone at disqus know?  Disqus forwarded them all to my gmail so I’ve got them anyway)</small></p>
+                <p><small>(ADDED as I’ve been asked; I’ve got 19K+ points on SO; this
+                isn’t like a tantrum from a newbie posting one question and not getting an answer or
+                something.  <a href="http://stackoverflow.com/questions/11096134/print-a-binary-tree-on-its-side" target="_blank">My most recent post</a>)</small></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='classic.html#833'">classic</button> 
+
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index2.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 4 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index4.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Rod Marching : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Rod Marching</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><img align="left" height="240" src="http://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Mandelboxpwr2.png/240px-Mandelboxpwr2.png" width="240"/>Fractal 3D fly-throughs are just perfect thought experiments.</p>
+                <p>Have you seen how beautiful they look?  Take the <a href="http://en.wikipedia.org/wiki/Mandelbox" target="_blank">mandelbox</a> (left) for example…
+                <a href="http://sourceforge.net/projects/boxplorer/" target="_blank">boxplorer</a> renders
+                it at 1.2 fps on my creaky laptop with integrated Intel GPU.</p>
+                <p>These days these are drawn on the GPU using a pixel shader.  The classic algorithm is <a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">ray marching</a>.</p>
+                <p>Normal ray casting works by casting a ray for each screen pixel and testing all objects to see
+                which it strikes first.</p>
+                <p>Ray marching, on the other hand, walks a ray forward towards the scene.  Each step, it sees the
+                closest distance to <em>any</em> part of the scene.  It then moves forward that much.  A
+                picture (<a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">src</a>) makes it much clearer:</p>
+                <p><img src="media/old/26628848007_1.png"/></p>
+                <p><!-- more -->This would be fairly slow on the PC.  The benefit is, however, that if the
+                scene can be expressed formulaically you can do this in a GPU’s pixel (“fragment”)
+                shader!</p>
+                <p>The general issue, however, is that you make a variable number of marching steps to reach close
+                enough to the end object to stop.  As GPU fragment shaders operate in lock-step in batches, some
+                embedded pixels being mixed in the same block as exposed pixels will cause the exposed pixel shaders to
+                wait for the deep ones.</p>
+                <p><em>Of course, I had an idea…</em></p>
+                <p>I made a test scene (a couple of spheres) and rendered it on the CPU at 800x800 and specified a
+                maximum of 20 iterations on each march.</p>
+                <p>My Core2 Duo T9400  @ 2.53GHz CPU can (on one core) do this in 150 milliseconds (<strong>6.6
+                fps</strong>) and it looks like this (white is just one march away):</p>
+                <p><img src="media/old/26628848007_2.png"/></p>
+                <p>That’s coloured by number of march steps; the white is just one march step away.</p>
+                <p>And here it is coloured by z:</p>
+                <p><img src="media/old/26628848007_3.png"/></p>
+                <p>(The black between the two spheres is where the ray passing close to the first sphere has used
+                up all the steps and those pixels have fallen foul of the max-iterations counter (set to 20 steps).)</p>
+                <p>Think back to how ray marching works; <em>for each pixel</em>, we walk forward.</p>
+                <p>Early on, pixels that are adjacent are going to make much the same steps…</p>
+                <p>On the GPU, a pixel knows nothing about the marches of its neighbours.</p>
+                <p>But on the CPU, that’s an artificial restriction.</p>
+                <p>Imagine splitting the scene into some number of tiles.  These tiles cover many pixels; they are
+                like <em><strong>rays with width</strong></em>.  I call them rods.  And in each
+                tile, walk forward until you are closer to the scene than the radius of the rod.  At this point, divide
+                the rod into four child rods - one in each quadrant - and recurse.</p>
+                <p>In this way, you trivially share early marches and <em>dramatically</em> reduce the
+                number of computed positions.  On the test scene with a couple of spheres, its <strong><em>two
+                orders of magnitude less</em></strong>.</p>
+                <p>For testing, I used 256 starting rods (each 50x50, so 16x16 divisions).  (I did not experiment
+                to determine the right trade-off for this scene.)  In each of those rods, I marched forward and split as
+                appropriately.  It takes under 10 milliseconds (<strong>100 fps+</strong>) and looks like
+                this:</p>
+                <p><img src="media/old/26628848007_4.png"/></p>
+                <p>Its much darker and blockier because its coloured by march steps.</p>
+                <p>Here it is coloured by z instead:</p>
+                <p><img src="media/old/26628848007_5.png"/></p>
+                <p>Its a fuzzy approximation of the per-pixel one, but its a <em>fast</em>
+                approximation.</p>
+                <p><strong>This is excellent input to a GPU renderer.</strong>  Give this distance map
+                (for each pixel, two floats; the last point in the march and the distance to impact) to a GPU fragment
+                shader to continue with some small max-iteration setting!</p>
+                <p><em>This is using the CPU and GPU in synergy!</em></p>
+                <p>The CPU task is embarrassingly parallel and can be divided between cores (even laptops have
+                several cores now).  Because we are subdividing four children, you can imagine some fancy SSE doing the
+                children in parallel too.</p>
+                <p>You can imagine an auto-throttling that profiles and adjusts the CPU max-iterations and size
+                and the GPU max-iterations to get best frame-rate; adapting even as the viewpoint changes.</p>
+                <p>UPDATE: <a href="http://www.fractalforums.com/programming/enhanced-rendering-using-de-at-least-on-cpu/" target="_blank">this idea</a> keeps on reappearing, and has been called <a href="http://www.youtube.com/watch?v=4Q5sgNCN2Jw" target="_blank">cone marching</a>; I’d
+                doubtless have called my it cone marching too once I’d added perspective.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#817'">index</button>  <button class="page-link" onclick="window.location='rec2.html#817'">rec</button>  <button class="page-link" onclick="window.location='game.html#817'">game</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

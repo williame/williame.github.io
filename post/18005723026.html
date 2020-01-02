@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Deterministic Testing of Async Loops : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Deterministic Testing of Async Loops</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>A lot of in-production phone crashes I’ve debugged over the years have
+                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="http://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
+                <p>Hackers like working on tools and hackers are often attracted to writing test frameworks.  I
+                know I was.  So while working at UIQ (we made a smartphone OS) I wrote a simple exhaustive exception
+                generator.</p>
+                <p>By hooking into <em>malloc</em> and file/network/IPC calls, I made them
+                deterministically fail.  By starting the app and making allocation 1 fail, then restarting it and making
+                allocation 2 fail and so on it found buckets of defects in the start-up code for the Symbian app
+                framework.  Most of this code only worked on the happy path.  Symbian engineers loved the tool and
+                zapped masses of broken cleanup code in app framework startup and it took them about one day to do it :)</p>
+                <p>However, Opera refused to run it on the browser they were making for us.  Their excuse was that
+                the browser was using Symbian’s ActiveObject asynchronous worker task framework; like all
+                event-loops that relies on external events like files opening or IO this makes the run of the program
+                quickly non-deterministic.</p>
+                <p>Fair enough, we could fix that :)  Here’s how:</p>
+                <p><!-- more -->By instrumenting the event loop code we made the scheduler examine the
+                ready-to-run list each loop and decide the order to service them based on the coverage data it was
+                tracking.  You can think of program flow as a big tree of possibilities based on the order that things
+                happen.  The loop would know that its previously fired event 5 before 6 at iteration 12 and if there are
+                more memory allocations to check in that path.  It could even pause slightly each iteration to give
+                events a chance to fire if it has no non-exhausted paths to check.</p>
+                <p>Still there is a massive branching factor; we rolled dice and never did get complete coverage
+                on massive applications but we got real close on large applications and this was running in emulators,
+                simulators and on phone hardware massively less powerful than todays devices and desktops.</p>
+                <p><sub>I wonder if some of the ideas I have for <a href="post/17490392306.html" target="_blank">SameGame</a>
+                can be applied?  That’s embargoed for now.</sub></p>
+                <p>It seems a little bit obvious in retrospect, but at the time it was a big deal.  My data-point
+                is that it <em>works</em>.</p>
+                <p>Importantly we found hard-to-recreate but real bugs which we could recreate because we had the
+                ‘path’ through the loop order; <strong>we found them before users found them,
+                and we fixed them so users would never find them :)</strong></p>
+                <p>Symbian was different from desktop operating systems in that requesting a page of memory
+                actually reserved a page for you.  Desktop operating systems don’t actually do that; you can
+                create a 100MB buffer or something and yet until you touch each page in that allocation the page isn’t
+                there; it might not be there and you might get a <a href="http://en.wikipedia.org/wiki/SIGSEGV" target="_blank">SIGSEGV</a>/STATUS_ACCESS_VIOLATION.</p>
+                <p>Of course memory allocations can only truly fail if they cross a page boundary and require a
+                new page to be allocated, and there isn’t any free RAM.  But because there was lots of theming
+                hooks very early in the app startup process on UIQ and because the memory allocations there were data
+                determined and we had 3rd party themes, you really couldn’t know which actual allocations were
+                crossing pages.  We wanted no crashes at all; we wanted to know we’d tested the app
+                exhaustively.</p>
+                <p>Applications are deterministic if you control their inputs exactly.  We were always on the
+                watch-out for random input; luckily we didn’t have to contend with any that we knew of.  If an
+                app had been seeding a random number generator with the system time it might have been solvable.  If the
+                app was calling some external service such as NTP or a remote /dev/urandom -type thing or parsing live
+                search results or otherwise getting random uncontrolled input from outside things would have been a bit
+                harder.</p>
+                <p><em><strong>This could be applied to the event loops of today</strong></em>,
+                even if it focused on injecting IO disconnect errors in IPC/TCP and possibly file-not-founds.  It could
+                also be applied to message-passing concurrency systems.</p>
+                <p>It could <em>possibly</em> be applied to multi-threaded programs too, if a virtual
+                machine (valgrind-like?) controlled shared memory access?</p>
+                <p>We never did get Opera to actually run my tool though.  They had plenty of bugs they already
+                knew about to be dealing with ;)</p>
+                <p>(on <a href="http://news.ycombinator.com/item?id=3616122" target="_blank">HackerNews</a>)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#896'">index</button>  <button class="page-link" onclick="window.location='lang.html#896'">lang</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

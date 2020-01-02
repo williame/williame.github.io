@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Oh MySQL I hate you : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Oh MySQL I hate you</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
+                <p>In no particular order, and not stopping at 5:</p>
+                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
+                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                not</a> in transactions</li>
+                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                table (so create them temporarily for each connection, and clear them manually on rollback)</li>
+                <li><!-- more -->you can mix transaction-safe and non-transaction safe tables in a
+                transaction and, if it rolls back, the non-transaction safe tables are not rolled back.  And this is
+                silently accepted</li>
+                <li>the default character set is latin1.  Well, its not even latin1 apparently, its just <em>called</em>
+                that.  Its actually cp1252 with eight characters randomly shifted around. You have to configure the
+                server / database / column to be something else <em>and</em> configure your client to get
+                back what you put into character columns; in Python, configuring the client is a <a href="http://www.harelmalka.com/?p=81" target="_blank">few switches scattered about</a> and not
+                just one.  And I have a hazy memory of having to slap “BINARY” keywords on my
+                VARCHAR columns to get out what I put in or something.  From <a href="http://dev.mysql.com/doc/refman/5.0/en/charset-syntax.html" target="_blank">the docs</a>:<br/><blockquote>The
+                description in the following sections may appear complex, but it has been found in practice that
+                multiple-level defaulting leads to natural and obvious results.</blockquote>
+                Yeah right!</li>
+                <li>and the UTF-8 isn’t actually proper full UTF-8, it has UCS2 internally somewhere so
+                no Klingon code-points apparently.  You need to specify “utf8mb4” if you’re
+                storing music</li>
+                <li>InnoDB is <a href="http://stackoverflow.com/questions/9819271/why-is-mysql-innodb-insert-so-slow" target="_blank">shockingly
+                slow</a> if you don’t have nice sequential primary keys</li>
+                <li>well, its shockingly <a href="http://www.mysqlperformanceblog.com/2008/02/01/performance-gotcha-of-mysql-memory-tables/" target="_blank">slow</a> any which way</li>
+                <li>it defaults to non-transaction-safe table types (on some platforms and packaging)</li>
+                <li>sometimes on some clients and some platforms at some strictness levels it will create tables
+                in the default storage engine if it doesn’t recognise your storage engine<br/><pre><code>CREATE
+                TABLE silly (id INTEGER) ENGINE=MyIASM;<br/>Query OK, 0 rows affected, 2 warnings (0.12 sec)<br/>+---------+------+-----------------------------------------------+<br/>|
+                Level | Code | Message<br/>+---------+------+-----------------------------------------------+<br/>|
+                Warning | 1286 | Unknown storage engine 'MyIASM'<br/>| Warning | 1266 | Using storage engine
+                InnoDB for table 'silly'</code></pre>
+                </li>
+                <li>and I haven’t even <em>started</em> on the MySQL dialect of SQL!</li>
+                </ol><p>What have I missed?  What’s your favourite - eh, least favourite - <em>feature</em>
+                of MySQL?</p>
+                <p>Hate On!</p>
+                <p>(You may also like: <a href="post/16399069781.html" target="_blank">Google:
+                moreSQL is real</a> and <a href="post/16516763725.html" target="_blank">how I got massively faster DB with async batching</a>)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#835'">index</button>  <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='db.html#835'">db</button>  <button class="page-link" onclick="window.location='classic.html#835'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

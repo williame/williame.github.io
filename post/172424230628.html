@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Faster searches with non-prefix fields in composite indices : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Faster searches with non-prefix fields in composite indices</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Here’s a horrid hack or neat trick to work around a gaping inefficiency in the MySQL
+                query planner:</p><p>Imagine you have a very large table and a composite index e.g. the
+                fields <i><b>A</b></i>, <i><b>B</b></i>, <i><b>C</b></i>
+                and <i><b>D</b></i>.</p><p>Imagine you have a query WHERE <b><i>A</i>
+                = ?</b> AND <b><i>C</i> = ?</b></p><p>MySQL will use the index
+                to check all the values of <b><i>A</i></b> but dereference each row with the
+                matching <b><i>A</i></b> before checking the <b><i>C</i></b>.</p><p>You
+                can see what is happening using EXPLAIN SELECT by looking at the KEY and KEY_LEN columns: the index will
+                be named the KEY (good so far!) and the KEY_LEN will be the max size of column <b><i>A</i></b>
+                (ugh!). </p><p>If you supply a dummy clause constraining <b><i>B</i></b>
+                too then you can force MySQL to check the <b><i>C</i></b> constraint before it
+                dereferences any rows: SELECT … WHERE <b><i>A</i> = ?</b> AND <b><i>B</i>
+                != ?</b> AND <b><i>C</i> = ?</b> (where <b><i>B</i></b>
+                can be checked against some value that it can’t possibly be).</p><p>You can confirm this is
+                happening by looking that the EXPLAIN SELECT again: the KEY will still be the name of the index (if it
+                isn’t, you can force the index to be used with a USE INDEX clause) and the KEY_LEN will now be the
+                maximum length of the <b><i>A</i></b>, <b><i>B</i></b>
+                and <b><i>C</i></b> fields combined.</p><p>You can even use this
+                trick to get an index used even if the very first field in the composite index is not constrained, e.g.
+                WHERE <b><i>A</i> != ?</b> AND <b><i>B</i> = ?</b></p><p>This
+                isn’t foolproof - you always need to benchmark with your database!  Using any index and the additional
+                dereference cost compared to just doing a table scan in the first place assumes that the index is
+                dramatically cheaper to walk and will dramatically reduce the number of rows that need to be
+                dereferenced.  If only a tiny subset of the table needs to be dereferenced, the index will help; if a
+                large proportion of the table is going to be dereferenced anyway then it’d be better to do a table scan
+                from the get-go.</p><p><i>However</i>, if you have very large tables and you
+                have composite keys that cover your fields but which some of the composite keys unconstrained then its
+                well worth evaluating this approach which, in the right circumstances, can give orders of magnitude
+                improvements.</p><p>Why doesn’t MySQL use this trick internally?  Well, it should!  If its
+                already decided to use a composite ordered index for some prefix of the constrained fields, then it
+                should always check all constraints it can before dereferencing any actual rows. If MySQL used this
+                trick you wouldn’t have to find some impossible value to fake a check against either.</p><p>Its
+                a bit harder to say if it can work out when to use a composite index when there is no prefix at all. 
+                And of course it doesn’t work with hash indices.</p><p>Does MariaDB use this trick
+                internally automatically?  I don’t know but I doubt it.</p><p>Does PostgreSQL?  No idea. 
+                Etc.</p><p><i>If you liked this</i> you might like my recent stats on <a href="post/160628887798.html">database
+                compression</a> or browse some of my <a href="https://this blog">earlier
+                posts</a> </p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#633'">index</button>  <button class="page-link" onclick="window.location='perf.html#633'">perf</button>  <button class="page-link" onclick="window.location='db.html#633'">db</button>  <button class="page-link" onclick="window.location='mysql.html#633'">mysql</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

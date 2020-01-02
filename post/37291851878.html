@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Making the History of Worlds Religions map : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Making the History of Worlds Religions map</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><em><strong>TL;DR</strong></em> compressing better than GZip,
+                in Javascript, at the bottom ;)</p>
+                <p>An interactive, clickable map of the worlds religions is available on-line at <a href="http://williame.github.com/map_of_worlds_religions/" target="_blank">http://williame.github.com/map_of_worlds_religions/</a></p>
+                <p>Here’s a time-lapse of it running, with the narrative (which you can mute in the
+                interactive version) ↓</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/mEIxdquRnJc" width="560"> </iframe></p>
+                <p>The real making of the map was excellent research by <a href="post/30793134312.html" target="_blank">the usual suspect</a>.  After his <a href="post/19946053957.html" target="_blank">Enigma</a><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=cmnMlvfTDoM" target="_blank">
+                spreadsheet</a>, and other side projects, he recently took it into his head to make a world
+                religion time-line spreadsheet.  And my blog post about how we moved from a spreadsheet to a web-page
+                can’t really hide that the hard work wasn’t technical, it was research.  But here’s
+                a technical article:</p>
+                <p>My friend’s an Excel wizard, but he chose to use <strike>Sun</strike>/<strike>Open</strike>/LibreOffice
+                Calc.  Oh boy what a mistake!</p>
+                <p>Of course he roped me in to critique and fix.</p>
+                <p><em><strong>LibreOffice Calc sucks!</strong></em></p>
+                <p>His first version had a macro that went through the cells on the map and looked up their
+                religion of that year on the main data set and then looked that religion up to determine the colour.</p>
+                <pre><code>for x in width:<br/>     for y in height:<br/>         religion =
+                cell(x+year,y,data_sheet)<br/>         colour = default_colour<br/>         for i = 0; i
+                &lt; numReligions; i++:<br/>             if cell(0,i,lookup_sheet).text == religion:<br/>
+                                colour = cell(0,i,lookup_sheet).text.background_colour<br/>                 break<br/>
+                        cell(x,y,map_sheet).background_colour = colour</code></pre>
+                <p>The map is 70x80 (so 5,600 cells), and the most popular religions are at the top of the lookup
+                list.</p>
+                <p>And yet <em>that</em> took 20 to 30+ seconds to run on modern laptops.</p>
+                <p><!-- more -->This is just wrong on so many levels.  The most inefficient code should do
+                such a calculation in less than a second.  Excel 5 in Windows 3.1 on a 486 would have run rings around
+                LibreOffice on this!</p>
+                <p>Being the wizard in Excel, my friend was flabbergasted by this shockingly poor performance by
+                LibreOffice here.  This sloppy, inefficient code is not at all a problem in VBA.</p>
+                <p>He halved the time by skipping the 50% of cells that were Sea.  And it was still taking forever
+                to change years.</p>
+                <p>So <em>I</em> dived in to speed it up… and surfaced red faced and making
+                excuses :(</p>
+                <p>LibreOffice’s Basic editor is a hollow unloved backwater; absolutely nothing like the
+                excellent VBA editor in Microsoft Office.</p>
+                <p>It doesn’t have any associative arrays (the undocumented ones I found mentioned in
+                various confused forums didn’t work for us), so I couldn’t move the religion to
+                colour mapping into code.  I simply couldn’t find a quick way to write the for-loops better.</p>
+                <p>The next step was to try and move the styling into formula instead using the <code>T()</code>
+                and <code>STYLE()</code> functions and <code>VLOOKUP()</code>s etc.  This was
+                much, much faster.  But it still took seconds.</p>
+                <p>Everything in LibreOffice takes seconds.  Opening documents takes seconds, recalculating takes
+                seconds, messages that its recalculating column widths takes seconds.</p>
+                <p>I clicked around and wrote macros to do things like convert a colour to hex (the Basic even
+                lacks a <code>hex()</code> function) and generally became familiar with LibreOffice Calc. 
+                It feels like a dated and unresponsive Excel.</p>
+                <p>The more I used LibreOffice, the stronger my dislike for the whole copy-by-committee,
+                no-obvious-pride-nor-perfection feel for it all took over.  Pity those sacrificing their souls for
+                something so unloved.</p>
+                <p><em><strong>Who settled Madagascar?</strong></em></p>
+                <p>But by now I was being charmed by the data-set.  Did you know that it was Indonesians going
+                west that settled Madagascar, rather than Africans going east?  I had <em>no</em> idea. 
+                What Christianity was once the official religion off Mongolia?  What’s the religion of
+                Switzerland?  I had no idea about most of it, in fact.</p>
+                <p><em><strong>Rendering on the Web</strong></em></p>
+                <p>My mind raced; even a noddy Python spreadsheet would compute it all near-instantly.  Yes, I
+                know all about how spreadsheets calculate.  No, LibreOffice is not solving some massively big problem. 
+                No, there are no excuses for being so painfully slow compared to all the other spreadsheets.  You even
+                find people recommending to edit LibreOffice spreadsheets in other office suites!</p>
+                <p>Even Javascript would do it.  <em>Aha!</em>  What we needed in this day and age is
+                a web page!</p>
+                <p>It was easy to copy-n-paste the LibreOffice worksheets into a text editor, where they appeared
+                as tab-separated-value files.  This is a super-easy text format to parse in Javascript.</p>
+                <p>For drawing the map, I opted for <a href="http://dev.opera.com/articles/view/html-5-canvas-the-basics/" target="_blank">HTML5 canvas</a>
+                2D <code>fillRect()</code> and so on, rather than my usual route in to webGL.  My thinking
+                was, I didn’t want to over-optimise it in the first cut!</p>
+                <p>And, of course, a normal HTML5 canvas can draw the whole map in the blink of an eye.</p>
+                <p><em><strong>Narrative</strong></em></p>
+                <p>My friend prefers to remain anonymous.  So we opted for text-to-speech like used for the intro
+                to our <a href="http://williame.github.com/ludum_dare_24_evolution/" target="_blank">Cage Flight</a>
+                <a href="post/30509144101.html" target="_blank">game</a>.</p>
+                <p>A quick toying with <a href="http://www.cstr.ed.ac.uk/projects/festival/" target="_blank">festival</a>
+                and <a href="http://espeak.sourceforge.net/" target="_blank">espeak</a> were really
+                disappointing; they all sound like constipated daleks.  But it happens that Google has a text-to-speech
+                (TTS) synthesizer in Google Translate in a non-public API.  If you feed it short snippets of text, you
+                can get corresponding mp3 files which you can concatenate to make your total audio clip.  I borrowed a
+                <a href="http://glowingpython.blogspot.se/2012/11/text-to-speech-with-correct-intonation.html" target="_blank">snippet</a> from the web and made a conversion <a href="https://github.com/williame/map_of_worlds_religions/blob/gh-pages/map_v4_audio.py" target="_blank">script</a>.</p>
+                <p><strong><em>Compressing the Map in Javascript</em></strong></p>
+                <p>The problem, though, was the data size.  The main map data was nearly 5MB and github-pages
+                doesn’t do gzipping.  (As its static content, github could pre-compress everything, store it
+                compressed, and decompress to serve to clients not supporting compression…)</p>
+                <p>The data is a 5600 lines - one line for each of the 80x70 cells on the map.  And each line is a
+                list of values, one per year on the timeline, saying what religion is in that cell in that year.  There
+                are 91 years picked out on the time-line.</p>
+                <p>I Googled around and tried out some LZ77 and other Javascript parsers.  And they were all
+                terribly slow.</p>
+                <p>I considered the <a href="http://blog.nihilogic.dk/2008/05/compression-using-canvas-and-png.html" target="_blank">PNG
+                approach</a> but, being interested in data compression, I decided that a super-simple home-made
+                approach would be effective.</p>
+                <p>So I set myself the task of making a map data decompressor in Javascript in one hour.</p>
+                <p>I had some constraints.  I wanted it to be printable text, for one thing.  I wanted to keep the
+                tab and new-line for splitting things up, and not for the actual map data.</p>
+                <p>So I assigned each religion a single printable character.  I then made a string from them, for
+                each year, for each cell.</p>
+                <p>This was under half a megabyte, simply because one-character codes are massively shorter than
+                the very redundant spelling out of each religion in the original tab-separated-value file.   80 x 70 x
+                91 = 509,600 bytes.</p>
+                <p>But I then run-length compressed this.  If three or more cells are the same religion in a row,
+                I emit a special flag symbol and then printably-encode the number of repetitions in the run rather than
+                emitting all the individual characters.</p>
+                <p>Its a very obvious approach.  And the resulting file was around 160K.</p>
+                <p>But this was still missing a lot of redundancy.  Most cells do not change from one year to the
+                next, and their neighbouring cells do not change either.  So I replaced these non-changes with another,
+                special religion code which means “same as last year”.  Technically, a form of delta
+                encoding.  And now, when run through the run-length-encoder, the output is under 10K!</p>
+                <p>My hour wasn’t up so I added a few features such as support for longer runs by
+                emitting two character run-length codes.   I didn’t make further obvious optimisations by
+                simply omitting Sea nor doing <a href="http://cbloomrants.blogspot.se/2012/09/09-04-12-lz4-optimal-parse.html" target="_blank">optimal
+                parsing</a> - selecting between ‘same as last year’ and the religion code when
+                it best helps compression etc.  I even left a few bytes on the table with my rather narrow run-length
+                codes themselves.  Because I restrict myself to 7-bit printable characters (and don’t even use
+                the full range of them), I’m leaving more than 1K of unused high-bits in there too.  In a
+                one-hour project, you have to accept some imperfections if its functional.</p>
+                <p>But it was really worth it.  The browser can download a 12KB (with religion names, colours and
+                year index too) of data and then unpack it in the blink of an eye.  The whole waiting for data message
+                is dismissed in a flash.</p>
+                <p>How is that for ratio?  Well, lets do some rough comparisons:</p>
+                <p>The original data file (without religion names) is <strong>4,803,202 bytes.</strong></p>
+                <p>Gzipping gives 69,337 bytes.  1.443557859%.  Not bad!  Clearly this is an extremely redundant
+                file.  If github-pages was supporting gzip, we’d never have had this problem to solve.<br/></p>
+                <p>7zipping gives 31,648 bytes.  0.658893796%.  Better.</p>
+                <p>ZPAQing gives 13,160 bytes.  0.273983896%.  Good!</p>
+                <p>RLE delta, as we implemented in Javascript gives <strong>9,958 bytes</strong> for
+                the map data.  0.207320033%.  As there are 5600 cells in the map, that’s encoding the full
+                time-line of 91 years for each cell in less than 2 bytes.<br/></p>
+                <p><em><strong>When you are sending a fifth of a percent of the original file, I’d
+                call that brilliant :)</strong></em><br/></p>
+                <p>Of course, giving the half-a-megabyte of single-character map-data to Gzip, or better yet with
+                the delta encoding too, would doubtless beat my puny RLE encoder; after all, proper compressors use
+                entropy coding and all the bits in a byte and everything else!<br/></p>
+                <p>I did play with tweaks to the algorithm a bit the day after, such as using unused printable
+                characters to encode very short runs, and increasing the range of symbols used.  And the output was
+                under 8K.  It felt a shame to say that it took <em>two</em> hours, though, so I never
+                submitted it :)</p>
+                <p>My quickly tweaked and tidied up version gave 8,381 bytes.  0.174487768%.  But I’d
+                slept on it.</p>
+                <p><em><strong>UPDATE</strong></em>: After posting this, a couple of
+                people took up the challenge to out-compress me!  <a href="http://www.redcode.nl/" target="_blank">Roy</a>
+                got furthest, and I hope he blogs about how!</p>
+                <p>I made some quick alterations that help compression: its best to order the map data in column
+                order from bottom-right to top-left and the years from oldest to newest.  It makes a noticeable
+                difference in the compressibility of this data set.</p>
+                <p>I then added a post-past compressor:</p>
+                <pre>10 count occurrences of all characters and digraphs, and strings up to a certain length (e.g.
+                10 characters)
+                20 if all characters are unused, what is the cost of converting the least common character to be a
+                digraph?
+                30 and what is the gain of replacing all the common substrings with a digraph, or a character?
+                40 perform the greediest replacement
+                50 go to 10 until no further gains</pre>
+                <p>And the outcome is: <span><strong>5,475</strong><strong> bytes</strong></span>
+                (0.113986461%)</p>
+                <p>(Roy’s compression, when post-processed with this simple find-replace compressor,
+                actually slightly improved on this!  But that’s his blog post to make, and it never made it
+                into the map itself ;) )<br/></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#768'">index</button>  <button class="page-link" onclick="window.location='classic.html#768'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

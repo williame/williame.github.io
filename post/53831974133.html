@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Drawing RTS maps fast : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Drawing RTS maps fast</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/53831974133_1.jpg"/></p>
+
+                <p><em>Techie bit follows</em>, but first here’s some background:</p>
+                <p>At high-school I played the defining Dune 2 RTS game, and then at college I played C&amp;C
+                Tiberian Sun.  I poked around (internet was dial-up and slow in those days) and became part of the
+                then-thriving game-modding community.  They had reverse-engined the Tiberian Sun model format, but no
+                editors existed.  So I made one.  Will’s Voxel Editor, as it was called, was hugely popular in
+                the limited world of Tiberian Sun modding.  I worked closely with a modder called Mr War - all modders
+                had strange anonymous handles on-line in those days except me - and we made some really cool mods and
+                games.</p>
+                <p><!-- more -->And I played Age of Empires II, without modding it, and then I kind of
+                stopped playing games.</p>
+                <p>Fast forward to a couple of years ago and, in an idle moment, I went looking for modern,
+                open-source RTS games.  And that’s when I found the Glest engine and I got in touch with Mr
+                War again and we went to relive the glory days of our youth.</p>
+                <p>So I’ve been helping out on the Glest game, which is still under steady and active
+                development.  I added stuff that Mr War wanted for mods such as chained particle effects, and then I
+                moved my focus to the main game engine itself.  Here’s a nuke in our sci-fi mod, so <a href="https://forum.megaglest.org/index.php?topic=7021.0" target="_blank">go eradicate the martian
+                invaders!</a>:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/8lWqZM0zSaA" width="420"> </iframe></p>
+                <p>I quickly moved on to making my own engines, but as I experiment with stuff that is relevant to
+                Glest I still go back and try and help out getting it in.  I’ve done a few Ludum Dare contest
+                entries with Mr War in the last year or so and its a super fun way to recharge mental batteries over a
+                weekend.</p>
+                <p><strong>The problem</strong></p>
+                <p>Glest was written by college students (who later joined an EA studio as I understand) in the
+                OpenGL 1.0 style, which was entirely appropriate in those days.  These days its a serious speed-brake
+                and this has to move to vertex buffers (VBOs) and shaders.</p>
+                <p>So how do you feed the triangles that make up the landscape to the GPU fast enough?</p>
+                <p>Imagine you lay out your VBO in a normal sequence:</p>
+                <p><img alt="image" src="media/old/53831974133_1.png"/></p>
+
+                <p>You upload the map to the GPU as a VBO.</p>
+                <p>In a 3D scene like this the camera is a <a href="http://en.wikipedia.org/wiki/Viewing_frustum" target="_blank">frustum</a>:</p>
+                <p><img alt="image" src="media/old/53831974133_2.png"/></p>
+                <p>and so the part of the map you need to draw is a isoceles trapezoid:</p>
+                <p><img alt="image" src="media/old/53831974133_3.png"/></p>
+                <p>So to draw the scene we have to tell the GPU to render the following VBO spans:</p>
+                <p>37, 53-54, 68-72, 84-89, 100-105, 115-121, 131-137, 147-153</p>
+                <p>So that’s 8 calls to DrawArrays or DrawElements or whatever.</p>
+                <p><strong>Recursion</strong></p>
+                <p>Are there alternative ways of ordering the scene so that we can easily emit <em>less</em>
+                spans?  I came up with an alternative:</p>
+                <p>Imagine you have just a 2x2 map.  You’d draw it like this:</p>
+                <p><img alt="image" height="100" src="media/old/53831974133_4.png" width="100"/></p>
+                <p>Simple enough.  You visit the top left, then top right, then bottom left then bottom right.
+                 Four quadrants. Now imagine you are drawing a 4x4 map.  Instead of going across in scanlines, instead
+                recurse into each quadrant:</p>
+                <p><img alt="image" src="media/old/53831974133_5.png"/></p>
+                <p>This is easy enough to do and work with.  So now lets see how many spans our camera needs us to
+                draw:</p>
+                <p><img alt="image" src="media/old/53831974133_6.png"/></p>
+                <p>27, 30, 48-63, 98-99, 104-107, 133, 135, 144-151, 192-195</p>
+                <p>9 spans, but we can easily merge small gaps between spans and do some harmless overdraw:</p>
+                <p>27-30, 48-63, 98-107, 133-134, 144-151, 192-195 say.  6 spans.  And so on.</p>
+                <p><a href="https://forum.megaglest.org/index.php?topic=7364.0" target="_blank">Experimental</a>
+                results were very exciting but ultimately this was all the <em>wrong approach:</em></p>
+                <p>It turned out to be massively faster to <strong>just make a VBO from the visible tiles</strong>
+                <em>each and every time</em> the camera moves!  The upload cost to the GPU was not a
+                problem!</p>
+                <p>In webGL the expense of the always upload could well be much higher and the approach would win;
+                in webGL the cost of glDrawElements would be prohibitive because the driver has to verify each and every
+                index so glDrawArrays would be better.  And we have found glDrawRangeElements/glDrawRangeArrays to be
+                terribly poor performing too.  You could also imagine a hybrid; use the recursively built quadrant VBO,
+                find the biggest spans and emit them, and build a temporary span from all the small ones and upload only
+                that each time the camera moves.</p>
+                <p>This wasn’t the last time we dramatically improved things for the low-end graphics
+                card users, and I’ll explain more recent optimisations in another blog post.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#724'">index</button>  <button class="page-link" onclick="window.location='rec1.html#724'">rec</button>  <button class="page-link" onclick="window.location='game.html#724'">game</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

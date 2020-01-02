@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: classic</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>classic</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='classic1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53349845356.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="726">
+    <h2>Scaling my Server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(<a href="post/53751799442.html" target="_blank">Followup</a>.  Also  <a href="post/53836725910.html" target="_blank">highscalability.com</a>)</p>
+                <p>At the beginning of the <a href="http://www.mblox.com/" target="_blank">project</a>
+                to build a large-scale targeted multi-recipient messaging server, I opted to use the simplest, most
+                mainstream architecture possible: put everything in a RDBMS and let each web handler run queries.</p>
+                <p>It is a bit like push email but with groups and you can edit and recall messages even after
+                they are sent and you can schedule them and you can even make complex expressions to determine who gets
+                the message and so on.  And it had to be an online system rather than a batch system.  All in all, quite
+                a complex bit of software.</p>
+                <p>I had just finished a project making a transcoding and multi-casting video server that involved
+                getting deep and dirty with edge-triggered asynchronous IO in C++ (the server got open-sourced as <a href="post/18200335569.html" target="_blank">hellepoll</a>
+                afterwards), so I really was keen to <em>avoid</em> exactly that type of high-complexity
+                solution.  I didn’t think this new project warranted it.</p>
+                <p>So I opted for Python (it aligned with other teams in the company and to be honest I was
+                willingly forced into using it) with Twisted (as Tornado was at the time very evolutionary and didn’t
+                have all the utility DB stuff and so on).  I opted for MySQL too (as that was already in use in the
+                company and that simplified the deploy story).</p>
+                <p>You already know I’m going to tell you this was a mistake:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index2.html#726'">index</button>  <button class="page-link" onclick="window.location='perf.html#726'">perf</button> 
+<button class="page-link" onclick="window.location='post/53349845356.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49786413417.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="731">
+    <h2>The kid&#39;s computer</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I now have a ‘spare’ old laptop and I’m thinking about
+                setting it up so my oldest daughter can use it.</p>
+                <p>My daughters have no shortage of ready access to tech already:</p>
+                <ol><li>an old stationary computer with <a href="http://www.qimo4kids.com/" target="_blank">Qimo</a> Linux and no internet access</li>
+                <li>an old eee pc netbook with <a href="http://www.doudoulinux.org/web/english/index.html" target="_blank">Doudou</a> Linux and no internet access</li>
+                <li>an ipad 2 they borrow all the time, and are very adept at using - especially spotify, youtube
+                and a hundred make-up games</li>
+                <li>an intimate knowledge of DVD players and all that kind of thing</li>
+                </ol><p>Remember <a href="post/19500788060.html" target="_blank">my
+                tech-savvy generation</a>?  That was a year ago now!  Considering that they can’t read
+                nor write English yet I am often flabbergasted at their proficiency.</p>
+                <p>I think its time to give them a computer with internet access and perhaps start trying to send
+                them down a programming path too.</p>
+                <p>My eldest daughter, at 7, is very inventive and is currently planning a flying car.  For real.
+                 Of course I’m sure she understands its just fun to plan, but plan she does.  Its full of
+                little innovations like a bin between the seats so you can throw away sandwiches and things you don’t
+                like and then the motor itself will be driven by rubbish.  This is after a discussion at school about
+                recycling, of course.  You can tell I’m a very proud dad :)  We’ve just spent a week
+                collecting pictures of double-decker buses and things getting stuck under bridges in an attempt to
+                determine how high they can be…</p>
+                <p>She is already giving me lots of advice on my city building game, and has recently petitioned
+                for bridges and tunnels.  Its really exciting to listen to her describe the cities we could build…</p>
+                <p>I want to foster this curiosity by leading her towards programming too.  I think of programming
+                as lego without gravity, and want her to build wonderful virtual worlds.  Its not that I imagine there’s
+                a career ahead, but rather that I want her to have a boundless world to explore and conquer, rather like
+                books provided our generations with.</p>
+                <p>So the meat of my question:</p>
+                <ol><li>what OS or such do I put on this laptop?</li>
+                <li>how do I set it up for safe browsing etc?</li>
+                <li>are there any Incredible-Machine -type games these days?</li>
+                <li>what kind of programming environments should I start her on?</li>
+                </ol>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#731'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/43394068341.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="756">
+    <h2>Ruby&#39;s Principle of Too Much Power</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
+                is Ruby bad security?</a></em></p>
+                <p><strong>TL;DR</strong></p>
+                <ul><li>Ruby libraries need to stop being too powerful.</li>
+                <li>Programmers need to understand the libraries they are using.</li>
+                </ul><hr/><p>So, lets recap on the recent Ruby on Rails security woes.  For some
+                non-obvious reason, Ruby on Rails supported YAML form parameters.</p>
+                <p>And it turned out that the Ruby YAML parser can … instantiate complex objects.</p>
+                <p>Why can the Ruby YAML parser instantiate complex objects, and why did the YAML author <a href="https://github.com/tenderlove/psych/issues/119" target="_blank">not see</a> this as a
+                problem?</p>
+                <p>So we swatted that bug; we stopped Rails allowing YAML.</p>
+                <p><em>Only it then turns out</em> that Rails also supported XML form parameters.</p>
+                <p>Now there are lots of nasty attacks against XML parsers like recursive entities and external
+                entities and ways of DOSing the server; but that’s no different from attacking the hash-table
+                used to store form parameters, I guess.</p>
+                <p>The nasty thing about the <em>Ruby</em> XML parser is that it can embed YAML.</p>
+                <p>Why can the XML parser embed YAML?</p>
+                <p>Lets swat that vulnerability too.  Lets make sure that Rails only supports HTML form
+                parameters.  On, and JSON.</p>
+                <p><em>Only it then turns out</em> that the Ruby JSON parser … yes, you’ve
+                guessed it … the <em>Ruby</em> JSON parser can instantiate complex objects too.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index2.html#756'">index</button>  <button class="page-link" onclick="window.location='lang.html#756'">lang</button> 
+<button class="page-link" onclick="window.location='post/43394068341.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/42912076785.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="760">
+    <h2>Why is Ruby bad security?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>More: <em><a href="post/43394068341.html" target="_blank">Ruby’s Principle of Too Much Power</a></em></p>
+                <p>Another week, another <a href="http://www.zweitag.de/en/blog/ruby-on-rails-vulnerable-to-mass-assignment-and-sql-injection" target="_blank">Ruby on Rails exploit</a>.  <a href="http://rubysource.com/anatomy-of-an-exploit-an-in-depth-look-at-the-rails-yaml-vulnerability/" target="_blank">Again</a> it attacks derserialisation libraries that can, it turns out,
+                instantiate complex objects.  Not all the flaws can be blamed on over-ambition of the serialisation
+                libraries like YAML and now JSON, though.  There was a spate of <a href="http://blog.mhartl.com/2008/09/21/mass-assignment-in-rails-applications/" target="_blank">mass-assignment
+                </a>vulnerabilities and others and doubtless some I’ve forgotten.</p>
+                <p><em><strong>update</strong></em>: I spoke too soon: there’s
+                <a href="https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/AFBKNY7VSH8" target="_blank">yet another</a> assignment vulnerability right now, again….</p>
+                <p>Why, deep down, does Ruby have whack-a-mole security problems?  I don’t by the
+                popularity argument at all; its not because Rails has suddenly become a big enough target to encourage
+                attackers.</p>
+                <p>I think its much deeper in the Ruby psyche.</p>
+                <p>Why <em>doesn’t</em> the Python JSON serialiser try and instantiate
+                non-standard data-types?</p>
+                <p><strong>Ruby delights in spooky action at a distance</strong>.  Rubyists and
+                Railites delights in an perverse, extreme object-orientation.  In Convention-over-configuration and Don’t-Repeat-Yourself
+                mantras.</p>
+                <p>The aim is to be so declarative, so high-level as to no longer see nor understand what is
+                happening beneath and before.</p>
+                <p>Even Python apps are much shallower than Ruby apps.  Ruby is the queen of indirection and
+                nesting.</p>
+                <p>I just can’t see Go and Python frameworks suffering in the same way and to such a
+                large endemic extent.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#760'">index</button>  <button class="page-link" onclick="window.location='lang.html#760'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/37291851878.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="768">
+    <h2>Making the History of Worlds Religions map</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em><strong>TL;DR</strong></em> compressing better than GZip,
+                in Javascript, at the bottom ;)</p>
+                <p>An interactive, clickable map of the worlds religions is available on-line at <a href="http://williame.github.com/map_of_worlds_religions/" target="_blank">http://williame.github.com/map_of_worlds_religions/</a></p>
+                <p>Here’s a time-lapse of it running, with the narrative (which you can mute in the
+                interactive version) ↓</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/mEIxdquRnJc" width="560"> </iframe></p>
+                <p>The real making of the map was excellent research by <a href="post/30793134312.html" target="_blank">the usual suspect</a>.  After his <a href="post/19946053957.html" target="_blank">Enigma</a><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=cmnMlvfTDoM" target="_blank">
+                spreadsheet</a>, and other side projects, he recently took it into his head to make a world
+                religion time-line spreadsheet.  And my blog post about how we moved from a spreadsheet to a web-page
+                can’t really hide that the hard work wasn’t technical, it was research.  But here’s
+                a technical article:</p>
+                <p>My friend’s an Excel wizard, but he chose to use <strike>Sun</strike>/<strike>Open</strike>/LibreOffice
+                Calc.  Oh boy what a mistake!</p>
+                <p>Of course he roped me in to critique and fix.</p>
+                <p><em><strong>LibreOffice Calc sucks!</strong></em></p>
+                <p>His first version had a macro that went through the cells on the map and looked up their
+                religion of that year on the main data set and then looked that religion up to determine the colour.</p>
+                <pre><code>for x in width:<br/>     for y in height:<br/>         religion =
+                cell(x+year,y,data_sheet)<br/>         colour = default_colour<br/>         for i = 0; i
+                &lt; numReligions; i++:<br/>             if cell(0,i,lookup_sheet).text == religion:<br/>
+                                colour = cell(0,i,lookup_sheet).text.background_colour<br/>                 break<br/>
+                        cell(x,y,map_sheet).background_colour = colour</code></pre>
+                <p>The map is 70x80 (so 5,600 cells), and the most popular religions are at the top of the lookup
+                list.</p>
+                <p>And yet <em>that</em> took 20 to 30+ seconds to run on modern laptops.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#768'">index</button> 
+<button class="page-link" onclick="window.location='post/37291851878.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25564136097.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="831">
+    <h2>If you defend those involved in the OpenGL ES specification, you are an idiot</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Jamie Zawinski (jwz), <a href="http://www.jwz.org/about.html" target="_blank">famed</a>
+                hacker and nightclub owner, has called a lot of people idiots over the years.  Just now he called out
+                <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">those
+                who wrote the OpenGL ES specs</a>.  I wholeheartedly agree with him; I’ve run into the
+                same hassle before e.g. <a href="post/14011115100.html" target="_blank">OpenGLES I want my quads back</a></p>
+                <p><strong><em>Who’s an idiot?</em></strong></p>
+                <p>The reception to Jamie’s sentiment on-line has been blistering.  There’s a
+                very vocal bunch on <a href="http://news.ycombinator.com/item?id=4134426" target="_blank">Hacker
+                News</a> and <a href="http://www.reddit.com/r/opengl/comments/vawln/jwz_if_you_were_involved_in_the_opengl_es/" target="_blank">reddit</a> who disagree strongly (with whatever they understand Jamie’s
+                point to be).</p>
+                <p>Its hard to say if its a minority or majority because the non-vocal ones don’t get
+                counted.  Most who read these sites don’t comment; <a href="post/18839832580.html" target="_blank">I have stats</a>.  So lets give everyone the benefit of the doubt and think its
+                just a misguided, inexperienced minority who are idiots ;)</p>
+                <p><strong><em>Why are they idiots?</em></strong></p>
+                <p>Jamie’s argument is that OpenGL ES, being a big pruning-down of OpenGL, has stopped
+                old OpenGL apps running on new platforms and that this is a stupid, stupid thing.</p>
+                <p>This isn’t that Jamie is mistaking OpenGL ES for OpenGL!  I was on the sidelines when
+                OpenGL ES was hatched and <strong>the whole point is that we shouldn’t have OpenGL ES</strong>! 
+                We should just have had OpenGL.</p>
+                <p>I used to be a graphics stack architect and then technical product manager for graphics at a
+                smart-phone <a href="http://en.wikipedia.org/wiki/UIQ" target="_blank">platform</a> back in
+                the mid 2000s.  I’m <em>not</em> going to argue from authority - I was a
+                super-small side-sitter who was in no way ‘in’ nor involved with the Khronos
+                committee members.  But I did know a few members (whom I should apologise in advance to) and had quite a
+                few more visit me.  <a href="http://www.khronos.org/" target="_blank">Khronos Group</a> is
+                where these committees thrash out these standards.</p>
+                <p>There is only one reason that these industry committees threw out OpenGL backwards
+                compatibility: the interests of the committee member companies.</p>
+                <p>The reason that the apologists trot out is technical though, so I’ll elaborate on
+                that at the end.</p>
+                <p><strong><em>Committee member company self-interest:</em></strong></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#831'">index</button> 
+<button class="page-link" onclick="window.location='post/25564136097.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25426541504.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="833">
+    <h2>Stackoverflow unwinding?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(more recently: <a href="post/26580091073.html" target="_blank">StackOverflow Humour Underflow</a>)</p>
+                <p>I was active in the early days of <a href="http://stackoverflow.com/" target="_blank">StackOverflow</a>. 
+                It was a breath of fresh air and it was exciting and fun to help people.</p>
+                <p>Increasingly though, its changing as it ages.  I’m not sure <em>matures</em>
+                is the right word.  Its floundering and myspacing.</p>
+                <p>The effort to branch sideways into other silo Q&amp;As - to become the reddit of Q&amp;As
+                I guess - has really fallen flat.</p>
+                <p>Questions are getting fewer and fewer quality answers.  Moderators and “close this”
+                clickers are getting increasingly narrow.  And the whole ‘migrate this to &lt;empty
+                other-site&gt;’ thing really bugs me to bits.</p>
+                <p>I guess any sufficiently large 'community’ (there’s not a community on
+                Stack Exchanges, of course; they are fairly anti-community) ends up attracting those wanting to curate
+                the resource and purify it, until those competent to answer and help have had their fill and no longer
+                feel welcome?</p>
+                <p>I’ve blogged about what I see as a solution before - <a href="post/15581427232.html" target="_blank">self-organising</a>
+                - but in SO’s case I think they have to re-enage with programming community, throw out the
+                gazillion-sub-site silliness and broaden allowed topics for discussion.</p>
+                <p>When was the last time <em>you</em> asked - and got answered - a good question on
+                SO?</p>
+                <p><small>(Apologies to the 20+ posts that disqus just lost; not sure where they all went or
+                why.  Anyone at disqus know?  Disqus forwarded them all to my gmail so I’ve got them anyway)</small></p>
+                <p><small>(ADDED as I’ve been asked; I’ve got 19K+ points on SO; this
+                isn’t like a tantrum from a newbie posting one question and not getting an answer or
+                something.  <a href="http://stackoverflow.com/questions/11096134/print-a-binary-tree-on-its-side" target="_blank">My most recent post</a>)</small></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#833'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25080396258.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="835">
+    <h2>Oh MySQL I hate you</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
+                <p>In no particular order, and not stopping at 5:</p>
+                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
+                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                not</a> in transactions</li>
+                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                table (so create them temporarily for each connection, and clear them manually on rollback)</li>
+                <li><!-- more --></li></ol></post-body>
+ <button class="page-link" onclick="window.location='index4.html#835'">index</button>  <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='db.html#835'">db</button> 
+<button class="page-link" onclick="window.location='post/25080396258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/24949768311.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="836">
+    <h2>I know someone whose 2-factor phone authentication was hacked...</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Password hashing best practice (TL;DR <a href="http://yorickpeterse.com/articles/use-bcrypt-fool" target="_blank">use bcrypt</a>) has
+                been a bit in the spotlight recently.</p>
+                <p>There has been a natural progression in the blogosphere as it tracks <a href="http://blog.linkedin.com/2012/06/06/linkedin-member-passwords-compromised/" target="_blank">LinkedIn’s
+                shame</a>.  Yes you should use a password hash function with integrated salting e.g. bcrypt or
+                scrypt.  Yes its scary reading developers comment as they fuddle through trying to invent their own
+                solution in the comments to stories.</p>
+                <p>And that blogosphere progression has now reached 2-factor authentication.  This just slipped in
+                from an expert (who downplayed salt; yes, stretching is critical, but you would be crazy to stretch
+                without salting too):</p>
+                <blockquote>
+                <p>But the real answer is things like two-factor authentication with smart phones. Two factor
+                authentication seems like the answer to me. I think ten years from now this is going to be a common
+                approach. [<a href="http://krebsonsecurity.com/2012/06/how-companies-can-beef-up-password-security/" target="_blank">Thomas H. Ptacek</a>]</p>
+                </blockquote>
+                <p>Its a step in the right direction of course.  But a chain is as weak as the weakest link and
+                phone companies are very weak links indeed:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#836'">index</button> 
+<button class="page-link" onclick="window.location='post/24949768311.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/21865366869.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="852">
+    <h2>How to make a Text Adventure</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
+                text-adventure</a>!</p>
+                <p>Text Adventures are excellent mental exercise to write!  They are useful for learning to
+                program; they are equally useful for seasoned programmers to refresh and recuperate on!  They can fit
+                anywhere on a sliding scale between straightforward and high-end CS-research, and the programmer can
+                slide their game anywhere up and down that scale at whim.  And they are fun :)<br/><br/>Text
+                Adventures are out of fashion though.  This <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">Ludum
+                Dare</a> we decided to resurrect the Text Adventure and this is a description of the approach we
+                took.<br/><br/>So after tiring of this blog post please do play our illustrated Text
+                Adventure <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
+                Small World of Professor Strange</strong></em></a> - we hope you enjoy playing it as
+                much as we enjoyed making it!<br/><br/><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#852'">index</button>  <button class="page-link" onclick="window.location='rec2.html#852'">rec</button>  <button class="page-link" onclick="window.location='game.html#852'">game</button> 
+<button class="page-link" onclick="window.location='post/21865366869.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/20397853422.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="865">
+    <h2>Minor War Stories I</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The past couple of weeks, reading stuff on the web has triggered a few fun memories:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#865'">index</button> 
+<button class="page-link" onclick="window.location='post/20397853422.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/20054342100.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="868">
+    <h2>Agile is a Sham</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>thats SCRUM and TDD and all the rest; it is all those new ways of managing
+                development projects and being super-productive and modern and buzzword-compliant; all the sprints,
+                scrums, playing cards crass <em>commercial</em> nonsense.</p>
+                <p>The management pitch is that by getting programmers to follow some process rote you will get
+                good, predictable results out.</p>
+                <p>See, the thing is, the success of the coding-part of a project is dependent on the calibre of
+                the engineers doing that coding and not the process they follow. </p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#868'">index</button> 
+<button class="page-link" onclick="window.location='post/20054342100.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/19946053957.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="869">
+    
+</a>
+<?xml version="1.0" ?><post-body><p><big><strong>Enigma in a spreadsheet!</strong></big></p>
+                <p>Back in the summer of 2009 a friend of mine read a few of <a href="post/19794076450.html" target="_blank">my
+                books</a> covering cryptography.</p>
+                <p>This is his interpretation of the <a href="http://www.bletchleypark.org.uk/content/machines.rhtm" target="_blank">Enigma cipher machine</a>;
+                the distillation of a mental model he formed from reading those popular-science treatments of the
+                machine.</p>
+                <p>He is <em>not</em> a programmer or anything but he just proved his aptitude; and he’s
+                super-<em>leet</em> at Excel too!</p>
+                <p>I think we can all agree this <em>is</em> programming, even when done by someone
+                who is not a professional programmer and who has no formal programming education.</p>
+                <p>When I asked him if I could post his old Enigma spreadsheet, he was skeptical that anyone would
+                be interested.  Outside the programming world, normal people think making complicated spreadsheets in
+                their spare time is creepy and to be suppressed ;)</p>
+                <p>Now the Internet is awash with Engima machines in Flash applets and such; none seem to agree
+                with any other, and this spreadsheet is no exception to that.  So it would be most unlikely this is a
+                truly accurate representation of the real machine.</p>
+                <p>However, my friend is a good visual learner; I think if we could just get him to <a href="http://www.bletchleypark.org.uk/" target="_blank">Bletchley Park</a> he’d
+                refine and fix his mental model and build a better, more correct spreadsheet :)</p>
+                <p>I figure we all just have to give him encouragement - comments and code review and such - and
+                get his appetite whetted for doing more of this computer type of thing!  So if you enjoy his work,
+                please say</p>
+                <p><a href="https://github.com/williame/enigma-spreadsheet/raw/master/Enigma3.xlsm">Download
+                the spreadsheet here</a></p>
+                <p>Discussion on <a href="http://news.ycombinator.com/item?id=3755656" target="_blank">Hacker
+                News</a> and <a href="http://www.reddit.com/r/excel/duplicates/rdxym/an_enigma_cipher_machine_implemented_in_an_excel/" target="_blank">Reddit</a>; saw it somewhere else?  please say :)</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/cmnMlvfTDoM"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='index4.html#869'">index</button>  <button class="page-link" onclick="window.location='rec2.html#869'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#869'">enigma</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/19672761261.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="873">
+    <h2>Artwork Based Layout</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A long time ago I tried to make Symbian’s UIQ phone UI competitive with
+                Apple’s iPhone UI.  Its true!  I was going to use Flash…</p>
+                <ol><li>add hooks to our old C++ UI framework</li>
+                <li>artists draw new fancy sliding swishing UI in Flash</li>
+                <li>slip Flash renderer between app and screen</li>
+                <li>take on Apple!</li>
+                </ol><p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#873'">index</button> 
+<button class="page-link" onclick="window.location='post/19672761261.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/19500788060.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="877">
+    <h2>My tech-savvy Generation</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My two girls - 3 and 5 - got a computer for Christmas!  Its just an old desktop
+                running <a href="http://www.qimo4kids.com/" target="_blank">Qimo</a> but it is theirs and
+                they’re thrilled.</p>
+                <p>I haven’t shown them how to do anything; they have worked everything out for
+                themselves.  Early on, though, I realised how fun and instructive it was to pay attention to what they
+                had worked out and how; they were building little mental models of how computers work.</p>
+                <p>One of their favourite programs is <a href="http://tuxpaint.org/" target="_blank">TuxPaint</a>. 
+                It is a nice painting program for kids.  In it there is a button that creates a new picture.  As it does
+                so, it asks you if you want to save your current picture.  The girls had been clicking the ‘yes’
+                button (not that they can read the button text at all; just from trial and error they know the green
+                button takes them forwards).</p>
+                <p><img height="120" src="http://tuxpaint.org/screenshots/starter-coloringbook-t.png" width="160"/><img height="120" src="http://tuxpaint.org/screenshots/dialog_saveover-t.png" width="160"/><img height="120" src="http://tuxpaint.org/screenshots/dialog_open-t.png" width="160"/></p>
+                <p>The other day they discovered a button that lets them load a saved picture; so, clicking on it,
+                they saw an archive of every picture they had ever done!</p>
+                <p>I didn’t witness this, but I’d have loved to see their faces.</p>
+                <p>Anyway, I did look in on them a while later.  And they were systematically opening each saved
+                picture… <em>and erasing it</em>.   I asked them why…</p>
+                <p><em><strong>So they could reuse the paper</strong></em>, they said.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#877'">index</button> 
+<button class="page-link" onclick="window.location='post/19500788060.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/18839832580.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="886">
+    <h2>Reddit vs Hacker News vs Twitter</h2>
+</a>
+<?xml version="1.0" ?><post-body><ul><li>Deeply technical stories might get up to about 5K visitors from  <a href="http://news.ycombinator.com/news" target="_blank">HackerNews</a> (“HN”)
+                and 10K from <a href="http://www.reddit.com/r/programming" target="_blank">reddit/r/programming</a>
+                (“proggit”)</li>
+                <li>Deeply controversial ’<a href="post/18065079081.html" target="_blank">Cogs Bad</a>’
+                -type posts still get under 10K from HN, but can get 40K+ from proggit</li>
+                <li>Hacker News is a much stabler community; if you have posted stories in succession, the same
+                5K+ visitors coming back each time</li>
+                <li>Reddit is a flash crowd; they claim 350K+ subscribers, but that number doesn’t mean
+                much; very few clickers on any given story are repeat</li>
+                <li>If a story gets on the front page of both at the same time, you get might get more people from
+                HN than proggit</li>
+                <li>But the story dies a lot sooner on HackerNews; proggit can keep people streaming in for a
+                whole day</li>
+                <li>Being very top spot on HN is a dramatic visit booster; you can watch in Google Analytics Real
+                Time the sudden influx of visitors when you get sorted to top; and then a trickle again as you drop to
+                second place; Google Analytics Real Time is gamification for blogging</li>
+                <li>Google Analytics doesn’t count people using <a href="http://noscript.net/" target="_blank">noscript</a> (when there are so many <a href="http://samy.pl/evercookie/" target="_blank">technical</a> avenues they could pursue instead)</li>
+                </ul><p>Very very few people who read a blog post go back to the link aggregation site and
+                vote on it:</p>
+                <ul><li>About 100 to 1 visitors to points seems about right; if a story has 100 points, its
+                likely 10K people read it.  That’s right;<em> two orders of magnitude</em>!</li>
+                <li><em>West coasters up-vote less than Europeans</em>; maybe they are busier?  Or my
+                content is more pleasing to Europeans?</li>
+                <li>The per-page time is actually quite high; often over 5 minutes on average for a lot of my
+                stories even when its a big crowd.  I suspect some subtle misreading of Google Analytics on my part, or
+                else people might actually be reading the whole thing carefully!?</li>
+                <li>I speculate that most HN readers are not actually logged in</li>
+                </ul><p>Most compliments are never given:</p>
+                <ul><li>If someone likes a post, they probably say nothing</li>
+                <li>A comment on the blog is going to be very polite and constructive</li>
+                <li>A comment on HN is going to be mature and reasoned; often expanding or exploring technical
+                issues raised</li>
+                <li>People comment on proggit to complain about a story</li>
+                <li>Never bother mentioning Haskell.  That crowd has this circular argument going ;)</li>
+                </ul><p>Its lovely to read the tweets:</p>
+                <ul><li><strong>A tweet is the biggest compliment of all</strong>; 140 chars to
+                summarise the post really makes it obvious that the tweeter groks it; and its almost never negative</li>
+                <li>Nobody actually follows the links in tweets though; click-through is often in the low digits
+                per tweet</li>
+                </ul><p>This is like search-engine-optimisation; now go shower!</p>
+                <ul><li>The ideal proggit time is Sunday daytime in the states; it gets to the top for
+                Europe’s Monday, and is still up there for stateside Monday</li>
+                <li>The ideal HN time is a weekday European afternoon; discerning European votes can get the post
+                onto the front page in time for a stateside morning</li>
+                <li>Proggit, stories get stuck in spam filters.  Then it often gets mercilessly down-voted by
+                people not leaving comments and so it dies</li>
+                <li>On HN, stories start in the ’<a href="http://news.ycombinator.com/newest" target="_blank">newest</a>’ fire-hose; the click rate here is in the low double
+                digits, but these early-clickers are far more likely to go back and up-vote, so a story can gather the 3
+                or 5 votes it needs to get on the front-page.  Once on the front page, its onwards and upwards</li>
+                </ul><p>Naturally, I turn to technology to tame coder social ills: <a href="post/15581427232.html" target="_blank">self-organising
+                link aggregation</a>.</p>
+                <p>Meta:</p>
+                <ul><li>as seen on <a href="http://news.ycombinator.com/item?id=3670178" target="_blank">HN</a></li>
+                <li>as seen on <a href="http://www.reddit.com/r/AnythingGoesNews/duplicates/qjzp5/reddit_vs_hacker_news_vs_twitter/" target="_blank">reddit</a> (not proggit yet)</li>
+                <li>need I repeat that thing about how sad it is that nobody up-votes things they like reading? ;)</li>
+                </ul>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#886'">index</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/18065079081.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="895">
+    <h2>Cogs Bad</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em>There is something really wrong with modern programmers.  Very wrong
+                indeed.</em><br/><br/><a href="http://www.mailinator.com/" target="_blank">Mailinator</a>
+                creator Paul Tyma has a <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
+                blog post</a> on how he compresses our email by 90%. He  has a simple LRU cache of lines and
+                consecutive lines from emails, so emails become a list of line string pointers where most are shared. 
+                He also has a background thread doing rather stronger LZMA compression on large emails.  He’s
+                winning.<br/><br/><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#895'">index</button> 
+<button class="page-link" onclick="window.location='post/18065079081.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/17282439831.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="902">
+    <h2>An Eight in a Million chance</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><strong>This is a real story involving consultants, interns and MS Access.</strong></p>
+                <p>A very long time ago, as a student - that <em>was</em> a long time ago - I worked
+                my summers at British Telecom.  They had this lovely big sprawling labs at Martlesham Heath.</p>
+                <p>BT was itself a pretty big sprawling company and projects moved glacially.  Out of this grew a 
+                small internal team called ‘FastTrack’ who cut corners and implemented stop-gap IT
+                projects while the actual project was being worked on.  I think that was the idea.  It seemed we were
+                often doing projects that were just too small for the main IT process and that we were the cowboys.</p>
+                <p>One of the mentors that I worked particularly closely with was an old hippy called Simon.  He
+                was a really nice bloke and we got along extremely well.  He was not a trained coder; he somehow got
+                into coding by solving little computer problems for people.  His tool for this was Microsoft Excel.  And
+                his trick was encoding information and state into all the attributes you might have in a cell such as
+                colour and border and font and such!  That’s the kind of self-taught hacking that can land you
+                a job at a research lab in Suffolk in those days :)  It reminds me of the <a href="http://en.wikipedia.org/wiki/The_Story_of_Mel" target="_blank">story of Mel</a>.</p>
+                <p>Simon had an especially striking appearance; he was a genuine hippy with long straggly hair and
+                a long nail that he chiseled to a flat tip that he called his screwdriver nail.  He was so thin he was
+                was skeletal and he smoked roll-ups.  Oh, and he wore a three piece suit.  Striking.  He would often
+                clean under his nails with a large lock knife.</p>
+                <p>I remember him sitting on the top deck of a red London bus in his three piece suit cleaning his
+                nails and telling me tales of a rough childhood in London.  The bus took a sudden turn and he dropped
+                this massive lock knife which hit the floor point first and stuck there in the aisle twanging
+                menacingly.  I turned around just in time to see the last of our fellow passengers evacuating down the
+                stairs.  I felt like a gangster :)  So why was I in London with Simon?  Lets get to that:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index5.html#902'">index</button> 
+<button class="page-link" onclick="window.location='post/17282439831.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/16516763725.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="907">
+    <h2>How I got massively faster DB with async batching</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
+                article:</p>
+                <blockquote>
+                <p><big>I found databases to be fastest when my own code buffers DB interaction and reorders
+                things and coalesces things so the DB is getting a few queries each with more payload.</big></p>
+                </blockquote>
+                <p>And I was rather disillusioned with ORMs.</p>
+                <p>ORMs are about fast-prototyping code.  However, I discovered - in my DB usage patterns - that
+                it was extra development cost when we discovered that the performance cost was prohibitive we had to
+                chop it all out and replace it with a custom pattern.  It would have been massively faster development
+                to just have done DB asynchronous in the first place…</p>
+                <p>What I built is so generally applicable I offer it here as a useful pattern for your projects
+                when you hit the same scaling issues we did:</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index5.html#907'">index</button>  <button class="page-link" onclick="window.location='perf.html#907'">perf</button>  <button class="page-link" onclick="window.location='db.html#907'">db</button> 
+<button class="page-link" onclick="window.location='post/16516763725.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/16399069781.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="909">
+    <h2>Google: MoreSQL is Real</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="left" alt="Alex Tatiyants made this" height="75" src="http://img197.imageshack.us/img197/959/moresql.png" width="257"/></p>
+                <p>The post <a href="http://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
+                tongue-in-cheek.  But its more true and serious and real than the NoSQL crowd want to admit.  And Alex
+                made a sweet logo.</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index5.html#909'">index</button>  <button class="page-link" onclick="window.location='perf.html#909'">perf</button>  <button class="page-link" onclick="window.location='db.html#909'">db</button> 
+<button class="page-link" onclick="window.location='post/16399069781.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='classic1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

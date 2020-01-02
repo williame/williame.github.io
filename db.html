@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: db</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>db</h1>
+    
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/172424230628.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="633">
+    <h2>Faster searches with non-prefix fields in composite indices</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Here’s a horrid hack or neat trick to work around a gaping inefficiency in the MySQL
+                query planner:</p><p>Imagine you have a very large table and a composite index e.g. the
+                fields <i><b>A</b></i>, <i><b>B</b></i>, <i><b>C</b></i>
+                and <i><b>D</b></i>.</p><p>Imagine you have a query WHERE <b><i>A</i>
+                = ?</b> AND <b><i>C</i> = ?</b></p><p>MySQL will use the index
+                to check all the values of <b><i>A</i></b> but dereference each row with the
+                matching <b><i>A</i></b> before checking the <b><i>C</i></b>.</p><p>You
+                can see what is happening using EXPLAIN SELECT by looking at the KEY and KEY_LEN columns: the index will
+                be named the KEY (good so far!) and the KEY_LEN will be the max size of column <b><i>A</i></b>
+                (ugh!). </p><p>If you supply a dummy clause constraining <b><i>B</i></b>
+                too then you can force MySQL to check the <b><i>C</i></b> constraint before it
+                dereferences any rows: SELECT … WHERE <b><i>A</i> = ?</b> AND <b><i>B</i>
+                != ?</b> AND <b><i>C</i> = ?</b> (where <b><i>B</i></b>
+                can be checked against some value that it can’t possibly be).</p><p>You can confirm this is
+                happening by looking that the EXPLAIN SELECT again: the KEY will still be the name of the index (if it
+                isn’t, you can force the index to be used with a USE INDEX clause) and the KEY_LEN will now be the
+                maximum length of the <b><i>A</i></b>, <b><i>B</i></b>
+                and <b><i>C</i></b> fields combined.</p><p>You can even use this
+                trick to get an index used even if the very first field in the composite index is not constrained, e.g.
+                WHERE <b><i>A</i> != ?</b> AND <b><i>B</i> = ?</b></p><p>This
+                isn’t foolproof - you always need to benchmark with your database!  Using any index and the additional
+                dereference cost compared to just doing a table scan in the first place assumes that the index is
+                dramatically cheaper to walk and will dramatically reduce the number of rows that need to be
+                dereferenced.  If only a tiny subset of the table needs to be dereferenced, the index will help; if a
+                large proportion of the table is going to be dereferenced anyway then it’d be better to do a table scan
+                from the get-go.</p><p><i>However</i>, if you have very large tables and you
+                have composite keys that cover your fields but which some of the composite keys unconstrained then its
+                well worth evaluating this approach which, in the right circumstances, can give orders of magnitude
+                improvements.</p><p>Why doesn’t MySQL use this trick internally?  Well, it should!  If its
+                already decided to use a composite ordered index for some prefix of the constrained fields, then it
+                should always check all constraints it can before dereferencing any actual rows. If MySQL used this
+                trick you wouldn’t have to find some impossible value to fake a check against either.</p><p>Its
+                a bit harder to say if it can work out when to use a composite index when there is no prefix at all. 
+                And of course it doesn’t work with hash indices.</p><p>Does MariaDB use this trick
+                internally automatically?  I don’t know but I doubt it.</p><p>Does PostgreSQL?  No idea. 
+                Etc.</p><p><i>If you liked this</i> you might like my recent stats on <a href="post/160628887798.html">database
+                compression</a> or browse some of my <a href="https://this blog">earlier
+                posts</a> </p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#633'">index</button>  <button class="page-link" onclick="window.location='perf.html#633'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#633'">mysql</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/160628887798.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="635">
+    <h2>Compressing MySQL databases</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><i>TL;DR: use TokuDB.  Always.  It massively reduces storage requirements and
+                is massively faster than InnoDB, even on low end hardware.  My tables were compressed to just <b>12%</b>
+                original size and that’s fairly typical.</i></p><p>A very simple structure:<br/></p><pre>CREATE
+                TABLE test (<br/>      date DATE NOT NULL,<br/>      site VARCHAR(8) NOT NULL,<br/>  
+                   order_id VARCHAR(64) NOT NULL,<br/>      time TIME NOT NULL,<br/>      kind ENUM(...) NOT
+                NULL,<br/>      account INTEGER,<br/>      user INTEGER,<br/>      client_price
+                BIGINT,<br/>      supplier_id INTEGER,<br/>      supplier_cost BIGINT,<br/>    
+                 client_ref VARCHAR(32),<br/>      data JSON,<br/>      PRIMARY KEY (date, site, order_id),<br/>
+                     INDEX (account, user, client_ref)
+                ) DEFAULT CHARSET utf8<br/>PARTITION BY RANGE (TO_DAYS(date)) ( ...<br/></pre><p>This
+                system is using the RDBMS as a document store; the order items are being flattened into a document store
+                (the ‘data’ field).</p><p>The ETL is upserting order events as they are processed, using
+                multi-row INSERT INTO … ON DUPLICATE KEY UPDATE …</p><p>And I’ve been
+                running performance tests with some real data.  27M rows of real data, all on the same day (so all in
+                the same partition).  37M upsert statements inserting or updating those 27M rows, issued in batches of
+                1K-2K per multi-row statement.  This is enough rows to be able to get a grasp of upsert performance and
+                extrapolate storage requirements.</p><p>The test box is an AWS t2.medium instance.  This is
+                a very weak VM with 2 (virtual) CPUs and 4GB RAM.  Not normal DB fare, so performance beware.</p><p>The
+                27M rows take 10.48GB uncompressed.  It takes InnoDB 10 hours to load all the data.</p><!--
+                more --><p>In the old days, MySQL InnoDB offered ‘row_compression’.  This compresses individual
+                rows.  This reduces disk requirements to 5.73GB (<b>45% space saved</b>).  So it halves the
+                disk space!  Sadly, the test now took 15 hours instead of 10 hours.</p><p>More recently,
+                MySQL introduced ‘table compression’.  (MariaDB also added it, calling it ‘page compression’; the CREATE
+                TABLE syntax is infuriatingly slightly different).</p><p>Underneath, InnoDB is organized
+                as ‘pages’.  This table compression intercepts these page reads and writes and, as pages are written to
+                disk, they are individually compressed and written as a ‘sparse’ file.</p><p>As these InnoDB
+                pages are larger than the file system pages, there is the opportunity for a ‘hole’ to be ‘punched’ in
+                each InnoDB page.  Imagine an InnoDB page is 12KB, and the file system page size is 4KB.  The page may
+                compress down to 1KB, meaning it only needs the first file system page (4KB),  and 8KB would be saved.
+                 This example illustrates how wasteful this approach can be; there can still be a lot of slack in each
+                page.  The total file-size as reported by ls is unchanged, but the actual used disk space (as shown by
+                e.g. ls -s) is reduced.  Page compression compresses this table to 4.07GB (<b>61% savings</b>).
+                 The bad news is that performance sinks awfully!  I aborted the run after 32 hours, as upsert speed had
+                dropped to under 100 orders/sec.  I’ve seen this on MariaDB RDS and on my little t2.medium.  Its
+                atrocious!</p><p><b><i>TokuDB is an alternative storage engine to InnoDB</i></b>.
+                 It is nicely packaged by Percona so its very straightforward to install.</p><p>TokuDB
+                compresses databases with zlib by default.  It compresses pages, but doesn’t store them as sparse files;
+                instead, the total file size you see on disk is the total file size.</p><p>TokuDB with zlib
+                compresses to <b>1.45GB (86% savings)</b>!  This is the same compression algorithm as InnoDB
+                page compression and operating at much the same logical page level, but conferring much bigger savings
+                because each ‘page’ is not rounded up to a multiple of the file system page size.</p><p>Because
+                InnoDB puts the whole table (or, as in this case, partition) into a single file you cannot see how much
+                of the storage is for the primary rows and how much is for secondary indexes.  TokuDB, however, has
+                separate files for each index.  So in this case there are two files for the partition, and I can see
+                that the 27M rows takes 1.02GB and the by-client index takes 0.44GB.</p><p>TokuDB allows you
+                to specify other compression algorithms.  The weakest (thus fastest) is ‘snappy’, which is an LZ77
+                compressor without entropy coding.  It compresses to 2.31GB (78% savings; same ratio rows to index).</p><p>There
+                is also QuickLZ (between snappy and zlib in CPU requirements; 1.95GB; 81% savings) and LZMA (stronger
+                than zlib; <b>1.23GB; 88% savings!</b>).</p><p>LZMA is a clear winner here.
+                 What’s fascinating about the TokuDB though is not just its space-saving but also its performance: it
+                takes<b> just 2 hours</b> to run my ETL and choice of compression algorithm has no
+                noticeable effect on that!</p><p>Now the dire uncompressed InnoDB performance is perhaps the
+                classic “InnoDB is not good with databases that don’t fit into RAM”.  I was using Percona packages so
+                the defaults were not as mad as they used to be out-of-the-box with other linux sources, but I did up it
+                to 2GB and a big log.  Configuring InnoDB optimally is like reading tea leaves and no amount of doing it
+                makes me confident I’ve hit the sweat spot for any particular workload.  This upsert workload seems to
+                be particularly stressful.  The t2.medium has two (virtual) CPUs, and as upsert performance dropped I
+                saw ‘top’ reporting load average over 2.0 even though ETL was waiting on the DB.  Not good.</p><p>However
+                the dire compressed InnoDB performance I saw repeated on a MariaDB RDS m4.2xlarge with the same
+                data-set.  There’s something wrong with either InnoDB page compression, or with EBS spare file
+                performance!</p><p>On the other hand, TokuDB shows how to do things properly!  The
+                out-of-the-box defaults are very sane (it doesn’t use O_DIRECT; instead, it takes 50% to store
+                uncompressed pages, and lets the OS cache the compressed pages in the normal file buffer cache.
+                 Inspired!).  And the performance is just so stable!  On the t2.medium, which is a piddling little box,
+                I saw 5000 orders/sec sustained throughout the entire run.</p><p>I think I’ve heard that
+                TokuDB is marginally slower than (uncompressed) InnoDB on small tables.  And perhaps most users have
+                small tables.  I don’t think there’s actually that measurable a gap when everything is tiny.  But the
+                moment you go over a million rows or contemplate partitioning then I think TokuDB is the obvious choice.
+                 In fact it would make a very good default.</p><p>Oh, and for kicks, try a COUNT(*) on a big
+                InnoDB table.  And then go make a coffee!  TokuDB … snap!  Not based on meta-data like MyIASM
+                did neither; just so much faster.</p><p>TokuDB redefines what a ‘small’ database is.  It
+                moves the goalposts.  It means I can build bigger systems without scaling sideways.  I don’t get why
+                everyone still uses InnoDB ;)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#635'">index</button>  <button class="page-link" onclick="window.location='perf.html#635'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#635'">mysql</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26063783576.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="827">
+    <h2>LevelDB isn&#39;t the fastest kid in town</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://www.sqlite.org/src4/doc/trunk/www/index.wiki" target="_blank">SQLite4</a>
+                <a href="http://www.sqlite.org/src4/doc/trunk/www/design.wiki" target="_blank">is faster</a>:</p>
+                <blockquote>
+                <p>The default built-in storage engine is a log-structured merge database. It is very fast, faster
+                than LevelDB, supports nested transactions, and stores all content in a single disk file.</p>
+                </blockquote>
+                <p>How much faster, or faster <a href="http://stackoverflow.com/a/9819411/15721" target="_blank">for what</a> they don’t say.</p>
+                <p>So this brings the speed demons to three:</p>
+                <ul><li><a href="http://code.google.com/p/leveldb/" target="_blank">LevelDB</a>,
+                a <a href="http://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/" target="_blank">log-structured merge</a> database</li>
+                <li>SQLite4, with the default storage-engine which is a log-structured merge database too</li>
+                <li><a href="http://www.tokutek.com/" target="_blank">TokuDB</a>, a <a href="http://www.tokutek.com/resources/technology/" target="_blank">fractal tree</a> database</li>
+                </ul><p>It will of course be exciting to see how fast they actually are on realistic
+                workloads.</p>
+                <p>Wouldn’t it be nice if <em>all three</em> were storage engines for
+                SQLite4?  Allowing for a good comparison to be made.</p>
+                <p>Tokutek have a simple key-value store engine that seems to be close to a 1:1 match for slotting
+                into SQLite4.</p>
+                <p>What’s exciting you the storage engine front?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#827'">index</button>  <button class="page-link" onclick="window.location='perf.html#827'">perf</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/25080396258.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="835">
+    <h2>Oh MySQL I hate you</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
+                <p>In no particular order, and not stopping at 5:</p>
+                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
+                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                not</a> in transactions</li>
+                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                table (so create them temporarily for each connection, and clear them manually on rollback)</li>
+                <li><!-- more --></li></ol></post-body>
+ <button class="page-link" onclick="window.location='index4.html#835'">index</button>  <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='classic.html#835'">classic</button> 
+<button class="page-link" onclick="window.location='post/25080396258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/19346002203.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="878">
+    <h2>How I got massively faster DB with in-process replication</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
+                <em>write</em>-heavy database web-app go fast.  In this essay I will describe a technique I
+                touched on which makes <em><strong>read-heavy</strong></em> database web-apps go
+                fast!</p>
+                <p>Most normal corporate database web apps are either blazingly fast or blazingly slow at the five
+                week mark; either nobody is using them hence they are blazingly fast, or everyone is using them hence
+                they are blazingly slow.</p>
+                <p>This is because the straightforward way to connect a database to a web app is naive.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#878'">index</button>  <button class="page-link" onclick="window.location='perf.html#878'">perf</button> 
+<button class="page-link" onclick="window.location='post/19346002203.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/16516763725.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="907">
+    <h2>How I got massively faster DB with async batching</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
+                article:</p>
+                <blockquote>
+                <p><big>I found databases to be fastest when my own code buffers DB interaction and reorders
+                things and coalesces things so the DB is getting a few queries each with more payload.</big></p>
+                </blockquote>
+                <p>And I was rather disillusioned with ORMs.</p>
+                <p>ORMs are about fast-prototyping code.  However, I discovered - in my DB usage patterns - that
+                it was extra development cost when we discovered that the performance cost was prohibitive we had to
+                chop it all out and replace it with a custom pattern.  It would have been massively faster development
+                to just have done DB asynchronous in the first place…</p>
+                <p>What I built is so generally applicable I offer it here as a useful pattern for your projects
+                when you hit the same scaling issues we did:</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index5.html#907'">index</button>  <button class="page-link" onclick="window.location='perf.html#907'">perf</button>  <button class="page-link" onclick="window.location='classic.html#907'">classic</button> 
+<button class="page-link" onclick="window.location='post/16516763725.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/16399069781.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="909">
+    <h2>Google: MoreSQL is Real</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="left" alt="Alex Tatiyants made this" height="75" src="http://img197.imageshack.us/img197/959/moresql.png" width="257"/></p>
+                <p>The post <a href="http://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
+                tongue-in-cheek.  But its more true and serious and real than the NoSQL crowd want to admit.  And Alex
+                made a sweet logo.</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index5.html#909'">index</button>  <button class="page-link" onclick="window.location='perf.html#909'">perf</button>  <button class="page-link" onclick="window.location='classic.html#909'">classic</button> 
+<button class="page-link" onclick="window.location='post/16399069781.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

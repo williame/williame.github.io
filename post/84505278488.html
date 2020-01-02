@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Making Image Mosaics : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Making Image Mosaics</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
+                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" target="_blank">contest entries</a>.
+                 It <a href="post/71966020187.html">started</a>
+                <a href="post/84225291373.html">basic</a>,
+                and its got <a href="post/84317701363.html">better</a>.
+                 Each of the ‘pixels’ in the Mona Lisa is actually a screenshot of a game!  <em><strong>Here’s
+                how</strong></em>:</p>
+                <p>We have an target image, for example the Mona Lisa, and we have some large number of small
+                input images which we want to arrange so that, when squinted at from a distance, it approximates the
+                target image.</p>
+                <p><!-- more --></p>
+                <p><em><strong>Tiling</strong></em></p>
+                <p>The first step is to determine the tiling of the input images.  I wanted all images to be a
+                uniform size.  But the small input images are a variety of sizes.  So I averaged their aspect ratio.
+                 Aspect ratio is width / height, and is a floating point number (so be careful of integer / integer
+                which usually gives integer!)</p>
+                <p>Some images will be distorted more than others when they are scaled to the output tile size,
+                but so be it.  Packing non-uniform-sized images is non-trivial - we can’t even decide <a href="http://en.wikipedia.org/wiki/Circle_packing" target="_blank">how best</a> to stack
+                oranges ;)</p>
+                <p> Its then to decide an arbitrary width for the input image; the height will be derived from the
+                average aspect ratio.  Lets call this thumb_width and thumb_height.</p>
+                <p>So we have some number of input images, and we want to work out how many rows and how many
+                columns best fit.  The simple way is to start with 1 row and 1 column, and add a row or column -
+                whichever is closest to the aspect ratio of the output image - until rows x columns is more than the
+                number of input images:</p>
+                <pre><code>
+                target_aspect_ratio = target_width / target_height
+                rows = cols = 1
+                aspect = thumb_width / thumb_height
+                while rows * cols &lt; num_images:
+                add_col_aspect = ((cols + 1) * thumb_width) / (num_images / (cols + 1))
+                if abs(add_col_aspect - target_aspect_ratio) &lt; abs(aspect - target_aspect_ratio):
+                cols += 1
+                aspect = add_col_aspect
+                else:
+                rows += 1
+                </code></pre>
+                <p>(When working in Python, it’s important to ensure you get floats from those divides;
+                in the real code, I wrap the lhs with float())</p>
+                <p>So now we know we have a grid of cols*rows tiles to place.  There may be more grid spots than
+                source images, and you can decide what to do with those extra tiles.  You may add finesse by choosing to
+                add the very last row or column based on which leaves the least empty tiles, although I chose aspect
+                ratio over minimizing empties.</p>
+                <p>And you have some options with how to present those empty tiles in the final output image.  I
+                decided to make them black, and not to account for this blackness in the image matching described below.
+                 You may decide to copy in the original target image into those empty tiles, or whatever.</p>
+                <p><em><strong>Matching / Scoring / Fitness</strong></em></p>
+                <p>Now we know the source image grid we have to determine how well each input image matches each
+                tile in the target image.</p>
+                <p>The simplest approach is Mean Square Error (<a href="http://en.wikipedia.org/wiki/MSE" target="_blank">MSE</a>).  To compute the MSE for a thumb, you scale target image and the thumb
+                and then compute the squared Euclidean distance of each corresponding pixel. You then average these
+                squared distances to get the mean, but if you think about it there’s a fixed number of pixels
+                in this grid we are using so we can skip the Mean -part of the calculation.</p>
+                <p>I did this on a 'patch’ scale, so a few hundred samples per thumb per tile.  I didn’t
+                really experiment nor reason about how many samples per thumb per tile would be optimal.  The number of
+                samples per thumb per tile has a direct linear outcome on the time it takes to compute all the
+                similarities, so you can trade speed for accuracy here.</p>
+                <p>There are better approaches to image similarity, such as <a href="http://en.wikipedia.org/wiki/PSNR" target="_blank">PSNR</a> and <a href="http://en.wikipedia.org/wiki/Structural_similarity" target="_blank">SSIM</a>.  SSIM tries
+                to capture the structural similarity too, which sounds like a good thing.  A simple MSE doesn’t
+                quite capture contour matching.  You could also investigate merging scores from <a href="http://en.wikipedia.org/wiki/Edge_detection" target="_blank">edge detection</a> into the
+                fitness metric e.g. mix in the MSE of the Sorbel or Canny filter of the image too.</p>
+                <p>You also have to pick the <a href="http://en.wikipedia.org/wiki/Color_space" target="_blank">colour
+                space</a>.  I chose RGB.  This may not be a very good choice.  There are probably better colour
+                spaces to use that more closely approximate how humans perceive colours.</p>
+                <p>This is really not practicing what I preach; I’ve been guilty of reading Charles
+                Blooms blog, and commenting on StackOverflow about image matching metrics, and worked a lot with video
+                transcoding and stuff, and yet when making my quick and dirty script I took the quick and dirty
+                approaches.</p>
+                <p>The actual computation of the match for each thumb with each tile can take a considerable time.
+                 Its embarrassingly parallel, but I did not invest the time in making Python parallelize it.  I could
+                have speeded up the actual computation using numpy, which has a MSE function too, and I could have tried
+                to use multiprocessing to do things in parallel (although pushing bytes to each worker is significant
+                overhead and work would need to be invested in ensuring the underlying bitmaps were shared).  I just
+                made it so that the MSE results were serialized (and gzipped; the cartesian product of all thumbs and
+                all tiles is quite a lot of data) so that the scores could be re-used as I tweaked the placement
+                algorithm.</p>
+                <p><em><strong>Placement</strong></em></p>
+                <p>Once you have some score for how similar each thumb is with each tile, you have to decide how
+                to place them!</p>
+                <p>The simplest approach is ’<strong><a href="http://en.wikipedia.org/wiki/Greedy_algorithm" target="_blank">greedy</a></strong>’.
+                 That is, you place the closest-matching thumb on its best tile.  And then the next and the next.</p>
+                <p><img align="right" alt="image" data-orig-height="160" data-orig-width="100" src="media/old/84505278488_2.jpg"/>One
+                way to implement this is to put each match score, tile and thumb into a list and sort it so best score
+                is first.  Then you iterate through this list, and if the tile is still unoccupied and the thumb still
+                unplaced, you place it.  Even in Python, it takes just a few seconds.  Here’s the result on
+                the right →</p>
+                <p>Why all those white blocks?  Well, in the mona lisa there isn’t any very white tiles,
+                but we have lots of very white thumbs to place.  There are patches of skin in the source image that are
+                white-ish, but we also have some skin-coloured tiles that are much closer matches and which we’ve
+                already placed.</p>
+                <p>When placing greedily, we quickly place the very closest matches.  This leaves us with the
+                increasingly poorly matched tiles and thumbs.  The end result is that the last-placed tiles are the
+                worst possible matches!</p>
+                <p>After the first Ludum Dare contest, I left it here.  But when I run the mosaic script on the
+                newest contest thumbnails, I was unimpressed and itched to fix this.</p>
+                <p><img align="right" alt="image" data-orig-height="157" data-orig-width="100" src="media/old/84505278488_3.jpg"/>What’s
+                the quickest possible fix?  Take the output of the greedy algorithm and add <strong>Random Swaps</strong>.
+                 You pick two placements at random and compute if swapping them lowers the <em>overall</em>
+                image similarity score.  And you make as many swap improvements as you can find, until the person
+                running the script gets tired of waiting and interrupts.  I called this the 'timed’ algorithm
+                in the script.  Result on the right again :) →</p>
+                <p><a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2" target="_blank"><strong>Hi-Res</strong>
+                images here</a>.</p>
+                <p>So those pesky white thumbnails have migrated to her skin patches because whilst there are
+                closer skin-coloured matches, placing a skin-coloured patch on the black cloth is less overall error
+                than placing the very white.  And so, with time and millions of random swap checks and thousands of
+                actual improving swaps, tiles migrate towards a global optimum.</p>
+                <p>This is missing a few tricks.  There might be three tiles A B and C which, when their
+                placements are rotated, lowers the overall score.  However, none of the pairs A B, B C nor A C are
+                themselves a better swap.  This pair swapping algorithm will not find these.</p>
+                <p>When entering <a href="http://www.azspcs.net/" target="_blank">rec.math contests</a>,
+                I would start thinking about how to better optimize placement.  But as it is, random swaps actually
+                works quite well.  I’d love to hear your ideas for improvements!</p>
+                <p>(<a href="https://gist.github.com/williame/8219574" target="_blank">Mosaic script
+                source-code here</a>)</p>
+                <p>And special thanks to <a href="http://www.royvanrijn.com/blog/2014/04/mosaic-algorithm/" target="_blank">Roy van Rijn</a> - a rec.math kind of contestant - for the ball-plank and
+                encouragement :)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#664'">index</button>  <button class="page-link" onclick="window.location='rec.html#664'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#664'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#664'">mosaic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

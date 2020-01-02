@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: game</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>game</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='game1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57181055984.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="715">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve added an interactive Perlin “Noise explorer” to
+                <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+                <p>I had originally used the usual Simplex Noise Javascript port that is in <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" target="_blank">three.js</a>
+                and elsewhere.</p>
+                <p>I even ported - successfully - to asm.js!  FWIW, asm.js turned out to be much slower than the
+                normal code; this isn’t code that benefits from being ported, it seems; the call overhead is
+                quite high.  If you want a lot of noise, e.g. generate a 2D or 3D array in one go, then the asm.js might
+                be much faster if the loop is inside asm.js, but as it was - for single samples - it was so much slower
+                I abandoned it.</p>
+                <p>I didn’t enjoy debugging my port to asm.js and I find all the coercion ugly, but it
+                was trivially learnable and may be interesting yet e.g. spatial indices and priority queue heaps.</p>
+                <p>But ultimately I wasn’t happy with the tunability of the Simplex Noise
+                implementation.  So I instead set about making a very naive reimplementation of Ken Perlin’s
+                <a href="http://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
+                in Javascript.</p>
+                <p>This lets you set the number of octaves and the alpha and beta values for bumpiness (sometimes
+                called persistence).  If you set the scale attribute manually you can even control the scaling of the
+                component samples!</p>
+                <p>It doubtless runs slower but, for reasonably small chunks of work its more than fast enough. 
+                And barebones.js has a cool web-worker wrapper if you want to generate big chunks of noise
+                asynchronously.</p>
+                <p>I didn’t pay too much attention to GLSL noise - that’s applicable for
+                rendering, but not so useful for generating game levels and so on where you really need your noise
+                accessible to Javascript (and in webGL you can’t read back framebuffers).</p>
+                <p>As a thought-experiment it ought to be possible to do a <a href="http://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
+                shadow my visualisation nicely, but it would have rather more general advantages if it sped up making
+                big chunks of noise too?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#715'">index</button>  <button class="page-link" onclick="window.location='rec1.html#715'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="716">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
+                worlds.  In the end, I needed to visualise the noise function itself:</p>
+                <p><img src="media/old/57140204975_1.jpg"/></p>
+                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
+                next <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#716'">index</button>  <button class="page-link" onclick="window.location='rec1.html#716'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53831974133.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="724">
+    <h2>Drawing RTS maps fast</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/53831974133_1.jpg"/></p>
+
+                <p><em>Techie bit follows</em>, but first here’s some background:</p>
+                <p>At high-school I played the defining Dune 2 RTS game, and then at college I played C&amp;C
+                Tiberian Sun.  I poked around (internet was dial-up and slow in those days) and became part of the
+                then-thriving game-modding community.  They had reverse-engined the Tiberian Sun model format, but no
+                editors existed.  So I made one.  Will’s Voxel Editor, as it was called, was hugely popular in
+                the limited world of Tiberian Sun modding.  I worked closely with a modder called Mr War - all modders
+                had strange anonymous handles on-line in those days except me - and we made some really cool mods and
+                games.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index2.html#724'">index</button>  <button class="page-link" onclick="window.location='rec1.html#724'">rec</button> 
+<button class="page-link" onclick="window.location='post/53831974133.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49797579721.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="730">
+    <h2>WillCity update</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/49797579721_1.jpg"/></p>
+
+                <p><a href="post/49171822294.html" target="_blank">Previously</a>, <a href="post/20163196047.html" target="_blank">previously</a>.</p>
+                <p>When run on local-host, the game runs four sims at once, in lock-step.  Three of them are test
+                patterns, and the top left is for playing around.</p>
+                <p>This makes it very easy to try out and tweak algorithms!</p>
+                <p>The top-left layout - residential is red, industrial is pink and commercial blue - is supposed
+                to be fairly optimal.  I want the algorithm to favour it, which you can see at the moment it does!</p>
+                <p>The bottom left has more space between the zones, and road only on one side.  The algorithm
+                should favour growth near the road, and at the moment it does!</p>
+                <p>The bottom right is a very sub-optimal layout and I want the algorithm to punish it.
+                 Commercial and industrial don’t like each other (although the commercial cares more than the
+                industrial).</p>
+                <p>The early sims are quite pleasing, but after a while - just a few years since my whole timeline
+                thing is not quite set up - things get out of whack and success breeds success and it becomes a run-away
+                chain reaction.  I need to think about levelling and damping and so on.</p>
+                <p>I’ve been talking to the <a href="http://www.opencity.info/" target="_blank">OpenCity</a>
+                devs and the way their algorithm works is:</p>
+                <ol><li>each sim step, pick a random residential, commercial or industrial zone to re-score.
+                 It doesn’t recompute the scores for all zones each time step.  Change is gradual.</li>
+                <li>in a NxN grid, see if there are any of the other two zone types</li>
+                <li>depending on the zone type, reward or penalise nearby other zone types</li>
+                <li>if the reward is positive, there’s a small chance that the zone will level up</li>
+                <li>if the reward is negative, there’s a small chance that the zone will level down</li>
+                </ol><p>I have a slightly more computationally-expensive approach, although far from the
+                simple balance in OpenCity:</p>
+                <ol><li>each sim step, pick between 1 and N% of the RCI zones are re-scored</li>
+                <li>for each re-scoring zone,</li>
+                <li>perform a best-first search to determine all the other zones within reach</li>
+                <li>the transport cost uses one of three transport cost layers - car_and_foot, bus and train.  The
+                best-first search can jump between these layers at bus stops and train stations</li>
+                <li>at this point I have a list of nearby zones for each type and how far it is away and its score
+                and so on; a quite complicated and nuanced algorithm could use all this data.  For now, we do something
+                rather simple:</li>
+                <li>average the distance*score of each nearby zone type</li>
+                <li>if the zone is residential, re-score = commerical_score + industrial_score +
+                residential_score*0.1</li>
+                <li>if the zone is commercial, re-score = residential_score - industrial_score +
+                commercial_score*0.1</li>
+                <li>and so on</li>
+                <li>then, if the re-score is more than the current score, there’s a 25% probability that
+                5% of the difference is added to the zone’s score</li>
+                <li>and inverse for re-scoring down</li>
+                <li>with some basic clamping</li>
+                </ol>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#730'">index</button>  <button class="page-link" onclick="window.location='rec1.html#730'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49171822294.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="735">
+    <h2>What I&#39;m working on</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My blog has been rather quiet recently… due mainly to renovation projects
+                and that my hobby coding time - an hour here, a quarter there - has been on a special project:</p>
+                <p>I’ve been trying to work out a lot of the concepts behind city-building games.  Here’s
+                my hobby simulator so far:</p>
+                <p><img src="media/old/49171822294_1.jpg"/></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#735'">index</button>  <button class="page-link" onclick="window.location='rec1.html#735'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="738">
+    <h2>barebones.js updated</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>It now includes a <a href="http://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
+                RTS game!  Just add units…</p>
+                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
+                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
+                working out the tile under the mouse cursor.  Stay tuned.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#738'">index</button>  <button class="page-link" onclick="window.location='rec1.html#738'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48129403865.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="739">
+    <h2>How to do 3D terrain for your game</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The <a href="https://github.com/williame/barebones.js" target="_blank">barebones.js</a>
+                project contains a simple grid-based webGL-drawn terrain that serves as a ready-to-build-upon skeleton
+                for your game:</p>
+                <p><a href="http://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
+
+                <h2>features</h2>
+                <p>The demo shows:</p>
+                <ul><li>turning a height-map into a mesh</li>
+                <li>drawing it with webGL</li>
+                <li>tiling - each grid-square can have a unique tile at any cardinal direction</li>
+                <li>drawing grid lines (useful for debug)</li>
+                <li>navigation with arrow-keys</li>
+                <li>pan and rotate and zoom with the mouse</li>
+                <li>top-down (with perspective) and 3D views</li>
+                <li>working out what tile the user clicks on</li>
+                <li>updating the map in real time</li>
+                <li>how to compute normals from a height-map</li>
+                <li>a very basic random terrain generator</li>
+                </ul><p>We’ll cover each of these points below:</p>
+                <h2>the map</h2>
+                <p><img align="left" src="media/old/48129403865_1.png"/>
+                The map is fundamentally a 2D <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
+                If the map is, say, 100x100 squares then we’ll have 101x101 height points.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#739'">index</button>  <button class="page-link" onclick="window.location='rec1.html#739'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/45193855853.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="746">
+    <h2>Drawing things in the shadow of a sphere</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
+                - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
+                else a child of the cold war?</p>
+                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
+                me, so I wanted to capture that feel:</p>
+                <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index2.html#746'">index</button>  <button class="page-link" onclick="window.location='rec1.html#746'">rec</button> 
+<button class="page-link" onclick="window.location='post/45193855853.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/43800948133.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="754">
+    <h2>Efficient procedural flame particle effects</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I was playing the other month with making flame particle effects.  Lots of flame
+                particle effects:</p>
+                <p><iframe frameborder="0" height="256" src="http://www.youtube.com/embed/Em5gSVgKsBI?rel=0" width="341"> </iframe></p>
+                <p>The challenge - in webGL - is to minimise the data transfer per frame.  So I created my flame
+                effects procedurally using a random seed.</p>
+                <p>I claim no invention nor credit; I based this upon a million Google searches and nothing I’ve
+                done is unique; but is novel and fun for me so I share.</p>
+                <p>What I did was create a single big VBO of random numbers.  I never updated this list of random
+                numbers; I just kept re-using it.  Its an immutable list.  The list is as long as the maximum number of
+                particles in any system.</p>
+                <p>Then for each particle system I created a unique random number for it.  And a few other things
+                like its position and size.</p>
+                <p>To draw each system I computed the matrix so that, in its model coordinates, it was always
+                drawing inside a -1,-1 -&gt; 1,1 square.   That just simplifies life inside the shaders.</p>
+                <p>In vertex shader I use the per-system random number uniform combined with the per-vertex random
+                number attribute to seed a random number generator to derive the particle’s attributes e.g.
+                size, start-position, direction, colour etc.  I then had a uniform float ‘time’
+                passed to determine the frame of animation to draw.</p>
+                <p>In this way I could have lots - easily filling the whole screen with tens of thousands - of
+                point-sprite-based fire particles and no two systems looked identical!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#754'">index</button>  <button class="page-link" onclick="window.location='rec1.html#754'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/36660467688.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="770">
+    <h2>Rendering Spheres with Triangles</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="http://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
+                <p>There are two general approaches:</p>
+                <p><img height="94" src="http://i.stack.imgur.com/kSSSF.png" width="200"/></p>
+                <p>The leftmost is termed the <em><strong>uv-sphere</strong></em> and the
+                rightmost an <em><strong>icosphere</strong></em>.</p>
+                <p>The uv-sphere looks like a globe. For many purposes it is perfectly fine, but for some use
+                cases, e.g. if you want to deform the sphere, it is disadvantageous that the density of vertices is
+                greater around the poles.  The icosphere vertices are distributed evenly.</p>
+                <p>GLUT tends to use the uv approach: look at the function <code>glutSolidSphere()</code>
+                in the <a href="http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" target="_blank">freeglut sourcecode</a>.</p>
+                <p>And <strong>webGL</strong> doesn’t have <code>glutSolidSphere()</code>. 
+                Oh well.  <strong><a href="https://gist.github.com/4153824" target="_blank">Here’s
+                my code for creating an untextured icosphere online</a>.</strong></p>
+                <p>Here is an excellent article on producing an icosphere: <a href="http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html" target="_blank">http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html</a></p>
+                <p>I’ve also experiemented with tiling spheres for RTS games etc.  Here’s an
+                excellent guide to how you might divide the sphere surface into zones: <a href="http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
+                <p>Finally, texturing.  <a href="http://vterrain.org/Textures/spherical.html" target="_blank">http://vterrain.org/Textures/spherical.html</a>
+                gives an excellent description of how you might choose to texture them, and <a href="http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
+                is - as iñigo is - brilliant.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#770'">index</button>  <button class="page-link" onclick="window.location='rec1.html#770'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/35858593837.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="771">
+    <h2>tic-tac-toe</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My daughters have made a little tic-tac-toe game.  Its a little 3x3 board, played
+                with 3 coloured stones each.  You take turns to place stones and try and get 3-in-a-row, as in
+                tic-tac-toe.  But when you make your forth move onwards, as you have only three stones, you move a stone…</p>
+                <p>And, as I was playing against them, I began to brute-force it in my head…  well, you
+                would too!</p>
+                <p>Of course I had difficulty stopping thinking about this little game, and ended up seeking
+                closure by implementing a <a href="https://gist.github.com/4087469" target="_blank">Python solver</a>
+                in my lunch-break.</p>
+                <p>It was very clensing coding.  Its nice to return to noddy, pure problems sometimes.  My biggest
+                hurdle was making sure I canonicalise the board so that rotations and mirrorings are not mistaken for
+                new positions.  I opted for a simple generator that produced all mirrorings and rotations and simply
+                checked to see if any of them had been seen before.</p>
+                <p>My code run first time!  No typos, and seeming to be doing what I wanted, and from random
+                inspection of outputted board positions to next moves, it seemed correct.</p>
+                <p>There are 744 boards and 4361 moves.</p>
+                <p>But how would you visualise it?  Sounds like a job for graphviz!  It was simplicity itself to
+                just change my printouts to print a dot file instead.</p>
+                <p>And then dot chewed on it for half an hour and then seg-faulted.</p>
+                <p>I tried other graphviz tools (which treat the graph as undirected), but was unhappy with their
+                output:</p>
+                <p><img height="249" src="http://i.stack.imgur.com/orvyk.png" width="314"/></p>
+                <p><img height="972" src="http://i.stack.imgur.com/GJfeQ.png" width="957"/></p>
+                <p>I asked for help on <a href="http://stackoverflow.com/questions/13417411/laying-out-a-large-graph-with-graphviz" target="_blank">StackOverflow</a>.</p>
+                <p>And a chap kindly showed me a zoomed-out layout that works:</p>
+                <p><img height="1032" src="http://i.stack.imgur.com/L4LJ3.png" width="1250"/></p>
+                <p>At that ridiculous zoom, there’s a definite pattern there…</p>
+                <p>Only problem is, whilst I can get graphviz to generate that chart, I can’t view it!</p>
+                <p>The image is a monster.  PNG 20380x16854, 59.73MB compressed …</p>
+                <p>I hit swap as soon as I try and view it in all the image viewers I can find.</p>
+                <p>I mulled the problem a bit and imagined simplifying the problem.  You could, for example, start
+                pruning pointless moves and those moves that allow the opponent to immediately win and so on.</p>
+                <p>But distilling the winning moves seems like a cop-out.  These days, big data shouldn’t
+                be scary!</p>
+                <p>I considered making my own image-manipulation code.  But that quickly gets into making your own
+                layout engine too, and … well, I welcome anyone who can master graphviz and has more RAM than
+                I :)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#771'">index</button>  <button class="page-link" onclick="window.location='rec1.html#771'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/28935319219.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="809">
+    <h2>Rod-marching on the GPU</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My <strong><a href="post/26628848007.html" target="_blank">rod-marching</a></strong>
+                was an order-of-magnitude faster than classic per-pixel ray-marching on the CPU.</p>
+                <p>I have now <a href="http://williame.github.com/Mandel_1" target="_blank">approximated it
+                on the GPU</a> - try it <strong>live in your browser</strong> and report back on your
+                performance statistics please :)</p>
+                <p>First, you render the scene to a small texture, then use this texture as input to the bigger
+                scene.</p>
+                <p>E.g. you may render a 64x64 texture of the scene using a small number of maximum ray-steps. 
+                Then you render to a 256x256 texture using the 64x64 texture as input and another small number of ray
+                steps.  And finally you render to the screen with normal ray-steps and the 256x256 texture as input.</p>
+                <p>Sadly, the SIMD nature of GPUs works against the big gains seen on the CPU.  Also, the cost of
+                changing render targets adds overhead.  On wimpy laptop ATI GPUs I’ve <a href="http://www.fractalforums.com/index.php?topic=12906.0" target="_blank">had speed reports</a>
+                of 25 to 50% improvement.  This is not to be sniffed at if it takes you from 10 fps to 15 fps it takes
+                you from unplayable to barely tolerable :)</p>
+                <p>What is perhaps more interesting is the code I wrote to get webGL going.  I have a nice little
+                gluOrtho2D / glOrtho and gluPerspective as well as mat4 inverse function in there for you to copy.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#809'">index</button>  <button class="page-link" onclick="window.location='rec2.html#809'">rec</button> 
+<button class="page-link" onclick="window.location='post/28935319219.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/27049047015.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="816">
+    <h2>Every programmer should make a ray tracer</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Its a rite of passage.</p>
+                <p>The joy you get from seeing a scene get rendered, and the extreme ‘I made that’
+                euphoria as you gaze at it…</p>
+                <p><a href="http://www.redcode.nl/blog/2012/07/mandelbulb-rendering/" target="_blank">Here’s
+                one</a> that <a href="http://www.redcode.nl/" target="_blank">Roy</a> just made in an
+                afternoon.</p>
+                <p>Why, <em>you</em> should go make one right now too!</p>
+                <p>Programming is art.  Mastering the computer is making the computer make something and
+                procedural pictures and music is the distilled essence of that mastery.</p>
+                <p>Here’s a meme we can hope takes off: everyone writes Javascript ray tracers and puts
+                them on their 404 pages…</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#816'">index</button>  <button class="page-link" onclick="window.location='rec2.html#816'">rec</button> 
+<button class="page-link" onclick="window.location='post/27049047015.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26628848007.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="817">
+    <h2>Rod Marching</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img align="left" height="240" src="http://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Mandelboxpwr2.png/240px-Mandelboxpwr2.png" width="240"/>Fractal 3D fly-throughs are just perfect thought experiments.</p>
+                <p>Have you seen how beautiful they look?  Take the <a href="http://en.wikipedia.org/wiki/Mandelbox" target="_blank">mandelbox</a> (left) for example…
+                <a href="http://sourceforge.net/projects/boxplorer/" target="_blank">boxplorer</a> renders
+                it at 1.2 fps on my creaky laptop with integrated Intel GPU.</p>
+                <p>These days these are drawn on the GPU using a pixel shader.  The classic algorithm is <a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">ray marching</a>.</p>
+                <p>Normal ray casting works by casting a ray for each screen pixel and testing all objects to see
+                which it strikes first.</p>
+                <p>Ray marching, on the other hand, walks a ray forward towards the scene.  Each step, it sees the
+                closest distance to <em>any</em> part of the scene.  It then moves forward that much.  A
+                picture (<a href="http://blog.hvidtfeldts.net/index.php/2011/06/distance-estimated-3d-fractals-part-i/" target="_blank">src</a>) makes it much clearer:</p>
+                <p><img src="media/old/26628848007_1.png"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#817'">index</button>  <button class="page-link" onclick="window.location='rec2.html#817'">rec</button> 
+<button class="page-link" onclick="window.location='post/26628848007.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/26577448929.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="819">
+    <h2>Radar Game</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>One of the sizes specified for <a href="http://www.ludumdare.com/compo/2012/05/09/minild-34-aspect/" target="_blank">Ludum Dare mini
+                #34 “Aspect”</a> was a 500px-diameter circle.</p>
+                <p>This immediately brought to mind a <a href="http://en.wikipedia.org/wiki/Plan_position_indicator" target="_blank">radar</a>.</p>
+                <p>Making a radar sweep animation is really trivial.  Here’s mine:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/byofNKujV-Q" width="420"> </iframe></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index3.html#819'">index</button>  <button class="page-link" onclick="window.location='rec2.html#819'">rec</button> 
+<button class="page-link" onclick="window.location='post/26577448929.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/23662033005.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="843">
+    <h2>Bounds vs Points in Spatial Indexes</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Hmmm Spatial <a href="http://www.worldwidewords.org/qa/qa-ind2.htm" target="_blank">Indices</a>.</p>
+                <p>In GIS land I’ve been working recently with finding intersecting circles.</p>
+                <p>Most ‘fixes’ from phones and things are given as longitude, latitude and
+                radius.  The phone knows only it is within some distance of some point (as in, how far from a fixed
+                cell-phone tower). </p>
+                <p>Sometimes you get approximate height above sea level too, but I think that’s derived
+                from the fixed cell-phone tower and some averaging.  But its not so interesting luckily.</p>
+                <p>The largest real radius I’ve seen is approaching 30 miles!</p>
+                <p>A shallow look at your average <a href="http://www.opengeospatial.org/" target="_blank">GIS</a>
+                database and its modeling points not these circles.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#843'">index</button>  <button class="page-link" onclick="window.location='rec2.html#843'">rec</button> 
+<button class="page-link" onclick="window.location='post/23662033005.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/21865366869.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="852">
+    <h2>How to make a Text Adventure</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
+                text-adventure</a>!</p>
+                <p>Text Adventures are excellent mental exercise to write!  They are useful for learning to
+                program; they are equally useful for seasoned programmers to refresh and recuperate on!  They can fit
+                anywhere on a sliding scale between straightforward and high-end CS-research, and the programmer can
+                slide their game anywhere up and down that scale at whim.  And they are fun :)<br/><br/>Text
+                Adventures are out of fashion though.  This <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">Ludum
+                Dare</a> we decided to resurrect the Text Adventure and this is a description of the approach we
+                took.<br/><br/>So after tiring of this blog post please do play our illustrated Text
+                Adventure <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
+                Small World of Professor Strange</strong></em></a> - we hope you enjoy playing it as
+                much as we enjoyed making it!<br/><br/><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='index4.html#852'">index</button>  <button class="page-link" onclick="window.location='rec2.html#852'">rec</button>  <button class="page-link" onclick="window.location='classic.html#852'">classic</button> 
+<button class="page-link" onclick="window.location='post/21865366869.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/17369540725.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="901">
+    <h2>Compressing 3D Game Models</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Sometimes I start to write, or at least start to think about writing, computer
+                games.  I find the engine writing attractive.  I’m sitting on a few great game ideas; oh to
+                have the financial freedom to go be an indie game maker!</p>
+                <p>As I start to write the game I find my mind inexplicably drawn by technical details.</p>
+                <p>One technical detail that I’m inexplicably drawn to each time is how to compress the
+                artwork.  I reckon that games could be <strong>compressed 3x better</strong>:</p>
+                <p><a href="http://megaglest.org/" target="_blank"><!-- more --></a></p></post-body>
+ <button class="page-link" onclick="window.location='index5.html#901'">index</button>  <button class="page-link" onclick="window.location='rec2.html#901'">rec</button> 
+<button class="page-link" onclick="window.location='post/17369540725.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/14011115100.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="928">
+    <h2>OpenGLES I want my GL_QUADS back :(</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The minimalism of OpenGLES2 is beginning to bug me.  I know too much about mechanical
+                sympathy and graphics to completely see eye-to-eye with the architecture astronauts that the companies
+                send to Khronos meetings just to get them away from the people who can do real work ;)</p>
+                <p>I have two approaches you can take when porting existing, working OpenGL code to OpenGLES2
+                whilst trying to have a common-as-possible codebase that targets all the OpenGL flavours:</p>
+                <ol><li>Rewrite things to use attribute arrays and OpenGLES2-supported calls and it will
+                mostly work on the newer, other OpenGL flavours.  Stuck trying to run the same code on Windows with
+                OpenGL 1.1 is not so fun though</li>
+                <li>Write a mapping layer</li>
+                </ol><p>As it is I started on (2) but have ended up doing (1).  (1) is less effort time-wise
+                for me than (2), but if (2) already existed then it would be the clear winner.  Does such a useful
+                mapping already exist?</p>
+                <p>You could imagine a mapping layer that stored all the glVertex() calls in an array and punched
+                out a modern call when you do the glEnd().  And likewise storing all the various client-side state in,
+                guess what, client-side variables and so on.  You could imagine it being like GLEW but loading OpenGL
+                dynamically at runtime and so exposing classic superset of all supported OpenGL that it then maps to the
+                target.</p>
+                <p>Myself my code is all VBOs but glVertexPointer etc don’t exist on OpenGLES2.  And
+                they don’t seem to have anything like hand-holding of interleaving arrays, meaning when I
+                interleave my arrays myself.</p>
+                <p>Oh the pain!</p>
+                <p>Its like they don’t want to have any sensible migration path for existing code.  They
+                put so many small barriers to cheap migrating that in the end it adds up to a massive hurdle.  Its about
+                as much hassle to move to OpenGLES2 as to move to DirectX11 instead.</p>
+                <p>Of all the things missing in OpenGLES2 its GL_QUADS that irritates and inconveniences me most. 
+                All my font glyths and particle effects and some game tiles are GL_QUADS and I can’t think of
+                a good reason for not supporting them.  It really grates to be duplicating a couple of vertices for each
+                quad when targeting precisely the most memory-constrained target.  I guess in the end its no big deal,
+                but it just feels wrong.</p>
+                <p>Its all too easy to imagine the architecture astronauts sitting around a table saying ‘well
+                you can make a quad from two triangles, and sometimes if they aren’t on a plane you want to
+                control the fold anyway, so lets get rid of yet another primitive!’.  I guess I’m
+                bitter and cynical about design-by-committee.</p>
+                <p>What possible justification can there be for not having GL_QUADS?  If there’s some
+                mechanical antipathy, I want it explained!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#928'">index</button>  <button class="page-link" onclick="window.location='rec3.html#928'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13270747573.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="933">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>When playing with game engine ideas, I struggled with the fact that my laptops all
+                had very very bad integrated chips by Intel.  Yeap, those ones.</p>
+                <p>I wanted a nice cartoony fluffy clouds and bobbly trees, but all those spheres were taking just
+                too many polygons.</p>
+                <p>The solution I prototyped was to bill-board spheres… complete with depth.</p>
+                <p>The billboard image was actually a depth-map.  I was using a special value to indicate no texel
+                and do a discard in the fragment shader.</p>
+                <p>To get nice edges on the spheres I did it in two passes; first pass, draw all opaque texels
+                inside the circle of the billboard, setting depth; second pass, draw all semi-transparent texels on the
+                edges of the spheres without setting depth (i.e. its at billboard depth).</p>
+                <p>I found that I could draw almost a thousand such spheres at a good enough framerate on the
+                worst cards.  On more average ATI and NVidia cards the framerate was nicely in the hundreds.  So this is
+                a very efficient technique.</p>
+                <p>Shadows can be done by sampling the depth buffer in a second pass and using a 1D texture that
+                is the cross-section of the sphere.  I didn’t prototype that bit; its an exercise for the
+                dedicated reader ;)</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/88idbFlvQV0"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='index5.html#933'">index</button>  <button class="page-link" onclick="window.location='rec3.html#933'">rec</button> 
+
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        
+        <div class="pages-index">page 1 of 2</div>
+        <button class="page-next-link page-link" onclick="window.location='game1.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

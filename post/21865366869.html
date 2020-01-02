@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>How to make a Text Adventure : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>How to make a Text Adventure</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
+                text-adventure</a>!</p>
+                <p>Text Adventures are excellent mental exercise to write!  They are useful for learning to
+                program; they are equally useful for seasoned programmers to refresh and recuperate on!  They can fit
+                anywhere on a sliding scale between straightforward and high-end CS-research, and the programmer can
+                slide their game anywhere up and down that scale at whim.  And they are fun :)<br/><br/>Text
+                Adventures are out of fashion though.  This <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">Ludum
+                Dare</a> we decided to resurrect the Text Adventure and this is a description of the approach we
+                took.<br/><br/>So after tiring of this blog post please do play our illustrated Text
+                Adventure <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
+                Small World of Professor Strange</strong></em></a> - we hope you enjoy playing it as
+                much as we enjoyed making it!<br/><br/><!-- more -->Before the competition started we
+                set our hearts on doing a Text Adventure.  It was just to work out how to bend a story to fit whatever
+                the Ludum Dare theme was.  But we hadn’t made - or played - Text Adventures in 20 years. 
+                Couldn’t even remember how to make them.  So we started from first principles.<br/><br/>The
+                proper way to make a Text Adventure is to use the <a href="http://inform7.com/" target="_blank">INFORM
+                7</a> engine.  You just describe your world in a DSL shockingly like natural language and the
+                clever engine does the rest:</p>
+                <pre>A thing has some text called scent. The scent of a thing is usually &quot;nothing&quot;.<br/>The
+                block smelling rule is not listed in any rulebook.<br/>Carry out smelling something:<br/>   
+                say &quot;From [the noun] you smell [scent of the noun].&quot;<br/>Instead of smelling a room:<br/>   
+                if a scented thing can be touched by the player, say &quot;You smell [the list of scented things which can be
+                touched by the player].&quot;;<br/>    otherwise say &quot;The place is blissfully odorless.&quot;    [<a href="http://gamedev.stackexchange.com/a/27067/4129" target="_blank">via</a>]</pre>
+                <p>Where is the fun in that?!  I’m going to explore the do-it-yourself approach:<br/><br/>We
+                wanted to use Javascript so that the game could run in your browser.</p>
+                <p>Most Ludum Dare entries are Windows binaries, and that’s such a turn-off and
+                disincentive to trying to actually play those games.  There are other ways to run in the browser; we’d
+                done a Chrome “native” app for <a href="post/16322614828.html" target="_blank">Ludum Dare previously</a>, and there’s other plug-in -based
+                alternatives like Flash, Java applets and Unity’s browser plug-in.  But these plug-ins are
+                still a massive barrier, and there’s always a lot of rough edges.  We felt that Javascript was
+                the absolute lowest hurdle for players, and in the case of a Text Adventure its no barrier to
+                development.  So go make your Text Adventures in Javascript and let everyone play them!</p>
+                <p>A great free hosting solution is to use <a href="http://pages.github.com/" target="_blank">github
+                pages</a>; <a href="http://github.com/williame/ludum_dare_23_tiny_world" target="_blank">we
+                did</a>.<br/><br/>A direct technical benefit of using Javascript is that this means
+                that the entire game data can be something like JSON but neater.  Javascript object declarations are
+                super neat; unlike JSON the keys do not need to be quoted string literals and the values can be complex
+                objects such as anonymous functions.<br/><br/>I’m inexperienced in Javascript -
+                this Text Adventure being my first Javascript app - but Javascript’s object declarations are
+                something as a Python fan I’m jealous of!  Lets compare:<br/><br/>In Javascript,
+                you can do this:</p>
+                <pre><code>var locations = {<br/>    kitchen:{<br/>        name:&quot;The Kitchen&quot;,<br/>   
+                    description:&quot;Your kitchen is untidy and cramped&quot;,<br/>        visits: 0,<br/>       
+                on_enter: function() {<br/>            if(!locations.kitchen.visits++) {<br/>               
+                .... // first time in this room<br/>            };<br/>        },<br/>       
+                commands: [...],<br/>        objects:[...],<br/>    },<br/>    bedroom:{<br/>   
+                },<br/>    ...<br/>};</code></pre>
+                <p>Now in Python you can’t put that kitchen’s on_enter function in a simple
+                dictionary like that; you’d have to declare it with some name, and then reference it by name.<br/><br/>But
+                to put the methods in-line in Python, you can’t turn to anonymous functions because Python
+                doesn’t have them.  You can’t use dot notation to dereference the fields inside the
+                structure because Python uses [“key”] notation.  Its just clunkier; much clunkier,
+                sadly.  Coming from a Python fan, this is a bitter pill.  Javascript is actually more concise and clear
+                for the Text Adventure data definition problem.</p>
+                <p>(You can use lambdas but only in the most limited way and you can make a class hierarchy and
+                avoid instansiation via @classmethods, but that’s hardly much consolation!)</p>
+                <p>The whole way you can declare instances rather than types you instantiate and the duality of
+                dicts and classes in Javascript is super cool and concise and useful; this is an example of where it
+                shines.<br/><br/>After waxing lyrical about Javascript’s object declaration syntax
+                and anonymous functions, I will slap it for letting empty dictionaries and lists evaluate to true.  I
+                lost hours learning that the hard way in the debugger.<br/><br/><em>Back to the Text
+                Adventure problem!</em><br/><br/>A Text Adventure is made from two key types of things
+                - <strong>locations</strong> and <strong>objects</strong>.  Your text adventure
+                may have more; ours has a third, <strong>characters</strong> (“non-playing
+                characters”, NPCs).<br/><br/>A very straightforward way as we saw is to just have
+                a variable called locations, one called objects and perhaps a third called npcs or whatever.<br/><br/>In
+                a location you may have a list of objects, or in an object you may have its location.  You might get a
+                cart-before-horse situation where you can’t use dot notation because the thing being
+                referenced hasn’t been declared yet.  You can trivially fall back to quoting their names and
+                resolving them at runtime with array access.  In our locations we have an objects array that is a list
+                of strings that are the names of the objects in that location.<br/><br/>Locations have
+                commands which are typically typically navigation-related.  Objects have commands which are typically
+                take, drop and use -related.<br/><br/>Its also useful to have triggers - we found we could
+                all the overarching plot scripting just using a single function called each time a room is entered - the
+                “on_enter” function in the kitchen above, for example.  You might want richer
+                trigger points.<br/><br/>In the game loop itself you have a variable that tracks the current
+                location.  The commands available to the player at any point are then the union of those commands
+                attached the location, those attached to each object in that location and those commands attached to the
+                objects in your inventory.</p>
+                <p>It is super-useful to have a function that checks a condition optionally on a command; for
+                example, you can only have a ‘slide panel’ command if the panel has been examined,
+                so you’d add a boolean to track that from the panel’s view command, and have a
+                condition on the slide panel command something like <code>function() { return
+                objects.dining_room_panel.examined; }</code>.</p>
+                <p>(Here, Python’s <code>any</code> and <code>all</code>
+                functions would trump Javascript, so its swings and roundabouts on the conciseness front.)</p>
+                <p>Here’s our game data file: <a href="http://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js" target="_blank">http://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js</a><br/><br/><strong>Parsing
+                commands</strong> is really where the Text Adventure complexity slider lies.  Before the contest I
+                <a href="http://gamedev.stackexchange.com/questions/27004/what-are-some-strategies-for-parsing-user-input-in-a-text-adventure" target="_blank">asked for links</a> on this; ideal off-line reading.  The INFORM engine
+                understands enough natural language processing to make sense of long, complex commands that combine
+                multiple objects with multiple outcomes.  We opted for the other end of the scale: literally listing the
+                legal commands such as “go east”, “east” and “exit
+                east” all being linked to the function go_to(“bedroom”).<br/><br/>The
+                intermediate step is to allow richer variations efficiently; I imagined a system of denoting optional
+                words in brackets e.g. “[go|exit] east” and “[take|pick up] [the]
+                [cooking] pot”.  This is still defined command strings created explicitly by the game maker,
+                but efficiently describes the multitude of legal aliases.<br/><br/>I hope this gives you the
+                encouragement to go make your own Text Adventure!<br/><br/>Presentation is where our own
+                game gets interesting.  It has several modes, notably safe-for-work and illustrated.<br/><br/>The
+                programmer pretending to work UI just draws an Eclipse frame around the Text Adventure pane.  We had
+                imagined some neat adaptations but we run out of time; they were: command auto-completion drop-down like
+                in an IDE, indenting location descriptions and such so from a distant squint it looks more code-shaped,
+                and injecting faint punctuation and camelCase to make it interesting.<br/><br/>Our
+                illustrated UI is gorgeous.  <em>Absolutely fabulously awesome</em>.  But its also
+                innovative - rather than stills for each location, locations are plotted on a very prettily-drawn map. 
+                This gives you excellent <em>spatial awareness</em> and raises the game into a whole new
+                plane.<br/><br/>We didn’t tackle saving, but these days browser local storage
+                seems viable; as would simply using the new Javascript calls to trigger the user to receive their
+                game-state as a JSON blog the browser prompts them to save; they can then restore by drag-dropping that
+                file onto the game or using a file picker dialog.</p>
+                <p>So what are you waiting for?  You’ve got a game to make; but first why not my <em><a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">mine</a></em>?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#852'">index</button>  <button class="page-link" onclick="window.location='rec2.html#852'">rec</button>  <button class="page-link" onclick="window.location='game.html#852'">game</button>  <button class="page-link" onclick="window.location='classic.html#852'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

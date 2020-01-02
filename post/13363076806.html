@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Buffcacher : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Buffcacher</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>What should a ‘cache’ be? It means a lot of things, but to my
+                mind the default programming type should be:</p>
+                <p><big>“<em>keep around expensive-to-generate bits of read-only data in
+                case we need them again, or until the computer really needs that RAM for something else</em>”</big></p>
+                <p>I was writing a custom video editing program in Python (interesting choice of language for that
+                problem) and I wanted to cache decoded frames; but I just wasn’t happy with the memory
+                management of explicit caches.  It means making a decision about how much RAM to ring-fence for
+                something without having global system knowledge.</p>
+                <p>The problem with most caching systems is they aren’t elastic and they don’t
+                dynamically reflect the demands of other applications you are sharing a computer with.  Additionally, in
+                my case, I wanted it to work multi-process too.</p>
+                <p>Python has weak references but they are something else; you have to keep a strong reference to
+                something to keep it around.</p>
+                <p>Java has soft references for caching purposes but they are objects living in the small bit of
+                your RAM assigned to your JVM.</p>
+                <p>My inspiration was the <em><strong>Operating System File System’s “Buffer
+                Cache”</strong></em>:</p>
+                <p>All mainstream OSes have much the same strategy - unused pages of RAM are used to cache disk IO
+                automatically. If your application is reading and/or writing to the same bits of a file, its likely
+                getting reads back straight from the OS 'buffer cache’ without hitting disk. And this happens
+                much more than you think, since all the code and libraries are, at this level, just files too.</p>
+                <p>Imagine you could share that buffer cache?  Imagine you could write data that the <em>kernel</em>
+                only kept around if it didn’t have a better use for it?  And imagine you could share the reads
+                and writes between processes too if you wanted?  And the kernel had a way of managing permissions,
+                locking and sharing.</p>
+                <p>So I made a quick and dirty filesystem to (ab)use the OS VM system for the caching of arbitrary
+                objects without them writing through to file. As the buffer cache sits in front of the filesystem, the
+                filesystem’s reading and writing can look like this:</p>
+                <pre><code>int read(file*, offset, length, bytes*):
+                return -EIO; # report an error
+                int write(file*, offset, length, bytes*):
+                return length; # report success, but don't store the bytes anywhere</code></pre>
+                <p>Now its a case of tracking where you have written your cached items to in some file on this
+                filesystem, and if your reading back of the cached value at some later time succeeds, those bytes were
+                read from the OS’s cached pages!</p>
+                <p>In this way its easy to cache items in the OS and let them compete for free RAM with the IO
+                pages. As caching is diminishing returns, there’s likely plenty of free RAM to store the hot
+                IO and these cached values, with the remainder of free RAM churning with the speculative storing of
+                soon-discarded cold pages of things.</p>
+                <p>It would be a worthwhile finesse to regularly sort popular small items to be near to each
+                sharing pages, but I took the easy way out and aligned all items on page boundaries; after all,
+                uncompressed video frames are several pages each anyway.</p>
+                <p>I used FUSE to get this working. But it was quite slow. Unfair to say was <em>extremely</em>
+                slow, since, it was <strong><em>faster</em></strong> than <strong>memcached</strong>
+                running on the same machine :)</p>
+                <p>But <em><strong>imagine a kernel module filesystem</strong></em> to do
+                this… that’d be blazingly fast. The key lookup could be inside the kernel too; I
+                could imagine a lookup being a dreaded <code>ioctl</code> that returned the file offset and
+                length of items or reserved for storing new items. And if the read hits the filesystem callback, it
+                could check to see if its a miss or if the filesystem itself explicitly evicted the value since it has
+                been replaced by another value in since the offset/length was fetched with the ioctl; in this way,
+                multiple users could use the same store (perfect for forking and other cooperative things; what would
+                your gnome or KDE want to cache that wasn’t naturally a file?). <em>How fast</em>
+                might a kernel module be? Its the same as a RAM disk, basically. That’s <em>fast</em>
+                :)</p>
+                <p>You could go further; if you are using some <strong>NoSQL</strong> server, or even
+                memcached, you likely have it on another node. As sets are a fraction of the gets, you could have a
+                single thread on each client that listens to the NoSQL server for the hashcodes of set keys, and invokes
+                some ioctl that invalidates them in the common cache. This way, all your redis or whatever reads on each
+                of your webserver nodes could be cached locally.</p>
+                <p>Or you could take a classic cache like memcached, that itself could use buffcacher instead of
+                doing its own eviction policy and using a static amount of resources on each node.</p>
+                <p>I wish that all operating systems had a straightforward, even standardised, way to cache data
+                in  a dynamic way.  And I wish that all programming languages came with standard libraries to utilise
+                it.</p>
+                <p>Whilst programs are not particularly getting larger, the data they act upon is.  The future
+                will be full of data, and it’ll be increasingly important to compress that data on storage, as
+                storage is not getting faster even as it gets bigger.</p>
+                <p>I philosophised on whether my buffercacher is the first step towards proper explicit OS support
+                for this; after reflection I decided that yes, <em>files</em> are good abstraction for
+                this.  The OS doesn’t need to learn new tricks, it just needs a file system that is
+                forgetful.  A good library can do the rest.  Just as long as its installed by default ;)</p>
+                <p><strong>Your browser probably reserves 60% or so of your RAM</strong> just to fill
+                up with pages you’ve visited or might soon visit.  (There’s so much wrong with that
+                statement but its true <em>in spirit</em>.)  This is because there isn’t a
+                system-wide caching system it can use.  It ought to be using buffcacher!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#930'">index</button>  <button class="page-link" onclick="window.location='perf.html#930'">perf</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

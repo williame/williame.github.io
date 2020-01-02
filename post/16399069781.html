@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Google: MoreSQL is Real : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Google: MoreSQL is Real</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><img align="left" alt="Alex Tatiyants made this" height="75" src="http://img197.imageshack.us/img197/959/moresql.png" width="257"/></p>
+                <p>The post <a href="http://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
+                tongue-in-cheek.  But its more true and serious and real than the NoSQL crowd want to admit.  And Alex
+                made a sweet logo.</p>
+                <!-- more -->
+                <p>As far as I can determine, NoSQL really means two things - NoJoins and NoORM - usually
+                together.</p>
+                <h3>How did we get into NoSQL anyway?</h3>
+                <p>Its been appreciated for a long time that joins in database queries can be bad for
+                performance.  MySQL made its name with an unreliable storage engine called ISAM that didn’t
+                enforce foreign key constraints.  The only thing going for MySQL was speed and cost, which was a really
+                good combination.  Everybody started using it.</p>
+                <p>The CAP theorem just confirmed everyone’s suspicions that relational databases don’t
+                scale<sup>[1]</sup>.</p>
+                <p>Then Google published some papers on a fancy thing called map-reduce and their distributed
+                data-stores and all the problems of ‘scale’.  Amazon joined the scale-talk party. 
+                Everyone gasped and aped this, despite there being almost nobody working at web-scale.  Ouch, I said
+                that dreaded term, web-scale.  Now I need a cup of tea to calm down.</p>
+                <p>So the rest of us set out to do away with joins, throw out SQL too and head down a new
+                rabbit-hole of non-ORM object-something-mappings.  Really the whole ORM vs
+                not-quite-ORM-but-still-a-restrictive-set-of-cursor-based-interface thing is not making scaling easier
+                for anyone - its all about <a href="http://c2.com/cgi/wiki?SufficientlySmartCompiler" target="_blank">sufficiently
+                smart compilers</a> and just pushing the impedance mismatch between coder and data-store around. 
+                But that’s a digression from the main topic.</p>
+                <p>Everyone is hyping up and jumping on unreliable (but supposedly fast) data-stores with cute
+                trendy names.  Names that, at the end of this decade, will sound dated.</p>
+                <p>The thing is, we’ve been trying to emulate Google.  Build like Google, build
+                web-scale, and they will come (customers, that is.  Well, strictly, users.  Users are the product, but
+                that’s yet another digression).</p>
+                <h3>And what have Google been doing at that time?</h3>
+                <p><a href="http://research.google.com/pubs/pub37200.html" target="_blank"><strong>Tenzing
+                SQL</strong></a>.  Turns out, they are running SQL over their distributed data store, with
+                special handling for tricky things like joins, and their own procedure language as well.  Lots of very
+                real new techniques and applied research.  Really moving things forward.</p>
+                <p>And now <a href="http://research.google.com/pubs/pub38125.html" target="_blank"><strong>F1
+                distributed RDBMS</strong></a> too</p>
+                <blockquote>
+                <p>a novel hybrid system that combines the scalability, fault tolerance, transparent sharding, and
+                cost beneﬁts so far available only in “NoSQL” systems with the usability, familiarity, and transactional
+                guarantees expected from an RDBMS</p>
+                </blockquote>
+                <h3>What will we do now?</h3>
+                <p>We look to Google to lead the web-scale way.  Its just a question of time before the mainstream
+                web-scale crowd discover the Tenzing paper and embark on an SQL layer over Hadoop or whatnot.</p>
+                <p>At the same time, PostgreSQL just keeps performing.  (Its widely ignored that it <a href="http://www.postgresql.org/docs/8.4/static/hstore.html">stores key-values</a>.)</p>
+                <p>Google has open-sourced a key-value store called <a href="http://code.google.com/p/leveldb/" target="_blank">LevelDB</a>.  Its a sorted key-value store.  Its basically an index - the
+                building block of a relational data-store.  I can imagine a new open-source distributed SQL data-store
+                that used LevelDB as the storage engine.</p>
+                <p>The technology that most excites me is fractal tree databases.  Everyone is using B and B+
+                trees in their databases, and even filesystems.  And then some clever chaps in academia invent and apply
+                fractal trees and set up a buisness called <a href="http://www.tokutek.com/" target="_blank">Tokutek</a>
+                selling them.  20x to 80x performance, they claim.</p>
+                <p>SSTable (e.g. LevelDB) vs Fractal Tree would be an interesting performance comparison.</p>
+                <p>In my own benchmarking (of mainstream noSQL and MySQL), every data-store is getting around 5K
+                inserts/sec if you turn on any kind of reliability setting.  This is because of my disks.  Something
+                that promises 20K or more on the same hardware is going to get me excited.</p>
+                <p>So lets get back to the ORM thing shall we?  I distrust ORM with a passion.  The thickness of
+                books attempting to explain the arcane gotchas of Hibernate can be measured in inches.</p>
+                <p>I understand PostgreSQL comes with an asynchronous drivers so I guess you might be able to emit
+                a bunch of different queries and PostreSQL might have an opportunity to reorder or merge them.  But I
+                rather doubt it does, that smacks of sufficiently-smart-compiler syndrome to me.  (UPDATE: commenter has
+                confirmed that it doesn’t do pipelining.)</p>
+                <p><a href="post/16516763725.html" target="_blank">In my own experiments</a>, I found databases to be fastest when my own code
+                buffers DB interaction and reorders things and coalesces things so the DB is getting a few queries each
+                with more payload.  ORMs aren’t doing this.  To get good performance you have to cut out all
+                the abstractions and layers that are making you unsure what’s going over the wire to the DB
+                and you have to write your own prepared query statements yourself, because you know the architecture of
+                the other end.  You are the only compiler sufficiently smart to work all this out.</p>
+                <p>So I think this decade will be the decade web-scale rediscovers joins.  The decade we all join
+                the SQL renaissance.  And, hopefully, the decade of the fractal tree.</p>
+                <p>Of course, mid-decade, Google could go publish yet another paper, this time send us all of in
+                some different direction.  That’s a risk that’s worth hoping for.</p>
+                <p><sup>[1]</sup> CAP is almost too simple to explain; so many think they grasp it and
+                its implications.  That’s a rant for another time, though, trust me :)</p>
+                <p><em>Read all the way to the bottom?  That’s a vote of confidence.  Now go back
+                to the referring site and vote with conscience! :)</em></p>
+                <p><em><br/></em>Liked this?  You might like something completely different too:
+                <a href="post/18917120117.html" target="_self">Do
+                Something Meaningful - Coding for the World</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#909'">index</button>  <button class="page-link" onclick="window.location='perf.html#909'">perf</button>  <button class="page-link" onclick="window.location='db.html#909'">db</button>  <button class="page-link" onclick="window.location='classic.html#909'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Drawing things in the shadow of a sphere : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Drawing things in the shadow of a sphere</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
+                - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
+                else a child of the cold war?</p>
+                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
+                me, so I wanted to capture that feel:</p>
+                <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
+                <p><!-- more --></p>
+                <p>One problem I faced was how to draw those parts of the scene that were on the far side of the
+                earth?  And, having no luck asking on gamedev.stackexchange.com, when I worked it out for myself I felt
+                quite pleased.</p>
+                <p>When you are drawing the scene in perspective, the amount of the world that is visible is
+                dependent upon how far away you are from the earth.  Think of holding a football at arms length and then
+                moving it slowly towards your face.  As the sphere gets closer and closer you can see less and less of
+                its face.  Your horizon shrinks.</p>
+                <p>Its conventional to draw scenes from 3D triangles and let the graphic card’s
+                depth-buffer make choices for you.  But my earth was made up from a collection of lines and I didn’t
+                have a depth-buffer I could use.</p>
+                <p>So how do you determine if a pixel - “fragment” in OpenGL-speak - you are
+                drawing is on the front face of the earth or not?  Only after a lot of false starts and dead ends did I
+                realise how simple it is!</p>
+                <p>Imagine the ray (means an infinite line) from the eye - “camera” in
+                OpenGL-speak - to the fragment you are drawing.  Compute the nearest point on that ray to the centre of
+                the earth.</p>
+                <ul><li>If the distance from that point to centre of the earth is greater than the earth’s
+                radius, then the fragment is somewhere above the earth’s surface the earth and not in the
+                shadow of it;</li>
+                <li>else if the point is behind the fragment then the fragment is on the front face of the sphere,</li>
+                <li>else its in the shadow.</li>
+                </ul><p>So for every fragment you are drawing you just have to compute the nearest point on
+                a line between the camera and fragment and the centre of the earth!  Couldn’t be easier.</p>
+                <p>The algorithm for computing the nearest point on a line to a point is:</p>
+                <p><code>t = (P-B).(A-B) / (A-B).(A-B)</code></p>
+                <p>(That’s the <a href="http://en.wikipedia.org/wiki/Dot_product" target="_blank">dot</a>
+                operator.)  If t is between 0 and 1 then the point is on the line, else its beyond one of the ends.  You
+                can compute the xyz of the point using linear interpolation A+(B-A)*t</p>
+                <p>A and B are the two points on the line and P is the third point; P is the centre of the earth’s
+                position.</p>
+                <p>Notice that we keep subtracting B from all the terms.  And one of the ends of the line is the
+                camera, which is always 0,0,0 in OpenGL!  Subtracting 0,0,0 from another vector is a no-op and we can
+                skip it!</p>
+                <p>So, if we say that B is the camera position 0,0,0 and A is the fragment position, the formula
+                becomes:</p>
+                <p><code>t = (P.A) / (A.A)</code></p>
+                <p>Linear interpolation is:</p>
+                <p><code>D = A + (B-A)*t</code></p>
+                <p>And A is … 0,0,0.  So that simplifies to B*t.</p>
+                <p>Now we need to work out how far this point is from the sphere’s centre:</p>
+                <p><code>D = sqrt(B*t - P)</code></p>
+                <p>But as usual we don’t care how far away it is, only if its beyond the earth’s
+                radius.  For comparison purposes, there is no need to sqrt; you can just square the other side of the
+                comparison instead.  This is a classic performance improvement:</p>
+                <p>if(B*t -P &lt;= R*R) …</p>
+                <p>Furthermore, in this particular case I’m rendering the earth as a <a href="http://en.wikipedia.org/wiki/Unit_sphere" target="_blank"><em>unit sphere</em></a>,
+                so the radius is 1 and R*R is 1:</p>
+                <p>if(B*t - P &lt;= 1) …</p>
+                <p>If this if-statement is true, then the ray passes through the earth and then the value of t is
+                interesting; if its less than 1 then the fragment is in the earth’s shadow!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#746'">index</button>  <button class="page-link" onclick="window.location='rec1.html#746'">rec</button>  <button class="page-link" onclick="window.location='game.html#746'">game</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

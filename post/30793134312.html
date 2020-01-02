@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Cage Flight post-mortem #2: the graphics guy : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Cage Flight post-mortem #2: the graphics guy</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>(<a href="http://www.ludumdare.com/compo/2012/09/02/cage-flight-post-mortem-2-the-graphics-guy/" target="_blank">Originally posted</a> to Ludum Dare; this was written by my co-conspirator)</p>
+                <p><img src="media/old/30793134312_1.jpg"/></p>
+                <p><em>At the ungodly hour of 7am on Saturday 25th August we found out the theme, and had a
+                bit of a brainstorm whereby we arrived at fighting, in space, in a cage. Obvious really.</em></p>
+                <p>To play Cage Flight: <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313">http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313</a></p>
+
+                <p>For a more technical post-mortem see <a href="http://www.ludumdare.com/compo/2012/08/30/cage-flight-autopsy/">http://www.ludumdare.com/compo/2012/08/30/cage-flight-autopsy/</a></p>
+                <p>We started a bit behind due to time zones, and we had a bit shorter anyway as although the
+                deadline for jam entries is not until Monday evening, Monday is a work day for both of the team. But
+                that’s no excuse, we still had plenty of time to build a game. Our team this time were:</p>
+                <p><!-- more -->Concept: Joint between Will (<a href="http://www.ludumdare.com/compo/author/william_edwards/">http://www.ludumdare.com/compo/author/william_edwards/</a>)
+                and me, with him having final vote</p>
+                <p>Coding: Will</p>
+                <p>Art &amp; Audio: Me</p>
+                <p>Special thanks: A guy called Philip (Dev in 0AD) for timely advice, Glest community for
+                play-testing and game-play videos</p>
+                <p><strong>Start</strong></p>
+                <p>Not a bad start. For a moment our hearts sunk as going in we’d assessed Evolution as one of the
+                more challenging themes as it implies characters having to evolve. But despite the initial glumness we
+                suddenly made the association to Natural Selection and Survival of the Fittest and saw that that can
+                be misinterpreted to me conflict, combat and generally fun/cool things. We put aside our ideas
+                of simulated deer populations and focused on the essence of conflict, one against all combat to the
+                death. Um, in a cage, in space. In parody of MMA/UFC, we called it <strong>Cage Flight. </strong>It’s
+                a multi-player in-browser flight-combat game, quite arcade and really basic in the sense it’s just you
+                against everybody.</p>
+                <p><strong>Graphics</strong></p>
+                <p>This wasn’t really a challenging graphics assignment for me. Unlike the LD23 entry which was
+                two days of solid drawing (<a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313">http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313</a>).
+                Overall we are quite pleased with the graphics; they give it the feel we wanted and look decent enough.
+                Of course we’d do more and better if we had more time.</p>
+                <p><strong>2D graphics</strong></p>
+                <p>I did the game intro flash within the first couple of hours. I had a brainwave to pay homage to
+                the Streetfighter logo:</p>
+                <p><img src="media/old/30793134312_1.gif"/></p>
+                <p>It’s not a straight copy of course, but by-eye that’s the feel I wanted to give it. A bit
+                comic/pop-art, a bit retro and not taking itself too seriously. To balance the Streetfighter bias at
+                the beginning, I made the death splash a Mortal Kombat reference. We also had a splash for winning but
+                it isn’t used as the player just plays until they are either killed or close the browser window.</p>
+                <p>At the end we also had the idea of combining the intro flash with the help menu, so we added a
+                graphic to show the keyboard controls. Except that we kept changing the controls as we play tested so I
+                kept having to re-do it.</p>
+                <p><strong>Models</strong></p>
+                <p>We opted for G3D models created in Blender. This is the format Glest RTS uses so we are
+                familiar with it. It’s not the best format in some respects but completely adequate. A few tricks I
+                employed to speed up the mass-production of models:</p>
+                <p>a) All models use the same base texture. It’s a 256×256 PNG with no transparency or team color
+                etc. I don’t do the typical way of skinning models, I can’t explain it but an ex[erienced blender artist
+                would think it’s quite basic what I do, but it’s quick.</p>
+                <p>b) Each model is an evolution of one of the previous ones. Not starting from scratch. I
+                manipulate base meshes like cubes and cylinders, and never use sculpting. Everything is by eye.</p>
+                <p>c) Little re-work; generally I make it up as I go along and live with the results.</p>
+                <p>We intended to have 8 ships – I wanted to have a pre-game lobby where you pick your ship and
+                maybe even your camouflage scheme. Each ship would have different stats, so you would chose firepower
+                against armor etc.  Will didn’t think it added anything so we just made the player have a random ship.
+                All the ships perform equally. Also, firepower and armor became irrelevant – due to time we went for 1
+                hit 1 kill which played better anyway.</p>
+                <p>Early iteration of ‘Rhino’ space fighter, and in-game version. Every time I tweaked the texture
+                it was applied to all ships.</p>
+                <p><img src="media/old/30793134312_2.jpg"/></p>
+                <p><em>The design of this ship is influenced by helicopter gunships and mechs</em></p>
+                <p><strong>Audio</strong></p>
+                <p>Not my thing but I’d found<em> Audacity</em> and <em>Bfxr</em>. Great
+                for sound effects. I made masses of sound effects for power-ups, explosions and collecting coins. The
+                only one we ended up needing was the lasing zap (yep, we know lasers don’t make sounds).</p>
+                <p>We had planned to record human voice for intro and narrative. We tried but my microphone wasn’t
+                up to it and I couldn’t figure out how to remove background static. So frantically I searched for text
+                to speech programs and found an online version of <em>Mary</em> text to speech engine.
+                Great, very pleased with the results!</p>
+                <p><strong>Things we dropped</strong></p>
+                <ul><li>Client-side slerping</li>
+                <li>Coins, credits and scoring. Health points, power-ups</li>
+                <li>Ships having distinct flight/combat charactristics</li>
+                <li>Explosion effects</li>
+                <li>Winning criteria and flash, high-scores board</li>
+                <li>Cockpit-view</li>
+                </ul><p><strong>Good and bad</strong></p>
+                <p>Well the graphics were a success, and well within the time limits. We didn’t have time to add
+                explosions, particles or better laser effects (currently draws a line programmatically).</p>
+                <p>During the build our main pains was around Quaternions. See Will’s autopsy for details of that.
+                Due to that we ditched some features but actually simple is better anyway.</p>
+                <p>In the final play <strong>our main problem is simply server FPS</strong>. Our
+                server was running at 8 FPS and now 12 FPS. From feedback people are expecting more.</p>
+                <p>Another problem is that it’s multi-player. That was what we set out to build, but it means that
+                if you join the game and no one else is in, there’s not much for you to do. A third problem may be the
+                flight controls. They are configured for things like speed and turn rates to be cumulative, and I think
+                some people may mistake this as lag or general unresponsiveness.</p>
+                <p><strong>Evolved version</strong></p>
+                <p>Are we going to continue building the game with credits, health points, player personalisation,
+                high-score keeping, client side drawing… no. We are deep in playing and rating other people’s LD
+                submissions and already we are inspired to build completely different games.</p>
+                <p><strong>BRING ON LUDUM DARE 25!!!!<br/></strong></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#799'">index</button>  <button class="page-link" onclick="window.location='rec2.html#799'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#799'">ludum-dare</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

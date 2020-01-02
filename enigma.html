@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: enigma</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>enigma</h1>
+    
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145830743193.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="637">
+    <h2>My attack on the Enigma cipher machine</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" data-orig-height="250" data-orig-width="166" src="media/old/145830743193_1.jpg" style="float: left;"/><i>see also:</i><br/></p><ul><li><a href="post/145304200648.html">Enigma
+                Machine on Paper and Python</a></li>
+                <li><a href="post/145557308308.html">Fast
+                Enigma sim in C++</a></li>
+                <li><a href="post/145745642718.html">A
+                brief history of the Enigma and the pre-war cracking of it</a></li>
+                <li><a href="post/19946053957.html">Enigma
+                in a spreadsheet!</a></li>
+                </ul><p>My favourite book was <a href="http://simonsingh.net/books/fermats-last-theorem/">Fermat’s
+                Last Theorem</a> by Simon Singh.  So when in 1999 I saw his new book - <a href="http://simonsingh.net/books/the-code-book/">The Code Book</a> - in shops I just had to
+                buy it, despite it being incredibly expensive (for a very poor student like myself).  I then took my new
+                prize procession with me expectantly on the summer holiday.  And when I reached the end of the book that
+                I discovered it contained a <a href="http://simonsingh.net/cryptography/cipher-challenge/the-ciphertexts/">Cipher Challenge</a>!</p><p>I
+                set about cracking the ciphers with gusto.  By chance I happened to have my 286 computer with me, and my
+                hobby language of choice - Turbo Pascal 7. </p><p>I think I skipped the ADFGVX cipher, so
+                excited was I at the prospect of cracking the <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma</a>
+                stage 8 of the contest.  Unfortunately, when I reached the Enigma, I was stumped.  I couldn’t
+                make any headway with simulating the Enigma.  I wrongly assumed that the message would begin with the
+                message key encrypted with the day key twice.  But my biggest mistake was not understanding how rings
+                affected things.  I didn’t understand how rings affected things because The Code Book didn’t
+                actually explain them!  The book instructed the intrepid explorer to search the Internet for more
+                details and I didn’t take any heed of this because a) I couldn’t imagine the book
+                wouldn’t actually give me everything I needed to crack the challenge, and b) I didn’t
+                have any Internet.  The Enigma I was trying to crack wasn’t even an accurate Enigma.</p><p>So
+                17 years later I find myself on a whim tacking the Enigma once again.  And my computer is a bit faster
+                too.  But I want to attack it my way, putting myself as much as possible in the shoes of my old self 17
+                years ago, only this time with Internet so I can double-check the correctness and completeness of my
+                implementation of the Engima cipher machine.</p><p>This is my attack on the Enigma.  I will
+                describe my attack on an M3 Enigma (used by the army and air force) and then I will generalize it to
+                attack the M4 (used by the U-boats; what Alan Turing is famous for cracking).</p><!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index.html#637'">index</button>  <button class="page-link" onclick="window.location='rec.html#637'">rec</button> 
+<button class="page-link" onclick="window.location='post/145830743193.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145745642718.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="638">
+    <h2>A brief history of the Enigma and the pre-war cracking of it</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A lot of people now think that Alan Turing cracked the Enigma.  A lot of people like
+                to correct those people and say that it was the Poles who truly cracked the Enigma.  So we really need
+                to correct everyone and set things straight, because it was far more nuanced than that, with far more
+                people involved, and different versions of Enigma were cracked even earlier.  If you read enough about
+                code breaking you end up with a fuzzy timeline in your head pieced together from all the various
+                sources.  Here’s what I’ve osmosed:</p><img data-orig-height="328" data-orig-width="900" src="media/old/145745642718_1.jpg"/><!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index.html#638'">index</button>  <button class="page-link" onclick="window.location='rec.html#638'">rec</button> 
+<button class="page-link" onclick="window.location='post/145745642718.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145557308308.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="639">
+    <h2>Fast Enigma sim in C++</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Following on from my <a href="post/145304200648.html">Python
+                Enigma cipher machine simulator</a>, I re-wrote it in C++ for maximum speed.</p>
+
+                <p>The settings for each rotor - its start position and ring setting - can actually be combined
+                into a single offset. This is perhaps why all the popular treatments of the subject just ignore the
+                impact of the rings on the number of combinations. In truth, their impact is hard to explain. The rings
+                change when rotors rotate, and do have an impact on the number of combinations, but many initial
+                starting positions are equivilent for short messages because the rings cancel out the rotor start
+                position and do not cause a rotation because the message is too short.</p>
+
+                <p>The M4 Enigma - as infamously used by the U-boats - is usually described as a ‘four
+                rotor’ machine. And that’s strictly true, I suppose, but I think I have a better way
+                of describing it:</p>
+
+                <p>The M4 was a normal 3-rotor M3 Enigma chassis. A new 'thin’ reflector design was
+                developed that could take a new, thinner 'greek’ non-rotating wheel. The thin greek wheel
+                could be placed in any of 26 positions and clicked into the thin reflector. This could then be placed in
+                the chassis in the normal reflector position.</p>
+
+                <p>So basically the M4 is an M3 Enigma with a configurable reflector.</p>
+
+                <p>I wrote the fast Enigma sim to serve as a basis of a statistical attack on the Enigma. In fact,
+                if you look at my test vectors, you’ll notice one of them is <a href="http://simonsingh.net/cryptography/cipher-challenge/" target="_blank">Simon Singh’s
+                Cipher Challenge Enigma stage 8</a>, which I cracked using my statistical attack! More on that in
+                the next post :)</p>
+
+                <p>And here’s the code. As you can see, the vast majority of the code is just test
+                vectors to ensure its correctness:</p>
+
+
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index.html#639'">index</button>  <button class="page-link" onclick="window.location='rec.html#639'">rec</button> 
+<button class="page-link" onclick="window.location='post/145557308308.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/145304200648.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="640">
+    <h2>Enigma Machine on Paper and Python</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(<i>don’t forget to also read: <a href="post/145830743193.html">my
+                attack on the Enigma cipher machine</a></i>)</p>
+
+                <p>It turns out my kids have been sending each other secret messages, enciphered with a
+                substitution cipher of their own invention!  They only let me see the secret key when I agreed to help
+                them mix up a very complicated recipe for invisible ink:</p><img alt="image" data-orig-height="640" data-orig-width="480" src="media/old/145304200648_1.jpg"/><p>This reawakened
+                fond memories of a young me getting a good way through Simon Singh’s The Code Book <a href="http://simonsingh.net/cryptography/cipher-challenge/">cipher challenge</a> :)  (Also, see
+                the <a href="post/19946053957.html">Enigma
+                Spreadsheet</a> my friend made a few years ago!)</p><p>So my mind raced considering
+                how fast todays laptops can brute-force, say, Enigma?  Even non-brute-force attacks are on a different
+                scale if you have a computer.  For example, with Enigma, can you ignore the plugboard and go through
+                every combination of day and message key, using a histogram to spot possible text that you then attack
+                as a substitution cipher?</p><p>First I needed an accurate Enigma simulator.  To be honest,
+                I found most descriptions a bit light on detail.  But I quickly found a <a href="http://wiki.franklinheath.co.uk/index.php/Enigma/Paper_Enigma">paper Enigma</a>, which I
+                made:</p><img alt="image" data-orig-height="1432" data-orig-width="1910" src="media/old/145304200648_2.jpg"/><p>From this, I was
+                able to create a <a href="https://gist.github.com/williame/94beef4b9afea659864950c29d402b90">Python
+                Enigma machine!  Source available here</a>:</p>
+                <!-- more --></post-body>
+ <button class="page-link" onclick="window.location='index.html#640'">index</button>  <button class="page-link" onclick="window.location='rec.html#640'">rec</button> 
+<button class="page-link" onclick="window.location='post/145304200648.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/19946053957.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="869">
+    
+</a>
+<?xml version="1.0" ?><post-body><p><big><strong>Enigma in a spreadsheet!</strong></big></p>
+                <p>Back in the summer of 2009 a friend of mine read a few of <a href="post/19794076450.html" target="_blank">my
+                books</a> covering cryptography.</p>
+                <p>This is his interpretation of the <a href="http://www.bletchleypark.org.uk/content/machines.rhtm" target="_blank">Enigma cipher machine</a>;
+                the distillation of a mental model he formed from reading those popular-science treatments of the
+                machine.</p>
+                <p>He is <em>not</em> a programmer or anything but he just proved his aptitude; and he’s
+                super-<em>leet</em> at Excel too!</p>
+                <p>I think we can all agree this <em>is</em> programming, even when done by someone
+                who is not a professional programmer and who has no formal programming education.</p>
+                <p>When I asked him if I could post his old Enigma spreadsheet, he was skeptical that anyone would
+                be interested.  Outside the programming world, normal people think making complicated spreadsheets in
+                their spare time is creepy and to be suppressed ;)</p>
+                <p>Now the Internet is awash with Engima machines in Flash applets and such; none seem to agree
+                with any other, and this spreadsheet is no exception to that.  So it would be most unlikely this is a
+                truly accurate representation of the real machine.</p>
+                <p>However, my friend is a good visual learner; I think if we could just get him to <a href="http://www.bletchleypark.org.uk/" target="_blank">Bletchley Park</a> he’d
+                refine and fix his mental model and build a better, more correct spreadsheet :)</p>
+                <p>I figure we all just have to give him encouragement - comments and code review and such - and
+                get his appetite whetted for doing more of this computer type of thing!  So if you enjoy his work,
+                please say</p>
+                <p><a href="https://github.com/williame/enigma-spreadsheet/raw/master/Enigma3.xlsm">Download
+                the spreadsheet here</a></p>
+                <p>Discussion on <a href="http://news.ycombinator.com/item?id=3755656" target="_blank">Hacker
+                News</a> and <a href="http://www.reddit.com/r/excel/duplicates/rdxym/an_enigma_cipher_machine_implemented_in_an_excel/" target="_blank">Reddit</a>; saw it somewhere else?  please say :)</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/cmnMlvfTDoM"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='index4.html#869'">index</button>  <button class="page-link" onclick="window.location='rec2.html#869'">rec</button>  <button class="page-link" onclick="window.location='classic.html#869'">classic</button> 
+
+</div>
+
+
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

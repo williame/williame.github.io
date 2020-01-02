@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>SSIM vs MSE for Mosaics : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>SSIM vs MSE for Mosaics</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><img data-orig-height="125" data-orig-width="600" src="media/old/117234199303_1.jpg"/><p>(On the left, a target image.
+                 On the right, a <a href="http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/">mosaic made from
+                thumbnails of all the Ludum Dare 32 games</a>, positioned using an MSE score metric.)</p><p>Making
+                mosaics is in two steps:</p><ol><li>score each tile in each position</li><li>determine
+                the optimal positioning of all tiles to maximize the total likeness</li></ol><p>The
+                second part is easy (although I tried imprecise approximations at first, and only discovered it fairly
+                recently): use the <a href="http://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
+                that first step that’s tricky.</p><p>I have been using <a href="http://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
+                been fairly happy with the result.  But readers have pondered if there aren’t better metrics that better
+                account for shape and contrast and such…</p><p>So to please some Ludum Darers
+                (and because I was curious), I tried out some algorithms.</p><p>First, <a href="http://Peak%20signal-to-noise%20ratio">Peak Signal to Noise Ratio (PSNR)</a> is just a
+                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="http://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
+                 This was a promising avenue to explore.  My mosaic maker is Python and there’s a scikit helper, but
+                scikit doesn’t work with pypy (and neither does a stock numpy; trying to get the mosaic maker to work
+                happily in pypy with these kinds of dependencies has been a nightmare).  In the end I went with pyssim
+                which turned out to not work in pypy either due to dependencies but I stuck with it on cpython anyway.
+                 Its about 4x slower than MSE and most of the cost seems to be comparison overhead and not really
+                affected by how big the patches I compared were.</p><p>SSIM is actually working in luma (eh
+                fancy term for grayscale) and trying to account for shape not colour.</p><p>The results:</p><img alt="image" data-orig-height="200" data-orig-width="387" src="media/old/117234199303_2.jpg"/><p>(On the left, the
+                original.  In the middle, MSE.  And on the right, SSIM.  Tiles are the thumbnails of <b><a href="http://ludumdare.com/compo/ludum-dare-32/">2819 Ludum Dare 32 games</a></b>
+                (omitting 2 games with broken thumbnails!))</p><p>So I tried blending the MSE and SSIM
+                scores (suitably scaled of course) but couldn’t get even a little bit of SSIM to help:</p><img alt="image" data-orig-height="200" data-orig-width="137" src="media/old/117234199303_3.jpg"/><p>(Here 70% MSE and
+                30% SSIM.  I even tried 8% SSIM and it looked much the same.)</p><p>I also tested using the
+                YCbCr colour-space too; results were much the same (as all the tiles are screenshots they are invariably
+                natively RGB; if the tiles were made from photos there’s a good chance that YUV makes much more sense).</p><p>Now
+                I am making a novice interpretation of this but my guess is that in mosaics, which are best viewed from
+                a great distance where the tiles are increasingly pixel-sized, tile colour dominates over shapes within
+                the tile?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#650'">index</button>  <button class="page-link" onclick="window.location='rec.html#650'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#650'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#650'">mosaic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>popen3 : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>popen3</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>I was a bit confused; there didn’t seem to be a <code>popen3</code>
+                function for c/c++ anywhere.  Sure, there are some <code>popen2</code> out there, but to my
+                eye all those I found were buggy. And what about <code>STDERR</code>?<br/><br/>
+                Remember, if you’re using this, to make heavy use of <code>O_CLOEXEC</code> (that’s
+                backwards! I think its broken that you have to say which you want closed, rather than having to
+                specifically say which you want to remain open). Or you could add some horrid forced closing of all
+                possible file handles (there is a fast, portable way to do that?).<br/><br/> I tend to
+                immediately set the returned descriptors to <code>O_NONBLOCKING</code> and that works great.<br/><br/>
+                Here’s a bowdlerised version of my <code>popen3()</code>:<br/><br/></p>
+                <pre> 3 <strong>int</strong> popen3<strong>(</strong><strong>int</strong>
+                fd<strong>[</strong>3<strong>]</strong><strong>,</strong><strong>const</strong>
+                <strong>char</strong> <strong>*</strong><strong>*</strong><strong>const</strong>
+                cmd<strong>)</strong> <strong>{</strong>
+                4 <strong>int</strong> i<strong>,</strong> e<strong>;</strong>
+                5 <strong>int</strong> p<strong>[</strong>3<strong>]</strong><strong>[</strong>2<strong>]</strong><strong>;</strong>
+                6 pid_t pid<strong>;</strong>
+                7 // set all the FDs to invalid
+                8 <strong>for</strong><strong>(</strong>i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                9 p<strong>[</strong>i<strong>]</strong><strong>[</strong>0<strong>]</strong>
+                <strong>=</strong> p<strong>[</strong>i<strong>]</strong><strong>[</strong>1<strong>]</strong>
+                <strong>=</strong> <strong>-</strong>1<strong>;</strong>
+                10 // create the pipes
+                11 <strong>for</strong><strong>(</strong><strong>int</strong> i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                12 <strong>if</strong><strong>(</strong>pipe<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>)</strong><strong>)</strong>
+                13 <strong>goto</strong> error<strong>;</strong>
+                14 // and fork
+                15 pid <strong>=</strong> fork<strong>(</strong><strong>)</strong><strong>;</strong>
+                16 <strong>if</strong><strong>(</strong><strong>-</strong>1 <strong>=</strong><strong>=</strong>
+                pid<strong>)</strong>
+                17 <strong>goto</strong> error<strong>;</strong>
+                18 // in the parent?
+                19 <strong>if</strong><strong>(</strong>pid<strong>)</strong> <strong>{</strong>
+                20 // parent
+                21 fd<strong>[</strong>STDIN_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>;</strong>
+                22 close<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                23 fd<strong>[</strong>STDOUT_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>;</strong>
+                24 close<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                25 fd<strong>[</strong>STDERR_FILENO<strong>]</strong> <strong>=</strong>
+                p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>;</strong>
+                26 close<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                27 // success
+                28 <strong>return</strong> 0<strong>;</strong>
+                29 <strong>}</strong> <strong>else</strong> <strong>{</strong>
+                30 // child
+                31 dup2<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>,</strong>STDIN_FILENO<strong>)</strong><strong>;</strong>
+                32 close<strong>(</strong>p<strong>[</strong>STDIN_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                33 dup2<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>,</strong>STDOUT_FILENO<strong>)</strong><strong>;</strong>
+                34 close<strong>(</strong>p<strong>[</strong>STDOUT_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                35 dup2<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>,</strong>STDERR_FILENO<strong>)</strong><strong>;</strong>
+                36 close<strong>(</strong>p<strong>[</strong>STDERR_FILENO<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                37 // here we try and run it
+                38 execv<strong>(</strong><strong>*</strong>cmd<strong>,</strong>const_cast<strong>&lt;</strong><strong>char</strong><strong>*</strong><strong>const</strong><strong>*</strong><strong>&gt;</strong><strong>(</strong>cmd<strong>)</strong><strong>)</strong><strong>;</strong>
+                39 // if we are there, then we failed to launch our program
+                40 perror<strong>(</strong>&quot;Could not launch&quot;<strong>)</strong><strong>;</strong>
+                41 fprintf<strong>(</strong>stderr<strong>,</strong>&quot; \&quot;%s\&quot;\n&quot;<strong>,</strong><strong>*</strong>cmd<strong>)</strong><strong>;</strong>
+                42 _exit<strong>(</strong>EXIT_FAILURE<strong>)</strong><strong>;</strong>
+                43 <strong>}</strong>
+                44 error<strong>:</strong>
+                45 // preserve original error
+                46 e <strong>=</strong> errno<strong>;</strong>
+                47 <strong>for</strong><strong>(</strong>i<strong>=</strong>0<strong>;</strong>
+                i<strong>&lt;</strong>3<strong>;</strong> i<strong>+</strong><strong>+</strong><strong>)</strong>
+                <strong>{</strong>
+                48 close<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>[</strong>0<strong>]</strong><strong>)</strong><strong>;</strong>
+                49 close<strong>(</strong>p<strong>[</strong>i<strong>]</strong><strong>[</strong>1<strong>]</strong><strong>)</strong><strong>;</strong>
+                50 <strong>}</strong>
+                51 errno <strong>=</strong> e<strong>;</strong>
+                52 <strong>return</strong> <strong>-</strong>1<strong>;</strong>
+                53 <strong>}</strong></pre>
+            </post-body>
+ <button class="page-link" onclick="window.location='index6.html#943'">index</button>  <button class="page-link" onclick="window.location='lang.html#943'">lang</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

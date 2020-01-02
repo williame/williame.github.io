@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>My attack on the Enigma cipher machine : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>My attack on the Enigma cipher machine</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><img alt="image" data-orig-height="250" data-orig-width="166" src="media/old/145830743193_1.jpg" style="float: left;"/><i>see also:</i><br/></p><ul><li><a href="post/145304200648.html">Enigma
+                Machine on Paper and Python</a></li>
+                <li><a href="post/145557308308.html">Fast
+                Enigma sim in C++</a></li>
+                <li><a href="post/145745642718.html">A
+                brief history of the Enigma and the pre-war cracking of it</a></li>
+                <li><a href="post/19946053957.html">Enigma
+                in a spreadsheet!</a></li>
+                </ul><p>My favourite book was <a href="http://simonsingh.net/books/fermats-last-theorem/">Fermat’s
+                Last Theorem</a> by Simon Singh.  So when in 1999 I saw his new book - <a href="http://simonsingh.net/books/the-code-book/">The Code Book</a> - in shops I just had to
+                buy it, despite it being incredibly expensive (for a very poor student like myself).  I then took my new
+                prize procession with me expectantly on the summer holiday.  And when I reached the end of the book that
+                I discovered it contained a <a href="http://simonsingh.net/cryptography/cipher-challenge/the-ciphertexts/">Cipher Challenge</a>!</p><p>I
+                set about cracking the ciphers with gusto.  By chance I happened to have my 286 computer with me, and my
+                hobby language of choice - Turbo Pascal 7. </p><p>I think I skipped the ADFGVX cipher, so
+                excited was I at the prospect of cracking the <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma</a>
+                stage 8 of the contest.  Unfortunately, when I reached the Enigma, I was stumped.  I couldn’t
+                make any headway with simulating the Enigma.  I wrongly assumed that the message would begin with the
+                message key encrypted with the day key twice.  But my biggest mistake was not understanding how rings
+                affected things.  I didn’t understand how rings affected things because The Code Book didn’t
+                actually explain them!  The book instructed the intrepid explorer to search the Internet for more
+                details and I didn’t take any heed of this because a) I couldn’t imagine the book
+                wouldn’t actually give me everything I needed to crack the challenge, and b) I didn’t
+                have any Internet.  The Enigma I was trying to crack wasn’t even an accurate Enigma.</p><p>So
+                17 years later I find myself on a whim tacking the Enigma once again.  And my computer is a bit faster
+                too.  But I want to attack it my way, putting myself as much as possible in the shoes of my old self 17
+                years ago, only this time with Internet so I can double-check the correctness and completeness of my
+                implementation of the Engima cipher machine.</p><p>This is my attack on the Enigma.  I will
+                describe my attack on an M3 Enigma (used by the army and air force) and then I will generalize it to
+                attack the M4 (used by the U-boats; what Alan Turing is famous for cracking).</p><!-- more --><p><img alt="image" data-orig-height="341" data-orig-width="300" src="media/old/145830743193_1.png" style="float: right;"/>The best way to
+                understand how the Enigma works is to <a href="post/145304200648.html">make
+                one from paper</a>, following instructions you find <a href="http://wiki.franklinheath.co.uk/index.php/Enigma/Paper_Enigma">on the web</a>.  Each time
+                the user presses a key the key goes (via a plugboard) into the rightmost rotor.  Here is is translated
+                to another letter and goes into the middle rotor where it gets translated again.  In then goes to the
+                leftmost rotor where, after being translated again, it goes into a reflector.  The reflector sends it
+                back into the leftmost rotor at another point, which translates it to another letter and sends it to the
+                middle wheel and eventually back through the rightmost rotor and back through the plugboard to the lamp
+                panel:</p>
+                <p>The rotors advance before each keypress, like the dials in odometer.  The rightmost rotor
+                advances each keypress and notches on it advance the middle rotor once per full revolution.  The middle
+                rotor also has notches on it and can knock the other wheels once each full revolution.</p><p>The
+                Enigma has a lot of possible settings.</p><p>First, there are the combinations of 3 rotors
+                and 1 reflector.  The M3 started with 3 rotors and two reflectors; then the Navy added 2 more, and the
+                army followed suit, and then the navy upped it to 8.  There are 6 ways to order 3 rotors, 60 ways to
+                pick from 5 rotors and 336 ways to pick from 8.  There were two reflectors to choose from.  So worst
+                case 672 combinations of rotor and reflector.</p><p>Then each rotor has 26 possible starting
+                positions (A through Z).  26 x 26 x 26 is 17,576.</p><p>Then the middle and right rotors
+                have 26 possible ring positions, which affects when they ‘knock’ the other rotors into
+                rotating.  (The leftmost rotor has a ring too, but has no impact on encryption when its the leftmost
+                ring.)  There are therefore 26 x 26 = 676 ring combinations.  However, as a slight detail, not all
+                messages are long enough to cause the middle ring to knock and therefore the impact of the rings is a
+                function of the length of the message.  To simplify things I am going to ignore this, meaning my attack
+                is going to blindly iterate over equivalent rotor settings on short messages.</p><p>Finally,
+                we have the plugboard.  Early on 6 pairs of letters were swapped and later this was changed to 10 pairs.
+                 There are 100,391,791,500 ways to order 6 pairs and 150,738,274,937,250 ways to order 10.</p><p>So
+                the early M3 Enigmas had:</p><p>2 x 6 x 17,576 x 676 x 100,391,791,500
+                = 14,313,511,465,501,248,000 keys</p><p>And the later M3s had:</p><p>2 x 336
+                x 17,576 x 676 x 150,738,274,937,250 = 1,203,537,298,065,206,936,832,000 keys</p><p>These
+                are very very big numbers!  The earliest M3 is providing 64-bits key and the later M3s 80-bits.  (As
+                usual, I find slightly different numbers quoted in various texts where e.g. the number of reflectors is
+                disregarded.  Corrections welcome!)</p><p>The World War 2 attacks on the Enigma were very
+                very very clever and, in hindsight, the Germans didn’t understand the weaknesses nor make
+                things as difficult for the allies as they could have.  The Germans considered the number of
+                combinations as astronomically more than those massive numbers above because they didn’t realise that
+                the rotor wirings were <i>known to the allies</i>.  The <a href="post/145745642718.html">Poles
+                correctly determined</a> and guessed the wirings just by analyzing a manual a spy gave them.
+                 Later, as more wheels were added, the allies set out to capture them by boarding captured boats and
+                such.  This was despite the fact that they themselves captured the equivalent British <a href="https://en.wikipedia.org/wiki/Typex">TypeX</a> cipher machine at Dunkirk.  Let this be a
+                message to those relying on the obscurity of the algorithm itself! <small>(When Admiral Dönitz
+                commissioned the M4 Engima for his U-boat fleet, was he thinking there was a spy with access to the
+                surface fleet day keys?)</small></p><p>The allies took advantage of the fact that
+                messages were predictable and that the Enigma never ever encrypted a letter as itself.  This provided
+                them with ‘cribs’ that dramatically cut down the search space.</p><p>However, my attack is
+                thoroughly modern and uncunning.  I’m going to try and use computing brute force which, unavailable in
+                World War 2, is now at my fingertips in my oldish slowish laptop!  What takes world-beating cleverness
+                in the wartime can now be done by dumb repetition by a schoolboy-level-programmer in 2016! :)</p><p>So,
+                if we get a computer to iterate over all the possible keys, how does it know which key is the correct
+                one?  A human would have to know German and read each decrypt and see if it made sense.  A computer can
+                look the decrypt up in a German dictionary and German grammar too.  Or we could short cut that and say
+                that, if we have the key wrong, then the outcome should be seemingly random.  If the outcome isn’t
+                random, i.e. there’s a very uneven distribution of letter frequencies, then its a good
+                candidate decrypt for human intervention.</p><p>Having show you how big the numbers are, you
+                can see how daunting a brute-force attack would be.  However, I’m going to disregard the
+                plugboard.  If we disregard the plugboard then suddenly the numbers become much much smaller.</p><p>The
+                thing about the plugboard is that it doesn’t swap all the letters, and letters it doesn’t
+                swap have the usual frequency in the decrypt.  The swapped letters get garbled in the decrypt, but if
+                sufficient letters go through ungarbled then the frequency counts of the letters should still be uneven
+                enough to trigger it being treated as a candidate solution.  The job then becomes to discover a
+                plugboard that makes sense of the garbled parts of the message.<br/></p><p>In the
+                Cipher Challenge, the Enigma stage 8 has the three rotors and the reflector specified.  These are
+                actually the I, II and III rings and the B reflector.  We just don’t know the order of the
+                rotors nor the starting positions nor the rings.</p><p>1 x 6 x 17,576 x 676 = 71,288,256</p><p>71M
+                is a very small number for a modern computer.  My computer can, on a single core, iterate through all
+                71M possible rotor start positions and decrypt the message in under 10 minutes, using just one core.  I
+                have four cores, so wall-clock time could be under 3 minutes, and this is a 2014 laptop.  (It would have
+                been feasible - given days to weeks - to tackle this on a 286 too.  I would have optimised harder.)</p><p>To
+                judge the randomness of the decrypt I just work out the frequency of the most common letter.  Here is
+                the distribution for the Cipher Challenge text:</p><p>42 = 13<br/>41 = 27<br/>40
+                = 18<br/>39 = 56<br/>38 = 92<br/>37 = 277<br/>36 = 536<br/>35 = 1132<br/>34
+                = 3228<br/>33 = 8697<br/>32 = 21143<br/>31 = 49767<br/>30 = 115703<br/>29
+                = 256947<br/>28 = 550083<br/>27 = 1124947<br/>26 = 2194175<br/>25 = 4036371<br/>24
+                = 6904511<br/>23 = 10651956<br/>22 = 14097448<br/>21 = 14880108<br/>20 =
+                10951117<br/>19 = 4615207<br/>18 = 792354<br/>17 = 32251<br/>16 = 92</p><p>There
+                are 367 characters in the message and there are 26 characters in the alphabet so the average would be
+                14.  Most of the decrypts are rather noisy.  Only a handful are not noisy and worthy of further
+                consideration.   (In fact, most of these are actually duplicate results caused by the middle ring not
+                rotating.  If we just greedily decrypt the highest candidates we happen hit the true solution
+                immediately.)</p><p>This is the decrypt of the Cipher Challenge text, picking the rotor
+                settings with highest maximum frequency in the decrypt, ignoring the plugboard:</p>
+
+                <pre/><font color="red">VRA</font><font color="green">x</font><font color="red">KTZYIJ</font><font color="green">g</font><font color="red">A</font><font color="green">w</font><font color="red">YKNJRAOI</font><font color="green">p</font><font color="red">KCOT</font><font color="green">xx</font><font color="red">AOM</font><font color="green">f</font><font color="red">Q</font><font color="green">x</font><font color="red">DIMINZPO</font><font color="green">h</font><font color="red">SIS</font><font color="green">t</font><font color="red">MCEJI</font><font color="green">x</font><font color="red">UEOVIEKMJ</font><font color="green">g</font><font color="red">P</font><font color="green">d
+                </font><font color="red">ET</font><font color="green">x</font><font color="red">FSO</font><font color="green">x</font><font color="red">YIA</font><font color="green">x</font><font color="red">L</font><font color="green">n</font><font color="red">MLT</font><font color="green">d</font><font color="red">EI</font><font color="green">r</font><font color="red">OOE</font><font color="green">s</font><font color="red">DK</font><font color="green">x</font><font color="red">W</font><font color="green">ch</font><font color="red">RKJ</font><font color="green">b</font><font color="red">UL</font><font color="green">da</font><font color="red">HHKEJW</font><font color="green">ssteh</font><font color="red">IJ</font><font color="green">d</font><font color="red">I</font><font color="green">xb</font><font color="red">HVI</font><font color="green">x</font><font color="red">NIAEA</font><font color="green">c
+                h</font><font color="red">KVIYAIKA</font><font color="green">x</font><font color="red">IJ</font><font color="green">t</font><font color="red">JI</font><font color="green">c</font><font color="red">LO</font><font color="green">xx</font><font color="red">IP</font><font color="green">x</font><font color="red">EFORIEHA</font><font color="green">x</font><font color="red">IHJA</font><font color="green">x</font><font color="red">HT</font><font color="green">r</font><font color="red">TIIZJT</font><font color="green">xz</font><font color="red">I</font><font color="green">r</font><font color="red">TPWN</font><font color="green">r</font><font color="red">GYIBJUZIEJ
+                AZIEJX</font><font color="green">x</font><font color="red">MET</font><font color="green">h</font><font color="red">MUXN</font><font color="green">g</font><font color="red">PSUEGT</font><font color="green">r</font><font color="red">IIVEI</font><font color="green">sx</font><font color="red">MJWN</font><font color="green">en</font><font color="red">O</font><font color="green">d</font><font color="red">I</font><font color="green">c</font><font color="red">LRIT</font><font color="green">d</font><font color="red">PNOZ</font><font color="green">d</font><font color="red">SF</font><font color="green">x</font><font color="red">RTDO</font><font color="green">x</font><font color="red">IRDMV</font><font color="green">g</font><font color="red">M
+                </font><font color="green">rx</font><font color="red">NIGJEIQ</font><font color="green">x</font><font color="red">XWOY</font><font color="green">d</font><font color="red">BU</font><font color="green">xz</font><font color="red">W</font><font color="green">gr</font><font color="red">RAVPKXN</font><font color="green">g</font><font color="red">MJNIJ</font><font color="green">x</font><font color="red">A</font><font color="green">ch</font><font color="red">KMIAAIRKJJOLTAZIXZT</font><font color="green">w</font><font color="red">UKZ</font><font color="green">xal
+                </font><font color="red">X</font><font color="green">xr</font><font color="red">YDDDOSOM</font><font color="green">d</font><font color="red">EI</font><font color="green">x</font><font color="red">A</font><font color="green">ch</font><font color="red">PE</font><font color="green">f</font><font color="red">OMIEWJUMLNJOOG</font><font color="green">x</font><font color="red">K</font><font color="green">r</font><font color="red">IM</font><font color="green">b</font><font color="red">O</font>
+
+                <p>The 91 lowercase letters are actually correct and the uppercase letters garbled, its just that
+                at this point <i>we don’t know that</i>.  We have to find a plugboard that turns
+                this into German (where, as was the convention, X means space and XX means full stop).</p>
+
+                <p>Here are the frequencies in this decrypt:</p><p>A = 20, B = 5, C = 8, D = 16, E =
+                21, F = 5, G = 10<br/>H = 13, I = 41, J = 22, K = 14, L = 8, M = 16, N = 13<br/>O = 21, P =
+                9, Q = 2, R = 18, S = 10, T = 17, U = 8<br/>V = 7, W = 9, X = 36, Y = 7, Z = 11</p><p>Now
+                for some detective work.  Lets attack this manually by guessing.  We know that in German E is the most
+                common letter (16%) followed by D, C and A (5%, 3%, 2% respectively).  However, this being Enigma
+                plaintext, we expect X to be really common too.</p><p>We see in our decrypt that we have
+                several X, several XX and no XXX, so we can guess that X is unplugged! If we replace the X with spaces,
+                here’s what we get:</p>
+
+                <pre/><font color="red">VRA</font><font color="green"> </font><font color="red">KTZYIJ</font><font color="green">g</font><font color="red">A</font><font color="green">w</font><font color="red">YKNJRAOI</font><font color="green">p</font><font color="red">KCOT</font><font color="green">  </font><font color="red">AOM</font><font color="green">f</font><font color="red">Q</font><font color="green"> </font><font color="red">DIMINZPO</font><font color="green">h</font><font color="red">SIS</font><font color="green">t</font><font color="red">MCEJI</font><font color="green"> </font><font color="red">UEOVIEKMJ</font><font color="green">g</font><font color="red">P</font><font color="green">d
+                </font><font color="red">ET</font><font color="green"> </font><font color="red">FSO</font><font color="green"> </font><font color="red">YIA</font><font color="green"> </font><font color="red">L</font><font color="green">n</font><font color="red">MLT</font><font color="green">d</font><font color="red">EI</font><font color="green">r</font><font color="red">OOE</font><font color="green">s</font><font color="red">DK</font><font color="green"> </font><font color="red">W</font><font color="green">ch</font><font color="red">RKJ</font><font color="green">b</font><font color="red">UL</font><font color="green">da</font><font color="red">HHKEJW</font><font color="green">ssteh</font><font color="red">IJ</font><font color="green">d</font><font color="red">I</font><font color="green"> b</font><font color="red">HVI</font><font color="green"> </font><font color="red">NIAEA</font><font color="green">c
+                h</font><font color="red">KVIYAIKA</font><font color="green"> </font><font color="red">IJ</font><font color="green">t</font><font color="red">JI</font><font color="green">c</font><font color="red">LO</font><font color="green">  </font><font color="red">IP</font><font color="green"> </font><font color="red">EFORIEHA</font><font color="green"> </font><font color="red">IHJA</font><font color="green"> </font><font color="red">HT</font><font color="green">r</font><font color="red">TIIZJT</font><font color="green"> z</font><font color="red">I</font><font color="green">r</font><font color="red">TPWN</font><font color="green">r</font><font color="red">GYIBJUZIEJ
+                AZIEJ </font><font color="green"> </font><font color="red">MET</font><font color="green">h</font><font color="red">MU N</font><font color="green">g</font><font color="red">PSUEGT</font><font color="green">r</font><font color="red">IIVEI</font><font color="green">s </font><font color="red">MJWN</font><font color="green">en</font><font color="red">O</font><font color="green">d</font><font color="red">I</font><font color="green">c</font><font color="red">LRIT</font><font color="green">d</font><font color="red">PNOZ</font><font color="green">d</font><font color="red">SF</font><font color="green"> </font><font color="red">RTDO</font><font color="green"> </font><font color="red">IRDMV</font><font color="green">g</font><font color="red">M
+                </font><font color="green">r </font><font color="red">NIGJEIQ</font><font color="green"> </font><font color="red"> WOY</font><font color="green">d</font><font color="red">BU</font><font color="green"> z</font><font color="red">W</font><font color="green">gr</font><font color="red">RAVPK N</font><font color="green">g</font><font color="red">MJNIJ</font><font color="green"> </font><font color="red">A</font><font color="green">ch</font><font color="red">KMIAAIRKJJOLTAZI ZT</font><font color="green">w</font><font color="red">UKZ</font><font color="green"> al
+                </font><font color="red"> </font><font color="green"> r</font><font color="red">YDDDOSOM</font><font color="green">d</font><font color="red">EI</font><font color="green"> </font><font color="red">A</font><font color="green">ch</font><font color="red">PE</font><font color="green">f</font><font color="red">OMIEWJUMLNJOOG</font><font color="green"> </font><font color="red">K</font><font color="green">r</font><font color="red">IM</font><font color="green">b</font><font color="red">O</font>
+
+                <p>The most common letter in our decrypt is I, so lets assume this is E.  If we set up the
+                plugboard to swap E and I, lets see what we get:</p>
+
+                <pre/><font color="red">VRA</font><font color="green"> </font><font color="red">KTZAEJ</font><font color="green">g</font><font color="red">A</font><font color="green">w</font><font color="red">YKN</font><font color="green"> </font><font color="red">RAOE</font><font color="green">p</font><font color="red">KCOT</font><font color="green">  </font><font color="red">AOM</font><font color="green">f</font><font color="red">Q</font><font color="green"> </font><font color="red">J</font><font color="green">e</font><font color="red">ME</font><font color="green"> </font><font color="red">ZPO</font><font color="green">h</font><font color="red">S</font><font color="green">e</font><font color="red">S</font><font color="green">t</font><font color="red">MC</font><font color="green">i</font><font color="red">J</font><font color="green">e </font><font color="red">U</font><font color="green">i</font><font color="red">OV</font><font color="green">ei</font><font color="red">KMJ</font><font color="green">g</font><font color="red">P</font><font color="green">d
+                i</font><font color="red">T</font><font color="green"> </font><font color="red">FSO</font><font color="green"> </font><font color="red">Y</font><font color="green">e</font><font color="red">A</font><font color="green"> </font><font color="red">L</font><font color="green">n</font><font color="red">MLT</font><font color="green">dier</font><font color="red">OO</font><font color="green">is</font><font color="red">D</font><font color="green">  </font><font color="red">W</font><font color="green">ch</font><font color="red">RKS</font><font color="green">b</font><font color="red">U</font><font color="green"> da</font><font color="red">HHK</font><font color="green">i</font><font color="red">JW</font><font color="green">sst</font><font color="red">I</font><font color="green">he</font><font color="red">J</font><font color="green">de b</font><font color="red">HV</font><font color="green">e </font><font color="red">N</font><font color="green">e</font><font color="red">AIA</font><font color="green">c
+                h</font><font color="red">KV</font><font color="green">e</font><font color="red">YA</font><font color="green">e</font><font color="red">KA</font><font color="green"> e</font><font color="red">J</font><font color="green">t</font><font color="red">J</font><font color="green">ec</font><font color="red">LO</font><font color="green">  e</font><font color="red">P</font><font color="green"> i</font><font color="red">FOR</font><font color="green">ei</font><font color="red">HA</font><font color="green"> e</font><font color="red">HJA</font><font color="green"> </font><font color="red">HT</font><font color="green">r</font><font color="red">TE</font><font color="green">e</font><font color="red">ZJT</font><font color="green"> zer</font><font color="red">TPWN</font><font color="green">r</font><font color="red">G</font><font color="green"> e</font><font color="red">BJAZ</font><font color="green">ei</font><font color="red">J
+                A</font><font color="green"> ei</font><font color="red">J </font><font color="green"> </font><font color="red">M</font><font color="green">i</font><font color="red">T</font><font color="green">h</font><font color="red">MU T</font><font color="green">gr</font><font color="red">SUIGT</font><font color="green">r</font><font color="red">E</font><font color="green">e</font><font color="red">VI</font><font color="green">es </font><font color="red">MJWN</font><font color="green">en</font><font color="red">O</font><font color="green">dec</font><font color="red">LR</font><font color="green">e</font><font color="red">T</font><font color="green">d</font><font color="red">PAAZ</font><font color="green">d</font><font color="red">SF</font><font color="green"> </font><font color="red">RTDO</font><font color="green"> </font><font color="red">ERDMV</font><font color="green">g</font><font color="red">M
+                </font><font color="green">r </font><font color="red">N</font><font color="green">e</font><font color="red">GJI</font><font color="green">e</font><font color="red">A</font><font color="green"> </font><font color="red">UWO</font><font color="green"> d</font><font color="red">BU</font><font color="green"> z</font><font color="red">W</font><font color="green">gr</font><font color="red">MJVPK N</font><font color="green">g</font><font color="red">MJN</font><font color="green">e</font><font color="red">J</font><font color="green"> </font><font color="red">A</font><font color="green">ch</font><font color="red">KM</font><font color="green">e</font><font color="red">AA</font><font color="green">e</font><font color="red">R</font><font color="green"> </font><font color="red">JJOLTAZ</font><font color="green">e</font><font color="red"> ZT</font><font color="green">w</font><font color="red">UKZ</font><font color="green"> al
+                </font><font color="red">A</font><font color="green"> r</font><font color="red">YDDKOSOM</font><font color="green">die </font><font color="red">A</font><font color="green">chrif</font><font color="red">OM</font><font color="green">ei</font><font color="red">W</font><font color="green">h</font><font color="red">UMLNJOOG</font><font color="green"> </font><font color="red">K</font><font color="green">r</font><font color="red">EM</font><font color="green">b</font><font color="red">O</font>
+
+                <p>The 150 lowercase letters are now correct, but we still don’t know that.  We just
+                think we are getting somewhere because we look at the frequencies E is now the most common:</p><p>A
+                = 25, B = 5, C = 8, D = 14, E = 42, F = 5, G = 10<br/>H = 14, I = 20, J = 21, K = 13, L = 7, M =
+                17, N = 10<br/>O = 20, P = 7, Q = 1, R = 19, S = 11, T = 18, U = 8<br/>V = 7, W = 9, X = 42,
+                Y = 4, Z = 10</p><p>However, D is not looking so good.  We search now to see what D should
+                be swapped with…</p><p>I searched in vain.  D isn’t swapped with
+                anything, its just that we are attacking the noise at this point.</p><p>My next idea was
+                that SS ought occur in the output.  So far it occurs once.  The only other double letters that occur
+                more often are two AAs and two OOs.  I speculated that A was swapped with S, meaning to try again with O
+                swapped with S if I ended up getting stuck later.  Here is what A swapped with S looks like:</p>
+
+                <pre/><font color="red">VR</font><font color="green">s </font><font color="red">KT</font><font color="green">es</font><font color="red">MJ</font><font color="green">gsw</font><font color="red">Y</font><font color="green">r</font><font color="red">O</font><font color="green"> </font><font color="red">R</font><font color="green">s</font><font color="red">OE</font><font color="green">p</font><font color="red">KCOT</font><font color="green">  s</font><font color="red">OM</font><font color="green">f</font><font color="red">Q</font><font color="green"> </font><font color="red">J</font><font color="green">e</font><font color="red">ME</font><font color="green"> </font><font color="red">ZPO</font><font color="green">hae</font><font color="red">A</font><font color="green">t</font><font color="red">MC</font><font color="green">i</font><font color="red">J</font><font color="green">e </font><font color="red">U</font><font color="green">i</font><font color="red">OV</font><font color="green">ei</font><font color="red">KMJ</font><font color="green">g</font><font color="red">P</font><font color="green">d
+                i</font><font color="red">T</font><font color="green"> </font><font color="red">FAO</font><font color="green"> </font><font color="red">Y</font><font color="green">es </font><font color="red">L</font><font color="green">n</font><font color="red">MLT</font><font color="green">dier</font><font color="red">OO</font><font color="green">i</font><font color="red">AD</font><font color="green">  ich</font><font color="red">RK</font><font color="green">abe da</font><font color="red">H</font><font color="green"> </font><font color="red">K</font><font color="green">i</font><font color="red">JWA</font><font color="green">s</font><font color="red">O</font><font color="green">ehe</font><font color="red">J</font><font color="green">de b</font><font color="red">HO</font><font color="green">e </font><font color="red">N</font><font color="green">es</font><font color="red">I</font><font color="green">sc
+                h</font><font color="red">KM</font><font color="green">e</font><font color="red">Y</font><font color="green">se</font><font color="red">K</font><font color="green">s e</font><font color="red">J</font><font color="green">t</font><font color="red">J</font><font color="green">ec</font><font color="red">LO</font><font color="green">  e</font><font color="red">P</font><font color="green"> i</font><font color="red">FOR</font><font color="green">ei</font><font color="red">H</font><font color="green">s e</font><font color="red">HJ</font><font color="green">s </font><font color="red">H</font><font color="green">er</font><font color="red">TE</font><font color="green">e</font><font color="red">ZJT</font><font color="green"> zer</font><font color="red">TPW</font><font color="green">er</font><font color="red">G</font><font color="green"> e</font><font color="red">BJ</font><font color="green">s ei</font><font color="red">J
+                </font><font color="green">s ei</font><font color="red">J </font><font color="green"> </font><font color="red">M</font><font color="green">ich</font><font color="red">MU T</font><font color="green">gra</font><font color="red">UIGT</font><font color="green">r</font><font color="red">E</font><font color="green">e </font><font color="red">I</font><font color="green">es </font><font color="red">MJWN</font><font color="green">en</font><font color="red">O</font><font color="green">dec</font><font color="red">LR</font><font color="green">e</font><font color="red">T</font><font color="green">d</font><font color="red">P</font><font color="green">ss</font><font color="red">Z</font><font color="green">da</font><font color="red">F</font><font color="green"> w</font><font color="red">TDO</font><font color="green"> </font><font color="red">ERDMV</font><font color="green">ge
+                r </font><font color="red">N</font><font color="green">e</font><font color="red">GJI</font><font color="green">es </font><font color="red">UWO</font><font color="green"> de</font><font color="red">U</font><font color="green"> z</font><font color="red">M</font><font color="green">gr</font><font color="red">MJV</font><font color="green">e</font><font color="red">K N</font><font color="green">ge</font><font color="red">JN</font><font color="green">e</font><font color="red">J</font><font color="green"> sch</font><font color="red">KM</font><font color="green">esse</font><font color="red">R</font><font color="green"> </font><font color="red">JJOLTSZ</font><font color="green">er</font><font color="red">O</font><font color="green"> wi</font><font color="red">KZ</font><font color="green"> </font><font color="red">SK
+                </font><font color="green">s r</font><font color="red">YDDKO</font><font color="green">a</font><font color="red">O</font><font color="green"> die schrif</font><font color="red">O</font><font color="green">zei</font><font color="red">W</font><font color="green">h</font><font color="red">UM</font><font color="green"> </font><font color="red">NJOOJ</font><font color="green"> </font><font color="red">K</font><font color="green">r</font><font color="red">E</font><font color="green">ib</font><font color="red">O</font>
+
+                <p>You can clearly see words popping out; my own eye is drawn to the “die” on the bottom line.
+                 Other repeated words such as “EIJ” are shouting out for a J and N swap.</p><p>And so I
+                attacked the plugboard manually, despite not knowing German.  I could have automated this, but I didn’t
+                need to.  The final text fell away before my eyes:</p><p>DAS LOESUNGSWORT IST PLUTO. STUFE
+                NEUN ENTHAELT EINE MITTEILUNG DIE MIT DES ENTKODIERT IST. ICH HABE DAS LINKSSTEHENDE BYTE DES <br/>SCHLUESSELS
+                ENTDECKT. ES IST EINS EINS ZERO EINS ZERO ZERO EINS EINS EINS. ICH PROGRAMMIERTE DES UND ENTDECKTE DASS
+                DAS WORT DEB<br/>UGGER WENN ES MIT DEM ZUGRUNDELIEGENDEN SCHLUESSEL ENTKODIERT WIRD ALS RESULTAT
+                DIE SCHRIFTZEICHEN UNTEN ERGIBT</p><p>The rotor order was III, II then I; the wheel
+                positions were A, F and L and the rings were 26 and 1 respectively. The plugboard was EI AS NJ KL TO and
+                UM.</p><p>Google translate tells me that:</p><p>THE SOLUTION WORD IS PLUTO.
+                STAGE NINE CONTAINS A MESSAGE WITH THE ENTKODIERT IS. I HAVE THE LEFT STANDING BYTE OF THE KEY
+                DISCOVERED. IT IS ONE ONE ZERO ONE ZERO ZERO ONE ONE ONE. I PROGRAM OF AND DISCOVERED THAT THE WORD
+                DEBUGGER IF IT WITH THE UNDERLYING KEY ENTKODIERT IS AS A RESULT THE CHARACTERS BELOW SHOWS</p><p>Now
+                to extend the attack against the M4 used by the U-boats:</p><p>The M4 had a two ‘greek’
+                wheels which could be combined in one of 26 positions with two ‘thin’ reflectors to make a
+                composite reflector.  The M4 had the full 8 normal rotors to choose between too, so the total number of
+                combinations without the 10 pair plugboard is:</p><p>2 x 26 x 26 x 336 x 17,576 x 676
+                = 5,397,376,438,272</p><p>That’s actually a bit beyond where I want to be with my
+                laptop in the summer!</p><p>However, lets look at how random messages are before they have
+                entered the reflector.  Here are the frequencies for the Cipher Challenge text again, but counted before
+                they enter the reflector:</p><p>36 = 156<br/>35 = 1482<br/>34 = 4706<br/>33
+                = 11024<br/>32 = 23400<br/>31 = 49218<br/>30 = 117182<br/>29 = 252122<br/>28
+                = 526396<br/>27 = 1107028<br/>26 = 2156674<br/>25 = 3930160<br/>24 = 6800664<br/>23
+                = 10674482<br/>22 = 14215630<br/>21 = 15105272<br/>20 = 10923458<br/>19 =
+                4577118<br/>18 = 783770<br/>17 = 28210<br/>16 = 104</p><p>Again a few
+                combinations are far less random-seeming than the rest!  (In fact, the real solution is again top of the
+                pile.)  The computer can focus on just the top candidates and crank through the 2 x 26 x 26 possible
+                composite reflectors for each.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#637'">index</button>  <button class="page-link" onclick="window.location='rec.html#637'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#637'">enigma</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

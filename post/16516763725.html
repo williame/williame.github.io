@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>How I got massively faster DB with async batching : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>How I got massively faster DB with async batching</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
+                article:</p>
+                <blockquote>
+                <p><big>I found databases to be fastest when my own code buffers DB interaction and reorders
+                things and coalesces things so the DB is getting a few queries each with more payload.</big></p>
+                </blockquote>
+                <p>And I was rather disillusioned with ORMs.</p>
+                <p>ORMs are about fast-prototyping code.  However, I discovered - in my DB usage patterns - that
+                it was extra development cost when we discovered that the performance cost was prohibitive we had to
+                chop it all out and replace it with a custom pattern.  It would have been massively faster development
+                to just have done DB asynchronous in the first place…</p>
+                <p>What I built is so generally applicable I offer it here as a useful pattern for your projects
+                when you hit the same scaling issues we did:</p>
+                <!-- more -->
+                <p>I use asynchronous IO loop servers all the time.  Likely you do too.  I’ve used a lot
+                of <a href="http://twistedmatrix.com/" target="_blank">twisted</a> (so named because that’s
+                what it does to your sanity), more recently <a href="http://www.tornadoweb.org/" target="_blank">tornado</a>
+                (saner and tidier; possibly abandon-ware, and the non-existent error-handling is surely malicious;
+                rightly popular); I’ve contributed the inner IO loop to <a href="http://incubator.apache.org/deft/" target="_blank">deft </a>and I’ve written my
+                own <a href="https://github.com/williame/hellepoll" target="_blank">hellepoll</a> (leanest
+                and meanest).  I haven’t used <a href="http://nodejs.org/" target="_blank">node.js</a>;
+                that’s the one you’ve been using, right? :)  So that’s my CV and context.</p>
+                <p>And if you are building an IO loop, you are likely still doing your DB blocking.  When your DB
+                is slow, you’re told to just make your DB faster, or to spin your DB out to a separate server
+                and bounce your DB calls via HTTP!</p>
+                <p><img src="http://img815.imageshack.us/img815/8805/20120126171105.jpg"/></p>
+                <p>Doing blocking IO to the DB in an IO loop means your web-server goes as fast as the DB. 
+                Requests that arrive whilst waiting for the DB to do its thing have to wait.</p>
+                <p>You typically have several web-server instances and incoming requests are being load-balanced
+                between them; so its a race which web-requests get serviced first; they can reach the DB in arbitrary
+                order.</p>
+                <p>Some IO loops come with a DB connection pool worker threads concept.  This means you can
+                service non-DB-touching requests whilst the DB thread(s) are busy, but otherwise you get queued up. 
+                This is a major improvement:</p>
+                <p><img src="http://img580.imageshack.us/img580/5633/20120127194726.jpg"/></p>
+                <p>You have a thread pool of DB connection worker threads, each eating incoming requests,
+                submitting them to the database, and then calling back to the web request when complete.  So the race
+                between web requests can happen within the single server, and you have to be aware of that.</p>
+                <p><sub>(I’ve heard more recently that tornado is adding or someone’s
+                contributed something like twisted’s db connection pool with queues)</sub></p>
+                <p>Now I had a particular app and it was using twisted’s db-connection-pool system, as
+                above.</p>
+                <p>I’ll bowdlerize a bit but imagine that lots of simultaneous web-requests all need the
+                database to insert a row a database.</p>
+                <p>Now this will typically mean each web-request makes a blocking call to the DB.  Or a blocking
+                call to a NoSQL or memcache system - its all much the same here.</p>
+                <p>In my tests, my MySQL+innodb instance running on local host could take about 1000 such discrete
+                SQL INSERT statements per second (and every few minutes it paused for rather longer, which was very
+                nasty for responsiveness!).  Your faster disks aren’t going to budge that number much.</p>
+                <p>A single statement inserting all 1000 rows at once takes just milliseconds.</p>
+                <p><em><strong>Basically, the throughput of the database is better measured in number
+                of requests rather than size of those requests.</strong></em></p>
+                <p>I speculate that its the row-count being returned that causes it to be sequential and slow. 
+                Each statement is a request-response trip; it needs acknowledging before the DB connection handles its
+                next request.</p>
+                <p>Now at this point, we could have tried all kinds of things.  We don’t want to give up
+                on ACID, and our code is already in the DB connection pool worker thread with callbacks architecture. 
+                Our database is largely prescribed from outside.  So the thing we did try is novel and new though:</p>
+                <p><img src="http://img834.imageshack.us/img834/139/20120126171128.jpg"/></p>
+                <p>I created a database worker queue that greedily ate the queued up statements (these statements
+                were not SQL, but rather commands that it understood; they could have been SQL, but parsing SQL is not
+                necessary if you write the code that submits to the queue too).  It then grouped them, sorted them, and
+                turned them into just a few big SQL queries.  It executed them, put the corresponding callbacks into the
+                main IO loop, and by this time there was a whole bunch more commands for it to reorder and coalesce.</p>
+                <p><em><strong>The speedup comes by streaming to the DB rather than each individual
+                statement from a web-request being an independent ping-pong.</strong></em></p>
+                <p>On our hardware, INSERTs topped out at about 5K/sec sustained.  Obviously better hardware is
+                available; on the other hand, some back-ends, especially shared or remote resources like Amazon EC2 has
+                likely got substantially slower disk even.</p>
+                <p>Now this is a high-cost initial start development-wise.  You have to know the
+                application-specific data-specific reordering rules.  Is it safe to put this before that if the
+                CustomerID is different, for example?  And there’s opportunities to spot and cope with writes
+                that cancel others and normalizing them out before writing to DB.  You can mix updates with inserts
+                using MySQL’s REPLACE INTO and so on, although decoding the rows-affected count afterwards
+                takes some care.  You can even batch inserts that return IDs if you try super hard ;)</p>
+                <p>I can imagine more general ways of inferring this, perhaps by standard annotations by the
+                callee, but it does put a correctness strain on the developers.</p>
+                <p>But oh boy was the performance worth it!  Absolutely no trouble making a single Python(!)
+                server saturate both network IO and DB disk.</p>
+                <p><em><strong>This design has exactly the same access schematics as the DB connection
+                pool approach.  The only <big>ACID</big> you give up is a tiny bit of <a href="http://en.wikipedia.org/wiki/ACID#Isolation">Isolation</a>.</strong></em></p>
+                <p>By putting many statements into a single transaction, this breaks isolation.  As wikipedia
+                says, I am not the first to do so.  Isolation is only broken if there is a validation error in some of
+                the data; that would zap the other statements that chance put in the same transaction.  However,
+                philosophically, if you consider a validation error from the DB to be a <em>programming error</em>,
+                because you are doing your tainted validation client-side, then this can be no big loss.</p>
+                <p>And you can obviously also have a pool of such workers.  But with that becomes diminishing
+                returns because a single thread (even with GIL contention) is going to easily saturate your database :)</p>
+                <p>From the perspective of each web-request, all statements happen in order if you have a single
+                worker thread.  As each web-request must necessarily make no assumptions about the order of other
+                independent web-requests, it is safe to reorder given the rules and constraints of your application.  (I
+                don’t think this so straightforward to generalise; the code that decides the reordering rules
+                has to grok the data.)</p>
+                <p>I took this one step further and added an additional performance improvement: I found was that
+                the set of hot SELECT data was sufficiently small in our application (you measure server RAM in GB these
+                days) that it made sense to <a href="post/19346002203.html" target="_blank">store it Python-side</a>.  So SELECTs actually resolved completely client-side;
+                its important to update the cache atomically when the write has succeeded on the DB, but its
+                straightforward.  That’s obviously not super-scalable; but you’d be surprised how
+                far that can take you.</p>
+                <p>Still talking about Python specifically and most DB connections in general, they always push
+                exceptions like the DB connection dying or a deadlock onto the caller.  And this is not the right
+                decision.  The DB queue ought to contain the retry logic.  So I put that into mine; you’d have
+                difficulty predicting the various transient error codes you can get back from MySQL; you learn them in
+                production, sadly.</p>
+                <p>Twisted’s db-api has a very nice feature where you can write a method to be executed
+                in the context of the blocking DB thread, termed an interaction.  I use this quite a bit, so I made it
+                that if the DB call fails because of these transient connection or deadlocking problems, my wrapper
+                throws a special ‘rolling-back exception’ so the interaction code can clean up any
+                non-DB state that it has modified.  More complexity, all worth it if you need the performance of
+                asynchronous DB calls.</p>
+                <p>I have not experimented with multiple transaction statements in a single request; I can imagine
+                that working, and there being ways of inferring which transactions succeeded and which failed, so as not
+                to lose a whole transaction if one component part fails.  However, I’ve always taken the
+                strong position that the DB validation is for catching programming errors, not for catching bad input. 
+                So you shouldn’t lose batches like that.</p>
+                <p><em>So this is what I’ve been meaning by reordering and coalescing database
+                reads at an application level.</em></p>
+                <p>And to get it best, you have to know what the data is.</p>
+                <p>If there was an ORM that was async, then perhaps - just perhaps - it could work on top of it.  
+                If writing asynchronous IO looping code is second nature to you, so is understanding that the DB
+                interaction is also spread out through many IO loop iterations.  And throughput and responsiveness times
+                for requests that include DB access are massively faster when the server is under pathological load.</p>
+                <p>You could also imagine an interesting blocking DB API built on top of Stackless Python
+                perhaps?  I don’t know anything about Stackless, but I have a gut feeling its precisely for
+                this.</p>
+                <p>Its not a one-size fits all solution.  It did completely change the performance of our app,
+                though.</p>
+                <p><em>You may also like: <a href="post/19346002203.html" target="_self">How I got massively faster DB with in-process replication</a><br/></em></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#907'">index</button>  <button class="page-link" onclick="window.location='perf.html#907'">perf</button>  <button class="page-link" onclick="window.location='db.html#907'">db</button>  <button class="page-link" onclick="window.location='classic.html#907'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Running SQL in your browser : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Running SQL in your browser</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
+                Snowden?</a></font> game I wanted you - the elite NSA Analyst - to be able to <i>hack</i>
+                the game world.  Imagine you could put your agents onto flights, or fiddle with the flight manifests so
+                that targets were refused boarding or even arrested… and how would you do this?  I decided I wanted you
+                to have SQL access to the world’s flight plan database…</p>
+                <p dir="ltr">SELECT T.* FROM MANIFESTS AS M, MANIFESTS AS M2, TARGETS AS T WHERE T.PASS = M.PASS
+                AND M.PASS = M2.PASS AND M.FLIGHT = ‘AF-321’ AND M2.FLIGHT = 'IB-794’;</p>
+                <p dir="ltr">But I couldn’t find any working SQL engines for Javascript!  I didn’t find
+                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="http://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
+                couldn’t get it to work and its quite old and not actively developed.  There’s are also a few LINQ-likes
+                but they are not really SQL.</p>
+                <p dir="ltr">Now SQL is the lingua franca of structured data querying so I was surprised at this
+                sorry state of affairs.  Whilst LINQ is nice (because of the VS tooling!) I feel that a lot of the
+                LINQ-likes are driven by hipster cargo-culting and that a solid SQL that can query conventional JS
+                objects and arrays would be a powerful and useful thing.</p>
+                <p dir="ltr">So I set out to build an SQL engine in Javascript (<font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>). 
+                It was perhaps more fun to develop than the other parts of the game and more fun to examine than the
+                game is to play :)  It amazes me what I got working in ~4 hours and under 500 lines of code.  This blog
+                post describes how it works (and how it can be done better):</p>
+                <p dir="ltr"><b>How to use sql.js</b></p>
+                <p dir="ltr">It consists of a single function SQL().  The parameters are:</p>
+                <p dir="ltr">the SQL statement,  e.g. “INSERT INTO …”<br/></p>
+                <p dir="ltr">the definition of the tables, which is a Javascript object acting as a dictionary. 
+                Each table is itself an object, detailing the column names and specifying any constraints on them (e.g.
+                if they must be unique or can be null) and optionally a description.  E.g. <br/><tt>{
+                airports: { code:{description:“IATA code”,unique:true,notNull:true,},
+                name:{notNull:true,}, country:{notNull:true,}, category:{description:“level of CIA
+                infiltration”,}, lat:{description:“latitude (decimal degrees)”,},
+                lng:{description:“longitude (decimal degrees)”,}, }, airlines: {
+                code:{unique:true,notNull:true}, name:{}, country:{}, },…</tt></p>
+                <p dir="ltr">table access; an object where each table name that the user can update has a boolean
+                e.g. <br/><tt>( airports: false, flights: true,…</tt><br/>
+                Any table name that is omitted is read-only.</p>
+                <p dir="ltr">The data; an object where each table is a key and each table is an array of objects
+                e.g. <br/><tt>{</tt><br/><tt>airports: [</tt><br/><tt>{code:“LHR”,name:”London
+                Heathrow”,…</tt><br/><tt>],</tt><br/><tt>manifests: [</tt><br/><tt>…</tt></p>
+                <p dir="ltr">params.  This object allows you to override things like setting the default row count
+                LIMIT.<br/></p>
+                <p dir="ltr">If the SQL cannot be parsed or if the table data does not have the expected fields
+                then it throws an Error() exception.</p>
+                <p dir="ltr">Otherwise it returns an object with a columns key and a rows key.  The columns are an
+                array of strings which are the column titles.  Rows are an array of arrays.</p>
+                <p dir="ltr"><b>Parsing SQL</b></p>
+                <p dir="ltr">To parse a language you often use a parser generator like lex/flex yacc/bison.  There
+                are parser generators for Javascript too - jison and peg and so on - but I haven’t used them and, to be
+                honest, its quicker to just write our own parser from scratch.</p>
+                <p dir="ltr">To parse SQL we can eat the statement a token at a time.  A token might be a number,
+                an identifier or a symbol like an opening brace.</p>
+                <p dir="ltr">Normally when I hand-roll a parser - its a bit of a recurring hobby of mine - I write
+                the tokeniser to see what the next character is, and then based on whether that is a number, a quote
+                mark or the beginning of an identifier or so on loop through until the token closes.  In sql.js however,
+                I took a messy shortcut.</p>
+                <p dir="ltr">When asking for the next token, I pass into the tokeniser the list of terminating
+                strings e.g. when consuming table names in a FROM clause I’d ask for the next token (which I expect to
+                be a table name) which can be followed by a comma, the word AS or the word WHERE or a semi-colon.  If my
+                engine supported it, I could just add those additional possible keywords that follow a table name in the
+                FROM clause e.g. ORDER, LIMIT and HAVING and JOIN and so forth.</p>
+                <p dir="ltr">This meant that the next() function only had to do a Javascript string search -
+                indexOf() - to find the nearest terminator.  However, this approach does have limitations e.g. it
+                doesn’t properly parse strings (if the terminator occurs in the string the indexOf() will incorrectly
+                find it) and words that contain keywords (the Airport table namehas OR in it, for example).  By the time
+                you’ve added code to address this, you end up with a proper tokeniser anyway.  So in hindsight I should
+                have doubled my line-count and just gone with a classic tokeniser in the first place.</p>
+                <p dir="ltr"><b>Executing SQL</b></p>
+                <p dir="ltr">Once the query is parsed and the array of table names built and, its just to execute
+                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
+                table A had two rowsand table B had two rows then the Cartesian Product would be:</p>
+                <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B;</tt><br/><tt>A.V | B.V</tt><br/><tt>1
+                | 1</tt><br/><tt>1 | 2</tt><br/><tt>2 | 1</tt><br/><tt>2
+                | 2</tt></p>
+                <p dir="ltr">No surprises there.  But what if we add a WHERE clause?</p>
+                <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B WHERE A.V = 2;</tt><br/><tt>A.V
+                | B.V</tt><br/><tt>2 | 1</tt><br/><tt>2 | 2</tt></p>
+                <p dir="ltr">We can get that by first generating the Cartesian Product - simple by iteration and
+                recursion - and then filtering the rows by evaluating the WHERE clause against each line!</p>
+                <p dir="ltr">This is thoroughly inefficient.  If there are 100 rows in one table and 100 rows in
+                another then the Cartesian Product is (100+100)^2 = 40,000 rows!  It would be much more efficient to
+                evaluate - and cull - candidate rows as soon as possible e.g. before recursing into every B row first
+                check if A.V is 2.</p>
+                <p dir="ltr">In the NSA game it’s easy to be evaluating a Cartesian Product that is hundreds of
+                thousands long, and this can take several seconds.</p>
+                <p dir="ltr">The engine supports SELECT, INSERT, UPDATE and DELETE.  It doesn’t support the JOIN
+                keyword but it does let you join in the WHERE clause (as described above).  It doesn’t support IN.  It
+                additionally has SHOW TABLES, DESCRIBE table and CHECK table which provide utility.  Because of the
+                needs of the game there is also some rudimentary access control so the ‘hacker’ can’t really hack - and
+                break - the game itself e.g. rescheduling or deleting flights and other havoc.</p>
+                <p dir="ltr">I made the whole thing case-insensitive but that could easily be removed for data
+                values and comparisons themselves.</p>
+                <p dir="ltr">I added support for literals but the only literal I added was ‘NOW’.  I treated all
+                dates as strings and this allowed simple Javascript string comparison of dates.  I didn’t support any
+                functions, but this would be very easy to add too.</p>
+                <p dir="ltr"><b>Improving performance</b></p>
+                <p dir="ltr">A proper SQL query planner (the code that decides the order that table rows are
+                evaluated) has to understand the cost of retrieving rows (from disk and so on), but in Javascript RAM
+                access speed is fairly equal and without indices you need full table spans so its just to filter tables
+                by the parts of the WHERE clause that reference them as greedily as possible.</p>
+                <p dir="ltr">Each table is an array of objects.  It would be straightforward to support arrays of
+                arrays, and objects of arrays and objects of objects.  Using objects as the collections themselves would
+                effectively be a primary key - an index!  Knowledge of this could dramatically speed up joins.</p>
+                <p dir="ltr">The engine turns the incoming SQL into a chain of closures.  TrimQuery, by
+                comparison, turns the SQL statement into a Javascript fragment that is then eval()ed.  I am not sure
+                that is faster; doesn’t that cause the Javascript VM itself to abandon a lot of cached JITed code?  But
+                it may be faster to instead compile the SQL down to a simple VM.</p>
+                <p dir="ltr">If you are running the same query again and again it would certainly help to
+                ‘compile’ or ‘prepare’ the SQL statement once and have a way to run it again and again against data</p>
+                <p dir="ltr">sql.js is surprising short given what it can do, and surprisingly simple.  I found it
+                easier to write SQL statements myself to work out what was happening in the model than to use
+                array.filter() once joins were involved.  With a better tokeniser and an expanded grammar and a simple
+                query planner it could be widely useful.</p>
+                <p dir="ltr"><font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>
+                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="http://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
+                ;)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index1.html#705'">index</button>  <button class="page-link" onclick="window.location='rec1.html#705'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#705'">ludum-dare</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

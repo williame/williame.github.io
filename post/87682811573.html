@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Compressing Scrabble Dictionaries : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Compressing Scrabble Dictionaries</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>The newest r<a href="http://www.azspcs.net/" target="_blank">ec.math Al
+                Zimmermann Programming Contest</a> is a solitaire Scrabble puzzle called ’<a href="http://www.azspcs.net/Contest/AlphabetCity" target="_blank">Alphabet City</a>’.</p>
+                <p>Wait, what do you mean you’re not entering that programming contest??  Its a really
+                really nice clean problem and it’s addictive as 2048!</p>
+                <p>To lookup scrabble words quickly, people use a <a href="http://en.wikipedia.org/wiki/GADDAG" target="_blank">GADDAG</a>.  The GADDAG is a tree data-structure.  Each node represents a
+                character, and has pointers to all the child nodes that continue all possible words.</p>
+                <p>The key thing is that every rotation of each word is stored in the GADDAG.  To have a GADDAG of
+                the words ALL, BALL and CALL, for each word we add all rotations.  This is LLA@, LA@L, A@LL for <em>ALL</em>,
+                and LLAB@, LAB@L, AB@LL, B@ALL for <em>BALL</em> and so on.  (@ is my choice of ‘start-of-word’
+                marker; its a good choice because in ASCII its the character before A.  When you have arrays of child
+                nodes [A..Z], this can easily be extended to have a slot pointing at the start-of-word node [@..Z].  And
+                it looks nice enough in the graphs too.)</p>
+                <p>To speed up Scrabble searches, the prefix of each word is stored <em>reversed</em>
+                which facilitates 'hook’ searches.  To search for all words with one letter then A then
+                another empty then L (?A?L), you start with the first known letter - A - and look for all those with one
+                character in front (a child with a @ child), terminated by an L.</p>
+                <p>A naive sparse implementation of a GADDAG takes absolutely loads of memory: over a GB is not
+                startling.  Almost all those nodes will be duplicates of other parts of the tree and almost all possible
+                children will exist.  So we really want to get the memory usage down if we want to avoid our program
+                waiting on <a href="https://gist.github.com/jboner/2841832" target="_blank">main memory</a>
+                all the time: bottom cache is typically in the tens of nanoseconds away, whereas main memory is around a
+                hundred nanoseconds away.  Getting the GADDAG small enough to fit into cache, even the bottom level
+                cache (as in slowest and biggest), can mean an order of magnitude speedup!  So its well worth
+                compressing your GADDAG.</p>
+                <p>The <a href="http://www.ericsink.com/downloads/faster-scrabble-gordon.pdf" target="_blank">original
+                paper</a> describes compression and gives an example of partial compression.  I will talk these
+                through with graphs:</p>
+                <p><img alt="image" data-orig-height="518" data-orig-width="500" src="media/old/87682811573_1.png"/></p>
+
+                <p>Here’s the uncompressed tree.  Sorry it takes so much screen space .. it has a lot of
+                nodes in it, which is a point I want to make :)</p>
+                <p>3 words, 11 rotations and 27 nodes.</p>
+                <p>Lets start compressing it:</p>
+                <p>The first thing to note is that, unlike the ALL, BALL, CALL <a href="http://nullwords.wordpress.com/2013/02/27/gaddag-data-structure/" target="_blank">example</a> on
+                NullWords blog, I am storing the terminating characters (the blue nodes) in a separate set off the node.
+                 This is how the prefix LLA is followed by a single node with both B and C in it.</p>
+                <p><!-- more --></p>
+                <p>That aside, you can see a lot of obvious repetition in the tree.  The <a href="http://www.ericsink.com/downloads/faster-scrabble-gordon.pdf" target="_blank">original paper</a>
+                had a recipe for a partial compression as you build the GADDAG: for each word, you merge the suffix of
+                the rotations.  It looks like this:</p>
+                <p><img alt="image" data-orig-height="518" data-orig-width="500" src="media/old/87682811573_2.png"/></p>
+
+                <p>We still have 25 nodes!  We’ve only saved 2 nodes.  This is not a fair example,
+                however: in the full contest wordlist (172,820 words, 1,570,604 rotations and 32,13,156 nodes) this
+                partial optimisation gets it down to just 1,534,313 nodes.</p>
+                <p>So how small do we want to go?  My laptop has a pretty decent 6MB of L3 cache.  If we can get
+                the whole GADDAG in under 6MB, we’ll avoid hitting main memory <em>ever</em>.
+                 (Cache line collisions ignored.)</p>
+                <p>So we can still see we have lots and lots of duplication.  The @ node is often followed by L,
+                for example.  In order to merge these tails, we have to first build the uncompressed graph (partial
+                compression during load helps speed things up though) and then compare nodes.  Nodes are the same if
+                their children have the same values and their terminating character set is the same.  To find these, I
+                simply sorted all nodes using a deep comparison.  Here’s all the identical tails merged:</p>
+                <p><img alt="image" data-orig-height="370" data-orig-width="500" src="media/old/87682811573_3.png"/></p>
+                <p>Now we’re down to just 17 nodes!  You can still walk the tree in the same way: its
+                the exact same tree, only duplication removed.</p>
+                <p>For the contest wordlist we now have only 533,173 nodes!  So 3x less nodes than the partial
+                compression.  And a lose packing of these nodes and their links (using an int32 array, rather than
+                byte-packing) weighs in at 6.3MB.  Just a bit too big for my L3 cache, so we need to compress more.</p>
+                <p>At this point its worth describing how to actually pack the tree into an array.  We want an
+                array of int32 because we its nice and fast to access.  You can pack tighter if you go to bytes (e.g.
+                address of other nodes can use just 3 bytes instead of 4), but this means some more twiddling while
+                walking the tree: its worth it if you have only 2MB L2/L3 though!</p>
+                <p>So each node can be an int32.  The two high bits are boolean flags to say if the node has
+                terminators and if the node has children.  If the node has terminators then the terminators are stored
+                in the low 26 bits of the first int32, and any children will have bits set in the next int32.  The
+                children int32 has a bit set for each present child.  And then the address of the children follow.</p>
+                <p>In the optimised tree there are 533,173 unique nodes with 979,160 links.  48,246 nodes have
+                terminators and 137,905 don’t.  29,506 nodes have only one link and terminators, and 316,364
+                nodes have a single child link and no terminators. 1,152 nodes have only terminators.</p>
+                <p>As so many nodes have only one child link, you can pack this even tighter if you have a third
+                high bit flag on the first word to mark that the node has only a single child, and then pack the ordinal
+                of the child and its offset into the remainder of the header int32.</p>
+                <p>Here’s a diagram of my format:</p>
+                <p><img alt="image" data-orig-height="375" data-orig-width="500" src="media/old/87682811573_4.png"/></p>
+
+                <p>Three types of node are shown.  The first three bits in the first int describe which fields are
+                present.  If there are terminators, the bit mask of terminating characters is in the first int.  The bit
+                mask for multiple children is in the first available int, which will also be the first if there are no
+                terminators.  If a node has only one character, it can be packed into a single int.  You can of course
+                have a node with a single child and some terminators, which takes two ints (not shown).</p>
+                <p>To determine if a node has a particular child is easy with a bit mask.  To work out the address
+                of a child, though, you have to iterate over the bit mask of multiple children.  Modern fast CPUs have
+                ops - available via C intrinsics like <a href="https://gcc.gnu.org/onlinedocs/gcc-4.1.2/gcc/Other-Builtins.html" target="_blank">__builtin_ffs()</a>,
+                but you’re still walking them.  One idea is to actually use a different ordered alphabet: if
+                instead of A=1, B=2, C=3 and so on you reorder the letters so that the most common children are sooner,
+                you might get a small speed boost.</p>
+                <p>Often GADDAGs seem to be packed more tightly still (e.g. <a href="https://github.com/cdhowie/Quackle/blob/master/gaddag.h" target="_blank">Quackle</a>) by
+                having a marker bit in each int32 to say if it is the first child pointer in node, or a continuation.</p>
+                <p>However, I  prefer bit-fields because it speeds up searching significantly.  As you walk over
+                free tiles you can turn your rack into a single int32 mask which you can then AND with the bit-field in
+                the header to see if letters in the rack are continuations of the word.</p>
+                <p>And if you have access to the C intrinsics you can mask out the higher bits of the child you
+                want the index of and popcount() it.  This is branchless.  So it saves you doing lots of walking over
+                child nodes doing if-statements on each one.</p>
+                <p>Still, if you have only 2MB L2, tighter packing may pay off big-time.  As fellow Mill CPU team <a href="http://www.beyond3d.com/content/articles/8" target="_blank">Terje Mathisen</a> says, &quot;almost
+                all programming can be viewed as an exercise in caching&quot;.</p>
+                <p><strong>The thing is, we’re still missing a massive trick:</strong></p>
+                <p>When you walk the tree, you know before visiting a child what its character is.  You’ll
+                see above that I don’t actually store the character in the node.</p>
+                <p>So nodes that were originally built for completely different characters and yet have the same
+                exit branches (and those exit branches have the same exit branches and so on) can be merged!  Feast your
+                eyes on this beauty:</p>
+                <p><img alt="image" data-orig-height="246" data-orig-width="500" src="media/old/87682811573_5.png"/></p>
+                <p>Now the ALL, BALL, CALL is down to just 12 nodes!  The red arrows show an exit vector that is
+                different from the node that it arriving at; fundamentally, the next character is a function of the edge
+                you travel not the node you arrive at.</p>
+                <p>Its hard to believe that actually this is the exact same GADDAG as the original diagram at the
+                top of this post!  But its true.</p>
+                <p>For the contest word list, its now down to just 419,264 nodes and 811,985 links.</p>
+                <p>We can also - obviously - omit words in the dictionary that are longer than 15 characters, as
+                the Scrabble board is only 15 characters.  In the final GADDAG there are 168,548 words, 1,497,605
+                rotations and 2,994,373 logically nodes.  But with compression, there are only 391,101 unique nodes and
+                774,216 links.  33,255 nodes have terminators and 122,012 don’t. 18,780 nodes have only one
+                child link and terminators, and 216,702 have just the one link and no terminators.  This compresses to
+                … <strong>under 4MB</strong> :D</p>
+                <p>Good luck in the contest you too ;)</p>
+
+                <p/>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#662'">index</button>  <button class="page-link" onclick="window.location='rec.html#662'">rec</button>  <button class="page-link" onclick="window.location='comp.html#662'">comp</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Connecting Ludum Dare to the Real World : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Connecting Ludum Dare to the Real World</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/" target="_blank">Ludum Dare</a> is
+                a really popular game making contest.  Three or so times a year several thousand competitors all over
+                the world wait for the theme to be announced and the contest to start!</p>
+                <p>Last weekend was the 30th contest (LD30) and the theme was “Connected Worlds”.</p>
+                <p>The <a href="http://www.ludumdare.com/compo/2014/08/16/ludum-dare-30-theme-voting-begins/" target="_blank">voting</a> wasn’t even close, which is a shame as I was very lukewarm
+                to the theme.  I feared there’d be lots of platform games where you run two levels in
+                parallel, or can swap between levels, etc.</p>
+                <p>And that’s what 90% of games are, sadly.  I don’t mean they are bad games -
+                many of them are really exceptionally good! - I just mean the theme lent itself to a very literal
+                interpretation.</p>
+                <p>My interpretation was to try and connect Ludum Darers to the <em>real</em> world
+                instead :)</p>
+                <p>I recalled that hidden away on the LD website was a map where LDers could record their position
+                on a map.  It was not terribly well known, but there were several hundred player’s latitude
+                and longitude in there.  It was enough to make sure that any map wasn’t completely empty for
+                the first player…</p>
+                <p>So I made a ‘game’ where you report your position, and then see other
+                contestants near you and can browse LD games on the real world map.</p>
+                <p>The game aspect is the gamification of rating LD games.  In order to discover the overall LD
+                winner, contestants play each other’s games and rate them.  They have 3 weeks to do this, and
+                then the standings are announced.  And I wanted to encourage that participation, as there’s
+                really games that go unplayed and contestants that don’t play.</p>
+                <p>I scrape the LD website and, as a proxy for rating others games, I note who has commented on
+                whom.  As well as rating games you can comment on games, and whilst these are distinct they are often
+                done together.</p>
+                <p>So I draw the map with line art, and use a GL stencil buffer to expose an underlying map where
+                you’ve commented on games or others have commented on your game:</p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313"><img alt="image" data-orig-height="223" data-orig-width="500" src="media/old/95981048318_1.png"/></a></p>
+                <p><strong><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Play
+                it online here!</a></strong>  If you’re not an LD player, you can <em>pretend</em>
+                to be!</p>
+                <p>The map that you expose is illustrated by me and the usual suspect, who goes by the handle <a href="post/30793134312.html" target="_blank">Wombatica</a> on the LD site.</p>
+                <p>I’ve been overwelmed by the popular appeal and compliments!  I hadn’t
+                expected to get so many appreciative LDers!  I’ve been rated over 150 times already, which is
+                many times the ratings I’ve received on previous contests.  People keep coming back, and
+                people keep checking progress.</p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">People
+                are saying</a> the nicest things too!  Here’s some of the over-the-top ones :)</p>
+                <blockquote>
+                <ul><li>WOW. Now that is original. Genius. I’ll be playing it for the next few
+                weeks.</li>
+                <li>Hah, what an awesome idea, gamification of Ludum Dare! This it how I’m going to vote
+                all entries from now, keeps voting fun! </li>
+                <li>Thumbs up for innovation/originality!</li>
+                <li>super awesome idea, have all my stars!</li>
+                <li>Now the fourth wall have been shattered.  thank you.</li>
+                <li>Will - really, really good job… This should win I think, just for the sheer cheek
+                of subverting the idea and pointing LD at itself, can see this becoming a favourite interface for LD in
+                the future… very great !</li>
+                <li>You made playing games a game, that’s a 5 stars on innovation, no doubt. Also,
+                connecting the LD world with the real world… Another 5 stars for theme!</li>
+                <li>Man. This is SO neat! This game wins like all of the LDs. Amazing job!</li>
+                <li>I gave you an award on your profile for this game.</li>
+                <li>Oh my god this is briljant!</li>
+                </ul></blockquote>
+                <p>Oh there’s more.  <em><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Lots more :)</a></em>
+                 Now excuse me while I float off ecstatically tired…</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index.html#656'">index</button>  <button class="page-link" onclick="window.location='rec.html#656'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#656'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#656'">mosaic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

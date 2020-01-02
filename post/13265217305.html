@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Network Transparency and Multi-Root Filesystems : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Network Transparency and Multi-Root Filesystems</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><div><span>I published this short article to an hobby OS site in 2004.  I don’t
+                think the idea has aged a bit!</span><br/><br/>This article offers feature suggestions
+                to budding OS developers looking for that neat edge.
+                <p>Wouldn’t it be real nice if <code>FILE *f =
+                fopen(&quot;ftp://www.microsoft.com/mission/statement.html&quot;,&quot;r&quot;);</code> just worked?</p>
+                <p>People have been dreaming of ‘mounting’ remote filesystems on demand for a
+                long time. It seems to be a popular pastime for <a href="http://www.joelonsoftware.com/articles/fog0000000041.html" rel="nofollow"> architecture
+                astronauts</a>. Despite Joel’s warnings to run from network transparency, I vote that
+                you don’t!</p>
+                <p>Client-side libraries allow a program to access remote resources in the same way as local ones,
+                for example the excellent <a href="http://www.gnu.org/directory/libs/libferris.html" rel="nofollow">libferris</a>.</p>
+                <p>A new operating system that integrated such handling into the platform level (rather than an
+                additional, optional library) would have the advantage that each and every application could access the
+                same resources. The 'ls’ in the ported bash prompt would be able to list the contents of an
+                FTP directory, and the notepad clone would load your text files whether they were local, on some window
+                server, or the other side of the internet.</p>
+                <p>Users work with and are familiar with URIs, so URIs are the natural way of expressing a file
+                name and location. The filesystem ought to work with URIs.</p>
+                <p>Imagine the following snippet of fictious commandline:</p>
+                <pre>&gt; pwd<br/>file:///home/me/<br/>&gt; cd <a href="http://www.microsoft.com">http://www.microsoft.com</a><br/>&gt; cd mission<br/>&gt;
+                ls<br/>. .. statement.html<br/>&gt; rm mission.html<br/>access denied.</pre>
+                <p>The use of URIs introduces what I term the ’<strong>Multi-Root Filesystem</strong>’.
+                The protocol, e.g. “file”, “smb” or “webdav”,
+                is a root. All protocols are peers of each other, and you can’t navigate between them in
+                relative paths (i.e. no “file://home/me/../../../http://remote”).</p>
+                <p>Protocol handlers are global to the user or system. The file structure might be made upon
+                demand, with the contents of “http://” reading like recent internet history; whereas
+                “file://” might countain the local UNIX-style root “/” which
+                contains in-turn “home” and “bin” etc.</p>
+                <p>Provide your system with a new protocol handler and suddenly all applications can use files
+                available via that mechanism.</p>
+                <p>Obviously opening a file over ftp is possibly a million miles more complicated than opening a
+                local file. When allowing the same API to be used to access both local and remote file-like resources,
+                things that rarely go wrong on local operations (such as takes a long time, might fail) happen a lot
+                more often. That the average programmer never checks that things fail/succeed and always putting IO into
+                the UI thread is just plain bad, for both local and remote resources. It would have to be thought about.
+                Massively multi-threaded message-passing operating systems might have the edge in this respect.</p>
+                <p>A unified, transparent network access for many protocols does not remove the need for dedicated
+                protocol handling libraries for specialist programs. But it does make the average program suddenly much
+                more powerful and useful to the average user!</p>
+                <p>It is worth mentioning an additional feature for the interested OS developer to research:
+                auto-mounting archives and encrypted files transparently, e.g. “sftp://www.mycom.org/mail/archives/2004-07.zip.pgp/get
+                rich quick.msg”.</p>
+                </div>
+            </post-body>
+ <button class="page-link" onclick="window.location='index6.html#945'">index</button>  <button class="page-link" onclick="window.location='classic1.html#945'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

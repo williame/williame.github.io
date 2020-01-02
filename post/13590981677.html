@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Performance lessons for HTTP sockets : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Performance lessons for HTTP sockets</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><a href="https://github.com/williame/hellepoll" target="_blank" title="hellepoll">hellepoll</a>
+                is a fast little webserver that I’ve made.  I’ve written a few little custom event
+                loops like this over the years; this isn’t the first, and likely not the last.</p>
+                <p>In the tightest HTTP handling code you have to handle pipelining and flushing.  This is the
+                hellepoll secret:</p>
+                <p><!-- more -->Normally, HTTP connections are kept alive and reused for many requests.  The
+                only non-keep-alive connections you might see is if you are behind a particularly basic proxy (nginx
+                stop blushing, people seem to forgive you) or if your client is actually a bit of app code running with
+                some dead-simple HTTP client rather than a sophisticated browser.</p>
+                <p>HTTP clients can <a href="http://en.wikipedia.org/wiki/HTTP_pipelining" target="_blank" title="pipeline                 requests">pipeline requests</a> - that is, they can issue a request to fetch a
+                page before previously-requested pages have been served.  The server has to reply in order, but can
+                prepare pages to be sent rather than having to wait to process a request when previous requests are
+                being served.</p>
+                <p><img alt="HTTP pipelining from wikipedia" height="445" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png" width="640"/></p>
+                <p>If you are using a blocking IO model, you have to really deal with each request in sequence;
+                attempting to parse-ahead pipelined requests and juggle them will result in you writing a
+                mini-asynchronous IO loop of your own and you might as well just bite the bullet and be asynchronous
+                from the beginning… so asynchronous IO has a definite advantage in code organisation when
+                trying to maximise performance of an HTTP stream.</p>
+                <p>HTTP 1.1 clients must support chunked transfer encoding.  HTTP 1.0 may not.  As trunked
+                transfer encoding simplifies replying to pipelining, I find it simpler to force connection-close on HTTP
+                1.0 keep-alive requests that do not support it.  If you are writing to a connection-close stream you do
+                not need to write-ahead the content-length which simplifies the house-keeping and buffering you might
+                otherwise need to do.  HTTP 1.0 is really the domain of non-browser connections so this is fairly
+                marginal (usually; of course, in your job, you might meet such connections repeatedly; sad).</p>
+                <p>With chunked transfer you can write chunks as quickly as they are available - say one per call
+                to some write() function - and even put many headers after the body.  You can’t rewrite the
+                response code, however, so turning a 200 OK into some other error code after you’ve started
+                writing to the socket is a no-no.</p>
+                <p>The pipelined requests have to be written out in the strict order they were received which
+                means if you are doing them in parallel you may need to buffer some writes until its the turn for their
+                request.</p>
+                <p>Fast TCP connections are really down to buffer management.  Inside the kernel, there is a read
+                and write buffer associated with each socket; they are typically a few K.  Reading and writing into
+                these buffers takes a system call, which is not free.  If you read these buffers one byte at a time you’ll
+                end up with atrocious performance dominated by the cost of syscalls.  Once you set about trying to
+                maximise performance, you start having to count syscalls and you start trying to keep the syscall count
+                per connection down in the single digits.</p>
+                <p>So you really need to buffer in your user-space for each socket, both reads and writes.  A
+                single read-buffer is ideal but I’ve found putting the write buffers into a linked list when
+                they can’t be written through to be effective.  My servers, handling strange things like
+                messaging and video broadcasting and such have made efforts to share writable chunks between
+                connections.  Eventually it will be possible to write on the socket, and at that point you can use
+                writev() to send off as many buffers as possible in a single syscall.</p>
+                <p>Browser support for gzipping of data offers exciting opportunities.  If you have lots of reused
+                fragments you can pre-deflate these fragments - possibly using only Huffman, although patching up the
+                offsets for matches is certainly viable - and writing them ready compressed whilst tagging dynamic data
+                as uncompressed literals rather than expending CPU compressing them on the fly.  The more re-used your
+                data and the slower your language choice the bigger the payoff - I’d imagine it an ideal
+                speedup for Python-based multi-user chat servers, for example.</p>
+                <p>Some clients use keep-alive connections but don’t pipeline.  In this case, when you
+                write something, they’ll be waiting for <a href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" title="Nagle">Nagle</a>
+                to kick in and actually send it over the wire before sending their next request.  <em>This means
+                they will be slower than if they had connection-closed!</em>  In these circumstances, it is
+                important to flush the write buffer immediately you have written the final part of the response if the
+                connection is keep-alive and you haven’t already received the next pipelined request.  There
+                is no nice ‘flush’ function, but you can achieve it by calling set_nodelay(true) and
+                then calling set_nodelay(false) before any more writes.  This is two dreaded syscalls so its best to
+                check for a pipelined request before invoking these.</p>
+                <p>A non-blocking socket signals it is available for write every poll/select/epoll that you make
+                even if you have nothing to write.  Edge-triggering is how you can prevent wasting time on sockets in
+                this state and can give a comfortable speed boost.</p>
+                <p>I haven’t taken more than a cursory glance at SPDY, but that glance says its
+                pipelining++ and sequential chunks belonging to different requests can be written in any order.  It
+                sounds delicious.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#929'">index</button>  <button class="page-link" onclick="window.location='perf.html#929'">perf</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

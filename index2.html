@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: index</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>index</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index1.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 3 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index3.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/59140606458.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="711">
+    <h2>I&#39;m going to enter the Ludum Dare 27 game-making competition and I&#39;m going to use ... SQL!
+            </h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Its 2 hours to go and I’ve not been able to sleep for hours.  So I’ve been writing
+                some ‘framework’!</p>
+                <p>And that framework turned out to be a little SQL parser and runner in … you’ve guessed it,
+                Javascript!</p>
+                <p><a href="https://gist.github.com/williame/013de5a1d8cc0a835220" target="_blank">Source
+                here</a></p>
+                <p>It supports basic joins-in-the-where-clause, column and table aliases and insert statements
+                (with constraints!).</p>
+                <p>It does type-coercion on insert in the same broken way that MySQL does.</p>
+                <p>So as you see, I really am picking the best of all worlds: Javascript + SQL +
+                MySQL bugsfeatures… what’s not to love?</p>
+                <p>Maybe I have time to add DELETE and UPDATE before the LD starts and I need to work out some
+                game to use all this awesomeness on… <img alt=":)" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
+                <p><a href="http://www.ludumdare.com/compo/2013/08/23/im-in-and-im-going-to-use-sql/" target="_blank">&lt;/smug twit&gt;</a></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#711'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#711'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57181055984.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="715">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve added an interactive Perlin “Noise explorer” to
+                <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+                <p>I had originally used the usual Simplex Noise Javascript port that is in <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" target="_blank">three.js</a>
+                and elsewhere.</p>
+                <p>I even ported - successfully - to asm.js!  FWIW, asm.js turned out to be much slower than the
+                normal code; this isn’t code that benefits from being ported, it seems; the call overhead is
+                quite high.  If you want a lot of noise, e.g. generate a 2D or 3D array in one go, then the asm.js might
+                be much faster if the loop is inside asm.js, but as it was - for single samples - it was so much slower
+                I abandoned it.</p>
+                <p>I didn’t enjoy debugging my port to asm.js and I find all the coercion ugly, but it
+                was trivially learnable and may be interesting yet e.g. spatial indices and priority queue heaps.</p>
+                <p>But ultimately I wasn’t happy with the tunability of the Simplex Noise
+                implementation.  So I instead set about making a very naive reimplementation of Ken Perlin’s
+                <a href="http://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
+                in Javascript.</p>
+                <p>This lets you set the number of octaves and the alpha and beta values for bumpiness (sometimes
+                called persistence).  If you set the scale attribute manually you can even control the scaling of the
+                component samples!</p>
+                <p>It doubtless runs slower but, for reasonably small chunks of work its more than fast enough. 
+                And barebones.js has a cool web-worker wrapper if you want to generate big chunks of noise
+                asynchronously.</p>
+                <p>I didn’t pay too much attention to GLSL noise - that’s applicable for
+                rendering, but not so useful for generating game levels and so on where you really need your noise
+                accessible to Javascript (and in webGL you can’t read back framebuffers).</p>
+                <p>As a thought-experiment it ought to be possible to do a <a href="http://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
+                shadow my visualisation nicely, but it would have rather more general advantages if it sped up making
+                big chunks of noise too?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#715'">rec</button>  <button class="page-link" onclick="window.location='game.html#715'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="716">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
+                worlds.  In the end, I needed to visualise the noise function itself:</p>
+                <p><img src="media/old/57140204975_1.jpg"/></p>
+                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
+                next <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#716'">rec</button>  <button class="page-link" onclick="window.location='game.html#716'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53836725910.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="723">
+    <h2>What highscalability.com says about Scaling my Server</h2>
+</a>
+<?xml version="1.0" ?><post-body><blockquote>
+                <p>Williams Edwards writes a wonderful, slow lingering tale of <a href="post/53349845356.html">Scaling my Server</a> through
+                a series of rewrites to create a system that effortlessly maintains millions and millions of active
+                users. The article is packed with goodness, but the result was to write in Java, use a central shardable
+                server to push messages to devices, scale proportional to active users not total users, keep live data
+                in RAM persist in a database, version the DB, use application level message ACKs, use
+                DataInput/OutputStreams, use a faster JSON parser, there’s a  limit to the number of TLS
+                connections can terminate, Java data types have a lot of overhead which limits the number you can keep
+                in RAM, Java hashtables are wasteful. [<a href="http://highscalability.com/blog/2013/6/21/stuff-the-internet-says-on-scalability-for-june-21-2013.html" target="_blank">src</a>]</p>
+                </blockquote>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#723'">perf</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53831974133.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="724">
+    <h2>Drawing RTS maps fast</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/53831974133_1.jpg"/></p>
+
+                <p><em>Techie bit follows</em>, but first here’s some background:</p>
+                <p>At high-school I played the defining Dune 2 RTS game, and then at college I played C&amp;C
+                Tiberian Sun.  I poked around (internet was dial-up and slow in those days) and became part of the
+                then-thriving game-modding community.  They had reverse-engined the Tiberian Sun model format, but no
+                editors existed.  So I made one.  Will’s Voxel Editor, as it was called, was hugely popular in
+                the limited world of Tiberian Sun modding.  I worked closely with a modder called Mr War - all modders
+                had strange anonymous handles on-line in those days except me - and we made some really cool mods and
+                games.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#724'">rec</button>  <button class="page-link" onclick="window.location='game.html#724'">game</button> 
+<button class="page-link" onclick="window.location='post/53831974133.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53751799442.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="725">
+    <h2>Scaling my Server: follow-up</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="post/53349845356.html" target="_blank">Previously</a>, I described how I tried to do the simplest possible thing that
+                might work and <em>didn’t</em> get away with it.  The story got some attention and
+                a couple of interesting points and ideas were raised:</p>
+                <p><strong>Doing it wrong</strong></p>
+                <blockquote>
+                <div>This is a lot of words for “I needed message queues and keep doing it wrong”
+                <small>[<a href="http://stackoverflow.com/questions/17274553/dont-use-the-database-as-a-queue" target="_blank">proggit</a>]</small></div>
+                </blockquote>
+                <p>Ooooh cheap shot, love it!  I’d be the first to raise such an objection but on deeper
+                inspection I begin to wonder what we all mean by this bit of wisdom.  There’s a <a href="https://blog.engineyard.com/2011/5-subtle-ways-youre-using-mysql-as-a-queue-and-why-itll-bite-you" target="_blank">nice article</a> on it, but the alternatives really aren’t there as I
+                see it; you’re stuck trying to find a queue server that is transactioned, can be queried and
+                edited and has secondary indices and can do it with millions upon millions of <em>persistent</em>
+                queues.</p>
+                <p>If someone said that your Orders and OrderRows tables should instead be a queue per order you’d
+                check their surroundings for sharp objects ;)</p>
+                <p><strong>Golang</strong></p>
+                <p>Quite a lot of people suggested Go for my next rewrite.  You know, I had exactly the same idea
+                when I started the last rewrite and I reviewed it then.</p>
+                <p>Go hadn’t reached 1.0 then but it was definitely the kind of language I like, even if
+                I don’t like the syntax much.  But the big blocker was interning strings; in Go there isn’t
+                a good way of making a caching system to de-dupe strings (perhaps reference counting would be needed and
+                it’d be error-prone).  Worse, its one of those subjects where it seems most of the go-nuts
+                crowd are completely small-picture people :(  Its unlikely to turn up soon, and without de-dupe we can’t
+                fit the “PromotionCode1” group ID in RAM for each and every device.  This single
+                issue was a no-go for me.</p>
+                <p>But I do like Go, and hope to use it for real real soon…</p>
+                <p><strong>But cool!</strong></p>
+                <p>Writing about the scaling experience, and carefully reading everyone’s ideas and
+                criticisms of it and trying to put myself in their position and see what they see has been really
+                eye-opening.  I need to clean up my writing style!  Its been really fun to get so much feedback, and so
+                much positive feedback too!  Thank you all, and I’ll keep you updated…</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#725'">perf</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/53349845356.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="726">
+    <h2>Scaling my Server</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>(<a href="post/53751799442.html" target="_blank">Followup</a>.  Also  <a href="post/53836725910.html" target="_blank">highscalability.com</a>)</p>
+                <p>At the beginning of the <a href="http://www.mblox.com/" target="_blank">project</a>
+                to build a large-scale targeted multi-recipient messaging server, I opted to use the simplest, most
+                mainstream architecture possible: put everything in a RDBMS and let each web handler run queries.</p>
+                <p>It is a bit like push email but with groups and you can edit and recall messages even after
+                they are sent and you can schedule them and you can even make complex expressions to determine who gets
+                the message and so on.  And it had to be an online system rather than a batch system.  All in all, quite
+                a complex bit of software.</p>
+                <p>I had just finished a project making a transcoding and multi-casting video server that involved
+                getting deep and dirty with edge-triggered asynchronous IO in C++ (the server got open-sourced as <a href="post/18200335569.html" target="_blank">hellepoll</a>
+                afterwards), so I really was keen to <em>avoid</em> exactly that type of high-complexity
+                solution.  I didn’t think this new project warranted it.</p>
+                <p>So I opted for Python (it aligned with other teams in the company and to be honest I was
+                willingly forced into using it) with Twisted (as Tornado was at the time very evolutionary and didn’t
+                have all the utility DB stuff and so on).  I opted for MySQL too (as that was already in use in the
+                company and that simplified the deploy story).</p>
+                <p>You already know I’m going to tell you this was a mistake:</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='perf.html#726'">perf</button>  <button class="page-link" onclick="window.location='classic.html#726'">classic</button> 
+<button class="page-link" onclick="window.location='post/53349845356.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49797579721.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="730">
+    <h2>WillCity update</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/49797579721_1.jpg"/></p>
+
+                <p><a href="post/49171822294.html" target="_blank">Previously</a>, <a href="post/20163196047.html" target="_blank">previously</a>.</p>
+                <p>When run on local-host, the game runs four sims at once, in lock-step.  Three of them are test
+                patterns, and the top left is for playing around.</p>
+                <p>This makes it very easy to try out and tweak algorithms!</p>
+                <p>The top-left layout - residential is red, industrial is pink and commercial blue - is supposed
+                to be fairly optimal.  I want the algorithm to favour it, which you can see at the moment it does!</p>
+                <p>The bottom left has more space between the zones, and road only on one side.  The algorithm
+                should favour growth near the road, and at the moment it does!</p>
+                <p>The bottom right is a very sub-optimal layout and I want the algorithm to punish it.
+                 Commercial and industrial don’t like each other (although the commercial cares more than the
+                industrial).</p>
+                <p>The early sims are quite pleasing, but after a while - just a few years since my whole timeline
+                thing is not quite set up - things get out of whack and success breeds success and it becomes a run-away
+                chain reaction.  I need to think about levelling and damping and so on.</p>
+                <p>I’ve been talking to the <a href="http://www.opencity.info/" target="_blank">OpenCity</a>
+                devs and the way their algorithm works is:</p>
+                <ol><li>each sim step, pick a random residential, commercial or industrial zone to re-score.
+                 It doesn’t recompute the scores for all zones each time step.  Change is gradual.</li>
+                <li>in a NxN grid, see if there are any of the other two zone types</li>
+                <li>depending on the zone type, reward or penalise nearby other zone types</li>
+                <li>if the reward is positive, there’s a small chance that the zone will level up</li>
+                <li>if the reward is negative, there’s a small chance that the zone will level down</li>
+                </ol><p>I have a slightly more computationally-expensive approach, although far from the
+                simple balance in OpenCity:</p>
+                <ol><li>each sim step, pick between 1 and N% of the RCI zones are re-scored</li>
+                <li>for each re-scoring zone,</li>
+                <li>perform a best-first search to determine all the other zones within reach</li>
+                <li>the transport cost uses one of three transport cost layers - car_and_foot, bus and train.  The
+                best-first search can jump between these layers at bus stops and train stations</li>
+                <li>at this point I have a list of nearby zones for each type and how far it is away and its score
+                and so on; a quite complicated and nuanced algorithm could use all this data.  For now, we do something
+                rather simple:</li>
+                <li>average the distance*score of each nearby zone type</li>
+                <li>if the zone is residential, re-score = commerical_score + industrial_score +
+                residential_score*0.1</li>
+                <li>if the zone is commercial, re-score = residential_score - industrial_score +
+                commercial_score*0.1</li>
+                <li>and so on</li>
+                <li>then, if the re-score is more than the current score, there’s a 25% probability that
+                5% of the difference is added to the zone’s score</li>
+                <li>and inverse for re-scoring down</li>
+                <li>with some basic clamping</li>
+                </ol>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#730'">rec</button>  <button class="page-link" onclick="window.location='game.html#730'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49786413417.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="731">
+    <h2>The kid&#39;s computer</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I now have a ‘spare’ old laptop and I’m thinking about
+                setting it up so my oldest daughter can use it.</p>
+                <p>My daughters have no shortage of ready access to tech already:</p>
+                <ol><li>an old stationary computer with <a href="http://www.qimo4kids.com/" target="_blank">Qimo</a> Linux and no internet access</li>
+                <li>an old eee pc netbook with <a href="http://www.doudoulinux.org/web/english/index.html" target="_blank">Doudou</a> Linux and no internet access</li>
+                <li>an ipad 2 they borrow all the time, and are very adept at using - especially spotify, youtube
+                and a hundred make-up games</li>
+                <li>an intimate knowledge of DVD players and all that kind of thing</li>
+                </ol><p>Remember <a href="post/19500788060.html" target="_blank">my
+                tech-savvy generation</a>?  That was a year ago now!  Considering that they can’t read
+                nor write English yet I am often flabbergasted at their proficiency.</p>
+                <p>I think its time to give them a computer with internet access and perhaps start trying to send
+                them down a programming path too.</p>
+                <p>My eldest daughter, at 7, is very inventive and is currently planning a flying car.  For real.
+                 Of course I’m sure she understands its just fun to plan, but plan she does.  Its full of
+                little innovations like a bin between the seats so you can throw away sandwiches and things you don’t
+                like and then the motor itself will be driven by rubbish.  This is after a discussion at school about
+                recycling, of course.  You can tell I’m a very proud dad :)  We’ve just spent a week
+                collecting pictures of double-decker buses and things getting stuck under bridges in an attempt to
+                determine how high they can be…</p>
+                <p>She is already giving me lots of advice on my city building game, and has recently petitioned
+                for bridges and tunnels.  Its really exciting to listen to her describe the cities we could build…</p>
+                <p>I want to foster this curiosity by leading her towards programming too.  I think of programming
+                as lego without gravity, and want her to build wonderful virtual worlds.  Its not that I imagine there’s
+                a career ahead, but rather that I want her to have a boundless world to explore and conquer, rather like
+                books provided our generations with.</p>
+                <p>So the meat of my question:</p>
+                <ol><li>what OS or such do I put on this laptop?</li>
+                <li>how do I set it up for safe browsing etc?</li>
+                <li>are there any Incredible-Machine -type games these days?</li>
+                <li>what kind of programming environments should I start her on?</li>
+                </ol>
+            </post-body>
+ <button class="page-link" onclick="window.location='classic.html#731'">classic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/49171822294.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="735">
+    <h2>What I&#39;m working on</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My blog has been rather quiet recently… due mainly to renovation projects
+                and that my hobby coding time - an hour here, a quarter there - has been on a special project:</p>
+                <p>I’ve been trying to work out a lot of the concepts behind city-building games.  Here’s
+                my hobby simulator so far:</p>
+                <p><img src="media/old/49171822294_1.jpg"/></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#735'">rec</button>  <button class="page-link" onclick="window.location='game.html#735'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="738">
+    <h2>barebones.js updated</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>It now includes a <a href="http://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
+                RTS game!  Just add units…</p>
+                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
+                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
+                working out the tile under the mouse cursor.  Stay tuned.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#738'">rec</button>  <button class="page-link" onclick="window.location='game.html#738'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48129403865.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="739">
+    <h2>How to do 3D terrain for your game</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The <a href="https://github.com/williame/barebones.js" target="_blank">barebones.js</a>
+                project contains a simple grid-based webGL-drawn terrain that serves as a ready-to-build-upon skeleton
+                for your game:</p>
+                <p><a href="http://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
+
+                <h2>features</h2>
+                <p>The demo shows:</p>
+                <ul><li>turning a height-map into a mesh</li>
+                <li>drawing it with webGL</li>
+                <li>tiling - each grid-square can have a unique tile at any cardinal direction</li>
+                <li>drawing grid lines (useful for debug)</li>
+                <li>navigation with arrow-keys</li>
+                <li>pan and rotate and zoom with the mouse</li>
+                <li>top-down (with perspective) and 3D views</li>
+                <li>working out what tile the user clicks on</li>
+                <li>updating the map in real time</li>
+                <li>how to compute normals from a height-map</li>
+                <li>a very basic random terrain generator</li>
+                </ul><p>We’ll cover each of these points below:</p>
+                <h2>the map</h2>
+                <p><img align="left" src="media/old/48129403865_1.png"/>
+                The map is fundamentally a 2D <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
+                If the map is, say, 100x100 squares then we’ll have 101x101 height points.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#739'">rec</button>  <button class="page-link" onclick="window.location='game.html#739'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/46548666358.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="741">
+    <h2>hand-written asm.js</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://asmjs.org/" target="_blank">asm.js</a> leaves me
+                divided.  I agree to a large extent with <a href="http://mrale.ph/blog/2013/03/28/why-asmjs-bothers-me.html" target="_blank">this old V8 coder</a>.</p>
+                <p>I care a lot about pure Javascript performance.  A recent project had me making a web worker
+                that had to do lots of path finding.  And no matter how fast your priority queue implementation is, it
+                isn’t fast enough.</p>
+                <p>I’ve been basing my priority queue on <a href="http://eloquentjavascript.net/appendix2.html" target="_blank">this one</a>.  The hottest
+                function is the scoring function; its not a big function - <code>function(a,b) { return a[0] &lt;
+                b[0]; }</code> - but its called a lot.</p>
+                <p>In my problem domain the maximum size of the queue is bounded by the size of the board and the
+                objects I want to prioritise can be expressed as a list of integers and the prioritisation can be based
+                on the comparison of the first element in each slot.</p>
+                <p>So you could imagine an asm.js priority queue that used an Int32Array view (tidier if you could
+                use an Int16Array in my case but coercion to ints is a 32bit thing) of its heap and exposed push and pop
+                methods.</p>
+                <p>But the problem became how the push and pop signatures would work and how to generalise it. 
+                The functions have to take numbers and return numbers.  I ended up imagining having to reserve some part
+                of the heap for passing in and out the values and writing a non-asm.js wrapper that keeps the heap and
+                the priority queue code internally and does the wrapping unwrapping in non-asm.js code at non-asm.js
+                speed.</p>
+                <p>Altogether I wish that asm.js wasn’t so extraordinarily narrow.  I want it to read
+                and write objects, and be more of a Cython-for-Javascript.</p>
+                <p>And then I want actually for a tool that highlights your type-determined-local-variable code
+                that the Javascript runtime can make optimise, so I can move more and more code in the fast path into
+                this implicitly-but-statically-typed subset.  And this is tooling, and <em>doesn’t</em>
+                need asm.js.</p>
+                <p>Being told the |0 and such tricks is just frustrating.  Its saying that if you write code thats
+                hard and verbose for humans to understand and correct, the compiler has it easy.  Its pushing for me to
+                write my stuff in something I can emscripten into an unreadable tangle of Javascript, rather than
+                writing fast Javascript by hand.</p>
+                <p>Javascript has lots of issues.  From a performance aspect it has the albatross of dynamic
+                typing and late binding meaning lots of checks and hash tables (although lack of threads can help make
+                things better than Python blah blah).  Asm.js isn’t really addressing any of this.</p>
+                <p>I want colour-coding in Firebug so I can see profiling information in the sourcecode rather
+                than in profiler reports and I want coloured annotations so I can see all the inferred properties -
+                constness, data types, cacheability etc - of my code and strive to optimise as humans can.</p>
+                <p>I want tools and a generic Javascript runtime that can infer what asm.js wants the coder to
+                specify.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#741'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/45193855853.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="746">
+    <h2>Drawing things in the shadow of a sphere</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
+                - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
+                else a child of the cold war?</p>
+                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
+                me, so I wanted to capture that feel:</p>
+                <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#746'">rec</button>  <button class="page-link" onclick="window.location='game.html#746'">game</button> 
+<button class="page-link" onclick="window.location='post/45193855853.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/43800948133.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="754">
+    <h2>Efficient procedural flame particle effects</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I was playing the other month with making flame particle effects.  Lots of flame
+                particle effects:</p>
+                <p><iframe frameborder="0" height="256" src="http://www.youtube.com/embed/Em5gSVgKsBI?rel=0" width="341"> </iframe></p>
+                <p>The challenge - in webGL - is to minimise the data transfer per frame.  So I created my flame
+                effects procedurally using a random seed.</p>
+                <p>I claim no invention nor credit; I based this upon a million Google searches and nothing I’ve
+                done is unique; but is novel and fun for me so I share.</p>
+                <p>What I did was create a single big VBO of random numbers.  I never updated this list of random
+                numbers; I just kept re-using it.  Its an immutable list.  The list is as long as the maximum number of
+                particles in any system.</p>
+                <p>Then for each particle system I created a unique random number for it.  And a few other things
+                like its position and size.</p>
+                <p>To draw each system I computed the matrix so that, in its model coordinates, it was always
+                drawing inside a -1,-1 -&gt; 1,1 square.   That just simplifies life inside the shaders.</p>
+                <p>In vertex shader I use the per-system random number uniform combined with the per-vertex random
+                number attribute to seed a random number generator to derive the particle’s attributes e.g.
+                size, start-position, direction, colour etc.  I then had a uniform float ‘time’
+                passed to determine the frame of animation to draw.</p>
+                <p>In this way I could have lots - easily filling the whole screen with tens of thousands - of
+                point-sprite-based fire particles and no two systems looked identical!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#754'">rec</button>  <button class="page-link" onclick="window.location='game.html#754'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/43394068341.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="756">
+    <h2>Ruby&#39;s Principle of Too Much Power</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
+                is Ruby bad security?</a></em></p>
+                <p><strong>TL;DR</strong></p>
+                <ul><li>Ruby libraries need to stop being too powerful.</li>
+                <li>Programmers need to understand the libraries they are using.</li>
+                </ul><hr/><p>So, lets recap on the recent Ruby on Rails security woes.  For some
+                non-obvious reason, Ruby on Rails supported YAML form parameters.</p>
+                <p>And it turned out that the Ruby YAML parser can … instantiate complex objects.</p>
+                <p>Why can the Ruby YAML parser instantiate complex objects, and why did the YAML author <a href="https://github.com/tenderlove/psych/issues/119" target="_blank">not see</a> this as a
+                problem?</p>
+                <p>So we swatted that bug; we stopped Rails allowing YAML.</p>
+                <p><em>Only it then turns out</em> that Rails also supported XML form parameters.</p>
+                <p>Now there are lots of nasty attacks against XML parsers like recursive entities and external
+                entities and ways of DOSing the server; but that’s no different from attacking the hash-table
+                used to store form parameters, I guess.</p>
+                <p>The nasty thing about the <em>Ruby</em> XML parser is that it can embed YAML.</p>
+                <p>Why can the XML parser embed YAML?</p>
+                <p>Lets swat that vulnerability too.  Lets make sure that Rails only supports HTML form
+                parameters.  On, and JSON.</p>
+                <p><em>Only it then turns out</em> that the Ruby JSON parser … yes, you’ve
+                guessed it … the <em>Ruby</em> JSON parser can instantiate complex objects too.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='lang.html#756'">lang</button>  <button class="page-link" onclick="window.location='classic.html#756'">classic</button> 
+<button class="page-link" onclick="window.location='post/43394068341.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/42912076785.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="760">
+    <h2>Why is Ruby bad security?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>More: <em><a href="post/43394068341.html" target="_blank">Ruby’s Principle of Too Much Power</a></em></p>
+                <p>Another week, another <a href="http://www.zweitag.de/en/blog/ruby-on-rails-vulnerable-to-mass-assignment-and-sql-injection" target="_blank">Ruby on Rails exploit</a>.  <a href="http://rubysource.com/anatomy-of-an-exploit-an-in-depth-look-at-the-rails-yaml-vulnerability/" target="_blank">Again</a> it attacks derserialisation libraries that can, it turns out,
+                instantiate complex objects.  Not all the flaws can be blamed on over-ambition of the serialisation
+                libraries like YAML and now JSON, though.  There was a spate of <a href="http://blog.mhartl.com/2008/09/21/mass-assignment-in-rails-applications/" target="_blank">mass-assignment
+                </a>vulnerabilities and others and doubtless some I’ve forgotten.</p>
+                <p><em><strong>update</strong></em>: I spoke too soon: there’s
+                <a href="https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/AFBKNY7VSH8" target="_blank">yet another</a> assignment vulnerability right now, again….</p>
+                <p>Why, deep down, does Ruby have whack-a-mole security problems?  I don’t by the
+                popularity argument at all; its not because Rails has suddenly become a big enough target to encourage
+                attackers.</p>
+                <p>I think its much deeper in the Ruby psyche.</p>
+                <p>Why <em>doesn’t</em> the Python JSON serialiser try and instantiate
+                non-standard data-types?</p>
+                <p><strong>Ruby delights in spooky action at a distance</strong>.  Rubyists and
+                Railites delights in an perverse, extreme object-orientation.  In Convention-over-configuration and Don’t-Repeat-Yourself
+                mantras.</p>
+                <p>The aim is to be so declarative, so high-level as to no longer see nor understand what is
+                happening beneath and before.</p>
+                <p>Even Python apps are much shallower than Ruby apps.  Ruby is the queen of indirection and
+                nesting.</p>
+                <p>I just can’t see Go and Python frameworks suffering in the same way and to such a
+                large endemic extent.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#760'">lang</button>  <button class="page-link" onclick="window.location='classic.html#760'">classic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/40512693117.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="763">
+    <h2>The Crown Jewels Job – Autopsy</h2>
+</a>
+<?xml version="1.0" ?><post-body><div>
+                <p>Opening myself up here, but to be honest I’m deeply disappointed about our Ludum Dare
+                game-making-contest score history. I expected more of us; we aimed higher, and we hoped to make
+                something that would please and wow the crowd.</p>
+                <p><img alt="" height="307" src="http://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
+                <p><a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">And we abjectly failed, again.</a></p>
+                <p>We’ve always aimed to challenge norms; in <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">LD23</a>
+                we’d tried to put graphics into text adventures in an interesting, new way. We’ve tried to enter a
+                multi-player on-line game in <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">LD24</a>, and we’ve tried in <a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">LD25</a>
+                to make a 2D platform game without tiles.</p>
+                <p><em><strong>We really are overactive underachievers.</strong></em></p>
+                <p>Our highest LD25 score was for music. We were perhaps not clear enough that that was the one
+                thing we had not ourselves made <img alt=":(" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
+                picked up on the Internet, and we thought we’d explained that.</p>
+                <p>So why did we fail so miserably? <strong>Bad control.</strong>  We should have had
+                a lot more and we lacked in plenty of areas, but I think that the playability was most affected by the
+                bad control.</p>
+                <p>Its fairly non-trivial to do collision with arbitrary lines and so on, and do it efficiently
+                too. Our collision code, which we’d written for the game and mostly as the deadline loomed, was immature
+                and incomplete. We should of course have learned how to code it before the jam, or borrowed a library or
+                something.  But we’re not really borrowing-code-libraries kind-of-people.</p>
+                <p>And what happens is that you do badly in a core area such as control and people voting just
+                give you a low score across the board. We got 1.92 for innovation which just means we hid the code well
+                I guess.</p>
+                <p>I’m deeply saddened that we didn’t score higher for graphics, as I myself am in awe of my
+                team-mate’s artistic prowess and thing it deserved more. A very big part of that is my fault, as I also
+                didn’t get around to good GLSL lighting. Meaning the whole making the scene out of meshes thing didn’t
+                work, and it was hard to see where the platforms were because of the uniform shading.</p>
+                <p>In previous LDs the winners have always wowed me. I’ve always looked down the winners list and
+                been awed and inspired. This time its been a whole lot, well, distanced. I don’t mean to take anything
+                from the winners and everyone else in on the game; I think its in a large part because I didn’t find the
+                theme exciting.</p>
+                <p>We had had an alternative game that was a FarmRomanVilla thing; Zynga being villains and
+                villain being a medieval French word for farm worker and all. All actually inspired by a recent episode
+                of Time Team I’d watched where they excavated a Roman villa in Britain…  But whilst that was very much
+                the kind of game I like making, I think it would have disappointed just as badly as the
+                lets-make-a-platform-game,-they-always-do-well game that we tried.</p>
+                <p>Its been a introspective start to the new year. Our strength is art and we do ok-ish at coding
+                too, but general story and game-play, audio (we’re both terribly untalented musically) and overarching
+                fun we fail miserably at.</p>
+                <p>I know I’m supposed to end on a high note of future optimism and enthusiasm and a promise to
+                try harder and come back next time. But its hard to muster the bravado. Time heals, so maybe we’ll be
+                back for another beating; we’ll see.</p>
+                </div>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#763'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#763'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/38462176877.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="764">
+    <h2>The Crown Jewels Job</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><em>Introducing</em> our game for the <a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">Ludum
+                Dare #25</a> competition:</p>
+                <p><big><a href="http://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/W5T_mswWhnQ" width="420"> </iframe></p>
+                <p>To think we made all this in just 72 hours?!</p>
+                <p>The theme for the competition was “<em>you are the villain</em>”.</p>
+                <p>We wanted to make a game that my young daughters could (be allowed to) play, which meant no
+                blood and guts and swearing etc.  It had to be tame, innocent fun.  We settled on a very classic
+                platform-game idea.  If you ‘die’, you actually go to prison.  Being cast as the
+                baddie doesn’t mean you become a goodie, not when its made by a prudish dad like me!</p>
+                <p>The artwork is excellent as usual, due entirely to my co-conspirator, the <a href="post/37291851878.html" target="_blank">usual suspect</a>.  The general engine - which I coded - whilst cool in that I
+                made it from scratch, is not so great.</p>
+                <p>If there’s a criticism of the game-play its the wrong-feeling control system.</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#764'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#764'">ludum-dare</button> 
+<button class="page-link" onclick="window.location='post/38462176877.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/38051204853.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="765">
+    <h2>Dave the Dastard: Ludum Dare 25 - end of day one</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>That’s just a working title…</p>
+                <p>We struggled a bit with this year’s theme: You are the villain</p>
+                <p>We really wanted to make something my daughters can play, and I don’t really like the
+                baddies winning out.</p>
+                <p>In the end we decided to pretty much make a nice little tame platform game, and pay little
+                attention to the theme.</p>
+                <p>As usual, I’ve written thousands of lines of tooling code, and almost no game code! 
+                Our artist, on the other hand, has made gazillions of assets at his usual unbelievable pace.</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/7O5PpYcFSOc" width="420"> </iframe></p>
+                <p>We made a platform game for <a href="post/16322614828.html" target="_blank">LD mini 31</a>, but this time its completely different!</p>
+                <p>This time its written in Javascript.  The neatest thing is that our artist is able to edit
+                levels and add assets straight from the browser, rather than emailing them to me!  Ah the magic of my
+                little git web server.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#765'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#765'">ludum-dare</button> 
+
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index1.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 3 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index3.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>

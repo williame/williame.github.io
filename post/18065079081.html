@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Cogs Bad : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Cogs Bad</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><em>There is something really wrong with modern programmers.  Very wrong
+                indeed.</em><br/><br/><a href="http://www.mailinator.com/" target="_blank">Mailinator</a>
+                creator Paul Tyma has a <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
+                blog post</a> on how he compresses our email by 90%. He  has a simple LRU cache of lines and
+                consecutive lines from emails, so emails become a list of line string pointers where most are shared. 
+                He also has a background thread doing rather stronger LZMA compression on large emails.  He’s
+                winning.<br/><br/><!-- more -->(Its well worth reading the <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">mailinator
+                blog post</a> again and spend a minute thinking about how to store the individual lines from 3500
+                emails per second; how you’d need to fetch them to recover an email if someone wanted to read
+                it and so on.  It turns out to be quite obvious that a normal Java hash-table and linked list is a just
+                fine way of doing it with excellent performance characteristics ;)</p>
+                <p>Thing is, in one of the <a href="http://news.ycombinator.com/item?id=3617704" target="_blank">comments</a> on the Hacker News version of the article, someone wonders why he
+                didn’t use Redis for the LRU.<br/><br/>I think of the kindest, least shouting way
+                to hint that that’s not such a good idea; I say it might be higher latency to block on a Redis
+                LRU than using a in-process data-structure.  <em>Other</em> commenters responds by saying
+                that Redis is known to be <em>fast</em>; that they have just chosen node.js and Redis for
+                their startup because of its <em>performance</em>.</p>
+                <p><strong>This is wrong on so many levels</strong>.  So many levels.  I don’t
+                single these people out - they are just a useful illustration.  Their mindset is endemic in this
+                industry.  All around you, the new generation of programmers are making the same assumptions.</p>
+                <p>Lets try and distill this: this is comparing a hash table lookup to …. a hash table
+                lookup over IPC!</p>
+                <p>Increasingly, projects are websites.  You don’t have to be a power programmer; you
+                can cut-n-paste Javascript and run node.js and then you go get mongoDB or Redis as a backend and you’re
+                thinking you’re scalable!  Get with the movement!<br/><br/>Now I happen to admire
+                node.js and Redis and their ilk.  I’ve looked at their code-base on occasion; I’ve
+                even contemplated contributing.  This is not about them.  Its about the misusers of them.<br/><br/>The
+                people who misuse them are unlikely to have looked at their code-base, of course.  They are unlikely to
+                actually understand anything about performance and scaling either.<br/><br/>Paul Tyma
+                describes Mailinator as being basically one machine with a handful of cores and those were spare-enough
+                to be used for optional background LZMA compression.  The numbers are very impressive; there’s
+                far more traffic flowing through the Mailinator this second than normal projects get in a lifetime! <br/><br/>Just
+                imagine that Mailinator used Redis (problems with LRU eviction making some emails unreadable and all the
+                other misfit aside).  Or just generally being built in the web 2.0 backend style.  Make a guess at how
+                many components and boxes it would be.  Imagine how CAP would make it problematic.  Imagine how blogs
+                could be written about scaling Mailinator 2.0 :)<br/><br/>My point is that Mailinator is
+                something that can be done on one box using pre-web-2.0 server technology.<br/><br/>There’s
+                a whole mindset - a modern movement - that solves things in terms of working out how to link together a
+                constellation of different utility components like noSQL databases, frontends, load balancers, various
+                scripts and glue and so on.  Its not that one tool fits all; its that they want to use all the shiny new
+                tools.  And this is held up as good architecture!  Good separation.  Good scaling.<br/><br/>It
+                might start small.  Implementing sideways and struggling with sharding and then chucking in a Redis
+                server for shared state and so on.  Each step in their scaling story is working out how to make
+                increasingly painful patches and introduce new cogs to mitigate the cogs they’ve already
+                added.<br/><br/>In real life these systems take a long time to develop, run slowly and cost
+                money to host.  Luckily most never actually have to scale.  As they go live the engineers are
+                increasingly running around wondering why things are breaking and blissfully unaware that TCP is fragile
+                and that you might get stalls, broken sockets and such in the Elastic Cloud.  The client libs never do
+                seem to include reconnect logic do they?  Race conditions?  Are they sure putting a SETNX lock in some
+                remote data-store is going to solve all the consistency issues?<br/><br/>The first enemy of
+                performance is multiple machines.  The fewer machines that need to talk to perform a transaction, the
+                quicker it is.  If you can use a local in-process data-store (sqllite, levelDB, BDB etc) you’ll
+                be winning massively.  You might even fit your whole app onto one box.  If you can use a reasonably fast
+                runtime language (I don’t put the dynamic languages in this pile, sadly; V8 is not <em>fast</em>)
+                you might also squeeze it onto one box.  You might not even need tiers.<br/><br/>And there’s
+                nothing slow about developing this way either.  There’s nothing slow about breaking it into
+                tiers and cogs later.  Nothing slow about lobotomising and splitting server apps when you have a ‘rich
+                mans problem’ and need to scale.  The only problem is that so many programmers are so sadly
+                unequipped to do so.</p>
+                <p><a href="post/13266462536.html" target="_blank">Rich Hickey has a great talk about this</a> where he resurrects the excellent
+                word <em><strong>complecting</strong></em> :)</p>
+                <p>i guess my lament is that we have so lost sight of mechanical sympathy.</p>
+                <p>This avoiding cogs mantra ought to be the default operating mode when considering a new
+                project.  <strong>Cogs bad.  Cogs bad!</strong>  There, hopefully I’ve started us
+                a new movement :)<br/><br/><small>Footnote: Mailinator creator Paul Tyma has only good
+                posts, including opinions on asynchronous IO :)  <a href="http://mailinator.blogspot.com/" target="_blank">Go read his blog</a>.  Especially relevant are <a href="http://mailinator.blogspot.com/2011/05/notes-from-programming-leap-to.html" target="_blank">these
+                slides</a>.</small></p>
+                <p>(As seen on <a href="http://news.ycombinator.com/item?id=3620712" target="_blank">Hacker
+                News</a>; more recently on <a href="http://www.reddit.com/r/programming/comments/qhaje/there_is_something_really_wrong_with_modern/" target="_blank">reddit</a>; have you seen it anywhere else?)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#895'">index</button>  <button class="page-link" onclick="window.location='classic.html#895'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>A novel profiler for Python : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>A novel profiler for Python</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p><em><strong>UPDATE</strong></em>: now on <a href="https://github.com/williame/will_profile" target="_blank">github</a> with a <a href="http://williame.github.com/will_profile/example.html" target="_blank">clickable example</a>! 
+                You can even use the <a href="http://williame.github.com/will_profile/will_profile.html" target="_blank">on-line viewer</a> for your own traces.</p>
+                <p>At work, I’ve been trying to profile a very CPU-intensive part of a long-running
+                Python server.</p>
+                <p>There was a time, back in the dark ages, when randomly stopping your program in a debugger and
+                memorising the stack trace was a perfectly respectable way to ‘profile’ your code!</p>
+                <p>And it actually worked very well.  But somehow, with the advent of fancy profiling tools, the
+                simple and robust approach became forgotten…</p>
+                <p><a href="http://stackoverflow.com/questions/9819142/profiling-a-long-running-python-server" target="_blank">In order to profile my servers</a>, I’ve added the <a href="http://code.google.com/p/yappi/" target="_blank">yappi</a> profiler in such a way that it
+                can be started and stopped via a debug HTTP interface.  So you can, remotely, turn on and off profiling
+                and recover the log.</p>
+                <p>This has worked better than nothing, but I’ve found it problematic; yappi - and other
+                Python profilers - are so intrusive that they can slow the whole server down by nearly a factor of 3,
+                and this can cause a whole cascade of timeouts and other problems which interfere with the path you are
+                trying to profile.  Additionally, <em>interpreting</em> the output can be difficult.  The
+                functions that glow most are the utility functions, and the actual what-your-application-is-doing feel
+                just isn’t there.</p>
+                <p>So, in desperation, this morning I made a full-stack-sampling profiler.  N-times a second it
+                will save a snapshot of the current stack.  Sampling the stack, say, 10 times per second has no
+                noticeable impact on run-time and doesn’t distort the program being profiled:</p>
+                <p><img src="media/old/35134924139_1.jpg"/></p>
+                <p><!-- more -->Why do I want the raw full stack-traces?  Because these are key to
+                understanding what your program is doing!  Stopping a program randomly in a debugger a few times is a
+                <a href="http://stackoverflow.com/a/378024/15721" target="_blank">very good way</a> of
+                discovering your bottlenecks, and my script just automates it.</p>
+                <p>I had a very clear idea of how I wanted to see the output.  And the output is JSON.  So, rather
+                than making a little tkinter viewer app, I just threw together a rough Javascript page that you can
+                upload your JSON output to and it renders it on a clickable canvas.</p>
+                <p>The viewer creates a horizontally-scrollable time-line.  It shows how deep the stack is at each
+                sample point.  Clicking on a sample shows the call stack at that slice of the action.  And here’s
+                the neat thing - the viewer highlights in all other stack samples on the time-line the extent of their
+                common base.</p>
+                <p>Look at that pretty screenshot above again ↑</p>
+                <p>So I’ve clicked on a sample 11 seconds into the trace, and can see the stack-trace
+                sample at that time.  The red in the other samples are the calls that are common.  At the very bottom
+                are two calls that are part of the twisted IO loop, and so that can be tuned out.  But contrast the
+                block of blue to the left; that shows that all those previous calls were doing something quite
+                different; and the big block of red to the right show that subsequent samples were very much in the same
+                area of code.</p>
+                <p>This is a really great way to understand your calls!</p>
+                <p>There could be more information captured and presented; the user and system times, for example,
+                and the stack traces of other threads and so on.  I chose to not present that in my graph simply because
+                they were not interesting to my cause.</p>
+                <p>You can easily extend will_profile.py to capture all stacks; for example:</p>
+                <pre><code>id2name = dict([(th.ident, th.name) for th in threading.enumerate()])<br/>for
+                ident,frame in sys._current_frames().items():<br/>  thread_name = id2name.get(ident,&quot;&quot;)<br/>  stack
+                = traceback.extract_stack(frame)<br/>  ...</code></pre>
+                <p>I hope my quick scripts are useful to you when you have to debug a long-running, CPU-intensive
+                task in the future!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#774'">index</button>  <button class="page-link" onclick="window.location='perf.html#774'">perf</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

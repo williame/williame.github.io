@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Bounds vs Points in Spatial Indexes : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Bounds vs Points in Spatial Indexes</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Hmmm Spatial <a href="http://www.worldwidewords.org/qa/qa-ind2.htm" target="_blank">Indices</a>.</p>
+                <p>In GIS land I’ve been working recently with finding intersecting circles.</p>
+                <p>Most ‘fixes’ from phones and things are given as longitude, latitude and
+                radius.  The phone knows only it is within some distance of some point (as in, how far from a fixed
+                cell-phone tower). </p>
+                <p>Sometimes you get approximate height above sea level too, but I think that’s derived
+                from the fixed cell-phone tower and some averaging.  But its not so interesting luckily.</p>
+                <p>The largest real radius I’ve seen is approaching 30 miles!</p>
+                <p>A shallow look at your average <a href="http://www.opengeospatial.org/" target="_blank">GIS</a>
+                database and its modeling points not these circles.</p>
+                <p><!-- more -->Two circles (or spheres) overlap if the distance between their centres is
+                less than the sum of their radii.</p>
+                <p>In PostgreSQL, to find all circles overlapping some circle A would be something like:</p>
+                <p><code>WHERE ST_DISTANCE('POINT(<em>a_longitude</em>,<em>a_latitude</em>)'::geography,row_centre)
+                &lt; row_radius + <em>a_radius</em></code></p>
+                <p><small>(I haven’t tested that snippet)</small></p>
+                <p>Now, making the shocking guess that PostgreSQL’s spatial index is storing points,
+                that looks a lot like a <em>full table scan</em>.  Even if the <em>row_radius</em>
+                is indexed so its maximum value is known, that’d still be scary.</p>
+                <p>I relived a past chain of thought when I was making hobby spatial indices for my hobby gaming
+                experiments…</p>
+                <p>Its normal to create game <a href="http://en.wikipedia.org/wiki/Octree" target="_blank">octrees</a>
+                and such storing the points of units and objects.  And then, when searching for all objects near some
+                point, to add a fudge of the largest unit or object size.  This is because the space indexed is much
+                larger than the known maximum unit size.</p>
+                <p>However, instead I stored bounds in <a href="https://github.com/williame/GlestNG/blob/master/world.cpp" target="_blank"><em>my octree</em></a>. 
+                An object is stored in the smallest node that can contain it.</p>
+                <p>There are various recipes for dealing with fast-moving objects or objects that span two or more
+                cells. I just put these objects into the node that contains them, even if that node has children. If
+                they are fast-moving I compute a reasonably large bounds e.g. position of the next n frames, and store
+                that, so I don’t have to wriggle them each update.</p>
+                <p>When the camera moves, I then compute the intersection of the viewing frustum on the tree. I
+                put the intersecting items in a list.  This visible list is managed by the scene-graph so is only
+                recalculated when the camera moves - moving objects in the graph are moved in this list and using
+                tombstones and unsorted change-lists that get sorted and merged back in as-needed.  I note in a bit-flag
+                if the node or which of its children intersect the frustum, so later when objects are moving and being
+                moved in the tree I can avoid unnecessary frustum checks.</p>
+                <p>Then I sort them by shader program and front to back.</p>
+                <p>To draw, I iterate through the list drawing the opaque parts of the models. Those models that
+                have semi-transparent parts I build a single-linked-list of, so I can then go a second pass quickly back
+                through those items back-to-front drawing the semi-transparent parts.</p>
+                <p>As the items move, I have the bit-fields so I know if the node in the tree they are in is
+                visible or not, so I know if I have to insert, remove or resort them in the visible array that the tree
+                is maintaining. If I have to sort them, rather than doing the sort there and then, I just put a
+                tombstone in their old position in the list and put them in a new 'dirty’ list; its then only
+                to sort those things that moved and then merge that into a new visible list in O(n). Those types of
+                tricks gained real frames for me.</p>
+                <p>My implementation was a bit sloppy; you can infer all the intersection tests for children from
+                testing against the centre point and so on but my simpler-to-follow redundant <a href="http://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box" target="_blank">aabb</a> intersection testing never glowed in profiling.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#843'">index</button>  <button class="page-link" onclick="window.location='rec2.html#843'">rec</button>  <button class="page-link" onclick="window.location='game.html#843'">game</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

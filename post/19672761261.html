@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Artwork Based Layout : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Artwork Based Layout</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>A long time ago I tried to make Symbian’s UIQ phone UI competitive with
+                Apple’s iPhone UI.  Its true!  I was going to use Flash…</p>
+                <ol><li>add hooks to our old C++ UI framework</li>
+                <li>artists draw new fancy sliding swishing UI in Flash</li>
+                <li>slip Flash renderer between app and screen</li>
+                <li>take on Apple!</li>
+                </ol><p><!-- more -->Back to the beginning; after the UIQ phone UI shipped on the Sony
+                Ericsson P800 and P900 it was time for a rewrite.  UIQ had been written for pen-based smartphones but
+                the general pattern was for smartphones to push down into keypad-based phones.<br/><br/>The
+                Symbian UI for keypad-based phones was called Series 60 and was entirely owned and controlled by Nokia. 
+                Clearly the other Symbian licensees needed an answerable keypad UI of their own!<br/><br/>Our
+                customers at Sony Ericsson’s smartphone division were skeptical.  The division was heavily
+                engineer-led and they just wanted to keep punching out incremental improvements of the P-series phones. 
+                (I could agree with them on that!  But sadly that wasn’t the bigger picture.)<br/><br/>Despite
+                this, UIQ set off to build a rewritten framework that supported multiple form-factors dynamically.  This
+                was called UIQ 3 and it was underway when I joined UIQ as an engineer in the ‘framework’
+                team.<br/><br/>The framework team were the 10 or so programmers who made the entire UI
+                framework; all the other teams at UIQ were making apps on top of it like messaging UI or telephony UI or
+                contacts UI and such.  Some teams wrote whole chunks of their own custom UI frameworks with as mixed
+                success as the real framework team.<br/><br/>Around this time Motorola, who had flirted with
+                UIQ 2 on their first 3G phones (with all the grace and weight of a brick), came back and liked what they
+                heard.  They were on board for UIQ 3.<br/><br/>Again the first UIQ 3 devices were Sony
+                Ericsson’s P1 and M1.  These were hybrid pen-based touch-screen phones with keypads.  It was
+                as though there was some design conflict within Sony Ericsson where the smartphone engineers kept their
+                touch UI whilst the management insisted that a keyboard was tacked on the bottom.  With their qwerty
+                keypads and portrait form-factor they were actually great phones for text messaging.<br/><br/>Remember
+                that all touch screens were still resistive at this point; you could manipulate the screen with sharp
+                finger jabs only if you had dainty fingers and pointy nails.<br/><br/>At this time we looked
+                around at all the trade shows and at competing phones and we knew we already looked obsolete :(<br/><br/>By
+                now I had moved from being the architect for the graphics team (the framework team had grown and been
+                split into 'graphics’ and 'platform’ (everything else) teams) to being Product
+                Manager for Graphics, Multimedia and Performance.  A grand title but really it was because I realised
+                that the only way to make UIQ into the monster I wanted it to be was to write the spec myself!  By
+                moving into product management I’d be able to write the requirements that, as a developer in
+                the graphics team, I’d have wanted to implement.<br/><br/>Naturally, in hindsight,
+                I see that this political self-interest was readily misinterpreted and mistrusted by the new wave of
+                programmers flooding into the growing graphics and platform teams.  We’ll get back to this
+                bitter pill later.<br/><br/>The prospect of the Apple iPhone was just a rumour but there
+                were already plenty of fancier, prettier phones on the market.  The fanciest phones were on the Japanese
+                market.  It wasn’t widely known - it was a secret, even - that many of those phones ran Adobe
+                Flash!<br/><br/>Sony Ericsson’s feature phone division were flirting with Flash as
+                an app language.  Adobe themselves were trying to push Flash as the app runtime for all phones and
+                trying to use the operators to do so.  Motorola was super-keen we adopt Flash too.<br/><br/>So
+                UIQ needed saving and all outside pressure and acceptance was for Flash.  Of course, the engineers were
+                afraid of Flash.  They wanted SVG because it was a vendor-neutral open technology.<br/><br/>But
+                I knew it had to be Flash.  Have you ever tried to author an SVG file?  It was not straightforward! 
+                Flash was the tool that our customer’s UI and interaction designers actually used in their
+                mockups and prototypes; anything else would be an impedance mismatch.<br/><br/>Imagine a
+                future where the designers could simply save their work and they’d have the UI?  I did :)<br/><br/>Its
+                necessary to take a detour through the graphics stack on a Symbian phone at this point:<br/><br/>Symbian
+                was a micro-kernel and the Window Server was its own process.  Each application was a client of the
+                Window Server and used IPC to create windows and draw to them.  The drawing was all serialised in
+                buffers and sent to the Window Server.<br/><br/>The first windowing system was very much
+                like the Microsoft Windows one; windows were opaque and rectangular (possibly with a non-rectangular
+                clipping region; this means that a window is actually a whole constellation of small rectangles in
+                formation).<br/><br/>When a window was exposed, the window server sent a message to each
+                newly visible rectangle of window and asked it to send back the draw commands.  These commands were then
+                clipped and drawn by the window server to the screen.  This is reactive drawing.<br/><br/>When
+                I was starting on Flash UIs the Window Server was somewhat fancier.  It now supported semi-transparent
+                windows and, most importantly, it recorded all drawn commands to buffers so it could replay the draw
+                commands without waking the client up.  Symbian had retained-mode drawing and it worked really well.<br/><br/>I
+                had myself already added a plugin system to the Window Server so clients could draw draw-ops that would
+                trigger plug-ins to draw rather than being restricted to drawing standard primitives like bitmaps and
+                rectangles and such.  This was the Content Rendering Plug-in (CRP) system and is worth a whole blog post
+                of its own.  UIQ was no longer hostage of Symbian’s release planning for adding graphical
+                goodness.<br/><br/>Allowing us (not third parties) to write custom code in the Window Server
+                had already allowed us to make animations animate inside the window server rather than going backwards
+                and forwards over IPC to the client.  This allowed super-smooth animated SVG application icons and such
+                and dramatically improved both graphics frame-rate and UI responsiveness.<br/><br/>We also
+                used CRPs for transition engine plug-ins.  Sony Ericsson used TAT’s transition engine.  TAT -
+                The Awesome Tribe - were a great little group of demo-scene hackers who had formed a company making
+                music video effects.  But they quickly branched out into graphics programming and made a transition
+                engine.  They were in Lund where Sony Ericsson’s feature-phones were made and were one of the
+                constellation of companies clustered there hoping Sony Ericsson would license them.  TAT grew and moved
+                to Malmö and went on to develop UI polish for the first Android phone.  (If you look intently at the
+                clock dial on the G1 you’ll see it says its made in Malmö.)  TAT later <a href="http://www.tat.se/blog/tat-to-join-a-larger-tribe/" target="_blank">got brought</a> by
+                RIM; and if anyone saves RIM it’ll be them.<br/><br/>TAT is important because, by
+                some massive colossal cock-up, Motorola failed to license them!  This left the Motorola’s UIQ
+                phones without any fancy transition effects.  I set out to write a quick hack engine of our own.  So UIQ
+                had a skunk-works transition engine that worked by intercepting all the drawing by a client and
+                recording these draw commands to its own buffer and sending that buffer to a CRP in the window server
+                were they were drawn animated sliding on or off or exploding or fading or such.<br/><br/>This
+                is a fundamental thing; when a developer draws a rectangle or bitmap, he’s not actually
+                drawing it.  He’s just issuing the command to draw it and that command gets parceled up and
+                sent to a window server and it can be intercepted and chopped up and muddled with client-side or
+                server-side.<br/><br/>Rewriting our apps using Flash is basically throwing away UIQ.  The
+                application logic would also be thrown away.  And implementing all the bindings and application logic
+                for Actionscript would take an army of coders that UIQ didn’t have.<br/><br/>Flash
+                had other disadvantages; it was a monolithic memory hog.  At the time we had phones with 32MB of RAM and
+                64MB or more was being discussed; we needed each app to take just a few MB and be closeable so only
+                visible apps were actually running.  When our designers made Flash mock-ups they took 10 or 20MB!  It
+                wasn’t as though you could just take a Flash UI and drop it on our phones.  It was also a
+                notoriously slow renderer.  It didn’t do internationalisation nor IPC.<br/><br/>Again
+                Sony Ericsson’s smartphone division, engineer-driven as ever, were skeptical.  However, the
+                Sony Ericsson feature-phone division had solved many of these problems with their new  Cappuccino
+                platform.  I wanted to align with the feature phone division and their whole scheme and ambition really
+                impressed me; even though I couldn’t win over the smartphone engineers, I felt the feature
+                phone engineers at Sony Ericsson were onto something and I adopted their wisdom enthusiastically.<br/><br/>My
+                plan was simple: <strong>Artwork Based Layout (ABL)</strong>; we use Flash as a layout tool
+                and nothing else.  We put a Flash renderer in a CRP (as we had SVG before) and used swf files as
+                templates for laying out the controls and content as sent by the client.<br/><br/>So a UI
+                would basically be providing a selection of widget content to be placed and drawn by a separate Flash
+                template that some designer had written for that phone at that screen resolution.  Our apps would need
+                very minimal changes and perhaps even none at all if they were truly using the UIQ framework.</p>
+                <p>In Flash you can use scripts to control animation and interaction and not just for business
+                logic.  We hadn’t allowed scripts into SVG for our animated icons and we were unwilling to
+                allow scripts in for the UI.  We had two options open - to put the scripts in the window server, or put
+                the scripts into a sandbox process and serialise interaction with them.  We were pretty familiar with
+                the intricacies of the sandbox approach and so we decided to go that route and revisit the decision only
+                if performance was nonviable.<br/><br/>I went out to the valley and sold this vision to
+                Motorola.  They were super enthusiastic - the impact on their own development would be monumentally
+                positive.  It was an exhilarating aside to see one of their architects - Bill Maggs, who had been CTO of
+                Palm before - grasp the deep technical issues and implications.  You could, he appreciated, use SVG or
+                even HTML for the layout!  But it was clear that Flash was the business-case winner.<br/><br/>As
+                further validation a blog post by the legendary Zack, then at Trolltech, later described much <a href="http://zrusin.blogspot.se/2006/08/magic.html" target="_blank">the same idea</a>.  UIQ was
+                no longer alone in imagining artwork-based layout as the way forward.<br/><br/>My
+                predecessor as architect in platform was Mathias; he was massively more successful on his shift than I
+                was on mine and he can largely be credited with the success of UIQ 2 and 3.  He moved to Symbian in
+                London and became their UI framework architect.  A couple of platform colleagues followed him and had a
+                great time in London.  We worked closely and got along really well but we had very different visions of
+                the future; he wanted Symbian to <em>replace</em> UIQ (and Series 60) and providing the next
+                generation UI.  He set out to make it.<br/><br/><em>UIQ set out to prototype ABL.</em></p>
+                <p>Sadly, despite being able to prove to myself that each and every step was validated, my own
+                engineering team and Symbian rebelled :(</p>
+                <p>I’d borrowed Mathias back from Symbian for the push and his viewpoint that Symbian
+                should be doing UI frameworks carried weight too.  The final presentation was torpedoed and scuppered. 
+                Some parts of the demo were cool: you could draw in the Flash Studio and, every time you pressed save,
+                the screen on a phone emulator updated!  But the engineers were unanimous - UIQ should write their own
+                UI framework, or adopt Symbian’s “next-gen” UI; anything but adopt Flash.</p>
+                <p>And they were really wary of putting plug-ins in the window server too.  Animation belonged
+                client-side.  That was pretty hard for me to swallow, since I’d learned to put animation as
+                close to the screen as possible for hard-won performance reasons.<br/><br/>And then <strong>the
+                iPhone launched and it was gorgeous</strong>.  It was a rightful winner and UIQ hadn’t
+                even started the race.<br/><br/>Footnote: After this, and via Operator pressure, I got my
+                hands on the generic Flash renderer for phones.  It was notoriously slow.  I quickly skunk-works ported
+                it with a colleague so it ran on Symbian; it took a week.  The renderer was not the desktop renderer; it
+                was an SVG-like renderer that Adobe had brought in from some company and it was really quite tidy.  But
+                it was nearly as slow as the desktop renderer; some quick poking and fixing and a bit of streamlining
+                and it ran super fast.  I have never quite understood how Flash has always been slow; I believe Adobe
+                simply don’t put engineers on the problem.  I met far more suits at Adobe than convincing
+                engineers, sadly.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index4.html#873'">index</button>  <button class="page-link" onclick="window.location='classic.html#873'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Cage Flight autopsy : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Cage Flight autopsy</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Played <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">Cage Flight</a> yet?  Its a multi-player on-line space-fighter game!  You are
+                in a cage, weaving around trying to shoot down the other players; distilled survival of the fittest!</p>
+                <p><img src="media/old/30509144101_1.jpg"/></p>
+                <p>Its the game we wanted to play, so we made it!  We are super pleased and proud of it.  We
+                didn’t settle on what we would make until the theme was announced; I had hoped we’d fly around a fractal
+                landscape and put a lot of preparation time into learning ray-tracing.  In the end I think we
+                shoe-horned the theme Evolution into it acceptably and got the very best game we’ve made to boot.<br/><br/>How
+                would I sum up Cage Flight as a creator?  Fun and then tears.  Sorry for the hurt and drama in this
+                post:<br/><br/><!-- more --><img src="media/old/30509144101_2.jpg"/></p>
+                <p>Making a true 3D game the first time is hard.  Making a multi-player game the first time is
+                hard.  Making that multi-player game real-time is hard.  And making a true 3D on-line multi-player game
+                that works in your web-browser - now that is hard!  It has all kinds of challenges and components that
+                we had never tackled before and had not prepared for.<br/><br/><strong>Browser games
+                are the future!</strong><br/><br/>The real down-side to most Ludum Dare entries is
+                that downloading them.  Do we really want to be running all these Windows exes?  And Unity web-client
+                doesn’t run on Linux.<br/><br/>HTML5&amp;co has really brought new potential to browser
+                games.  You have webGL, you have a new proper audio API and you have websockets.  A year ago I don’t
+                think you could make a multi-player on-line 3D game in the browser.   A half-year ago you might have to
+                use Chrome’s excellent Native Client.  And now you can just use the browser!  We’ve had very few people
+                saying that they are using Internet Explorer and have no webGL ;)<br/><br/><strong>Quaternion
+                hell</strong><br/><br/>Surprisingly, there isn’t any nice tutorial or anything about
+                how to do 3D flight in a game; they tend to use gluLookAt or glRotatef for rotation and such and they’re
+                all just doing it wrong!  I’ll have to make a little cheat-sheet for anyone Googling during the next LD.<br/><br/>Working
+                with web/open/GL and meshes was no challenge, since the team draws from hobby RTS hackers.  It was just
+                1st/3rd-person camera control that I had never tackled before.  When moving the camera over an RTS board
+                you tend to have a fixed angle-to-the-horizon and movement is actually 2D.  But move to true 3D and the
+                camera has a position and a rotation.  The rotation has to be represented by a Quaternion which is just
+                4 floats; use classic roll, pitch and yaw (called the Euler angles) and you’ll end up with a <a href="http://en.wikipedia.org/wiki/Gimbal_lock" target="_blank">gimbal lock</a>!  You have to
+                be able to determine which direction is forward and which direction is up, and that’s encoded in the
+                quaternion.<br/><br/>I lost about 10 hours debugging my which-way-is-forward code for the
+                players.  My initial code was simple and obvious - multiply the inverse of the quaternion by a forward
+                vector scaled by speed.  It would work at first but if you spun around more than 180 degrees, it started
+                to fly backwards!  And after 10 hours of debugging, I got it working with basically the same code as I’d
+                started with.  My problems seem to have stemmed from my library - pyeuclid - not doing what I wanted it
+                to do regards quaternion*vector3 multiplication; moving the forward vector into a 0-rotation quaternion
+                and it all worked.  I think my original vector3 code would work in a normal math library, so I think I
+                lost the time more to a bug in the library than me doing it wrong.  But the fact was, I know so little
+                geometry - or math in general - that I did not know how to recognise or diagnose where I was going
+                wrong.  Hence 10 frustrating hours.<br/><br/>While fighting the quaternions I couldn’t
+                really focus on the actual drawing of the camera.  Again, a lot of the Googleable material is
+                out-of-date and uses glRotatef matrices.  In the end it was timely intervention by Philip’ (the <a href="http://www.indiedb.com/games/0-ad/news/pathfinding-update-24-january-2012" target="_blank">excellent</a>
+                <a href="http://www.wildfiregames.com/0ad/" target="_blank">0ad dev</a>) who very quickly
+                sorted out my camera code while I was going in circles with the server’s quaternion code.  I fear we’d
+                have been much further schedule behind without his help.<br/><br/><strong>Multi-player
+                via websockets</strong><br/><br/>The multi-player aspect worked really well (we
+                thought).  Its super-simple to set up a websocket server (I used Python’s Tornado) and talk to clients. 
+                The very good news is that the websockets can connect to a different server than the pages are served,
+                which has always been a problem with classic AJAX.<br/><br/>So we have a websocket server,
+                and we have all the players sending their key ups and downs to the server.  The server stores these in a
+                little table and, N times a second, sees what keys the players are holding down and applies the correct
+                rotations and movement to each player.  If the space bar is being held down, it might generate shots. 
+                It then serialises the position and rotation of all players and shots and sends it to each player.  N
+                times a second each player is receiving the position and rotation of each player and shot.  It then
+                draws it.<br/><br/>So, in this design, the apparent frame-rate is actually lock-step with
+                server.<br/><br/>Because websockets can be opened against non-origin servers, we were able
+                to host the game code and artwork on github and only do the actual game-play bandwidth on my hobby VPS. 
+                This is a good model you can copy.  Remember, though, that github-pages has cache-always headers so
+                people have to clear their browser cache to get new versions of the game.  And in Chrome/Safari there
+                doesn’t seem to be a reliable way to do location.reload(true) :(<br/><br/>We set the
+                frame-rate to 8 fps and had lots of fun weaving around shooting each other!  The <a href="http://www.megaglest.com/" target="_blank">Glest</a> community stood up and fought!  It
+                was play-testing and discussing if up pitches up or down and if the ships moved fast enough or fired
+                enough or the hit spheres were too small and so on.  We had testers from North America and they even
+                <a href="post/30340192066.html" target="_blank">made
+                videos</a>, attesting to the playable frame-rate they achieved:</p>
+                <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/yGSGiY9sISs" width="420"> </iframe></p>
+                <p>Now if you’ve read much in the way of proper game how-tos (I fuzzily remember reading about the
+                Doom/Quake approach and a really great article about the Age of Empires II RTS) you’ll recall that
+                that’s not how you do it!  Proper games have the some client-side interpolation between receiving
+                updates from the sever.  And its hard to miss all the talk about <em>slerp</em>ing when you
+                google quaternions.<br/><br/>The flaw was that our initial game-play went so well that we
+                did not identify 8 fps as a problem.  In reality we had three problems:</p>
+                <ol><li>players are unhappy with 8 fps.  Their expectations were much higher.  They think 8
+                fps is crap and buggy and call the game unplayable</li>
+                <li>players don’t always get as good Internet connections to my cheap hobby VPS in Sweden as I
+                do.  Even I can get poor connections occasionally.  The server times out clients who haven’t sent
+                anything for 3 seconds and clients themselves time out if they haven’t received anything from the server
+                in 2 seconds and the sad truth is that this happens all the time :(</li>
+                <li>websockets are TCP-based and TCP has never been a popular protocol for anything with any
+                semblance of low-latency game-playing requirements.  But you can’t just chuck UDP into browser games. 
+                What we won in simplicity</li>
+                </ol><p>I could have told you all this.  I used to write streaming video servers and clients
+                ffs.  But, somehow in my recent focus on servers connected to each other over 100G I forgot it all.  As
+                I said, the moment we played our game at 8 fps all thought of client-side prediction went out of my
+                mind.  I thought we had a winning game.<br/><br/>And lets face it - client-side prediction
+                is not trivial.  There’s a lot of corner cases and it can smooth out tweens between server frames but it
+                can’t really invent whole new frames when it can’t reach the server for a whole half-second.  Would it
+                have made the game playable?<br/><br/><strong>“Exasperated wifes and
+                children to unneglect”</strong><br/><br/>Jam entries have three days but we
+                have jobs to go to on Monday, exasperated wifes and children to unneglect.  So we were working a weekend
+                schedule.  Being in Europe, we didn’t even have quite the same easy weekend as you North American kids. 
+                The theme was announced at 2am and we lost a few hours before we got up, breakfasted, kissed the kids
+                goodbye and locked ourselves in our studies.<br/><br/>We skimmed on laser rendering and
+                didn’t actually put in a particle effects engine that I had imagined.  We’d played the game and thought
+                it was perfectly fun without them.<br/><br/>Maybe with more time we could have slipped in
+                slerping in the client.  We seem to have the tools necessary, now we’ve wrestled with and nailed
+                quaternions.  But its a half-fix, and doesn’t address the fundamental, bursty-nature of TCP.<br/><br/><strong>Sound</strong><br/><br/>We
+                did slip in some sound effect for the laser (yeah, I know lasers are silent in real life!) and use cool
+                open-source text-to-speech software to make computer-like voices (as we were un-musical and lacked
+                decent microphones).  I imagined 3D sound for the other players, but again that fell out of our time
+                budget.<br/><br/>Early attempts using HTML’s &lt;audio&gt; element to play sounds
+                was a disaster.  Just calling play can cause a webGL freeze of half a second or so.  It was unplayable.<br/><br/>There
+                is a very new Audio API (I believe a lot of credit goes to pushers at Microsoft for that; thanks!) and
+                Chrome supports it, as does the upcoming version of Firefox.  We did get crackily audio for the intro
+                speech on some Chrome browsers on Linux caused, we think, by network activity.  But overall it worked
+                really well and had no impact on FPS.<br/><br/><strong>Launch!</strong><br/><br/>The
+                game launched on Sunday.  Its a multi-player game so we went over to the Ludum Dare IRC chat-room and
+                extolled people to play.  And we had some pretty epic games with 10 or 20 fighters all zooming around
+                the cage and shooting each other.  It was such a high to be playing something you’ve made and seeing
+                total strangers also playing it!<br/><br/>The complaints about the FPS were fairly
+                understanding in the IRC chat-room.  The calibre of people who hang out there is high and these people,
+                perhaps, understood the challenges to making an on-line multi-player game with any semblance of
+                real-time combat.  Or perhaps they complain less to the face.  But in the LD entry page comments there
+                were rather fewer well-dones and back-pats.<br/><br/>I sat in the cage Monday and Tuesday
+                evening, to ensure people had someone to play with.  And you’d see players popping into existence in the
+                cage, and waggle around a bit as they discover the controls, then move forward a bit, then fire, then
+                … vanish.    The vanishing can be split into two classes; those who had done nothing for a
+                second or so so might have timed out on the client.  And those who had been making some intricate
+                maneuver and its hard to imagine they got a time-out.  Either which way, the game tries to restart and
+                these players didn’t.<br/><br/>The game just isn’t as gripping as we found it.<br/><br/>We
+                could have polished the game much more; added more arcade-style stuff like NPCs to fight, bonuses to
+                collect, hoops to fly though for extra points, power ups etc.  But that wasn’t the game we wanted to
+                build; we wanted distilled combat.<br/><br/><strong>Innovative?</strong><br/><br/>Will
+                we be back for the next LD?  You bet!  We might stop trying to be different, though.  Our
+                first-of-its-kind <a href="post/21677376271.html" target="_blank">spatial-text-adventure-with-beautiful-graphics</a>
+                fell flat on its face and so too has our attempt at doing real-time multi-player.  We’ll end up doing a
+                platform game using tiles in an effort to win compliments, I’m sure ;)</p>
+                <p><img src="media/old/30509144101_3.jpg"/></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index3.html#800'">index</button>  <button class="page-link" onclick="window.location='rec2.html#800'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#800'">ludum-dare</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

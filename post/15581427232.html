@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Self-organizing Reddit? : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Self-organizing Reddit?</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>Reddit and other sites use categorization instead.  So <strong>I prototyped a
+                self-organizing news site</strong> and it worked great.  Here’s the background, and how
+                it worked:</p>
+                <p><!-- more -->A few months ago, on <a href="http://news.ycombinator.com/item?id=3003547" target="_blank">Hacker News</a>, there was a
+                link to an old 2005 Coding Horror article “<a href="http://www.codinghorror.com/blog/2005/05/a-group-is-its-own-worst-enemy.html" target="_blank">A
+                Group Is Its Own Worst Enemy</a>”.  Jeff Atwood - Mr CodingHorror - is nowadays known
+                for his partnership with <a href="http://www.joelonsoftware.com/" target="_blank">Joel Spolsky</a>
+                for <a href="http://stackoverflow.com/" target="_blank">StackOverflow</a>.  They’d
+                likely rather I linked to <a href="http://stackexchange.com/" target="_blank">StackExchange</a>,
+                perhaps, which is all part of what this blog post is all about ;)</p>
+                <p><a href="http://www.reddit.com/" target="_blank">Reddit</a> and StackExchange are
+                both built around categorization.  The poster picks a category, the users browse categories.  Moderation
+                makes sure posts stay on-topic.  There is generally quite a lot of complaints if anything falls between
+                established categories, or overlaps several, and risk of things getting zapped.  <a href="http://news.ycombinator.com/" target="_blank">Hacker News</a> (HN) is again like this
+                except it really is a single category.</p>
+                <p>User’s status - karma or such - is carefully counted and displayed.  Reddit is very
+                much around the community; there’s a <a href="http://www.reddit.com/r/programming/" target="_blank">/r/programming</a> and a splinter group <a href="http://www.reddit.com/r/coding/" target="_blank">/r/coding</a> and a gazillion other
+                overlapping, conflicting and sometimes on-non-talking-terms sub-reddits.  As a user you pick a few
+                reddits and you become loyal to them for a time.  StackOverflow is a little bit about community too,
+                although most visitors arrive by search and most early-adopters have likely moved on.  Its less a place
+                to hang-out.  Hacker News is all about community, and is in effect one big broad
+                things-techies-are-interested-in sub-reddit.</p>
+                <p>For a long time I have been wondering - influenced perhaps by the various strategies for
+                genetic programming I played with in my <a href="http://en.wikipedia.org/wiki/Core_War" target="_blank">Core War</a> days - if there isn’t a better way than categorization. 
+                I <a href="http://news.ycombinator.com/item?id=3003639" target="_blank">commented</a> on the
+                HN link:</p>
+                <blockquote>
+                <p><em>I’m curious: is there any site where:</em></p>
+                <p><em>. 1) logged in users can vote for what they like, both up and down. A profile is
+                built identifying other users who vote like you, and so your vote influences the post prominence for
+                those others more than for other users who have different voting patterns</em></p>
+                <p><em>. 2) anonymous users get post prominence based on a smattering of different group
+                votes</em></p>
+                <p><em>Its a bit like movie recommendations. In this way, trolls will quickly be grouped
+                with other trolls and those who consistently vote up articles they like will see post prominence from
+                like-minded devotees, and a single board can have a wide range of subjects that end up not needing
+                categorization because they are self-organising.</em></p>
+                </blockquote>
+                <p>It all seemed too obvious.</p>
+                <p>Its worth following up on some background reading; here’s some links for later:</p>
+                <blockquote>
+                <p>A long time ago, Joel - whose articles has deeply influenced and refined my opinions about our
+                industry - wrote about building <a href="http://www.joelonsoftware.com/articles/BuildingCommunitieswithSo.html" target="_blank">online
+                communities</a>.  He built an exceptionally high-quality low-noise forum community based on the
+                principles he described, and I witnessed it working.  This <em>small</em> community was
+                centred around discussion (less than news or links) that the kind of people who read Joel’s
+                articles would find interesting.  It was actually very Hacker News like, audience-wise and subject-wise.</p>
+                <p>Then, abruptly, Joel seemed to have become disenchanted with what he had built, with stronger
+                moderation (causing a splinter to go off to a new forum called <em>crazyontap</em>) and
+                then, suddenly,  closing down the whole forum for what felt like the flimsiest of excuses.</p>
+                <p>Then Joel moved sideways towards job boards and then Q&amp;A sites.  Most recently, Jeff
+                has posted again about <a href="http://www.codinghorror.com/blog/2011/12/building-social-software-for-the-anti-social.html" target="_blank">forums and social sites</a> in the Q&amp;A vein, which is very much about
+                categorization and moderation.</p>
+                </blockquote>
+                <p>Back to doing it differently.  I made a <em><strong>prototype</strong></em>. 
+                I tried to work out how to make it super simple to use.  Here’s a description of how it
+                worked:</p>
+                <p>The page is defined by the <a href="http://en.wikipedia.org/wiki/Above_the_fold" target="_blank">fold</a>; above the fold is divided into two lists; top-most half, a handful of
+                random unvisited links; links that we don’t have enough data about to know how to organize. 
+                The bottom half, still above the fold, is items we match you with, so you can see more of the same as
+                you normally like.</p>
+                <p>Clicks away go through a URL redirector so we can snag what you visit; just visiting a link
+                says something about the link, and can be scored as an up-vote.  Passing over a link and clicking on a
+                link below it also says something about it, and could be counted as a weak down-vote.  Only if you have
+                visited a link can you come back and give it a big positive up- or down- vote.  So there’s a
+                more nuanced voting grade than simple plus and minus ones, but its mostly done by simply passively
+                following links, rather than clicking on voting arrows.</p>
+                <p>A cron-job scraped RSS feeds to get news headlines; it scraped some reddit categories I browse,
+                and HN, and a few very good blogs.  The scraping was just a strategy to have something to organize
+                because I didn’t have a lots of users submitting stuff; the stuffing of the content was just
+                to make the prototype meaningful.  Now there were lots of news items, we can move on…</p>
+                <p>Users are anonymous but tracked with a secure cookie describing their recent click history.</p>
+                <p>The site was tracking only the last n - e.g. 500 - submitted links.  Anything older just falls
+                out of the selection window and is ignored.</p>
+                <p>And behind the scenes when it generates the page for you, it was doing a <a href="http://en.wikipedia.org/wiki/Slope_One" target="_blank">Slope One</a> bit of
+                collaborative filtering.  Just like shopping sites do.</p>
+                <p>The implementation was very prototypy, using Python and such.  You could obviously make massive
+                speed gains - caching, batching, native code and such - whilst keeping the central idea stable.  I
+                think, despite the algorithmic complexity, it could be done for a large community with reasonable
+                hardware.  You can play with rephrasing it as item-based instead of user-based and so on.</p>
+                <p>With regards the forum part of all this, I didn’t want to go applying the same to
+                comments.  Reddit and HN are built around the comments, which in a sense move the user away from the
+                content creator and towards the aggregation site.  It is also where the horsepower goes (well, before
+                self-organizing gives your CPUs something to crunch).</p>
+                <p>The approach I’d favor for comments is to scrape the source links and look for the
+                well-known comment systems; then link directly to the content’s own comment system rather than
+                making your own.</p>
+                <p>I got a few friends to use it.  It worked!  I degraded the Slope One by treating all weights as
+                1, and it still worked.</p>
+                <p>My personal passion wasn’t there to develop it further; knowing the idea works, I
+                want the sites I loyally use to adopt it, rather than to create a site new site to compete with them.  I
+                rather hope that StackExchange, Reddit, even Hacker News all think about how a bit of self-organization
+                can be integrated into news lists, Q&amp;A and forums.  You could imagine hybrids as well as total
+                adoption.</p>
+                <p>How does <strong>StackExchange</strong> look right now?  All too often I’ve
+                seen the interesting problems - those I pause and have to think about and often not feel able to answer
+                - being moved or recommended moved to more specialised sibling sites.  And then you get these sibling
+                sites and they are ghost-towns.  The sibling sites I keep an eye on like <a href="http://gamedev.stackexchange.com/" target="_blank">gamedev</a> are failing to capture any
+                kind of traction in the professionals they aim at; on gamedev you can at best talk to rank hobbyists
+                like myself about game-development, sadly; I have a faded t-shirt to <a href="http://meta.gamedev.stackexchange.com/questions/479/game-development-stack-exchange-swag-for-top-users" target="_blank">prove it</a> :(</p>
+                <p>How might a StackExchange look with collaborative filtering?  It’d be just
+                StackOverflow, and we could be a bit less confused about that.  99% of visits would come from off-site
+                search e.g. Google, and search engines really don’t care about the categorization side of
+                things; it likely hinders as much as it helps.  On the other hand, the regular users, or people
+                navigating away from a question they found by search, will not have to worry if their question overlaps
+                math or combines a bit of admin or is best asked in some Ubuntu sibling rather than a generic Debian one
+                or whatever nonsense.  In fact, a question about optimal grass clipping patterns could just as easily
+                pique the interest of the maths crowd as it could the gardening crowd; the difference between theory and
+                practice is different in practice, right?</p>
+                <p>The answer/comment system on StackExchange works well and doesn’t need changing.</p>
+                <p>I think StackOverflow could also build a loyaler core community by expanding into opinions
+                beyond Q&amp;A; users with some sufficient number of points could post blog-like entries, or be
+                allowed to post things marked as ‘subjective’ and such.  Because in a collaborative
+                filtering world, that vocal opinion piece that Joel and Jeff think so poisonous to community and yet is
+                so necessary can be self-suppressed by users.</p>
+                <p><strong>Reddit</strong> is harder to imagine.  There’s the reddit that is
+                the page of links you might want to read, and that’s easy enough to imagine self-organizing. 
+                But there’s also the reddit that is the community; people who sub-reddit because they want to
+                protect their opinions and such.  And it would very much be about self-organizing the comments too.  Its
+                almost like an alternative site.  It would actually work best perhaps as a filter you can lay over the
+                existing reddit site, and then when it works well people migrate and give up their sub-redditing
+                identities; after all, they are going to tire and move on soon enough anyway; all opinionated
+                communities seem to have churn.  What reddit does have a problem with is trolling, although everyone
+                seems to disagree about who the trolls are.  In my eyes its the teenager boys who obliquely hint at sex
+                every time a girl posts something; they are what I’d like to filter out despite their
+                up-votes.  If enough people like me down-vote them, they will soon disappear from our view of the
+                comment threads whilst those twits themselves will think they rule.  And they’d say the same
+                about us, so its all win.</p>
+                <p>The whole collaborative filtering idea kind of breaks down at NSFW content.  In my prototype, I
+                thought it very important to show everyone a smattering of atypical or un-profiled links right at the
+                top, so you broaden your reading habbits rather than narrow them.  However, this completely fails with
+                NSFW.  For this reason, I think NSFW has to remain a categorization or a moderation system.</p>
+                <p><strong>Hacker News</strong>, if it had collaborative filtering, could simply grow
+                sideways into more domains.  If there were gardening links, for example, it can go do gardening news
+                without needing a distinct site; its just gardening-themed items would self-organize and it’d
+                be great for people who like both.</p>
+                <p>So that’s thinking about it in terms of some existing sites; how about running it as
+                a new site? Its not really viable for me to run this prototype for the benefit of <em><strong>you</strong></em>,
+                I’m afraid.  But code is available on request; although really, this is the kind of thing you
+                could now make yourself; there’s no secret sauce in it and I’ve spilled the beans on
+                my implementation now.</p>
+                <p>So, can we get Reddit and StackExchange to un-split the sub-sites architecture?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#917'">index</button>  <button class="page-link" onclick="window.location='classic1.html#917'">classic</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

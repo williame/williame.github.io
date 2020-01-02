@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <base href=".."/>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <title>Cause&#39;s Levenshtein Distance Challenge : Will Edward&#39;s Programming</title>
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+<div class="page-title"><h1>Cause&#39;s Levenshtein Distance Challenge</h1></div>
+<div class="post">
+<?xml version="1.0" ?><post-body><p>I hadn’t seen this before, but I bumped into a Python version on the web:
+                <a href="http://andothernoise.blogspot.com/2012/01/solving-causes-levenshtein-distance.html" rel="author" target="_blank">Alexandros Marino</a></p>
+                <p>His time of 11 seconds - 12 seconds on my laptop - seems a little slow :)</p>
+                <p>From the beginning, two things jump out: that he’s using the <em>same</em>
+                splices a lot and that he’s using yield.</p>
+                <p>So lets tackle the re-use of slices first: if you want the left-part of the current word then
+                you can just getting the slice more than once is redudant; simply put b[:i] into a local variable called
+                left:</p>
+                <p><code>import string<br/>w = set(open(&quot;word.list&quot;).read().splitlines())<br/>f,
+                nf = set(), set([&quot;causes&quot;])<br/><br/>#from b, yield all unused words where levdist==1<br/>def
+                nextgen(b):<br/>    for i in xrange(len(b)): #for each index in b<br/>        left, ch, at,
+                right = b[:i], b[i], b[i:], b[i+1:]<br/>        for c in string.ascii_lowercase: #for letters
+                [a..z]<br/>            if c != ch:<br/>                #substitute b[i] with c<br/>               
+                x = left + c + right<br/>                if x in w: yield x<br/>                #inject c
+                before b[i]<br/>                x = left + c + at<br/>                if x in w: yield x<br/>       
+                #remove b[i]<br/>        x = left + right<br/>        if x in w: yield x<br/>   <br/>   
+                for c in string.ascii_lowercase: #for letters [a..z]<br/>        x = b + c<br/>        if x
+                in w: yield x #append c after b<br/><br/>while len(nf):<br/>    cf = nf<br/>   
+                nf = set(j for i in cf for j in nextgen(i) if j not in f)<br/>    w -= nf<br/>    f |= nf<br/><br/>print
+                len(f)<br/>assert (len(f) == 78482)</code></p>
+                <p>There, runtime down to 9.45 seconds on my laptop.</p>
+                <p>Next, lets tackle yield.  If we just put them into a temporary set instead:</p>
+                <p><code>f, nf, w = set(), [&quot;causes&quot;], set(open(&quot;word.list&quot;).read().splitlines())<br/><br/>
+                def next():<br/>     f = []<br/>     for b in nf:<br/>         for i in range(len(b)):
+                #for each index in b<br/>             left, at, right = b[:i], b[i:], b[i+1:]<br/>
+                            for c in 'abcdefghijklmnopqrstuvwxyz':<br/>                 #substitute b[i] with c<br/>
+                                x = left + c + right<br/>                 if x in w: f.append(x)<br/>
+                                #inject c before b[i]<br/>                 x = left + c + at<br/>
+                                if x in w: f.append(x)<br/>             #remove b[i]<br/>             x =
+                left + right<br/>             if x in w: f.append(x)<br/>         for c in
+                'abcdefghijklmnopqrstuvwxyz':<br/>             x = (b + c)<br/>             if x in w:
+                f.append(x) #append c after b<br/>     return set(f)<br/><br/> while nf:<br/>
+                    nf = next()<br/>     w -= nf<br/>     f |= nf<br/><br/> print len(f)<br/>
+                assert (len(f) == 78482)</code></p>
+                <p>Hmm, only a marginal improvement.  Under 9 seconds.</p>
+                <p>It would be fun with stackless python or pypy to test out a recursive approach.  But I’m
+                not going to zap my daily python for that test!</p>
+                <p>With small tweaks, like renaming next(), it runs in shedskin:</p>
+                <p><code>    w.difference_update(nf)<br/>    f.update(nf)</code></p>
+                <p>Hmm.  22 seconds.  Not going in the right direction :)  I’ll send it in to the
+                shedskin list so they can consider how its hurting.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index5.html#905'">index</button>  <button class="page-link" onclick="window.location='rec2.html#905'">rec</button>  <button class="page-link" onclick="window.location='comp.html#905'">comp</button> 
+</div>
+</div>
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</body>
+</html>

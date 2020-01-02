@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Will Edward&#39;s Programming: index</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+<div class="content">
+<div class="column">
+    <div style="width: 90%;" class="page-link" onclick="window.location='index.html'">
+    <h1>Will Edwards<br/><i>programming</i></h1>
+    </div>
+    <p>Always loved programming - its like Lego without gravity.</p>
+    <p>Basic on my ZX81 graduating to assembler and Turbo Pascal during my teens.</p>
+    <p>Developed phone OS software - engineer, architect, product manager - but got made irrelevant by the
+        iPhone and redundant by Android.</p>
+    <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
+</div>
+<div class="posts-column column">
+    <div class="page-title">
+    <h1>index</h1>
+    
+    
+        <hr/>
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 2 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index2.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+    </div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/84317701363.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="665">
+    
+</a>
+<?xml version="1.0" ?><post-body><p><strong>UPDATE:</strong> <a href="post/84505278488.html">blog post
+                describing how these mosaics are made</a></p>
+                <p>I knew my <a href="https://gist.github.com/williame/8219574" target="_blank">mosaic
+                script</a> was doing a poor job of placing the images.</p>
+                <p>The approach it’d be taking was <em>greedy</em>: it’d place the
+                closest matching image on its tile, and then the next closest matching and so on.  The outcome in in the
+                middle column above.</p>
+                <p>After talking a bit with <a href="http://www.royvanrijn.com/" target="_blank">Roy</a>,
+                I couldn’t really leave it doing such a poor job.</p>
+                <p>So in what way is the <em>greedy</em> approach sub-optimal?  It may be that
+                swapping two images or three or more images around will lead to a lower overall error score.</p>
+                <p>And what’s the simplest improvement to make?  Rather than tackling the true dynamic
+                programming or other classic approach to optimisation, I simply went for random swaps.</p>
+                <p>The script will now perform random swaps if they improve the image, until you interrupt it with
+                ^C.</p>
+                <p>And the results, as seen in the left column above, are stunning :)</p>
+            <p><a href="media/old/84317701363_2.jpg"><img src="media/old/84317701363_3.jpg"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#665'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#665'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#665'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/84225291373.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="666">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>The mosaic is made (<a href="https://gist.github.com/williame/8219574" target="_blank">sourcecode</a>) from the screenshots from <a href="http://www.ludumdare.com/compo/ludum-dare-29/" target="_blank">Ludum Dare 29</a>, to the
+                theme “Beneath the Surface”.  The green turtle is from <a href="http://en.wikipedia.org/wiki/File:Chelonia_mydas_and_bubbles.jpg" target="_blank">wikipedia</a>.</p>
+            <p><a href="media/old/84225291373_2.jpg"><img src="media/old/84225291373_3.jpg"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#666'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#666'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#666'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/82012517708.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="667">
+    <h2>I&#39;m giving a Mill CPU talk in Växjö, Sweden 2014-04-25</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>There are perhaps a few seats available to interested members of the public if you’re
+                in or near Växjö at the end of the month :)</p>
+                <p>Announcing a presentation at <strong>13.00h, Friday, April 25</strong> at: </p>
+                <p>Linnéuniversitetet (Linnaeus University) <br/>Vejdes Plats 6, Linnéuniversitetet <br/>Building
+                B, Room 3021 <br/>352 52 Växjö Sweden <br/><br/><strong>The new Mill CPU
+                architecture</strong> <br/><br/>A presentation by Will Edwards (Mill Computing) <br/><br/>The
+                new Mill CPU architecture brings DSP-like efficiency and performance to general purpose computing.
+                Offering a 10x power/performance gain over conventional out-of-order superscalar architectures, the Mill
+                family of CPUs scales from phones to supercomputers. <br/><br/>The Mill is an extremely
+                wide-issue VLIW design, able to issue up to 33 operations per cycle. The Mill is inherently a vector
+                machine and can vectorize and pipeline almost all loops. The Mill is a belt machine (as distinct from a
+                stack or register machine) and has a fine grained <br/>security model that facilitates
+                microkernels without performance penalties. <br/><br/>This talk will give a high-level
+                introduction to the Mill programming model, with an opportunity for the audience to ask more detailed <br/>questions
+                in areas of interest.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='mill.html#667'">mill</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/80657747304.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="668">
+    <h2>Mill Security Talk now online</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://millcomputing.com/topic/security/">The Mill CPU’s
+                Security talk is now online</a>:</p>
+                <p><iframe frameborder="0" height="315" src="//www.youtube.com/embed/5osiYZV8n3U" width="560"> </iframe></p>
+            </post-body>
+ <button class="page-link" onclick="window.location='mill.html#668'">mill</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/78636919764.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="671">
+    <h2>Table-based Template Translation in C++</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>This is a great technique I devised for simplifying the optimization of translation
+                functions.  Its broadly applicable to performance-critical code beyond software graphics.  I’d love to
+                know if there’s a proper name for this pattern, and if anyone else has ever used it and for what?</p>
+                <p>At UIQ (a Symbian smartphone UI maker) we needed really fast bitmap <a href="http://en.wikipedia.org/wiki/Bit_blit" target="_blank">blitting</a> performance in the
+                Symbian software graphics library and we just weren’t getting it.</p>
+                <p>If two bitmaps are the same format, you can just memcpy (or blend or whatever) pixels from one
+                to the other.</p>
+                <p>If two bitmaps are different formats, you have to translate the source bitmap’s pixels to the
+                destination bitmap’s format.</p>
+                <p>However, the Symbian libraries themselves were shooting us in the foot.  There were some
+                special-cased blits for same-format source and destinations, and a hand-coded special-case for 16-bit
+                colour with a separate 8-bit alpha mask bitmap into a 24-bit destination with 32-bit alignment, and that
+                was it.</p>
+                <p>All other conversions went via two virtual method calls… one to convert from source to a 32-bit
+                RGBA universal internal format, and the other to convert to destination format.</p>
+                <p>Who would use virtual inheritance per-pixel for critical-path colour conversion on a
+                constrained device?  I know their name ;)</p>
+                <p><!-- more --></p></post-body>
+ <button class="page-link" onclick="window.location='lang.html#671'">lang</button> 
+<button class="page-link" onclick="window.location='post/78636919764.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/77728726964.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="672">
+    <h2>Flame Graphs!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>A long time ago now I made a novel little <a href="post/35134924139.html" target="_blank">sampling profiler for Python</a>:</p>
+                <p><img data-orig-height="261" data-orig-width="500" src="media/old/77728726964_1.jpg"/></p>
+                <p>Well, I was just looking through the excellent slides about <a href="http://www.slideshare.net/brendangregg/what-linux-can-learn-from-solaris-performance-and-viceversa" target="_blank">Linux and Solaris performance</a>, and stumbled across <a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank">Flame Graphs</a></p>
+                <p><img data-orig-height="313" data-orig-width="500" src="media/old/77728726964_1.png"/></p>
+                <p>There are fundamental differences, particularly on the x axis, but still.. :)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#672'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/76953709099.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="673">
+    <h2>obiwan type-checker for Python 1.0.1 released!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="post/33185451698.html">Obiwan</a>
+                actually has a very small - but very active - community :)</p>
+                <p>So I’ve put it on <a href="https://pypi.python.org/pypi/obiwan" target="_blank">pypi</a>.
+                 Its my first Python package but it works.  Here, perhaps, it might be more accessible to more people.</p>
+                <p>You can use lambdas as checkers e.g.:</p>
+                <p><code>template = {<br/>    ...<br/>    'month': lambda x: x in
+                [&quot;jan&quot;,&quot;feb&quot;,&quot;mar&quot;,...],<br/>    ...<br/> }</code></p>
+                <p>You can specify <em>options</em> for dictionaries such as <em>strict</em>
+                keys (extra unspecified keys not allowed) and <em>subtype</em>.</p>
+                <p>Subtype is cool - you can specify that a dictionary template should inherit the specification
+                of any number of parent templates!</p>
+                <p>You can also specify that a <em>duck</em> inherits its attributes from any number
+                of parent ducks too.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#673'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/76206965240.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="674">
+    <h2>Introduction to the Mill CPU Programming Model</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://ootbcomp.com/topic/introduction-to-the-mill-cpu-programming-model-2/" target="_blank">Introduction
+                is now published!</a></p>
+                <p>It was well received on <a href="https://news.ycombinator.com/item?id=7198792" target="_blank">Hacker News</a> and <a href="http://www.reddit.com/r/programming/comments/1xajxy/programmers_intro_to_the_new_mill_cpu_architecture/" target="_blank">Proggit</a>.  Increasingly, there are a body of commentators who are watching
+                all the talks and putting it all together, so there are lots of programmers jumping in to straighten out
+                misapprehensions and misunderstandings :)</p>
+                <p>A video of the Execution talk is now online:</p>
+                <p><iframe frameborder="0" height="315" src="//www.youtube.com/embed/vsyNokRLXvQ" width="560"> </iframe></p>
+                <p>This is not the final edited video; there’ll be a proper posting to the <a href="http://ootbcomp.com/forum/the-mill/architecture/">Mill forums</a> real soon with slides
+                and everything too soon.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='mill.html#674'">mill</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/75572095871.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="676">
+    <h2>How modern CPUs work</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>This is an excellent explanation that everyone should read: <a href="http://www.lighterra.com/papers/modernmicroprocessors/" target="_blank">http://www.lighterra.com/papers/modernmicroprocessors/</a>;
+                of course, it hasn’t been updated with the ground-breaking Mill CPU architecture yet ;)</p>
+                <p>And don’t forget that today (Feb 5th 16:15 PST; so that’s like 1:15am in my
+                part of Europe) is the <a href="http://ootbcomp.com/topic/instruction-execution-on-the-mill-cpu-talk-feb-5-2014/" target="_blank">6th
+                talk</a> in the <a href="http://ootbcomp.com/docs/" target="_blank">Mill series</a>!</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='mill.html#676'">mill</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/75032575586.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="677">
+    <h2>Why the new Mill CPU is just so fast!</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’m just so excited about the <a href="http://ootbcomp.com/topic/instruction-execution-on-the-mill-cpu-talk-feb-5-2014/" target="_blank">next</a>
+                Mill CPU talk.  It’s <a href="http://coursematerials.stanford.edu/live/ee380.asx">streaming
+                live</a> (Mac and Linux users: I’ve heard VLC can play asx) on <strong>Feb 5th</strong>
+                and its going to tell us why the Mill is so damn fast!</p>
+                <p>Some things can be vectorised.  The Mill is a vector machine, and can vectorise a whole of
+                stuff like <em>while</em> loops that, traditionally, haven’t been vectorisable.
+                 The Mill can vectorise normal general-purpose code, and no processor has ever been able to do that
+                before.</p>
+                <p>It gets better; some instructions can be issued in parallel to others (Instruction Level
+                Parallelism (ILP)).  This is what out-of-order CPUs like your phones and laptops and servers are doing.</p>
+                <p>The conventional wisdom is that normal general-purpose code only has an ILP of 2 or so, though.
+                 The highest-end out-of-order conventional CPUs can cope with a heroic 3 or 4 IPL, but normal code
+                rarely gives them more than 2.</p>
+                <p>And the Mill is able to issue up to 33 ops / cycle, so what to fill up all those idle pipelines
+                with?</p>
+                <p>This is what this next talk will describe: the Mill is able to execute operations that depend
+                on the result of previous operations in the same cycle as those previous operations!  The Mill can
+                execute up to <em><strong>6 chained dependent operations in a single cycle</strong></em>
+                :D</p>
+                <p>They call it <strong>Mach 3</strong>.  You want your next chip to run at Mach 3,
+                right?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='mill.html#677'">mill</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/72536460771.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="683">
+    <h2>Ludum Dare Trending Downwards</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><img data-orig-height="255" data-orig-width="500" src="media/old/72536460771_1.png"/></p>
+                <p>The <a href="http://www.ludumdare.com/compo/ludum-dare-28/" target="_blank">results</a>
+                are just in, and <a href="http://www.ludumdare.com/compo/ludum-dare-28/?action=preview&amp;uid=10313" target="_blank">I didn’t do so well</a>.  Again.</p>
+                <p>Looks to me like my Ludum Dare game making contest scores are converging on mediocre :|</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec.html#683'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#683'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/71966020187.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="684">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>Not a terribly bad likeness?  (My code made the top one ;)</p>
+                <p>Its the over 2000 thumbnails from Ludum Dare 28 (<a href="http://www.ludumdare.com/compo/ludum-dare-28/?action=preview&amp;uid=10313">my game entry</a>),
+                placed greedily by <a href="http://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">MSE</a>.
+                 <a href="https://gist.github.com/williame/8219574">Here’s</a> a little Python
+                script I quickly knocked up.</p>
+            <p><a href="media/old/71966020187_2.jpg"><img src="media/old/71966020187_3.jpg"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec.html#684'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#684'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#684'">mosaic</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/69968194211.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="685">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>Last week I discovered <a href="http://evanw.github.io/csg.js/">csg.js</a>
+                - Constructive Solid Geometry (CSG).  Its a super clean, super neat library that can take an arbitrary
+                non-self-intersecting meshes made from convex polygons and do boolean operations on them.  Like firing
+                cylinders at cubes, as in this video I just made :)</p>
+                <p>(The white lines are drawn per two vertices, and triangles have three, and this explains why
+                there are lines over holes sometimes.  But it gives a very good idea of how many triangles we are
+                talking about once we have to start splitting.)</p>
+                <p>BSPs are not the most efficient way to do this, and the code is horribly slow.  Its doing a
+                super-non-trivial thing though, and the code is designed to be descriptive and informative rather than
+                fastest.  One of the key tuning point of a BSP is picking the early splitting planes.</p>
+                <p>So I’ve tweeked the code to split the meshes into octrants,  and this makes a massive
+                speedup in my tests.  Of course its far from optimal; picking splitting planes is a hard problem.</p>
+                <p>We’ll see how I can adapt this mechanic to this weekend’s Ludum Dare
+                competition… the theme being “You only get one”, which is a damp limp
+                squid of a theme if you ask me.</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/7zjz-hpm8No"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec.html#685'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#685'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/69583927490.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="686">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>I was packing away an old unused computer that I’d been letting my
+                daughters <a href="post/19500788060.html">play
+                with</a> - they have more modern laptops <a href="post/49786413417.html">now</a> - when
+                I realised it was the last computer I had with a floppy disk drive!</p>
+                <p>So I went out to my storage and found whole stack of old floppies.  These date from about 2000
+                until 2004; sadly nothing from school days nor uni :(</p>
+                <p>The internet was still young, then, and whilst I’d got my first dial-up when at uni
+                it wasn’t until my work life started properly in Gamla Stan, Stockholm that I had real
+                internet access.  Online there was an extensive game modding community, and the internet was a nice
+                safe-feeling fun-feeling exciting place to hang out.  I’ve never been a big game player, but I’ve
+                always been a big hobby game maker.</p>
+                <p>One of my projects then was making modding tools for the Command &amp; Conquer Tiberian Sun
+                game.  I’d been making voxel editors at uni, but by the year 2000 the source to the first
+                voxel editor had been lost, and I’d had to make a second voxel editor.</p>
+                <p>The Tiberian Sun units were stored as <a href="http://en.wikipedia.org/wiki/Voxel">voxels</a>
+                - think of them as tiny cubes arranged to approximate a 3D representation - and my editors were the
+                first user-friendly editor attempts for them.  They really opened up what was possible for modders, who
+                adopted my tools - inadequacies and all - with glee.</p>
+                <p>The <a href="post/30793134312.html">usual</a>
+                <a href="post/53831974133.html">suspect</a> started
+                making mods using the tools.  It was really his mods that made me make the tools, really.  In fact his
+                interest came first.</p>
+                <p>Later I started on an INI editor, which I modeled on the VB6 and Delphi IDEs.  And I made a SHP
+                editor, SHP being the RLE-compressed image format used for buildings and ground tiles and such.</p>
+                <p>The fun thing about the IDE is how its a list-box with a custom item drawer, and there’s
+                a borderless text-edit control positioned over the current line.  Parsing of the line is deferred until
+                you leave the line.  This works really really well, actually :)  I don’t think I ever started
+                on cut-n-paste though.</p>
+                <p>The key thing with the screenshots above is that they were all Delphi apps.  They ran on
+                Windows 95 or 98 or NT, and they are tiny self-contained little executables without dependencies.  Wine
+                runs them on my mac just fine.</p>
+                <p>I also had some C++ (usually wxWidgets) apps too.  But I haven’t been able to run any
+                of them with Wine because they load DLLs that Wine doesn’t have, and I can no longer compile
+                them because of incompatibilities with newer wxWidgets headers and widechar issues that I made only
+                five-second-evaluation attempts to fix.</p>
+                <p>I also wrote a fast export script for 3DSMax.  Not very screenshot-able, but that was used by a
+                Dutch modder who was a proper professional 3D chap.</p>
+                <p>The very sad thing is all the projects that are pre 2000 that I seem to have no record left of.
+                 I remember making maze wandering games and point-and-click adventures for DOS back in the 90s while at
+                school, and I’d dearly love to see them and the usual suspect’s artwork for them
+                again.</p>
+                <p>But all in all, very happy memories :)  And now on a USB stick.  In a decade I’ll
+                doubtless be throwing away my last computer with a USB jack, and hopefully I’ll remember to
+                copy and rummage around in my old projects :)</p>
+            <p><a href="media/old/69583927490_2.png"><img src="media/old/69583927490_1.png"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#686'">rec</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/67262193555.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="691">
+    <h2>PyParallel getting around the GIL</h2>
+</a>
+<?xml version="1.0" ?><post-body><p><a href="http://vimeo.com/79539317">This is a fascinating and exciting talk</a> (<a href="https://speakerdeck.com/trent/pyparallel-how-we-removed-the-gil-and-exploited-all-cores-1">slides</a>)
+                about a patch/extension to make CPython use IOCP on Windows for completion-based asynchronous IO.</p>
+                <p>Its in direct response to the recent async IO stuff in Python which <a href="post/34819857693.html">I’ve
+                looked at previously.</a>  There’s some <a href="http://www.reddit.com/r/programming/comments/1qrnew/pyparallel_how_we_removed_the_gil_and_exploited/cdfwg6x">coverage
+                on Proggit</a>.</p>
+                <p>PyParallel makes it so you can run Python protocol handlers and worker tasks in <em>lightweight
+                processes</em>.  Its a bit like goroutines really, and it could be suitable for computational
+                tasks too: share by communicating, not communicate by sharing.</p>
+                <p>The key idea is that you can utilise all CPU cores without spawning a whole bunch of processes.</p>
+                <p>I think the exact same approach can be ported to Linux, using edge-triggered epoll consumed by
+                a set of worker threads.  (IIRC FreeBSD’s kqueue is <em>not</em> thread safe
+                though; so it may be challenging to be efficient on all platforms?)</p>
+                <p>These lightweight processes run outside the GIL so can all run at once.  When they are running,
+                though, the main loop cannot run.  I am unsure of the details of this and it raises alerts in my eyes; I’d
+                really want the main Python loop to run truly in parallel.</p>
+                <p>What my mind wanders to is having a CPython where the multiprocessing module does not use
+                processes, but instead uses the same VM but separate lightweight stacks/heaps in a work-stealing
+                approach.  This gives up fair preemptive scheduling (by the kernel) for cheaper passing between tasks.
+                 Its the same tradeoff that is serving Go so well and I think the PyParallel prototype shows how this
+                can fit into Python and make Python perform better.  The GIL would become per-conceptual process, rather
+                than truly global.</p>
+                <p>For example, I expect most SQL statements are not part of a transaction; web apps and so on are
+                continuously just SELECTing the user and so forth.  You could imagine a web app that isn’t
+                particularly aware that its blocking DB calls are being multiplexed over a set of worker threads and
+                that the DB layer is aware of this and using a connection pool approach itself.  You might even imagine
+                it trying to do something clever like my <a href="post/16516763725.html">asynchronous
+                batching</a>.</p>
+                <p>You might even move away from CSP and allow code in a worker to mutate shared state by
+                acquiring the GIL of the thread that created the variable in the first place; mutating shared state
+                could be slightly slower but effective.</p>
+                <p>And what about yielding when it is used in a coroutine manner as in Tornado?</p>
+                <p>From all this you can imagine a new dialect of Python emerging, where multiprocessing and
+                gorutines are built in?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#691'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/66265513623.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="693">
+    <h2>Animated GIFs the Easy Way</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>The article “<a href="http://www.sublimetext.com/~jps/animated_gifs_the_hard_way.html">Animated GIFs the Hard Way</a>”
+                has got some <a href="http://www.reddit.com/r/programming/comments/1q2udb/animated_gifs_the_hard_way_sublime_text_2/">attention</a>
+                again.  I recall enjoying the article back when it was first published.</p>
+                <p>I had just one concern, though… why not just use GIF?</p>
+                <p>The perceived problem is that GIFs are a) large and b) are limited to 256 colours.</p>
+                <p>Well, first lets kill the 256 colours thing: GIFs aren’t limited to 256 colours.
+                 They are limited to 256 colours per frame, but are made from an arbitrary number of frames and each
+                frame can have its own palette.  Converting animations with lots of colours to GIF is quite a fun
+                subject and there are lots of fun tools to do it in various ways.</p>
+                <p>But the chap said that all the GIFs of the content were megabytes in size, but his
+                PNG+javascript was only 100KB.</p>
+                <p>Luckily, what looks like his test vector is in the <a href="https://github.com/sublimehq/anim_encoder/tree/master/example">github</a> project.  So
+                its just to make a classic proper GIF of these PNG frames and see how big it would be…</p>
+                <p>Using Imagemagick, that’d be:</p>
+                <pre>convert -delay 20 -loop 0 screen_66030*.png -layers Optimize test.gif</pre>
+                <p>And the output is… drumroll please!  <em><strong>100KB</strong></em>.</p>
+                <p>And here it is:</p>
+                <p><a href="http://i.imgur.com/lNI4Ncc.gif"><img alt="image" src="http://i.imgur.com/lNI4Ncc.gif"/></a></p>
+                <p>(click for original size)</p>
+                <p>So why not just use GIF after all?</p>
+                <p>This all reminds me of when I wrote a custom animation format for the splash screens of
+                Motorola phones, but that was quite a bit different under the hood and perhaps that’d make a
+                nice future blog post ;)</p>
+                <p>Where I could see client-side animation making sense is for animating screen recordings that
+                contain composition of semi-transparent layers.  The recording of the screen would work best if it
+                recorded draw-ops rather than bitmaps.  I did something like this at UIQ/Symbian for <a href="post/13316924653.html">Content
+                Embedding</a> and the Transition Engine.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='lang.html#693'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/60190775649.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="704">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>To: <em>All secret agents</em></p>
+                <p>From: <em>NSA training directorate</em></p>
+                <p>Subject: <strong><em>how-to use the NSA’s Cyber Remote Analyst Portal</em></strong></p>
+                <p>Security: <strong><em>TOP SECRET</em></strong></p>
+                <p>Play: <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">my game!</a></p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/mfvg7LfmgGg"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#704'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#704'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/59997353762.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="705">
+    <h2>Running SQL in your browser</h2>
+</a>
+<?xml version="1.0" ?><post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
+                Snowden?</a></font> game I wanted you - the elite NSA Analyst - to be able to <i>hack</i>
+                the game world.  Imagine you could put your agents onto flights, or fiddle with the flight manifests so
+                that targets were refused boarding or even arrested… and how would you do this?  I decided I wanted you
+                to have SQL access to the world’s flight plan database…</p>
+                <p dir="ltr">SELECT T.* FROM MANIFESTS AS M, MANIFESTS AS M2, TARGETS AS T WHERE T.PASS = M.PASS
+                AND M.PASS = M2.PASS AND M.FLIGHT = ‘AF-321’ AND M2.FLIGHT = 'IB-794’;</p>
+                <p dir="ltr">But I couldn’t find any working SQL engines for Javascript!  I didn’t find
+                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="http://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
+                couldn’t get it to work and its quite old and not actively developed.  There’s are also a few LINQ-likes
+                but they are not really SQL.</p>
+                <p dir="ltr">Now SQL is the lingua franca of structured data querying so I was surprised at this
+                sorry state of affairs.  Whilst LINQ is nice (because of the VS tooling!) I feel that a lot of the
+                LINQ-likes are driven by hipster cargo-culting and that a solid SQL that can query conventional JS
+                objects and arrays would be a powerful and useful thing.</p>
+                <p dir="ltr">So I set out to build an SQL engine in Javascript (<font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>). 
+                It was perhaps more fun to develop than the other parts of the game and more fun to examine than the
+                game is to play :)  It amazes me what I got working in ~4 hours and under 500 lines of code.  This blog
+                post describes how it works (and how it can be done better):</p>
+                <p dir="ltr"><b>How to use sql.js</b></p>
+                <p dir="ltr">It consists of a single function SQL().  The parameters are:</p>
+                <p dir="ltr">the SQL statement,  e.g. “INSERT INTO …”<br/></p>
+                <p dir="ltr">the definition of the tables, which is a Javascript object acting as a dictionary. 
+                Each table is itself an object, detailing the column names and specifying any constraints on them (e.g.
+                if they must be unique or can be null) and optionally a description.  E.g. <br/><tt>{
+                airports: { code:{description:“IATA code”,unique:true,notNull:true,},
+                name:{notNull:true,}, country:{notNull:true,}, category:{description:“level of CIA
+                infiltration”,}, lat:{description:“latitude (decimal degrees)”,},
+                lng:{description:“longitude (decimal degrees)”,}, }, airlines: {
+                code:{unique:true,notNull:true}, name:{}, country:{}, },…</tt></p>
+                <p dir="ltr">table access; an object where each table name that the user can update has a boolean
+                e.g. <br/><tt>( airports: false, flights: true,…</tt><br/>
+                Any table name that is omitted is read-only.</p>
+                <p dir="ltr">The data; an object where each table is a key and each table is an array of objects
+                e.g. <br/><tt>{</tt><br/><tt>airports: [</tt><br/><tt>{code:“LHR”,name:”London
+                Heathrow”,…</tt><br/><tt>],</tt><br/><tt>manifests: [</tt><br/><tt>…</tt></p>
+                <p dir="ltr">params.  This object allows you to override things like setting the default row count
+                LIMIT.<br/></p>
+                <p dir="ltr">If the SQL cannot be parsed or if the table data does not have the expected fields
+                then it throws an Error() exception.</p>
+                <p dir="ltr">Otherwise it returns an object with a columns key and a rows key.  The columns are an
+                array of strings which are the column titles.  Rows are an array of arrays.</p>
+                <p dir="ltr"><b>Parsing SQL</b></p>
+                <p dir="ltr">To parse a language you often use a parser generator like lex/flex yacc/bison.  There
+                are parser generators for Javascript too - jison and peg and so on - but I haven’t used them and, to be
+                honest, its quicker to just write our own parser from scratch.</p>
+                <p dir="ltr">To parse SQL we can eat the statement a token at a time.  A token might be a number,
+                an identifier or a symbol like an opening brace.</p>
+                <p dir="ltr">Normally when I hand-roll a parser - its a bit of a recurring hobby of mine - I write
+                the tokeniser to see what the next character is, and then based on whether that is a number, a quote
+                mark or the beginning of an identifier or so on loop through until the token closes.  In sql.js however,
+                I took a messy shortcut.</p>
+                <p dir="ltr">When asking for the next token, I pass into the tokeniser the list of terminating
+                strings e.g. when consuming table names in a FROM clause I’d ask for the next token (which I expect to
+                be a table name) which can be followed by a comma, the word AS or the word WHERE or a semi-colon.  If my
+                engine supported it, I could just add those additional possible keywords that follow a table name in the
+                FROM clause e.g. ORDER, LIMIT and HAVING and JOIN and so forth.</p>
+                <p dir="ltr">This meant that the next() function only had to do a Javascript string search -
+                indexOf() - to find the nearest terminator.  However, this approach does have limitations e.g. it
+                doesn’t properly parse strings (if the terminator occurs in the string the indexOf() will incorrectly
+                find it) and words that contain keywords (the Airport table namehas OR in it, for example).  By the time
+                you’ve added code to address this, you end up with a proper tokeniser anyway.  So in hindsight I should
+                have doubled my line-count and just gone with a classic tokeniser in the first place.</p>
+                <p dir="ltr"><b>Executing SQL</b></p>
+                <p dir="ltr">Once the query is parsed and the array of table names built and, its just to execute
+                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
+                table A had two rowsand table B had two rows then the Cartesian Product would be:</p>
+                <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B;</tt><br/><tt>A.V | B.V</tt><br/><tt>1
+                | 1</tt><br/><tt>1 | 2</tt><br/><tt>2 | 1</tt><br/><tt>2
+                | 2</tt></p>
+                <p dir="ltr">No surprises there.  But what if we add a WHERE clause?</p>
+                <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B WHERE A.V = 2;</tt><br/><tt>A.V
+                | B.V</tt><br/><tt>2 | 1</tt><br/><tt>2 | 2</tt></p>
+                <p dir="ltr">We can get that by first generating the Cartesian Product - simple by iteration and
+                recursion - and then filtering the rows by evaluating the WHERE clause against each line!</p>
+                <p dir="ltr">This is thoroughly inefficient.  If there are 100 rows in one table and 100 rows in
+                another then the Cartesian Product is (100+100)^2 = 40,000 rows!  It would be much more efficient to
+                evaluate - and cull - candidate rows as soon as possible e.g. before recursing into every B row first
+                check if A.V is 2.</p>
+                <p dir="ltr">In the NSA game it’s easy to be evaluating a Cartesian Product that is hundreds of
+                thousands long, and this can take several seconds.</p>
+                <p dir="ltr">The engine supports SELECT, INSERT, UPDATE and DELETE.  It doesn’t support the JOIN
+                keyword but it does let you join in the WHERE clause (as described above).  It doesn’t support IN.  It
+                additionally has SHOW TABLES, DESCRIBE table and CHECK table which provide utility.  Because of the
+                needs of the game there is also some rudimentary access control so the ‘hacker’ can’t really hack - and
+                break - the game itself e.g. rescheduling or deleting flights and other havoc.</p>
+                <p dir="ltr">I made the whole thing case-insensitive but that could easily be removed for data
+                values and comparisons themselves.</p>
+                <p dir="ltr">I added support for literals but the only literal I added was ‘NOW’.  I treated all
+                dates as strings and this allowed simple Javascript string comparison of dates.  I didn’t support any
+                functions, but this would be very easy to add too.</p>
+                <p dir="ltr"><b>Improving performance</b></p>
+                <p dir="ltr">A proper SQL query planner (the code that decides the order that table rows are
+                evaluated) has to understand the cost of retrieving rows (from disk and so on), but in Javascript RAM
+                access speed is fairly equal and without indices you need full table spans so its just to filter tables
+                by the parts of the WHERE clause that reference them as greedily as possible.</p>
+                <p dir="ltr">Each table is an array of objects.  It would be straightforward to support arrays of
+                arrays, and objects of arrays and objects of objects.  Using objects as the collections themselves would
+                effectively be a primary key - an index!  Knowledge of this could dramatically speed up joins.</p>
+                <p dir="ltr">The engine turns the incoming SQL into a chain of closures.  TrimQuery, by
+                comparison, turns the SQL statement into a Javascript fragment that is then eval()ed.  I am not sure
+                that is faster; doesn’t that cause the Javascript VM itself to abandon a lot of cached JITed code?  But
+                it may be faster to instead compile the SQL down to a simple VM.</p>
+                <p dir="ltr">If you are running the same query again and again it would certainly help to
+                ‘compile’ or ‘prepare’ the SQL statement once and have a way to run it again and again against data</p>
+                <p dir="ltr">sql.js is surprising short given what it can do, and surprisingly simple.  I found it
+                easier to write SQL statements myself to work out what was happening in the model than to use
+                array.filter() once joins were involved.  With a better tokeniser and an expanded grammar and a simple
+                query planner it could be widely useful.</p>
+                <p dir="ltr"><font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>
+                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="http://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
+                ;)</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#705'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#705'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/59476092289.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="709">
+    
+</a>
+<?xml version="1.0" ?><post-body><p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot0.jpg"/></p>
+                <p>For the Ludum Dare game jam this weekend I made a <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">Snowden-themed
+                game</a> :)</p>
+                <p>You are an NSA Analyst and you have to move your agents onto flights to find Snowden and
+                Assange as they try to reach safe havens.</p>
+                <p>Some people imagine that the NSA computer systems are fancy semi-transparent virtual displays
+                projected onto glass panes and controlled with gestures and eye movements.  Well, boy are they in for a
+                surprise!  The truth is the NSA is still stuck on Windows GOV edition, which is based on Windows ME.
+                 Clippy is in there too!  And their IT department will soon start an upgrade of the mail system to Lotus
+                Notes!</p>
+                <p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot1.jpg"/></p>
+                <p>To be honest, the game is only for data junkies.  And data junkies are the kind of people who’d
+                like a more subtly balanced and tuned model underneath, which you don’t get from a one weekend
+                project.  So nobody is going to like it :/</p>
+                <p>The very cool bit is there’s a fairly reasonably useable full SQL parser and runner.
+                 You really can join across three tables, have simple expressions, do inserts and deletes and <em>hack</em>
+                the international flight control databases…</p>
+                <p>The Ludum Dare theme was “10 seconds”, but if you want 10 seconds you can
+                go play the 2000 other game entries that take the theme seriously instead!</p>
+            <p><a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313">NSA: Where's Snowden?</a></p></post-body>
+ <button class="page-link" onclick="window.location='rec1.html#709'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#709'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/59177409349.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="710">
+    <h2>What does the NSA computer screen look like?</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>My Ludum Dare 27 game entry is going to be you - the NSA “Analyst”
+                - trying to corner Edward Snowdon for a bit of rendition.</p>
+                <p>I’m going to add a globe to it - a rewrite from my ICBM game entry for the “real
+                world” mini LD:</p>
+                <p><img src="media/old/59177409349_1.jpg"/></p>
+
+                <p>So what do you imagine the NSA computer screens to look like?  I’ve started with a
+                retro Windows 95/ME look:</p>
+                <p><img src="media/old/59177409349_1.png"/></p>
+                <p>I’m about 4 hours of coding in, and I’m already getting nagging doubts
+                about the visual style.  Perhaps people will prefer a futuristic modern star-trek UI with lots of solid
+                fill rounded corner borders and semi-transparency and transition effects?</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#710'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#710'">ludum-dare</button> 
+
+</div>
+
+
+    
+        
+        <div class="index-bar">
+        <button class="page-prev-link page-link" onclick="window.location='index.html'">&larr;&nbsp;prev</button>
+        <div class="pages-index">page 2 of 7</div>
+        <button class="page-next-link page-link" onclick="window.location='index2.html'">next&nbsp;&rarr;</button>
+        </div>
+    
+
+</div>
+
+
+<div class="column">
+    <div class="page-map">
+        
+            
+
+    <div class="page-map-branch">
+    <b>databases</b>
+        
+            <img class="feather" src="static/icons/database.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>performance</b>
+        
+            <img class="feather" src="static/icons/bar-chart-2.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53751799442.html'">Scaling my Server: follow-up</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>old classics</b>
+        
+            <img class="feather" src="static/icons/book-open.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='classic.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>general</b>
+        
+            <img class="feather" src="static/icons/terminal.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/134911547413.html'">Why Swift?</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/94734034483.html'">Python annotations and type checking</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/86488099258.html'">pycon 2014 Sweden: the bad bits</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/78636919764.html'">Table-based Template Translation in C++</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='lang.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+        
+            
+
+    <div class="page-map-branch">
+    <b>recreation</b>
+        
+            <img class="feather" src="static/icons/youtube.svg"/>
+        
+        
+            <div class="page-link" onclick="window.location='rec.html'">all&nbsp;&rarr;</div>
+            <div class="page-map-section">
+            
+                
+
+    <div class="page-map-branch">
+    <b>games programming</b>
+        
+            <img class="feather" src="static/icons/play.svg"/>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/53831974133.html'">Drawing RTS maps fast</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/49797579721.html'">WillCity update</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='game.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+                
+
+    <div class="page-map-branch">
+    <b>ludum-dare</b>
+        
+        
+            <div class="page-map-section">
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/143376853353.html'">Ludum Dare #35 Mosaic</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/127137593983.html'">LudumDare 33 wallpapers</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/117234199303.html'">SSIM vs MSE for Mosaics</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/97634254788.html'">Ludum Dare 30 results are in!</div>
+                
+            
+                
+                    <div class="page-link" onclick="window.location='ludum-dare.html'">more&nbsp;&rarr;</div>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        
+    </div>
+
+
+            
+        
+    </div>
+
+
+        
+    </div>
+</div>
+</div>
+</body>
+</html>
