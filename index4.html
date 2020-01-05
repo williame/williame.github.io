@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: index</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -38,30 +47,30 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/25080396258.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="835">
+<a name="25080396258">
     <h2>Oh MySQL I hate you</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
                 <p>In no particular order, and not stopping at 5:</p>
-                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                <ol><li>your table names are <a href="https://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
                 on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
-                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                <li>data definitions (DDL) <a href="https://stackoverflow.com/a/687006/15721" target="_blank">are
                 not</a> in transactions</li>
-                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                <li>you don’t have a transaction-safe <a href="https://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
                 table (so create them temporarily for each connection, and clear them manually on rollback)</li>
                 <li><!-- more --></li></ol></post-body>
- <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='db.html#835'">db</button>  <button class="page-link" onclick="window.location='classic.html#835'">classic</button> 
+ <button class="page-link" onclick="window.location='perf.html#25080396258'">perf</button>  <button class="page-link" onclick="window.location='db.html#25080396258'">db</button>  <button class="page-link" onclick="window.location='classic.html#25080396258'">classic</button> 
 <button class="page-link" onclick="window.location='post/25080396258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/24949768311.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="836">
+<a name="24949768311">
     <h2>I know someone whose 2-factor phone authentication was hacked...</h2>
 </a>
-<?xml version="1.0" ?><post-body><p>Password hashing best practice (TL;DR <a href="http://yorickpeterse.com/articles/use-bcrypt-fool" target="_blank">use bcrypt</a>) has
+<?xml version="1.0" ?><post-body><p>Password hashing best practice (TL;DR <a href="https://yorickpeterse.com/articles/use-bcrypt-fool" target="_blank">use bcrypt</a>) has
                 been a bit in the spotlight recently.</p>
-                <p>There has been a natural progression in the blogosphere as it tracks <a href="http://blog.linkedin.com/2012/06/06/linkedin-member-passwords-compromised/" target="_blank">LinkedIn’s
+                <p>There has been a natural progression in the blogosphere as it tracks <a href="https://blog.linkedin.com/2012/06/06/linkedin-member-passwords-compromised/" target="_blank">LinkedIn’s
                 shame</a>.  Yes you should use a password hash function with integrated salting e.g. bcrypt or
                 scrypt.  Yes its scary reading developers comment as they fuddle through trying to invent their own
                 solution in the comments to stories.</p>
@@ -71,18 +80,18 @@
                 <blockquote>
                 <p>But the real answer is things like two-factor authentication with smart phones. Two factor
                 authentication seems like the answer to me. I think ten years from now this is going to be a common
-                approach. [<a href="http://krebsonsecurity.com/2012/06/how-companies-can-beef-up-password-security/" target="_blank">Thomas H. Ptacek</a>]</p>
+                approach. [<a href="https://krebsonsecurity.com/2012/06/how-companies-can-beef-up-password-security/" target="_blank">Thomas H. Ptacek</a>]</p>
                 </blockquote>
                 <p>Its a step in the right direction of course.  But a chain is as weak as the weakest link and
                 phone companies are very weak links indeed:</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#836'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#24949768311'">classic</button> 
 <button class="page-link" onclick="window.location='post/24949768311.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/23662033005.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="843">
+<a name="23662033005">
     <h2>Bounds vs Points in Spatial Indexes</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Hmmm Spatial <a href="http://www.worldwidewords.org/qa/qa-ind2.htm" target="_blank">Indices</a>.</p>
@@ -93,19 +102,19 @@
                 <p>Sometimes you get approximate height above sea level too, but I think that’s derived
                 from the fixed cell-phone tower and some averaging.  But its not so interesting luckily.</p>
                 <p>The largest real radius I’ve seen is approaching 30 miles!</p>
-                <p>A shallow look at your average <a href="http://www.opengeospatial.org/" target="_blank">GIS</a>
+                <p>A shallow look at your average <a href="https://www.opengeospatial.org/" target="_blank">GIS</a>
                 database and its modeling points not these circles.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec2.html#843'">rec</button>  <button class="page-link" onclick="window.location='game.html#843'">game</button> 
+ <button class="page-link" onclick="window.location='rec2.html#23662033005'">rec</button>  <button class="page-link" onclick="window.location='game.html#23662033005'">game</button> 
 <button class="page-link" onclick="window.location='post/23662033005.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/21865366869.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="852">
+<a name="21865366869">
     <h2>How to make a Text Adventure</h2>
 </a>
-<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
+<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
                 text-adventure</a>!</p>
                 <p>Text Adventures are excellent mental exercise to write!  They are useful for learning to
                 program; they are equally useful for seasoned programmers to refresh and recuperate on!  They can fit
@@ -114,19 +123,19 @@
                 Adventures are out of fashion though.  This <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">Ludum
                 Dare</a> we decided to resurrect the Text Adventure and this is a description of the approach we
                 took.<br/><br/>So after tiring of this blog post please do play our illustrated Text
-                Adventure <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
+                Adventure <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
                 Small World of Professor Strange</strong></em></a> - we hope you enjoy playing it as
                 much as we enjoyed making it!<br/><br/><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec2.html#852'">rec</button>  <button class="page-link" onclick="window.location='game.html#852'">game</button>  <button class="page-link" onclick="window.location='classic.html#852'">classic</button> 
+ <button class="page-link" onclick="window.location='rec2.html#21865366869'">rec</button>  <button class="page-link" onclick="window.location='game.html#21865366869'">game</button>  <button class="page-link" onclick="window.location='classic.html#21865366869'">classic</button> 
 <button class="page-link" onclick="window.location='post/21865366869.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/21677376271.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="853">
+<a name="21677376271">
     <h2>Ludum Dare #23 Finished!</h2>
 </a>
-<?xml version="1.0" ?><post-body><p><strong><big><a href="http://williame.github.com/ludum_dare_23_tiny_world/" target="_blank">The Small World of
+<?xml version="1.0" ?><post-body><p><strong><big><a href="https://williame.github.com/ludum_dare_23_tiny_world/" target="_blank">The Small World of
                 Professor Strange</a></big></strong> can be played online with Chrome / Firefox <small>(and
                 probably Safari etc; not checked; most unlikely IE flavours will work).</small></p>
                 <p>Ludum Dare is so dominated by platform games.  Well, we wanted to recreate the nostalgia of
@@ -139,13 +148,13 @@
                 <p>Please give it a whirl, give feedback!</p>
                 <p>Submitted just a couple of hours before the deadline; must sleep, must sleep …</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec2.html#853'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#853'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec2.html#21677376271'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#21677376271'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/21605511183.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="854">
+<a name="21605511183">
     
 </a>
 <?xml version="1.0" ?><post-body><p>When we last did a mini Ludum Dare we tried to show that platform games don’t
@@ -159,18 +168,18 @@
                 <p>By using a map top-down we get spatial reasoning for the going north/east/south/west etc</p>
                 <p>51 locations, 27 objects, 7 npcs, and a classic mode (code mode to come) it’s going
                 to be awesome</p>
-                <p><a href="http://www.youtube.com/watch?v=bfWjjoxjrSI">LD #23 Jam: “The Small
+                <p><a href="https://www.youtube.com/watch?v=bfWjjoxjrSI">LD #23 Jam: “The Small
                 World of Professor Strange”</a></p>
                 <p><a href="https://github.com/williame/ludum_dare_23_tiny_world" rel="nofollow" target="_blank" title="https://github.com/williame/ludum_dare_23_tiny_world">https://github.com/williame/ludum_dare_23_tiny_world</a><br/><br/>After
                 2 of 3 days (but who can do a full day tomorrow on a work day?)<br/><br/>(sorry no audio)</p>
             <iframe frameborder="0" src="https://www.youtube.com/embed/bfWjjoxjrSI"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec2.html#854'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#854'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec2.html#21605511183'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#21605511183'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/21470697362.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="855">
+<a name="21470697362">
     <h2>Ludum Dare #23 starts! Tiny World</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>And the theme is “<strong>Tiny World</strong>”.</p>
@@ -186,18 +195,18 @@
                 increasingly silly teams of people keep turning up to recover, and you have to outsmart them all?  When
                 a vicar and his wife arrive, followed by some Sioux in a canoe, and everyone seems to know everyone else
                 and the pirates are on first name terms with everyone except the swiss mountaineer whom they have
-                previously had a disagreement with, then you can say it truly is <a href="http://dictionary.reference.com/browse/it%27s+a+small+world" target="_blank">a small world</a>?</li>
+                previously had a disagreement with, then you can say it truly is <a alt="dead link: http://dictionary.reference.com/browse/it%27s+a+small+world" href="/#404" target="_blank">a small world</a>?</li>
                 <li>And what’s the world called?  Aardvark would be a strategic name from an
                 alphabetical sorting perspective ;)</li>
                 </ul><p>All ideas welcome!</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec2.html#855'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#855'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec2.html#21470697362'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#21470697362'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/21396661432.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="856">
+<a name="21396661432">
     <h2>Ludum Dare #23 approaches</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>The 10th anniversary of the competition and they’re gunning for over 1000
@@ -212,24 +221,24 @@
                 <p>If the theme is <em>Artificial Intelligence</em>, here’s an idea you can
                 have for free:</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec2.html#856'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#856'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec2.html#21396661432'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#21396661432'">ludum-dare</button> 
 <button class="page-link" onclick="window.location='post/21396661432.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/20397853422.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="865">
+<a name="20397853422">
     <h2>Minor War Stories I</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>The past couple of weeks, reading stuff on the web has triggered a few fun memories:</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#865'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#20397853422'">classic</button> 
 <button class="page-link" onclick="window.location='post/20397853422.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/20054342100.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="868">
+<a name="20054342100">
     <h2>Agile is a Sham</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>thats SCRUM and TDD and all the rest; it is all those new ways of managing
@@ -240,19 +249,19 @@
                 <p>See, the thing is, the success of the coding-part of a project is dependent on the calibre of
                 the engineers doing that coding and not the process they follow. </p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#868'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#20054342100'">classic</button> 
 <button class="page-link" onclick="window.location='post/20054342100.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19946053957.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="869">
+<a name="19946053957">
     
 </a>
 <?xml version="1.0" ?><post-body><p><big><strong>Enigma in a spreadsheet!</strong></big></p>
                 <p>Back in the summer of 2009 a friend of mine read a few of <a href="post/19794076450.html" target="_blank">my
                 books</a> covering cryptography.</p>
-                <p>This is his interpretation of the <a href="http://www.bletchleypark.org.uk/content/machines.rhtm" target="_blank">Enigma cipher machine</a>;
+                <p>This is his interpretation of the <a alt="dead link: http://www.bletchleypark.org.uk/content/machines.rhtm" href="/#404" target="_blank">Enigma cipher machine</a>;
                 the distillation of a mental model he formed from reading those popular-science treatments of the
                 machine.</p>
                 <p>He is <em>not</em> a programmer or anything but he just proved his aptitude; and he’s
@@ -265,23 +274,23 @@
                 <p>Now the Internet is awash with Engima machines in Flash applets and such; none seem to agree
                 with any other, and this spreadsheet is no exception to that.  So it would be most unlikely this is a
                 truly accurate representation of the real machine.</p>
-                <p>However, my friend is a good visual learner; I think if we could just get him to <a href="http://www.bletchleypark.org.uk/" target="_blank">Bletchley Park</a> he’d
+                <p>However, my friend is a good visual learner; I think if we could just get him to <a alt="dead link: http://www.bletchleypark.org.uk/" href="/#404" target="_blank">Bletchley Park</a> he’d
                 refine and fix his mental model and build a better, more correct spreadsheet :)</p>
                 <p>I figure we all just have to give him encouragement - comments and code review and such - and
                 get his appetite whetted for doing more of this computer type of thing!  So if you enjoy his work,
                 please say</p>
                 <p><a href="https://github.com/williame/enigma-spreadsheet/raw/master/Enigma3.xlsm">Download
                 the spreadsheet here</a></p>
-                <p>Discussion on <a href="http://news.ycombinator.com/item?id=3755656" target="_blank">Hacker
-                News</a> and <a href="http://www.reddit.com/r/excel/duplicates/rdxym/an_enigma_cipher_machine_implemented_in_an_excel/" target="_blank">Reddit</a>; saw it somewhere else?  please say :)</p>
+                <p>Discussion on <a href="https://news.ycombinator.com/item?id=3755656" target="_blank">Hacker
+                News</a> and <a href="https://www.reddit.com/r/excel/duplicates/rdxym/an_enigma_cipher_machine_implemented_in_an_excel/" target="_blank">Reddit</a>; saw it somewhere else?  please say :)</p>
             <iframe frameborder="0" src="https://www.youtube.com/embed/cmnMlvfTDoM"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec2.html#869'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#869'">enigma</button>  <button class="page-link" onclick="window.location='classic.html#869'">classic</button> 
+ <button class="page-link" onclick="window.location='rec2.html#19946053957'">rec</button>  <button class="page-link" onclick="window.location='enigma.html#19946053957'">enigma</button>  <button class="page-link" onclick="window.location='classic.html#19946053957'">classic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19672761261.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="873">
+<a name="19672761261">
     <h2>Artwork Based Layout</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>A long time ago I tried to make Symbian’s UIQ phone UI competitive with
@@ -291,13 +300,13 @@
                 <li>slip Flash renderer between app and screen</li>
                 <li>take on Apple!</li>
                 </ol><p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#873'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#19672761261'">classic</button> 
 <button class="page-link" onclick="window.location='post/19672761261.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19500788060.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="877">
+<a name="19500788060">
     <h2>My tech-savvy Generation</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My two girls - 3 and 5 - got a computer for Christmas!  Its just an old desktop
@@ -319,13 +328,13 @@
                 picture… <em>and erasing it</em>.   I asked them why…</p>
                 <p><em><strong>So they could reuse the paper</strong></em>, they said.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#877'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#19500788060'">classic</button> 
 <button class="page-link" onclick="window.location='post/19500788060.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19346002203.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="878">
+<a name="19346002203">
     <h2>How I got massively faster DB with in-process replication</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
@@ -337,17 +346,17 @@
                 they are blazingly slow.</p>
                 <p>This is because the straightforward way to connect a database to a web app is naive.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='perf.html#878'">perf</button>  <button class="page-link" onclick="window.location='db.html#878'">db</button> 
+ <button class="page-link" onclick="window.location='perf.html#19346002203'">perf</button>  <button class="page-link" onclick="window.location='db.html#19346002203'">db</button> 
 <button class="page-link" onclick="window.location='post/19346002203.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/18839832580.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="886">
+<a name="18839832580">
     <h2>Reddit vs Hacker News vs Twitter</h2>
 </a>
-<?xml version="1.0" ?><post-body><ul><li>Deeply technical stories might get up to about 5K visitors from  <a href="http://news.ycombinator.com/news" target="_blank">HackerNews</a> (“HN”)
-                and 10K from <a href="http://www.reddit.com/r/programming" target="_blank">reddit/r/programming</a>
+<?xml version="1.0" ?><post-body><ul><li>Deeply technical stories might get up to about 5K visitors from  <a href="https://news.ycombinator.com/news" target="_blank">HackerNews</a> (“HN”)
+                and 10K from <a href="https://www.reddit.com/r/programming" target="_blank">reddit/r/programming</a>
                 (“proggit”)</li>
                 <li>Deeply controversial ’<a href="post/18065079081.html" target="_blank">Cogs Bad</a>’
                 -type posts still get under 10K from HN, but can get 40K+ from proggit</li>
@@ -362,7 +371,7 @@
                 <li>Being very top spot on HN is a dramatic visit booster; you can watch in Google Analytics Real
                 Time the sudden influx of visitors when you get sorted to top; and then a trickle again as you drop to
                 second place; Google Analytics Real Time is gamification for blogging</li>
-                <li>Google Analytics doesn’t count people using <a href="http://noscript.net/" target="_blank">noscript</a> (when there are so many <a href="http://samy.pl/evercookie/" target="_blank">technical</a> avenues they could pursue instead)</li>
+                <li>Google Analytics doesn’t count people using <a href="https://noscript.net/" target="_blank">noscript</a> (when there are so many <a href="https://samy.pl/evercookie/" target="_blank">technical</a> avenues they could pursue instead)</li>
                 </ul><p>Very very few people who read a blog post go back to the link aggregation site and
                 vote on it:</p>
                 <ul><li>About 100 to 1 visitors to points seems about right; if a story has 100 points, its
@@ -392,75 +401,75 @@
                 onto the front page in time for a stateside morning</li>
                 <li>Proggit, stories get stuck in spam filters.  Then it often gets mercilessly down-voted by
                 people not leaving comments and so it dies</li>
-                <li>On HN, stories start in the ’<a href="http://news.ycombinator.com/newest" target="_blank">newest</a>’ fire-hose; the click rate here is in the low double
+                <li>On HN, stories start in the ’<a href="https://news.ycombinator.com/newest" target="_blank">newest</a>’ fire-hose; the click rate here is in the low double
                 digits, but these early-clickers are far more likely to go back and up-vote, so a story can gather the 3
                 or 5 votes it needs to get on the front-page.  Once on the front page, its onwards and upwards</li>
                 </ul><p>Naturally, I turn to technology to tame coder social ills: <a href="post/15581427232.html" target="_blank">self-organising
                 link aggregation</a>.</p>
                 <p>Meta:</p>
-                <ul><li>as seen on <a href="http://news.ycombinator.com/item?id=3670178" target="_blank">HN</a></li>
+                <ul><li>as seen on <a href="https://news.ycombinator.com/item?id=3670178" target="_blank">HN</a></li>
                 <li>as seen on <a href="http://www.reddit.com/r/AnythingGoesNews/duplicates/qjzp5/reddit_vs_hacker_news_vs_twitter/" target="_blank">reddit</a> (not proggit yet)</li>
                 <li>need I repeat that thing about how sad it is that nobody up-votes things they like reading? ;)</li>
                 </ul>
             </post-body>
- <button class="page-link" onclick="window.location='classic.html#886'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#18839832580'">classic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/18319031919.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="889">
+<a name="18319031919">
     <h2>Programming Language Readability</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Lets compare some Python to Haskell for solving the same problem.  The problem we’ll
-                pick is <a href="http://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
+                pick is <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
                 for auto-completions.  We are interested not so much in the nitty gritty of the algorithm, but in the
-                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a href="http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" target="_blank">Python</a> and a <a href="http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" target="_blank">Haskell</a> solver have turned up.</p>
+                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a alt="dead link: http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" href="/#404" target="_blank">Python</a> and a <a alt="dead link: http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" href="/#404" target="_blank">Haskell</a> solver have turned up.</p>
                 <!-- more --></post-body>
- <button class="page-link" onclick="window.location='lang.html#889'">lang</button> 
+ <button class="page-link" onclick="window.location='lang.html#18319031919'">lang</button> 
 <button class="page-link" onclick="window.location='post/18319031919.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/18200335569.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="890">
+<a name="18200335569">
     <h2>The history of Hellepoll</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><a href="https://github.com/williame/hellepoll" target="_blank">Hellepoll</a>
                 is the open-sourcing of a framework that was built for a live video transcoding and exploding server. 
-                (Like <a href="http://www.wowza.com/" target="_blank">wowza</a> on steroids.)  Live video
+                (Like <a href="https://www.wowza.com/" target="_blank">wowza</a> on steroids.)  Live video
                 streams would come in and need transcoding to several formats, framerates and resolutions and then
                 served up to a large number of clients who were are all getting the same video at the same time-point.</p>
                 <p>Latency is the time gap between incoming video and outgoing video to all these clients, and it
                 has to be in single-digit seconds.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='lang.html#890'">lang</button> 
+ <button class="page-link" onclick="window.location='lang.html#18200335569'">lang</button> 
 <button class="page-link" onclick="window.location='post/18200335569.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/18065079081.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="895">
+<a name="18065079081">
     <h2>Cogs Bad</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><em>There is something really wrong with modern programmers.  Very wrong
-                indeed.</em><br/><br/><a href="http://www.mailinator.com/" target="_blank">Mailinator</a>
-                creator Paul Tyma has a <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
+                indeed.</em><br/><br/><a href="https://www.mailinator.com/" target="_blank">Mailinator</a>
+                creator Paul Tyma has a <a href="https://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
                 blog post</a> on how he compresses our email by 90%. He  has a simple LRU cache of lines and
                 consecutive lines from emails, so emails become a list of line string pointers where most are shared. 
                 He also has a background thread doing rather stronger LZMA compression on large emails.  He’s
                 winning.<br/><br/><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='classic.html#895'">classic</button> 
+ <button class="page-link" onclick="window.location='classic.html#18065079081'">classic</button> 
 <button class="page-link" onclick="window.location='post/18065079081.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/18005723026.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="896">
+<a name="18005723026">
     <h2>Deterministic Testing of Async Loops</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>A lot of in-production phone crashes I’ve debugged over the years have
-                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="http://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
+                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="https://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
                 <p>Hackers like working on tools and hackers are often attracted to writing test frameworks.  I
                 know I was.  So while working at UIQ (we made a smartphone OS) I wrote a simple exhaustive exception
                 generator.</p>
@@ -475,25 +484,25 @@
                 quickly non-deterministic.</p>
                 <p>Fair enough, we could fix that :)  Here’s how:</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='lang.html#896'">lang</button> 
+ <button class="page-link" onclick="window.location='lang.html#18005723026'">lang</button> 
 <button class="page-link" onclick="window.location='post/18005723026.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/17490392306.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="900">
+<a name="17490392306">
     <h2>Same Game, Same Sucker</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I had <a href="post/15882406012.html" target="_blank">previously
                 said</a>:</p>
                 <blockquote>
-                <p>There is a new <a href="http://infinitesearchspace.dyndns.org/samegame" target="_blank">SameGame
+                <p>There is a new <a alt="dead link: http://infinitesearchspace.dyndns.org/samegame" href="/#404" target="_blank">SameGame
                 </a>contest over at Infinite Search Space.  But I’m not tempted.  Yet.  Risk is, as I think more
                 about it, I’ll think of some little thing and then I’ll try it out and then its a slippery slope…</p>
                 </blockquote>
                 <p>Admittedly <a href="post/16322614828.html" target="_blank">Ludum Dare</a> got my coding need sated, and so I became easy prey for thinking
                 problems.</p>
-                <p>That’s how it was that I was so easily suckered by <a href="http://www.redcode.nl/" target="_blank">Roy</a> when he started asking me about how to
+                <p>That’s how it was that I was so easily suckered by <a alt="dead link: http://www.redcode.nl/" href="/#404" target="_blank">Roy</a> when he started asking me about how to
                 quickly compute SameGame board moves…</p>
                 <p>What started out as an outlining of how it might be fast turned into a brute solver in C++
                 (well, C with encapsulation; my C++ tends not to be so STLised so sue me).  See, its hard to express
@@ -513,7 +522,7 @@
                 time.  If you are taking a normal 32- or 64-bit random number and throwing all but one bit away to make
                 a choice, that’s going to <em>really</em> slow you down.</p>
                 <p>I often ask questions I think I know the answer to on StackOverflow, because often you get
-                interesting mind-expanding angles and corrections (but sadly <a href="http://stackoverflow.com/questions/8703223/re-using-random-number-in-reservoir-sampling" target="_blank">not always</a>).  So I asked something <a href="http://stackoverflow.com/questions/9116361/how-to-efficiently-nearly-sort-a-list" target="_blank">SameGame-related</a>
+                interesting mind-expanding angles and corrections (but sadly <a href="https://stackoverflow.com/questions/8703223/re-using-random-number-in-reservoir-sampling" target="_blank">not always</a>).  So I asked something <a href="https://stackoverflow.com/questions/9116361/how-to-efficiently-nearly-sort-a-list" target="_blank">SameGame-related</a>
                 and got a JSort lead that is well worth following up :)  (Only of course with a roulette you don’t
                 actually need to sort them.)</p>
                 <p>I think with effort you could get performance back up towards 2M/s but with rather less
@@ -522,7 +531,7 @@
                 thinking about it just when I think I’m successfully focusing on something more mundane. 
                 Arrrgggghhhh Roy its all your fault :)</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec2.html#900'">rec</button>  <button class="page-link" onclick="window.location='comp.html#900'">comp</button> 
+ <button class="page-link" onclick="window.location='rec2.html#17490392306'">rec</button>  <button class="page-link" onclick="window.location='comp.html#17490392306'">comp</button> 
 
 </div>
 
@@ -782,11 +791,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

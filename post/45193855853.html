@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Drawing things in the shadow of a sphere : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,10 +33,10 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Drawing things in the shadow of a sphere</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
+<post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
                 - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
                 else a child of the cold war?</p>
-                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                <p>I had this particular image in mind from the 80s film “<a href="https://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
                 see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
                 me, so I wanted to capture that feel:</p>
                 <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
@@ -57,7 +66,7 @@
                 a line between the camera and fragment and the centre of the earth!  Couldn’t be easier.</p>
                 <p>The algorithm for computing the nearest point on a line to a point is:</p>
                 <p><code>t = (P-B).(A-B) / (A-B).(A-B)</code></p>
-                <p>(That’s the <a href="http://en.wikipedia.org/wiki/Dot_product" target="_blank">dot</a>
+                <p>(That’s the <a href="https://en.wikipedia.org/wiki/Dot_product" target="_blank">dot</a>
                 operator.)  If t is between 0 and 1 then the point is on the line, else its beyond one of the ends.  You
                 can compute the xyz of the point using linear interpolation A+(B-A)*t</p>
                 <p>A and B are the two points on the line and P is the third point; P is the centre of the earth’s
@@ -77,13 +86,13 @@
                 radius.  For comparison purposes, there is no need to sqrt; you can just square the other side of the
                 comparison instead.  This is a classic performance improvement:</p>
                 <p>if(B*t -P &lt;= R*R) …</p>
-                <p>Furthermore, in this particular case I’m rendering the earth as a <a href="http://en.wikipedia.org/wiki/Unit_sphere" target="_blank"><em>unit sphere</em></a>,
+                <p>Furthermore, in this particular case I’m rendering the earth as a <a href="https://en.wikipedia.org/wiki/Unit_sphere" target="_blank"><em>unit sphere</em></a>,
                 so the radius is 1 and R*R is 1:</p>
                 <p>if(B*t - P &lt;= 1) …</p>
                 <p>If this if-statement is true, then the ray passes through the earth and then the value of t is
                 interesting; if its less than 1 then the fragment is in the earth’s shadow!</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#746'">index</button>  <button class="page-link" onclick="window.location='rec1.html#746'">rec</button>  <button class="page-link" onclick="window.location='game.html#746'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#45193855853'">index</button>  <button class="page-link" onclick="window.location='rec1.html#45193855853'">rec</button>  <button class="page-link" onclick="window.location='game.html#45193855853'">game</button> 
 </div>
 </div>
 </div>
@@ -332,11 +341,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

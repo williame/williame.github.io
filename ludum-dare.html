@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: ludum-dare</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -38,46 +47,46 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/143376853353.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="643">
+<a name="143376853353">
     <h2>Ludum Dare #35 Mosaic</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Its becoming a Ludum Dare tradition that I make a mosaic for each competition. I
                 didn’t enter this time, but I still made a nice mosaic:</p><img data-orig-height="282" data-orig-width="320" src="media/old/143376853353_1.jpg"/>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#643'">index</button>  <button class="page-link" onclick="window.location='rec.html#643'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#643'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#143376853353'">index</button>  <button class="page-link" onclick="window.location='rec.html#143376853353'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#143376853353'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/127137593983.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="649">
+<a name="127137593983">
     <h2>LudumDare 33 wallpapers</h2>
 </a>
-<?xml version="1.0" ?><post-body><p>Aurel Bílý made this nice wallpaper, and <a href="http://thenet.sk/?blog/0007">told
+<?xml version="1.0" ?><post-body><p>Aurel Bílý made this nice wallpaper, and <a alt="dead link: http://thenet.sk/?blog/0007" href="/#404">told
                 us how he did it</a>:<br/></p><img data-orig-height="500" data-orig-width="500" src="media/old/127137593983_1.png"/><p>Here are a couple of mosaics I
                 made from the LD32 thumbnails:</p><img data-orig-height="1428" data-orig-width="3350" src="media/old/127137593983_1.jpg"/><img data-orig-height="1617" data-orig-width="2784" src="media/old/127137593983_2.jpg"/>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#649'">index</button>  <button class="page-link" onclick="window.location='rec.html#649'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#649'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#127137593983'">index</button>  <button class="page-link" onclick="window.location='rec.html#127137593983'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#127137593983'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/117234199303.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="650">
+<a name="117234199303">
     <h2>SSIM vs MSE for Mosaics</h2>
 </a>
 <?xml version="1.0" ?><post-body><img data-orig-height="125" data-orig-width="600" src="media/old/117234199303_1.jpg"/><p>(On the left, a target image.
-                 On the right, a <a href="http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/">mosaic made from
+                 On the right, a <a alt="dead link: http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/" href="/#404">mosaic made from
                 thumbnails of all the Ludum Dare 32 games</a>, positioned using an MSE score metric.)</p><p>Making
                 mosaics is in two steps:</p><ol><li>score each tile in each position</li><li>determine
                 the optimal positioning of all tiles to maximize the total likeness</li></ol><p>The
                 second part is easy (although I tried imprecise approximations at first, and only discovered it fairly
-                recently): use the <a href="http://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
-                that first step that’s tricky.</p><p>I have been using <a href="http://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
+                recently): use the <a href="https://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
+                that first step that’s tricky.</p><p>I have been using <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
                 been fairly happy with the result.  But readers have pondered if there aren’t better metrics that better
                 account for shape and contrast and such…</p><p>So to please some Ludum Darers
-                (and because I was curious), I tried out some algorithms.</p><p>First, <a href="http://Peak%20signal-to-noise%20ratio">Peak Signal to Noise Ratio (PSNR)</a> is just a
-                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="http://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
+                (and because I was curious), I tried out some algorithms.</p><p>First, <a alt="dead link: http://Peak%20signal-to-noise%20ratio" href="/#404">Peak Signal to Noise Ratio (PSNR)</a> is just a
+                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="https://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
                  This was a promising avenue to explore.  My mosaic maker is Python and there’s a scikit helper, but
                 scikit doesn’t work with pypy (and neither does a stock numpy; trying to get the mosaic maker to work
                 happily in pypy with these kinds of dependencies has been a nightmare).  In the end I went with pyssim
@@ -95,32 +104,32 @@
                 a great distance where the tiles are increasingly pixel-sized, tile colour dominates over shapes within
                 the tile?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#650'">index</button>  <button class="page-link" onclick="window.location='rec.html#650'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#650'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#117234199303'">index</button>  <button class="page-link" onclick="window.location='rec.html#117234199303'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#117234199303'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/97634254788.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="653">
+<a name="97634254788">
     <h2>Ludum Dare 30 results are in!</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>By far my best score ever!  Over 1000 other Jam entries, and I got Silver for
                 Innovation and 4th for Theme!   Really really so so very very pleased about this! :D</p>
                 <p><img data-orig-height="196" data-orig-width="500" src="media/old/97634254788_1.png"/></p>
 
-                <p>In other news, <a href="http://notch.net/2014/09/im-leaving-mojang/"><em>Notch</em>
+                <p>In other news, <a alt="dead link: http://notch.net/2014/09/im-leaving-mojang/" href="/#404"><em>Notch</em>
                 sells Mojang</a> to Microsoft and goes “back to doing <strong>Ludum Dares</strong>
                 and small web experiments”!</p>
                 <p><a href="http://www.ludumdare.com/compo/2014/09/15/results-for-ludum-dare-30/">Full
                 results here.</a> </p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#653'">index</button>  <button class="page-link" onclick="window.location='rec.html#653'">rec</button> 
+ <button class="page-link" onclick="window.location='index.html#97634254788'">index</button>  <button class="page-link" onclick="window.location='rec.html#97634254788'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/96349268773.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="654">
+<a name="96349268773">
     <h2>Ludum Dare Stats</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>As <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">my
@@ -161,29 +170,29 @@
                 <p>128 <a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=37445">This
                 Little Piggy… - <em>InfectionTeam</em></a></p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#654'">index</button>  <button class="page-link" onclick="window.location='rec.html#654'">rec</button> 
+ <button class="page-link" onclick="window.location='index.html#96349268773'">index</button>  <button class="page-link" onclick="window.location='rec.html#96349268773'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/95981602928.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="655">
+<a name="95981602928">
     <h2>All the LD30 games in one mosaic!</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I updated my <a href="post/84505278488.html">mosaic script</a>
                 to consider rotations of three tiles as well as straight swaps.  To be honest, its diminishing returns,
                 but the mosaic is one of the prettiest yet:</p>
-                <p><a href="http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/"><img data-orig-height="255" data-orig-width="500" src="media/old/95981602928_1.jpg"/></a></p>
-                <p><a href="http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/">More
+                <p><a alt="dead link: http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/" href="/#404"><img data-orig-height="255" data-orig-width="500" src="media/old/95981602928_1.jpg"/></a></p>
+                <p><a alt="dead link: http://www.ludumdare.com/compo/2014/08/27/all-ld30-games-in-this-mosaic/" href="/#404">More
                 on the LD web site :)</a></p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#655'">index</button>  <button class="page-link" onclick="window.location='rec.html#655'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#655'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#95981602928'">index</button>  <button class="page-link" onclick="window.location='rec.html#95981602928'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#95981602928'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/95981048318.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="656">
+<a name="95981048318">
     <h2>Connecting Ludum Dare to the Real World</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/" target="_blank">Ludum Dare</a> is
@@ -244,17 +253,17 @@
                 <p>Oh there’s more.  <em><a href="http://www.ludumdare.com/compo/ludum-dare-30/?action=preview&amp;uid=10313">Lots more :)</a></em>
                  Now excuse me while I float off ecstatically tired…</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#656'">index</button>  <button class="page-link" onclick="window.location='rec.html#656'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#656'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#95981048318'">index</button>  <button class="page-link" onclick="window.location='rec.html#95981048318'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#95981048318'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/84505278488.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="664">
+<a name="84505278488">
     <h2>Making Image Mosaics</h2>
 </a>
-<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
-                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" target="_blank">contest entries</a>.
+<?xml version="1.0" ?><post-body><p><a href="https://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
+                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a alt="dead link: http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" href="/#404" target="_blank">contest entries</a>.
                  It <a href="post/71966020187.html">started</a>
                 <a href="post/84225291373.html">basic</a>,
                 and its got <a href="post/84317701363.html">better</a>.
@@ -264,13 +273,13 @@
                 input images which we want to arrange so that, when squinted at from a distance, it approximates the
                 target image.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index.html#664'">index</button>  <button class="page-link" onclick="window.location='rec.html#664'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#664'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#84505278488'">index</button>  <button class="page-link" onclick="window.location='rec.html#84505278488'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#84505278488'">mosaic</button> 
 <button class="page-link" onclick="window.location='post/84505278488.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/84317701363.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="665">
+<a name="84317701363">
     
 </a>
 <?xml version="1.0" ?><post-body><p><strong>UPDATE:</strong> <a href="post/84505278488.html">blog post
@@ -290,25 +299,25 @@
                 ^C.</p>
                 <p>And the results, as seen in the left column above, are stunning :)</p>
             <p><a href="media/old/84317701363_2.jpg"><img src="media/old/84317701363_3.jpg"/></a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#665'">index</button>  <button class="page-link" onclick="window.location='rec.html#665'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#665'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index1.html#84317701363'">index</button>  <button class="page-link" onclick="window.location='rec.html#84317701363'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#84317701363'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/84225291373.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="666">
+<a name="84225291373">
     
 </a>
 <?xml version="1.0" ?><post-body><p>The mosaic is made (<a href="https://gist.github.com/williame/8219574" target="_blank">sourcecode</a>) from the screenshots from <a href="http://www.ludumdare.com/compo/ludum-dare-29/" target="_blank">Ludum Dare 29</a>, to the
-                theme “Beneath the Surface”.  The green turtle is from <a href="http://en.wikipedia.org/wiki/File:Chelonia_mydas_and_bubbles.jpg" target="_blank">wikipedia</a>.</p>
+                theme “Beneath the Surface”.  The green turtle is from <a href="https://en.wikipedia.org/wiki/File:Chelonia_mydas_and_bubbles.jpg" target="_blank">wikipedia</a>.</p>
             <p><a href="media/old/84225291373_2.jpg"><img src="media/old/84225291373_3.jpg"/></a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#666'">index</button>  <button class="page-link" onclick="window.location='rec.html#666'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#666'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index1.html#84225291373'">index</button>  <button class="page-link" onclick="window.location='rec.html#84225291373'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#84225291373'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/72536460771.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="683">
+<a name="72536460771">
     <h2>Ludum Dare Trending Downwards</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img data-orig-height="255" data-orig-width="500" src="media/old/72536460771_1.png"/></p>
@@ -316,31 +325,31 @@
                 are just in, and <a href="http://www.ludumdare.com/compo/ludum-dare-28/?action=preview&amp;uid=10313" target="_blank">I didn’t do so well</a>.  Again.</p>
                 <p>Looks to me like my Ludum Dare game making contest scores are converging on mediocre :|</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#683'">index</button>  <button class="page-link" onclick="window.location='rec.html#683'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#72536460771'">index</button>  <button class="page-link" onclick="window.location='rec.html#72536460771'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/71966020187.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="684">
+<a name="71966020187">
     
 </a>
 <?xml version="1.0" ?><post-body><p>Not a terribly bad likeness?  (My code made the top one ;)</p>
                 <p>Its the over 2000 thumbnails from Ludum Dare 28 (<a href="http://www.ludumdare.com/compo/ludum-dare-28/?action=preview&amp;uid=10313">my game entry</a>),
-                placed greedily by <a href="http://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">MSE</a>.
+                placed greedily by <a href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">MSE</a>.
                  <a href="https://gist.github.com/williame/8219574">Here’s</a> a little Python
                 script I quickly knocked up.</p>
             <p><a href="media/old/71966020187_2.jpg"><img src="media/old/71966020187_3.jpg"/></a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#684'">index</button>  <button class="page-link" onclick="window.location='rec.html#684'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#684'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index1.html#71966020187'">index</button>  <button class="page-link" onclick="window.location='rec.html#71966020187'">rec</button>  <button class="page-link" onclick="window.location='mosaic.html#71966020187'">mosaic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/69968194211.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="685">
+<a name="69968194211">
     
 </a>
-<?xml version="1.0" ?><post-body><p>Last week I discovered <a href="http://evanw.github.io/csg.js/">csg.js</a>
+<?xml version="1.0" ?><post-body><p>Last week I discovered <a href="https://evanw.github.io/csg.js/">csg.js</a>
                 - Constructive Solid Geometry (CSG).  Its a super clean, super neat library that can take an arbitrary
                 non-self-intersecting meshes made from convex polygons and do boolean operations on them.  Like firing
                 cylinders at cubes, as in this video I just made :)</p>
@@ -356,13 +365,13 @@
                 competition… the theme being “You only get one”, which is a damp limp
                 squid of a theme if you ask me.</p>
             <iframe frameborder="0" src="https://www.youtube.com/embed/7zjz-hpm8No"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index1.html#685'">index</button>  <button class="page-link" onclick="window.location='rec.html#685'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#69968194211'">index</button>  <button class="page-link" onclick="window.location='rec.html#69968194211'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/60190775649.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="704">
+<a name="60190775649">
     
 </a>
 <?xml version="1.0" ?><post-body><p>To: <em>All secret agents</em></p>
@@ -371,13 +380,13 @@
                 <p>Security: <strong><em>TOP SECRET</em></strong></p>
                 <p>Play: <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">my game!</a></p>
             <iframe frameborder="0" src="https://www.youtube.com/embed/mfvg7LfmgGg"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index1.html#704'">index</button>  <button class="page-link" onclick="window.location='rec1.html#704'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#60190775649'">index</button>  <button class="page-link" onclick="window.location='rec1.html#60190775649'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59997353762.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="705">
+<a name="59997353762">
     <h2>Running SQL in your browser</h2>
 </a>
 <?xml version="1.0" ?><post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
@@ -388,7 +397,7 @@
                 <p dir="ltr">SELECT T.* FROM MANIFESTS AS M, MANIFESTS AS M2, TARGETS AS T WHERE T.PASS = M.PASS
                 AND M.PASS = M2.PASS AND M.FLIGHT = ‘AF-321’ AND M2.FLIGHT = 'IB-794’;</p>
                 <p dir="ltr">But I couldn’t find any working SQL engines for Javascript!  I didn’t find
-                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="http://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
+                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="https://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
                 couldn’t get it to work and its quite old and not actively developed.  There’s are also a few LINQ-likes
                 but they are not really SQL.</p>
                 <p dir="ltr">Now SQL is the lingua franca of structured data querying so I was surprised at this
@@ -445,7 +454,7 @@
                 have doubled my line-count and just gone with a classic tokeniser in the first place.</p>
                 <p dir="ltr"><b>Executing SQL</b></p>
                 <p dir="ltr">Once the query is parsed and the array of table names built and, its just to execute
-                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
+                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
                 table A had two rowsand table B had two rows then the Cartesian Product would be:</p>
                 <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B;</tt><br/><tt>A.V | B.V</tt><br/><tt>1
                 | 1</tt><br/><tt>1 | 2</tt><br/><tt>2 | 1</tt><br/><tt>2
@@ -490,19 +499,19 @@
                 array.filter() once joins were involved.  With a better tokeniser and an expanded grammar and a simple
                 query planner it could be widely useful.</p>
                 <p dir="ltr"><font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>
-                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="http://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
+                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="https://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
                 ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#705'">index</button>  <button class="page-link" onclick="window.location='rec1.html#705'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#59997353762'">index</button>  <button class="page-link" onclick="window.location='rec1.html#59997353762'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59476092289.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="709">
+<a name="59476092289">
     
 </a>
-<?xml version="1.0" ?><post-body><p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot0.jpg"/></p>
+<?xml version="1.0" ?><post-body><p><img alt="" src="https://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot0.jpg"/></p>
                 <p>For the Ludum Dare game jam this weekend I made a <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">Snowden-themed
                 game</a> :)</p>
                 <p>You are an NSA Analyst and you have to move your agents onto flights to find Snowden and
@@ -512,7 +521,7 @@
                 surprise!  The truth is the NSA is still stuck on Windows GOV edition, which is based on Windows ME.
                  Clippy is in there too!  And their IT department will soon start an upgrade of the mail system to Lotus
                 Notes!</p>
-                <p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot1.jpg"/></p>
+                <p><img alt="" src="https://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot1.jpg"/></p>
                 <p>To be honest, the game is only for data junkies.  And data junkies are the kind of people who’d
                 like a more subtly balanced and tuned model underneath, which you don’t get from a one weekend
                 project.  So nobody is going to like it :/</p>
@@ -522,13 +531,13 @@
                 <p>The Ludum Dare theme was “10 seconds”, but if you want 10 seconds you can
                 go play the 2000 other game entries that take the theme seriously instead!</p>
             <p><a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313">NSA: Where's Snowden?</a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#709'">index</button>  <button class="page-link" onclick="window.location='rec1.html#709'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#59476092289'">index</button>  <button class="page-link" onclick="window.location='rec1.html#59476092289'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59177409349.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="710">
+<a name="59177409349">
     <h2>What does the NSA computer screen look like?</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My Ludum Dare 27 game entry is going to be you - the NSA “Analyst”
@@ -544,13 +553,13 @@
                 about the visual style.  Perhaps people will prefer a futuristic modern star-trek UI with lots of solid
                 fill rounded corner borders and semi-transparency and transition effects?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#710'">index</button>  <button class="page-link" onclick="window.location='rec1.html#710'">rec</button> 
+ <button class="page-link" onclick="window.location='index1.html#59177409349'">index</button>  <button class="page-link" onclick="window.location='rec1.html#59177409349'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59140606458.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="711">
+<a name="59140606458">
     <h2>I&#39;m going to enter the Ludum Dare 27 game-making competition and I&#39;m going to use ... SQL!
             </h2>
 </a>
@@ -566,23 +575,23 @@
                 <p>So as you see, I really am picking the best of all worlds: Javascript + SQL +
                 MySQL bugsfeatures… what’s not to love?</p>
                 <p>Maybe I have time to add DELETE and UPDATE before the LD starts and I need to work out some
-                game to use all this awesomeness on… <img alt=":)" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
+                game to use all this awesomeness on… <img alt=":)" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
                 <p><a href="http://www.ludumdare.com/compo/2013/08/23/im-in-and-im-going-to-use-sql/" target="_blank">&lt;/smug twit&gt;</a></p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#711'">index</button>  <button class="page-link" onclick="window.location='rec1.html#711'">rec</button> 
+ <button class="page-link" onclick="window.location='index2.html#59140606458'">index</button>  <button class="page-link" onclick="window.location='rec1.html#59140606458'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/40512693117.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="763">
+<a name="40512693117">
     <h2>The Crown Jewels Job – Autopsy</h2>
 </a>
 <?xml version="1.0" ?><post-body><div>
                 <p>Opening myself up here, but to be honest I’m deeply disappointed about our Ludum Dare
                 game-making-contest score history. I expected more of us; we aimed higher, and we hoped to make
                 something that would please and wow the crowd.</p>
-                <p><img alt="" height="307" src="http://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
+                <p><img alt="" height="307" src="https://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
                 <p><a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">And we abjectly failed, again.</a></p>
                 <p>We’ve always aimed to challenge norms; in <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">LD23</a>
                 we’d tried to put graphics into text adventures in an interesting, new way. We’ve tried to enter a
@@ -590,7 +599,7 @@
                 to make a 2D platform game without tiles.</p>
                 <p><em><strong>We really are overactive underachievers.</strong></em></p>
                 <p>Our highest LD25 score was for music. We were perhaps not clear enough that that was the one
-                thing we had not ourselves made <img alt=":(" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
+                thing we had not ourselves made <img alt=":(" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
                 picked up on the Internet, and we thought we’d explained that.</p>
                 <p>So why did we fail so miserably? <strong>Bad control.</strong>  We should have had
                 a lot more and we lacked in plenty of areas, but I think that the playability was most affected by the
@@ -623,18 +632,18 @@
                 back for another beating; we’ll see.</p>
                 </div>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#763'">index</button>  <button class="page-link" onclick="window.location='rec1.html#763'">rec</button> 
+ <button class="page-link" onclick="window.location='index2.html#40512693117'">index</button>  <button class="page-link" onclick="window.location='rec1.html#40512693117'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/38462176877.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="764">
+<a name="38462176877">
     <h2>The Crown Jewels Job</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><em>Introducing</em> our game for the <a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">Ludum
                 Dare #25</a> competition:</p>
-                <p><big><a href="http://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
+                <p><big><a href="https://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
                 <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/W5T_mswWhnQ" width="420"> </iframe></p>
                 <p>To think we made all this in just 72 hours?!</p>
                 <p>The theme for the competition was “<em>you are the villain</em>”.</p>
@@ -646,7 +655,7 @@
                 made it from scratch, is not so great.</p>
                 <p>If there’s a criticism of the game-play its the wrong-feeling control system.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index2.html#764'">index</button>  <button class="page-link" onclick="window.location='rec1.html#764'">rec</button> 
+ <button class="page-link" onclick="window.location='index2.html#38462176877'">index</button>  <button class="page-link" onclick="window.location='rec1.html#38462176877'">rec</button> 
 <button class="page-link" onclick="window.location='post/38462176877.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
@@ -906,11 +915,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: index</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -37,115 +46,112 @@
     </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13266992357.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="936">
+<div class="maximize-post" onclick="window.location='post/13270747573.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13270747573">
     
 </a>
-<?xml version="1.0" ?><post-body><p>We finally might have found some paper we can use to transfer laser<br/> toner
-                to PCBs!<br/><br/> We’ve been exhaustively testing various glossy magazine and
-                brochures<br/> and things and its proved hard to find paper that feeds properly<br/> through
-                our printer; we’ve had the printer apart in ways you won’t<br/> find in the
-                handbook trying to find missing incriminating pages.<br/><br/> Taping these pages to proper
-                A4 paper in the hope it’d feed better<br/> turned out to be a big mistake.  Massive
-                mistake.  But the printer<br/> works again now so that’ll be our secret.<br/><br/>
-                The only success we’ve had is to print out the mask onto some 15yo<br/> deskjet photo
-                paper and quickly iron it onto the board.  Then we soak<br/> it for a few minutes in water and
-                then rub the paper off with our<br/> thumbs.  We’ve been testing with normal kitchen
-                foil, and hope that it<br/> works as well on proper board.<br/><br/> There are people
-                on the internet who claim to have adapted laser<br/> printers to feed flat sheet PCB through
-                directly, and then they chuck<br/> it in a warm oven for a few minutes to ensure its properly
-                fused.  We<br/> had started to think along those lines, although I rather imagine a<br/>
-                lego mindstorms printer - or laser etcher - being a more fun build<br/><a href="http://www.youtube.com/watch?v=zX09WnGU6ZY" target="_blank">http://www.youtube.com/watch?v=zX09WnGU6ZY</a>
-                .  Of course a proper UV<br/> light box would be easier that that route.<br/><br/>
-                Ironing seems strangely pleasingly amateurish.</p>
-            <p><a href="media/old/13266992357_2.jpg"><img src="media/old/13266992357_3.jpg"/></a></p></post-body>
- <button class="page-link" onclick="window.location='rec3.html#936'">rec</button>  <button class="page-link" onclick="window.location='robot.html#936'">robot</button> 
+<?xml version="1.0" ?><post-body><p>When playing with game engine ideas, I struggled with the fact that my laptops all
+                had very very bad integrated chips by Intel.  Yeap, those ones.</p>
+                <p>I wanted a nice cartoony fluffy clouds and bobbly trees, but all those spheres were taking just
+                too many polygons.</p>
+                <p>The solution I prototyped was to bill-board spheres… complete with depth.</p>
+                <p>The billboard image was actually a depth-map.  I was using a special value to indicate no texel
+                and do a discard in the fragment shader.</p>
+                <p>To get nice edges on the spheres I did it in two passes; first pass, draw all opaque texels
+                inside the circle of the billboard, setting depth; second pass, draw all semi-transparent texels on the
+                edges of the spheres without setting depth (i.e. its at billboard depth).</p>
+                <p>I found that I could draw almost a thousand such spheres at a good enough framerate on the
+                worst cards.  On more average ATI and NVidia cards the framerate was nicely in the hundreds.  So this is
+                a very efficient technique.</p>
+                <p>Shadows can be done by sampling the depth buffer in a second pass and using a 1D texture that
+                is the cross-section of the sphere.  I didn’t prototype that bit; its an exercise for the
+                dedicated reader ;)</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/88idbFlvQV0"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13270747573'">rec</button>  <button class="page-link" onclick="window.location='game1.html#13270747573'">game</button> 
 
 </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13266867070.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="937">
-    
+<div class="maximize-post" onclick="window.location='post/13265116869.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13265116869">
+    <h2>Files and Programmatic Streams</h2>
 </a>
-<?xml version="1.0" ?><post-body><p>Our very first drive!</p>
-                <p>One motors don’t quite go the same speed forwards as backwards; searching the
-                Internet, this is confirmed by others and there are even instructions in how to rewind them.</p>
-                <p>For our purposes, as we’ll hook up a proper little ARM CPU to drive the ‘bot,
-                it suits us to have unequal motors.  We’ll know its working when it drives in a straight line…</p>
-            <iframe frameborder="0" src="https://www.youtube.com/embed/EkZVTE32c3Q"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec3.html#937'">rec</button>  <button class="page-link" onclick="window.location='robot.html#937'">robot</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/13266702492.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="938">
-    
-</a>
-<?xml version="1.0" ?><post-body><p>The first step in the robot build was to go to a scrapyard and get some
-                window-screen wiper motors.</p>
-                <p>They seemed perfect; 12V DC is easy to drive with a car or motorcycle battery.  They are very
-                strong, slow, designed for continuous running.  What’s not to like?</p>
-                <p>Our pair were from a Saab 900 and an old Volvo, but seemed to be pretty much the same make and
-                model.</p>
-            <iframe frameborder="0" src="https://www.youtube.com/embed/DnCfEZ8L5pc"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec3.html#938'">rec</button>  <button class="page-link" onclick="window.location='robot.html#938'">robot</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/13266300297.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="940">
-    
-</a>
-<?xml version="1.0" ?><post-body><p>Haxe is a great tool for making Flash programs in.  One thing that Haxe supports is
-                special op-codes for raw memory access.</p>
-                <ul><li>allocate the buffer using <a href="http://haxe.org/com/libs/basicmemorymanager" rel="nofollow" target="_blank">will.basicMemoryManager</a></li>
-                <li>we let the object container do the rotation and such</li>
-                <li>for each frame, we regenerate the image that we’re spinning</li>
-                <li>the voxels look like columns, but are actually streaks on a flat image</li>
-                <li>in this example we take an aerial view of London and use edge-detection to give us some
-                heights; you could obviously create a better height-map</li>
-                <li>we only have to calculate the offsets for the pixels in the line using Bresenham for each
-                rotation once, and can put this into the memory</li>
-                <li>we can then walk this list of offsets for each voxel stack</li>
-                <li>it’s important we start walking from the right edge in the right direction to
-                z-order problems</li>
-                <li>we can pre-calculate if voxels are never visible and skip them</li>
-                </ul>
-            <iframe frameborder="0" src="https://www.youtube.com/embed/7-pm1-bBj0M"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec3.html#940'">rec</button>  <button class="page-link" onclick="window.location='game1.html#940'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/13265549295.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="942">
-    
-</a>
-<?xml version="1.0" ?><post-body><div>
-                <div>A while back I was interested in how you might lay out a road.  I’d been looking at
-                classic tile-based games like simcity and I wanted to get away from tiles.</div>
-                <br/>
-                <div>If you lay out a path and the road takes a sweeping hermite spline then it feels just plain
-                wrong.</div>
-                <br/>
-                <div>I got much better results from treating each joint as a circle and joining up the tangents of
-                adjacent joints.</div>
-                <br/><div>I thought you can get very nice tiling of the road/train-track/whatever if you use
-                a texture atlas where the tiles are arranged vertically, letting you use GL_REPEAT on the horizontal.
-                 You then generate a quad strip without needing to divide long straights into too many quads whilst
-                still having the option of a bit of variety and such.</div>
+<?xml version="1.0" ?><post-body><div><span>I originally published this on an OS hobby site in 2004; as I started
+                actually working as an engineer on an operating system at that time, I stopped publishing ideas as a
+                hobby ;)</span><br/><br/>This article offers feature suggestions to budding OS
+                developers looking for that neat edge.
+                <p>Conventionally, each file on a computer system has a type. Different operating systems
+                typically had different ways of working out the logical type of a file. UNIX uses a special flag to see
+                if a file was ‘executable’, otherwise it is 'data’. Therefore,
+                applications on UNIX have a variety of strategies for determining the file type. Some programs use the
+                file extension as a hint (.jpeg is probably an image, for example) whereas others use more advanced
+                heuristics (e.g. the UNIX 'file’ command) sometimes called 'magic’. MS-DOS and
+                MS-Windows use the file extension to determine the type (.exe for executables, .txt for text files etc).
+                More recent operating systems have embraced more recent classification systems such as MIME. In BeOS,
+                for example, a server scans files and marks the MIME type of them in an attribute (basically caching the
+                guess from the UNIX-style 'file’ heuristics) so that it can easily be looked at later. Almost
+                all Internet content is marked with a MIME type (web pages, files received via email etc) and this can
+                clearly indicate to the receiving computer the intended type of a file.</p>
+                <p>Now let me introduce something slightly novel and new! Imagine that our new hobby operating
+                system supports multi-stream files. Each stream in a file is a certain MIME type. Some of these streams
+                might be generated programmatically on-the-fly, and basically encapsulate conversion. These programmatic
+                streams allow plug-in filters and converters to be integrated into the operating system and used by
+                programs. Let us explore what this might mean and how it might be used by programs:</p>
+                <p>The operating system knows the actual MIME type of a file. It also has a list of programmatic
+                stream plug-ins associated with each MIME type to handle the interpretation of a stream of one type into
+                that of another. An obvious plug-in would be to filter text/html so that it was text/plain, stripping
+                out the markup. Another plug-in might convert image/jpeg to image/gif. Another might extract the
+                soundtrack of a movie file and present it as audio/wav.</p>
+                <p>An application/x-idx file might have a programmatic stream of type text/gnu-makefile, while
+                another programmatic stream might convert text/gnu-makefile streams into application/bash shell scripts.
+                Therefore the operating system can string together these streams transparently, making an
+                application/x-idx file executable in at a bash prompt.</p>
+                <p>Encodings and character sets might also be incorporated into the same system, for on-the-fly
+                conversion between various sets. A code snippet:</p>
+                <p>FILE *f = fopen_ex(“ftp://stop.blogging.com/varfar/myos.zip/documents/filesystem.pdf”,“rb”,“text/html;charset=
+                iso-8859-1”);</p>
+                <p>A file selector dialog might have the file type set as a MIME type and display all documents
+                that match a specific MIME type that the application understands without the application having to
+                understand the conversion process.</p>
+                <p>Most conversions are lossy ’ they remove information and meta-data, downgrading the
+                quality of a source. Therefore, it is anticipated that almost all programmatic streams might be
+                read-only. Many programmatic plug-ins’ might be easiest to implement if they support
+                sequential access only. For this reason, it makes sense for the file selector dialog to be able to
+                filter out streams with inappropriate access (e.g. only display application/ogg streams that are
+                writeable and support random access). However, the opportunity is there for super plug-ins that
+                facilitates content stored as one type to be completely edited as another, e.g. reading and writing to
+                an application/ms-word file with an application that only understands application/x-multipart-html.</p>
+                <p>Let me extend the idea even further. Not only might a file be multi-streamed, it might also be
+                multi-part! Many file formats encapsulate multiple content parts ’ a movie has both image
+                frames and a soundtrack; a rich document has text, drawing and images embedded; a mail message might
+                contain a plain-text version, a rich text version or two and many attachments. An archive contains
+                multiple files inside.</p>
+                <p>Such files could be presented to programs as directories. You could now use your favorite
+                drawing program to edit the individual frames of a movie!</p>
+                <p>Directories themselves can have streams too. In the case of a virtual directory being generated
+                from a single file, the directory’s stream would be the actual physical file (and programmatic
+                streams that convert it). A conventional directory might have a text/html stream the serves the
+                index.html file that it contains; another directory stream might provide a tar file of it and its
+                children.</p>
+                <p>Conversion libraries on most operating systems abound. Typically these libraries are
+                fragmented, often unwieldy, often exposing technical details, and not pervasively used.</p>
+                <p>A new hobby operating system has the opportunity to provide a uniform interface between
+                applications and these conversion filters, in a way that is minimum effort for application programmers
+                and in a way that is extendable (by providing more conversion filter plug-ins) without requiring extra
+                code nor recompiling or re-linking of all applications. Placing this conversion into the way that files
+                are provided to applications is, in my opinion, an excellent way to achieve this.</p>
+                <p>Programmatic streams do not expose many parameters to tweak conversion and therefore do not
+                completely replace the need for dedicated, detailed conversion libraries for dedicated programs. But
+                they do further the usability of the average program in the normal operating scenario.</p>
                 </div>
-            <iframe frameborder="0" src="https://www.youtube.com/embed/PAVksn4btKU"> </iframe></post-body>
- <button class="page-link" onclick="window.location='rec3.html#942'">rec</button>  <button class="page-link" onclick="window.location='game1.html#942'">game</button> 
+            </post-body>
+ <button class="page-link" onclick="window.location='classic1.html#13265116869'">classic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/13265364121.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="943">
+<a name="13265364121">
     <h2>popen3</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I was a bit confused; there didn’t seem to be a <code>popen3</code>
@@ -222,213 +228,69 @@
                 52 <strong>return</strong> <strong>-</strong>1<strong>;</strong>
                 53 <strong>}</strong></pre>
             </post-body>
- <button class="page-link" onclick="window.location='lang.html#943'">lang</button> 
+ <button class="page-link" onclick="window.location='lang.html#13265364121'">lang</button> 
 
 </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13265308156.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="944">
-    <h2>Openning Streams by MIME-type</h2>
+<div class="maximize-post" onclick="window.location='post/13266702492.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13266702492">
+    
 </a>
-<?xml version="1.0" ?><post-body><p><span>Back in 2004 I published this on an OS hobby site.  I never heard of any
-                hobbyists actually doing anything I suggested conceptually.</span><br/><br/>This
-                article offers feature suggestions to budding OS developers looking for that neat edge. This osnews
-                mini-series is a series to give people developing hobby operating systems - for fun - ideas that take
-                their OS from a kernel to a ‘system’.</p>
-                <p>In previous articles we have described using URIs [1] for file paths and the idea that streams
-                of various types can be transparently converted between by the operating system [2]. This article
-                describes how these might be unified into a single, consistent user interface.</p>
-
-                <img alt="Opening Streams" border="0" height="307" src="http://sites.google.com/site/williamedwardscoder/_/rsrc/1279396222293/streams.jpg?height=307&amp;width=495" width="495"/><p>UNIX has the design principle that 'everything is a file’ [3]. A file
-                is, more properly, a stream. I have introduced, in the previous article, the idea that a stream, if we
-                know its type, might be presented transparently to a program as another, compatible type. This means
-                that conceptually a file is in fact many streams, with each stream marked by type [4].</p>
-                <p>Streams don’t just refer to physical files on your computer or remote computers.
-                Streams can be generated by other things such as applications and device drivers. In UNIX, named pipes
-                and UNIX-domain sockets provide this kind of facility [5].</p>
-                <p>Many UNIX programs are an excellent example of applications that provide streams
-                programmatically. The 'sort’ command takes one stream as input and outputs to another, as does
-                the 'grep’ command. In fact, all command line programs do this. As our hobby operating system
-                is marking streams by type, you could expect all these command line applications to be reading and
-                writing text/plain streams. If you want to 'grep’ on a rich document, for example, the
-                operating system would be quite capable of converting that to text/plain - if the virtual file system
-                has the right plug-in - and 'grep’ need not know [6].</p>
-                <p>We’ll make the jump that your hobby OS includes a GUI of sorts! How might
-                applications provide streams for the user to interact with?</p>
-                <p>GUI widgets (windows, even individual controls such as text boxes) might report to the system
-                that they provide/consume streams of certain mime-types. This would allow the window manager to provide
-                drag-n-drop stream connections and work as a versatile clip-board. This is not so strange - this is
-                pretty much what the windows clipboard is doing anyway!</p>
-                <p>So think of 'open’ and 'save’ as reading and writing streams, rather than
-                files (a slightly thin distinction to make, I know). Applications conventionally use standard system
-                dialogs for allowing the user to select files to open and names of files to save-as. This allows the
-                hobby operating system author to unify application streams, remote streams and file streams and present
-                them to the user in a sensible manner.</p>
-                <p>You’ll see from my dialog mockup that I allow the user to select from a recent
-                streams history, from a location (much like a conventional file-open dialog) and by type. This later
-                category is something akin to a search. Popular consensus in the human-computer-interaction camp at the
-                moment seems to think that users don’t really remember where they put files or what they are
-                called. Modern operating systems such as BeOS, Windows and the like are moving in the direction of
-                letting the user search for files instead. This is the whole big idea behind the 'file system is a
-                database’ hype at the moment!</p>
-                <p>So the user doesn’t care where the stream comes from, they care only that they find
-                their stream. The 'by type’ presents all files of the appropriate type, regardless of
-                location. In the example dialog an application-provided stream is shown highlighted, mixed in with
-                streams provided by conventional files from the user’s home directory.</p>
-                <p>A 'by type’ query that is constantly updating live is termed an 'active query’
-                and is one of the many big features in BeOS. The idea is that, while you have a search window open,
-                files that are added, modified or removed that fit the terms of the query are automatically updated [7].</p>
-                <p>The Save-As dialog might also present application streams as valid destinations. A user might
-                'save’ a bitmap to their presentation software which is running at the moment, and that
-                presentation software might insert that received image file into the actively-being-edited application.</p>
-                <p>Opening a stream is assisted by search agents. The idea is that various mime-types might
-                register search agents that take words, phrases or even complex query expressions and filter a list
-                based upon user-entered criteria. You might want to only documents that contain a reference to a certain
-                activity, for example. Various search agents might use meta-data, a contextual search or an index to
-                find matches; it depends upon the mime-type and the agent’s needs.</p>
-                <p>It could be taken further and integrate search agents that represent remote locations e.g.
-                coalescing a Google search into a local files search.</p>
-            </post-body>
- <button class="page-link" onclick="window.location='classic1.html#944'">classic</button> 
+<?xml version="1.0" ?><post-body><p>The first step in the robot build was to go to a scrapyard and get some
+                window-screen wiper motors.</p>
+                <p>They seemed perfect; 12V DC is easy to drive with a car or motorcycle battery.  They are very
+                strong, slow, designed for continuous running.  What’s not to like?</p>
+                <p>Our pair were from a Saab 900 and an old Volvo, but seemed to be pretty much the same make and
+                model.</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/DnCfEZ8L5pc"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13266702492'">rec</button>  <button class="page-link" onclick="window.location='robot.html#13266702492'">robot</button> 
 
 </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13265217305.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="945">
-    <h2>Network Transparency and Multi-Root Filesystems</h2>
+<div class="maximize-post" onclick="window.location='post/13266300297.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13266300297">
+    
 </a>
-<?xml version="1.0" ?><post-body><div><span>I published this short article to an hobby OS site in 2004.  I don’t
-                think the idea has aged a bit!</span><br/><br/>This article offers feature suggestions
-                to budding OS developers looking for that neat edge.
-                <p>Wouldn’t it be real nice if <code>FILE *f =
-                fopen(&quot;ftp://www.microsoft.com/mission/statement.html&quot;,&quot;r&quot;);</code> just worked?</p>
-                <p>People have been dreaming of ‘mounting’ remote filesystems on demand for a
-                long time. It seems to be a popular pastime for <a href="http://www.joelonsoftware.com/articles/fog0000000041.html" rel="nofollow"> architecture
-                astronauts</a>. Despite Joel’s warnings to run from network transparency, I vote that
-                you don’t!</p>
-                <p>Client-side libraries allow a program to access remote resources in the same way as local ones,
-                for example the excellent <a href="http://www.gnu.org/directory/libs/libferris.html" rel="nofollow">libferris</a>.</p>
-                <p>A new operating system that integrated such handling into the platform level (rather than an
-                additional, optional library) would have the advantage that each and every application could access the
-                same resources. The 'ls’ in the ported bash prompt would be able to list the contents of an
-                FTP directory, and the notepad clone would load your text files whether they were local, on some window
-                server, or the other side of the internet.</p>
-                <p>Users work with and are familiar with URIs, so URIs are the natural way of expressing a file
-                name and location. The filesystem ought to work with URIs.</p>
-                <p>Imagine the following snippet of fictious commandline:</p>
-                <pre>&gt; pwd<br/>file:///home/me/<br/>&gt; cd <a href="http://www.microsoft.com">http://www.microsoft.com</a><br/>&gt; cd mission<br/>&gt;
-                ls<br/>. .. statement.html<br/>&gt; rm mission.html<br/>access denied.</pre>
-                <p>The use of URIs introduces what I term the ’<strong>Multi-Root Filesystem</strong>’.
-                The protocol, e.g. “file”, “smb” or “webdav”,
-                is a root. All protocols are peers of each other, and you can’t navigate between them in
-                relative paths (i.e. no “file://home/me/../../../http://remote”).</p>
-                <p>Protocol handlers are global to the user or system. The file structure might be made upon
-                demand, with the contents of “http://” reading like recent internet history; whereas
-                “file://” might countain the local UNIX-style root “/” which
-                contains in-turn “home” and “bin” etc.</p>
-                <p>Provide your system with a new protocol handler and suddenly all applications can use files
-                available via that mechanism.</p>
-                <p>Obviously opening a file over ftp is possibly a million miles more complicated than opening a
-                local file. When allowing the same API to be used to access both local and remote file-like resources,
-                things that rarely go wrong on local operations (such as takes a long time, might fail) happen a lot
-                more often. That the average programmer never checks that things fail/succeed and always putting IO into
-                the UI thread is just plain bad, for both local and remote resources. It would have to be thought about.
-                Massively multi-threaded message-passing operating systems might have the edge in this respect.</p>
-                <p>A unified, transparent network access for many protocols does not remove the need for dedicated
-                protocol handling libraries for specialist programs. But it does make the average program suddenly much
-                more powerful and useful to the average user!</p>
-                <p>It is worth mentioning an additional feature for the interested OS developer to research:
-                auto-mounting archives and encrypted files transparently, e.g. “sftp://www.mycom.org/mail/archives/2004-07.zip.pgp/get
-                rich quick.msg”.</p>
-                </div>
-            </post-body>
- <button class="page-link" onclick="window.location='classic1.html#945'">classic</button> 
+<?xml version="1.0" ?><post-body><p>Haxe is a great tool for making Flash programs in.  One thing that Haxe supports is
+                special op-codes for raw memory access.</p>
+                <ul><li>allocate the buffer using <a alt="dead link: http://haxe.org/com/libs/basicmemorymanager" href="/#404" rel="nofollow" target="_blank">will.basicMemoryManager</a></li>
+                <li>we let the object container do the rotation and such</li>
+                <li>for each frame, we regenerate the image that we’re spinning</li>
+                <li>the voxels look like columns, but are actually streaks on a flat image</li>
+                <li>in this example we take an aerial view of London and use edge-detection to give us some
+                heights; you could obviously create a better height-map</li>
+                <li>we only have to calculate the offsets for the pixels in the line using Bresenham for each
+                rotation once, and can put this into the memory</li>
+                <li>we can then walk this list of offsets for each voxel stack</li>
+                <li>it’s important we start walking from the right edge in the right direction to
+                z-order problems</li>
+                <li>we can pre-calculate if voxels are never visible and skip them</li>
+                </ul>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/7-pm1-bBj0M"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13266300297'">rec</button>  <button class="page-link" onclick="window.location='game1.html#13266300297'">game</button> 
 
 </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13265116869.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="946">
-    <h2>Files and Programmatic Streams</h2>
+<div class="maximize-post" onclick="window.location='post/13266867070.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13266867070">
+    
 </a>
-<?xml version="1.0" ?><post-body><div><span>I originally published this on an OS hobby site in 2004; as I started
-                actually working as an engineer on an operating system at that time, I stopped publishing ideas as a
-                hobby ;)</span><br/><br/>This article offers feature suggestions to budding OS
-                developers looking for that neat edge.
-                <p>Conventionally, each file on a computer system has a type. Different operating systems
-                typically had different ways of working out the logical type of a file. UNIX uses a special flag to see
-                if a file was ‘executable’, otherwise it is 'data’. Therefore,
-                applications on UNIX have a variety of strategies for determining the file type. Some programs use the
-                file extension as a hint (.jpeg is probably an image, for example) whereas others use more advanced
-                heuristics (e.g. the UNIX 'file’ command) sometimes called 'magic’. MS-DOS and
-                MS-Windows use the file extension to determine the type (.exe for executables, .txt for text files etc).
-                More recent operating systems have embraced more recent classification systems such as MIME. In BeOS,
-                for example, a server scans files and marks the MIME type of them in an attribute (basically caching the
-                guess from the UNIX-style 'file’ heuristics) so that it can easily be looked at later. Almost
-                all Internet content is marked with a MIME type (web pages, files received via email etc) and this can
-                clearly indicate to the receiving computer the intended type of a file.</p>
-                <p>Now let me introduce something slightly novel and new! Imagine that our new hobby operating
-                system supports multi-stream files. Each stream in a file is a certain MIME type. Some of these streams
-                might be generated programmatically on-the-fly, and basically encapsulate conversion. These programmatic
-                streams allow plug-in filters and converters to be integrated into the operating system and used by
-                programs. Let us explore what this might mean and how it might be used by programs:</p>
-                <p>The operating system knows the actual MIME type of a file. It also has a list of programmatic
-                stream plug-ins associated with each MIME type to handle the interpretation of a stream of one type into
-                that of another. An obvious plug-in would be to filter text/html so that it was text/plain, stripping
-                out the markup. Another plug-in might convert image/jpeg to image/gif. Another might extract the
-                soundtrack of a movie file and present it as audio/wav.</p>
-                <p>An application/x-idx file might have a programmatic stream of type text/gnu-makefile, while
-                another programmatic stream might convert text/gnu-makefile streams into application/bash shell scripts.
-                Therefore the operating system can string together these streams transparently, making an
-                application/x-idx file executable in at a bash prompt.</p>
-                <p>Encodings and character sets might also be incorporated into the same system, for on-the-fly
-                conversion between various sets. A code snippet:</p>
-                <p>FILE *f = fopen_ex(“ftp://stop.blogging.com/varfar/myos.zip/documents/filesystem.pdf”,“rb”,“text/html;charset=
-                iso-8859-1”);</p>
-                <p>A file selector dialog might have the file type set as a MIME type and display all documents
-                that match a specific MIME type that the application understands without the application having to
-                understand the conversion process.</p>
-                <p>Most conversions are lossy ’ they remove information and meta-data, downgrading the
-                quality of a source. Therefore, it is anticipated that almost all programmatic streams might be
-                read-only. Many programmatic plug-ins’ might be easiest to implement if they support
-                sequential access only. For this reason, it makes sense for the file selector dialog to be able to
-                filter out streams with inappropriate access (e.g. only display application/ogg streams that are
-                writeable and support random access). However, the opportunity is there for super plug-ins that
-                facilitates content stored as one type to be completely edited as another, e.g. reading and writing to
-                an application/ms-word file with an application that only understands application/x-multipart-html.</p>
-                <p>Let me extend the idea even further. Not only might a file be multi-streamed, it might also be
-                multi-part! Many file formats encapsulate multiple content parts ’ a movie has both image
-                frames and a soundtrack; a rich document has text, drawing and images embedded; a mail message might
-                contain a plain-text version, a rich text version or two and many attachments. An archive contains
-                multiple files inside.</p>
-                <p>Such files could be presented to programs as directories. You could now use your favorite
-                drawing program to edit the individual frames of a movie!</p>
-                <p>Directories themselves can have streams too. In the case of a virtual directory being generated
-                from a single file, the directory’s stream would be the actual physical file (and programmatic
-                streams that convert it). A conventional directory might have a text/html stream the serves the
-                index.html file that it contains; another directory stream might provide a tar file of it and its
-                children.</p>
-                <p>Conversion libraries on most operating systems abound. Typically these libraries are
-                fragmented, often unwieldy, often exposing technical details, and not pervasively used.</p>
-                <p>A new hobby operating system has the opportunity to provide a uniform interface between
-                applications and these conversion filters, in a way that is minimum effort for application programmers
-                and in a way that is extendable (by providing more conversion filter plug-ins) without requiring extra
-                code nor recompiling or re-linking of all applications. Placing this conversion into the way that files
-                are provided to applications is, in my opinion, an excellent way to achieve this.</p>
-                <p>Programmatic streams do not expose many parameters to tweak conversion and therefore do not
-                completely replace the need for dedicated, detailed conversion libraries for dedicated programs. But
-                they do further the usability of the average program in the normal operating scenario.</p>
-                </div>
-            </post-body>
- <button class="page-link" onclick="window.location='classic1.html#946'">classic</button> 
+<?xml version="1.0" ?><post-body><p>Our very first drive!</p>
+                <p>One motors don’t quite go the same speed forwards as backwards; searching the
+                Internet, this is confirmed by others and there are even instructions in how to rewind them.</p>
+                <p>For our purposes, as we’ll hook up a proper little ARM CPU to drive the ‘bot,
+                it suits us to have unequal motors.  We’ll know its working when it drives in a straight line…</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/EkZVTE32c3Q"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13266867070'">rec</button>  <button class="page-link" onclick="window.location='robot.html#13266867070'">robot</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/13265015351.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="947">
+<a name="13265015351">
     <h2>Direct Pixel Access in Cython</h2>
 </a>
 <?xml version="1.0" ?><post-body><div>
@@ -520,13 +382,13 @@
                 code into cython.</p>
                 </div>
             </post-body>
- <button class="page-link" onclick="window.location='lang1.html#947'">lang</button> 
+ <button class="page-link" onclick="window.location='lang1.html#13265015351'">lang</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/13264962223.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="948">
+<a name="13264962223">
     <h2>Sum of Absolute Differences</h2>
 </a>
 <?xml version="1.0" ?><post-body><div>
@@ -553,7 +415,80 @@
                 }</code></pre>
                 </div>
             </post-body>
- <button class="page-link" onclick="window.location='lang1.html#948'">lang</button> 
+ <button class="page-link" onclick="window.location='lang1.html#13264962223'">lang</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13266992357.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13266992357">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>We finally might have found some paper we can use to transfer laser<br/> toner
+                to PCBs!<br/><br/> We’ve been exhaustively testing various glossy magazine and
+                brochures<br/> and things and its proved hard to find paper that feeds properly<br/> through
+                our printer; we’ve had the printer apart in ways you won’t<br/> find in the
+                handbook trying to find missing incriminating pages.<br/><br/> Taping these pages to proper
+                A4 paper in the hope it’d feed better<br/> turned out to be a big mistake.  Massive
+                mistake.  But the printer<br/> works again now so that’ll be our secret.<br/><br/>
+                The only success we’ve had is to print out the mask onto some 15yo<br/> deskjet photo
+                paper and quickly iron it onto the board.  Then we soak<br/> it for a few minutes in water and
+                then rub the paper off with our<br/> thumbs.  We’ve been testing with normal kitchen
+                foil, and hope that it<br/> works as well on proper board.<br/><br/> There are people
+                on the internet who claim to have adapted laser<br/> printers to feed flat sheet PCB through
+                directly, and then they chuck<br/> it in a warm oven for a few minutes to ensure its properly
+                fused.  We<br/> had started to think along those lines, although I rather imagine a<br/>
+                lego mindstorms printer - or laser etcher - being a more fun build<br/><a href="https://www.youtube.com/watch?v=zX09WnGU6ZY" target="_blank">http://www.youtube.com/watch?v=zX09WnGU6ZY</a>
+                .  Of course a proper UV<br/> light box would be easier that that route.<br/><br/>
+                Ironing seems strangely pleasingly amateurish.</p>
+            <p><a href="media/old/13266992357_2.jpg"><img src="media/old/13266992357_3.jpg"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13266992357'">rec</button>  <button class="page-link" onclick="window.location='robot.html#13266992357'">robot</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13265549295.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13265549295">
+    
+</a>
+<?xml version="1.0" ?><post-body><div>
+                <div>A while back I was interested in how you might lay out a road.  I’d been looking at
+                classic tile-based games like simcity and I wanted to get away from tiles.</div>
+                <br/>
+                <div>If you lay out a path and the road takes a sweeping hermite spline then it feels just plain
+                wrong.</div>
+                <br/>
+                <div>I got much better results from treating each joint as a circle and joining up the tangents of
+                adjacent joints.</div>
+                <br/><div>I thought you can get very nice tiling of the road/train-track/whatever if you use
+                a texture atlas where the tiles are arranged vertically, letting you use GL_REPEAT on the horizontal.
+                 You then generate a quad strip without needing to divide long straights into too many quads whilst
+                still having the option of a bit of variety and such.</div>
+                </div>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/PAVksn4btKU"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13265549295'">rec</button>  <button class="page-link" onclick="window.location='game1.html#13265549295'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/13267053658.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13267053658">
+    
+</a>
+<?xml version="1.0" ?><post-body><p>Another Wednesday, another trip to the ‘office’ to meet my<br/>
+                co-conspirators and go robot supplies shopping.<br/><br/> It didn’t quite go as
+                planned with the ironing-on masking approach;<br/> sadly our nearby shop that sells board and such
+                - Kjell&amp;Co - has<br/> stopped stocking the plain copper ones and now only the UV-sensitive<br/>
+                ones are available.  And it seemed a shame to have to clean off the UV<br/> layer and iron-on our
+                mask, so we opted to splash out on a UV lamp<br/> instead.  We also got the acid, developer and
+                other bits and pieces<br/> like lunch-boxes to put the acid in and so on.<br/><br/> We
+                printed the mask out onto overhead film.  Two copies, to make sure<br/> its definitely dark
+                enough.<br/><br/> The plan is to make the some simple test exposures to get the timing<br/>
+                right and such, and then develop the H-bridge board.  Once that’s been<br/> soldered and
+                is controlling some simple lamps it’ll be time to think<br/> about joining our ARM chip
+                board to it.<br/><br/> Its going to be a smelly weekend with the acid</p>
+            <p><a href="media/old/13267053658_2.jpg"><img src="media/old/13267053658_3.jpg"/></a></p></post-body>
+ <button class="page-link" onclick="window.location='rec3.html#13267053658'">rec</button>  <button class="page-link" onclick="window.location='robot.html#13267053658'">robot</button> 
 
 </div>
 
@@ -813,11 +748,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

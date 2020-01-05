@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Making the History of Worlds Religions map : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,13 +33,13 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Making the History of Worlds Religions map</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><em><strong>TL;DR</strong></em> compressing better than GZip,
+<post-body><p><em><strong>TL;DR</strong></em> compressing better than GZip,
                 in Javascript, at the bottom ;)</p>
-                <p>An interactive, clickable map of the worlds religions is available on-line at <a href="http://williame.github.com/map_of_worlds_religions/" target="_blank">http://williame.github.com/map_of_worlds_religions/</a></p>
+                <p>An interactive, clickable map of the worlds religions is available on-line at <a href="https://williame.github.com/map_of_worlds_religions/" target="_blank">http://williame.github.com/map_of_worlds_religions/</a></p>
                 <p>Here’s a time-lapse of it running, with the narrative (which you can mute in the
                 interactive version) ↓</p>
                 <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/mEIxdquRnJc" width="560"> </iframe></p>
-                <p>The real making of the map was excellent research by <a href="post/30793134312.html" target="_blank">the usual suspect</a>.  After his <a href="post/19946053957.html" target="_blank">Enigma</a><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=cmnMlvfTDoM" target="_blank">
+                <p>The real making of the map was excellent research by <a href="post/30793134312.html" target="_blank">the usual suspect</a>.  After his <a href="post/19946053957.html" target="_blank">Enigma</a><a href="https://www.youtube.com/watch?feature=player_embedded&amp;v=cmnMlvfTDoM" target="_blank">
                 spreadsheet</a>, and other side projects, he recently took it into his head to make a world
                 religion time-line spreadsheet.  And my blog post about how we moved from a spreadsheet to a web-page
                 can’t really hide that the hard work wasn’t technical, it was research.  But here’s
@@ -88,20 +97,20 @@
                 a web page!</p>
                 <p>It was easy to copy-n-paste the LibreOffice worksheets into a text editor, where they appeared
                 as tab-separated-value files.  This is a super-easy text format to parse in Javascript.</p>
-                <p>For drawing the map, I opted for <a href="http://dev.opera.com/articles/view/html-5-canvas-the-basics/" target="_blank">HTML5 canvas</a>
+                <p>For drawing the map, I opted for <a href="https://dev.opera.com/articles/view/html-5-canvas-the-basics/" target="_blank">HTML5 canvas</a>
                 2D <code>fillRect()</code> and so on, rather than my usual route in to webGL.  My thinking
                 was, I didn’t want to over-optimise it in the first cut!</p>
                 <p>And, of course, a normal HTML5 canvas can draw the whole map in the blink of an eye.</p>
                 <p><em><strong>Narrative</strong></em></p>
                 <p>My friend prefers to remain anonymous.  So we opted for text-to-speech like used for the intro
-                to our <a href="http://williame.github.com/ludum_dare_24_evolution/" target="_blank">Cage Flight</a>
+                to our <a href="https://williame.github.com/ludum_dare_24_evolution/" target="_blank">Cage Flight</a>
                 <a href="post/30509144101.html" target="_blank">game</a>.</p>
                 <p>A quick toying with <a href="http://www.cstr.ed.ac.uk/projects/festival/" target="_blank">festival</a>
                 and <a href="http://espeak.sourceforge.net/" target="_blank">espeak</a> were really
                 disappointing; they all sound like constipated daleks.  But it happens that Google has a text-to-speech
                 (TTS) synthesizer in Google Translate in a non-public API.  If you feed it short snippets of text, you
                 can get corresponding mp3 files which you can concatenate to make your total audio clip.  I borrowed a
-                <a href="http://glowingpython.blogspot.se/2012/11/text-to-speech-with-correct-intonation.html" target="_blank">snippet</a> from the web and made a conversion <a href="https://github.com/williame/map_of_worlds_religions/blob/gh-pages/map_v4_audio.py" target="_blank">script</a>.</p>
+                <a href="https://glowingpython.blogspot.se/2012/11/text-to-speech-with-correct-intonation.html" target="_blank">snippet</a> from the web and made a conversion <a href="https://github.com/williame/map_of_worlds_religions/blob/gh-pages/map_v4_audio.py" target="_blank">script</a>.</p>
                 <p><strong><em>Compressing the Map in Javascript</em></strong></p>
                 <p>The problem, though, was the data size.  The main map data was nearly 5MB and github-pages
                 doesn’t do gzipping.  (As its static content, github could pre-compress everything, store it
@@ -111,7 +120,7 @@
                 are 91 years picked out on the time-line.</p>
                 <p>I Googled around and tried out some LZ77 and other Javascript parsers.  And they were all
                 terribly slow.</p>
-                <p>I considered the <a href="http://blog.nihilogic.dk/2008/05/compression-using-canvas-and-png.html" target="_blank">PNG
+                <p>I considered the <a alt="dead link: http://blog.nihilogic.dk/2008/05/compression-using-canvas-and-png.html" href="/#404" target="_blank">PNG
                 approach</a> but, being interested in data compression, I decided that a super-simple home-made
                 approach would be effective.</p>
                 <p>So I set myself the task of making a map data decompressor in Javascript in one hour.</p>
@@ -132,7 +141,7 @@
                 encoding.  And now, when run through the run-length-encoder, the output is under 10K!</p>
                 <p>My hour wasn’t up so I added a few features such as support for longer runs by
                 emitting two character run-length codes.   I didn’t make further obvious optimisations by
-                simply omitting Sea nor doing <a href="http://cbloomrants.blogspot.se/2012/09/09-04-12-lz4-optimal-parse.html" target="_blank">optimal
+                simply omitting Sea nor doing <a href="https://cbloomrants.blogspot.se/2012/09/09-04-12-lz4-optimal-parse.html" target="_blank">optimal
                 parsing</a> - selecting between ‘same as last year’ and the religion code when
                 it best helps compression etc.  I even left a few bytes on the table with my rather narrow run-length
                 codes themselves.  Because I restrict myself to 7-bit printable characters (and don’t even use
@@ -162,7 +171,7 @@
                 <p>My quickly tweaked and tidied up version gave 8,381 bytes.  0.174487768%.  But I’d
                 slept on it.</p>
                 <p><em><strong>UPDATE</strong></em>: After posting this, a couple of
-                people took up the challenge to out-compress me!  <a href="http://www.redcode.nl/" target="_blank">Roy</a>
+                people took up the challenge to out-compress me!  <a alt="dead link: http://www.redcode.nl/" href="/#404" target="_blank">Roy</a>
                 got furthest, and I hope he blogs about how!</p>
                 <p>I made some quick alterations that help compression: its best to order the map data in column
                 order from bottom-right to top-left and the years from oldest to newest.  It makes a noticeable
@@ -181,7 +190,7 @@
                 actually slightly improved on this!  But that’s his blog post to make, and it never made it
                 into the map itself ;) )<br/></p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#768'">index</button>  <button class="page-link" onclick="window.location='classic.html#768'">classic</button> 
+ <button class="page-link" onclick="window.location='index3.html#37291851878'">index</button>  <button class="page-link" onclick="window.location='classic.html#37291851878'">classic</button> 
 </div>
 </div>
 </div>
@@ -430,11 +439,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

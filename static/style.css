@@ -9,6 +9,14 @@ pre {
     overflow-x: auto;
 }
 
+blockquote {
+    background-color: lightcyan;
+    border: 1px dashed darkgray;
+    border-left: 3px solid darkgray;
+    padding: 10px;
+    overflow-x: auto;
+}
+
 .content {
     margin: 0px auto;
 }

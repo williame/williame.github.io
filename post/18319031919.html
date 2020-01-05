@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Programming Language Readability : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,10 +33,10 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Programming Language Readability</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Lets compare some Python to Haskell for solving the same problem.  The problem we’ll
-                pick is <a href="http://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
+<post-body><p>Lets compare some Python to Haskell for solving the same problem.  The problem we’ll
+                pick is <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">Trie data-structure</a>
                 for auto-completions.  We are interested not so much in the nitty gritty of the algorithm, but in the
-                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a href="http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" target="_blank">Python</a> and a <a href="http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" target="_blank">Haskell</a> solver have turned up.</p>
+                language style itself.  Auto-complete has been in the programming news a lot recently; both a <a alt="dead link: http://www.reddit.com/r/programming/comments/q57vr/roll_your_own_autocomplete_solution_in_a_few/" href="/#404" target="_blank">Python</a> and a <a alt="dead link: http://www.reddit.com/r/programming/comments/q5dz2/roll_your_own_fast_completion_and_correction/" href="/#404" target="_blank">Haskell</a> solver have turned up.</p>
                 <!-- more -->
                 <p>Here’s the <a href="https://github.com/vivekn/autocomplete/blob/master/trie.py" target="_blank">Python</a>:</p>
                 <pre><code>&quot;&quot;&quot;
@@ -74,7 +83,7 @@
                 return set()
                 node = node.children[char]
                 return node.all_prefixes() <br/></code></pre>
-                <p>And here’s the <a href="https://github.com/rostayob/suggest/blob/master/TST.hs" target="_blank">Haskell</a>:</p>
+                <p>And here’s the <a alt="dead link: https://github.com/rostayob/suggest/blob/master/TST.hs" href="/#404" target="_blank">Haskell</a>:</p>
                 <pre><code>module TST
                 ( TST
                 , empty
@@ -173,7 +182,7 @@
                 you have to study - the function names, mostly, at first glance - and which bits you don’t. 
                 Indent is very important to readability.</p>
                 <p>Second is the use of short words instead of symbols.  Perhaps the Haskell is trying a little to
-                hard to feel like algebra?  In that direction lays APL (<a href="http://www.youtube.com/watch?v=a9xAKttWgP4" target="_blank">mind blowing cool video</a>)
+                hard to feel like algebra?  In that direction lays APL (<a href="https://www.youtube.com/watch?v=a9xAKttWgP4" target="_blank">mind blowing cool video</a>)
                 but few call it readable.</p>
                 <p>Python goes further than most to use short concise words; COBOL used long words (I studied
                 COBOL; mercifully forgotten it all now) and the curly-brackets club use more symbols than words, as
@@ -201,7 +210,7 @@
                 try so hard to look like algebra.  You can make <a href="post/18144725601.html" target="_blank">static fast languages</a> in Python readability style too.  This readability vs
                 symbols is really the defining difference between Ruby and Python too.</p>
                 <p>There are as many new languages as ever; <a href="post/18144725601.html" target="_blank">my dream programming language</a> post got suggestions other than Haskell,
-                including <a href="http://www.rust-lang.org/" target="_blank">Rust</a>, <a href="http://dlang.org/" target="_blank">D</a> and <a href="http://code.google.com/p/tart/" target="_blank">Tart</a>.  Those three are curly bracket languages again though.  Big
+                including <a href="https://www.rust-lang.org/" target="_blank">Rust</a>, <a href="https://dlang.org/" target="_blank">D</a> and <a href="https://code.google.com/p/tart/" target="_blank">Tart</a>.  Those three are curly bracket languages again though.  Big
                 opportunity miss.</p>
                 <p>End is the same as a curly bracket; look at this Ruby:</p>
                 <pre><code>class CreateUsers &lt; ActiveRecord::Migration
@@ -219,18 +228,18 @@
                 <p><em>I lament that all languages aren’t trying to be readable the Python way; to
                 my thinking, it ought to be goal number 0.</em></p>
                 <p><strong>Spelling Suggestions Problem</strong></p>
-                <p>The Haskell goes on to use <a href="http://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">Levenshtein distance</a> - <em>edit distance</em> - (<a href="https://github.com/rostayob/suggest/blob/master/Suggest.hs" target="_blank">here</a>) to
-                offer spelling corrections.  Interestingly, Dr Pete Norvig has written <a href="http://www.norvig.com/spell-correct.html" target="_blank">a neat essay</a> on this with
+                <p>The Haskell goes on to use <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">Levenshtein distance</a> - <em>edit distance</em> - (<a alt="dead link: https://github.com/rostayob/suggest/blob/master/Suggest.hs" href="/#404" target="_blank">here</a>) to
+                offer spelling corrections.  Interestingly, Dr Pete Norvig has written <a href="https://www.norvig.com/spell-correct.html" target="_blank">a neat essay</a> on this with
                 Python source-code.  Lets focus on readability over algorithm.  <em>Compare and contrast them too</em>.</p>
                 <p><strong>Test-Driven-Problem-Solving</strong></p>
                 <p>Dr Pete Norvig’s spelling corrector leads us off on two nice tangents.</p>
                 <p>Firstly, A long time ago, the Test-Driven-Development gurus imagined that by writing test-cases
                 and evolving the code to pass it they could solve problems they couldn’t actually sit down and
-                solve the traditional understanding-the-problem way.  <em><strong><a href="http://devgrind.com/2007/04/25/how-to-not-solve-a-sudoku/" target="_blank">And it is so worth a
+                solve the traditional understanding-the-problem way.  <em><strong><a alt="dead link: http://devgrind.com/2007/04/25/how-to-not-solve-a-sudoku/" href="/#404" target="_blank">And it is so worth a
                 read</a></strong></em> :)</p>
                 <p>As usual, tangents spring to mind: TDD evolving solutions is really paralleled in my old
                 adventures in <a href="http://redcoder.sourceforge.net/" target="_blank">genetic programming </a>and
-                also <a href="http://en.wikipedia.org/wiki/Kolmogorov_complexity" target="_blank">Kolmogorov
+                also <a href="https://en.wikipedia.org/wiki/Kolmogorov_complexity" target="_blank">Kolmogorov
                 Complexity</a>.</p>
                 <p>Secondly and sadly less compelling reading, I’ve been looking at tries vs sets for
                 spelling correctors in the <a href="post/16756548314.html" target="_blank">Causes challenge</a>.  Just thought experiments.  A very long time ago I wrote
@@ -239,20 +248,20 @@
                 and lost forever it seems.)  It was a trie where at each depth it stored a linked list across words so
                 you could find all words with an unknown at a particular point by iterating down the peers on each
                 side.  Its an idea that hasn’t found so much favor in <a href="post/13265611752.html" target="_blank">compression</a>
-                but which I think could be applied to <a href="http://code.google.com/p/lz4/" target="_blank">LZ4</a>
-                <a href="http://code.google.com/p/lz4/source/browse/trunk/lz4.c#357" target="_blank">encoders</a>
+                but which I think could be applied to <a href="https://code.google.com/p/lz4/" target="_blank">LZ4</a>
+                <a href="https://code.google.com/p/lz4/source/browse/trunk/lz4.c#357" target="_blank">encoders</a>
                 perhaps.  (Yet another rainy-day project.)  And so I could imagine using a node in trie to navigate its
                 peers to iterate over those that are edit-distance-1 -away, rather than generating all the possible
                 words and seeing if they are in a word-list.  This would be seeing if cache locality can ever beat O(1)
                 random lookups in a hash table :)</p>
                 <p>(This post is inspired to explain why “looks like Python” is all through
                 <a href="post/18144725601.html" target="_blank">my dream programming language</a> requirements.  If you liked this, you may
-                also like the <a href="archive" target="_blank">rest of the
+                also like the <a alt="dead link: archive" href="/#404" target="_blank">rest of the
                 blog</a> ;) )</p>
                 <p>[Every blog post contains a small word-misuse for the grammar glue-chewers; this post its <em>bare</em>
                 instead of <em>bear</em>.  Do tell me if you spot any others that are accidental :) ]</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#889'">index</button>  <button class="page-link" onclick="window.location='lang.html#889'">lang</button> 
+ <button class="page-link" onclick="window.location='index4.html#18319031919'">index</button>  <button class="page-link" onclick="window.location='lang.html#18319031919'">lang</button> 
 </div>
 </div>
 </div>
@@ -501,11 +510,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

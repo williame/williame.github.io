@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Cage Flight autopsy : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Cage Flight autopsy</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Played <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">Cage Flight</a> yet?  Its a multi-player on-line space-fighter game!  You are
+<post-body><p>Played <a href="http://www.ludumdare.com/compo/ludum-dare-24/?action=preview&amp;uid=10313" target="_blank">Cage Flight</a> yet?  Its a multi-player on-line space-fighter game!  You are
                 in a cage, weaving around trying to shoot down the other players; distilled survival of the fittest!</p>
                 <p><img src="media/old/30509144101_1.jpg"/></p>
                 <p>Its the game we wanted to play, so we made it!  We are super pleased and proud of it.  We
@@ -51,7 +60,7 @@
                 1st/3rd-person camera control that I had never tackled before.  When moving the camera over an RTS board
                 you tend to have a fixed angle-to-the-horizon and movement is actually 2D.  But move to true 3D and the
                 camera has a position and a rotation.  The rotation has to be represented by a Quaternion which is just
-                4 floats; use classic roll, pitch and yaw (called the Euler angles) and you’ll end up with a <a href="http://en.wikipedia.org/wiki/Gimbal_lock" target="_blank">gimbal lock</a>!  You have to
+                4 floats; use classic roll, pitch and yaw (called the Euler angles) and you’ll end up with a <a href="https://en.wikipedia.org/wiki/Gimbal_lock" target="_blank">gimbal lock</a>!  You have to
                 be able to determine which direction is forward and which direction is up, and that’s encoded in the
                 quaternion.<br/><br/>I lost about 10 hours debugging my which-way-is-forward code for the
                 players.  My initial code was simple and obvious - multiply the inverse of the quaternion by a forward
@@ -64,8 +73,8 @@
                 geometry - or math in general - that I did not know how to recognise or diagnose where I was going
                 wrong.  Hence 10 frustrating hours.<br/><br/>While fighting the quaternions I couldn’t
                 really focus on the actual drawing of the camera.  Again, a lot of the Googleable material is
-                out-of-date and uses glRotatef matrices.  In the end it was timely intervention by Philip’ (the <a href="http://www.indiedb.com/games/0-ad/news/pathfinding-update-24-january-2012" target="_blank">excellent</a>
-                <a href="http://www.wildfiregames.com/0ad/" target="_blank">0ad dev</a>) who very quickly
+                out-of-date and uses glRotatef matrices.  In the end it was timely intervention by Philip’ (the <a href="https://www.indiedb.com/games/0-ad/news/pathfinding-update-24-january-2012" target="_blank">excellent</a>
+                <a href="https://www.wildfiregames.com/0ad/" target="_blank">0ad dev</a>) who very quickly
                 sorted out my camera code while I was going in circles with the server’s quaternion code.  I fear we’d
                 have been much further schedule behind without his help.<br/><br/><strong>Multi-player
                 via websockets</strong><br/><br/>The multi-player aspect worked really well (we
@@ -83,7 +92,7 @@
                 This is a good model you can copy.  Remember, though, that github-pages has cache-always headers so
                 people have to clear their browser cache to get new versions of the game.  And in Chrome/Safari there
                 doesn’t seem to be a reliable way to do location.reload(true) :(<br/><br/>We set the
-                frame-rate to 8 fps and had lots of fun weaving around shooting each other!  The <a href="http://www.megaglest.com/" target="_blank">Glest</a> community stood up and fought!  It
+                frame-rate to 8 fps and had lots of fun weaving around shooting each other!  The <a alt="dead link: http://www.megaglest.com/" href="/#404" target="_blank">Glest</a> community stood up and fought!  It
                 was play-testing and discussing if up pitches up or down and if the ships moved fast enough or fired
                 enough or the hit spheres were too small and so on.  We had testers from North America and they even
                 <a href="post/30340192066.html" target="_blank">made
@@ -152,7 +161,7 @@
                 platform game using tiles in an effort to win compliments, I’m sure ;)</p>
                 <p><img src="media/old/30509144101_3.jpg"/></p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#800'">index</button>  <button class="page-link" onclick="window.location='rec2.html#800'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#800'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index3.html#30509144101'">index</button>  <button class="page-link" onclick="window.location='rec2.html#30509144101'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#30509144101'">ludum-dare</button> 
 </div>
 </div>
 </div>
@@ -401,11 +410,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

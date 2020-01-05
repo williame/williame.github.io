@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Making Image Mosaics : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,8 +33,8 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Making Image Mosaics</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><a href="http://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
-                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" target="_blank">contest entries</a>.
+<post-body><p><a href="https://www.ludumdare.com/compo/wp-content/uploads/2014/04/29.mona_lisa.timed_.png" target="_blank"><img align="right" alt="image" data-orig-height="157" data-orig-width="200" src="media/old/84505278488_1.jpg"/></a>As
+                followers of the blog know (thx for the mails!), I’ve been making mosaics of <a href="http://www.ludumdare.com/compo" target="_blank">Ludum Dare</a> <a alt="dead link: http://www.ludumdare.com/compo/2014/05/01/your-game-here-2/" href="/#404" target="_blank">contest entries</a>.
                  It <a href="post/71966020187.html">started</a>
                 <a href="post/84225291373.html">basic</a>,
                 and its got <a href="post/84317701363.html">better</a>.
@@ -41,7 +50,7 @@
                  Aspect ratio is width / height, and is a floating point number (so be careful of integer / integer
                 which usually gives integer!)</p>
                 <p>Some images will be distorted more than others when they are scaled to the output tile size,
-                but so be it.  Packing non-uniform-sized images is non-trivial - we can’t even decide <a href="http://en.wikipedia.org/wiki/Circle_packing" target="_blank">how best</a> to stack
+                but so be it.  Packing non-uniform-sized images is non-trivial - we can’t even decide <a href="https://en.wikipedia.org/wiki/Circle_packing" target="_blank">how best</a> to stack
                 oranges ;)</p>
                 <p> Its then to decide an arbitrary width for the input image; the height will be derived from the
                 average aspect ratio.  Lets call this thumb_width and thumb_height.</p>
@@ -73,7 +82,7 @@
                 <p><em><strong>Matching / Scoring / Fitness</strong></em></p>
                 <p>Now we know the source image grid we have to determine how well each input image matches each
                 tile in the target image.</p>
-                <p>The simplest approach is Mean Square Error (<a href="http://en.wikipedia.org/wiki/MSE" target="_blank">MSE</a>).  To compute the MSE for a thumb, you scale target image and the thumb
+                <p>The simplest approach is Mean Square Error (<a href="https://en.wikipedia.org/wiki/MSE" target="_blank">MSE</a>).  To compute the MSE for a thumb, you scale target image and the thumb
                 and then compute the squared Euclidean distance of each corresponding pixel. You then average these
                 squared distances to get the mean, but if you think about it there’s a fixed number of pixels
                 in this grid we are using so we can skip the Mean -part of the calculation.</p>
@@ -81,11 +90,11 @@
                 really experiment nor reason about how many samples per thumb per tile would be optimal.  The number of
                 samples per thumb per tile has a direct linear outcome on the time it takes to compute all the
                 similarities, so you can trade speed for accuracy here.</p>
-                <p>There are better approaches to image similarity, such as <a href="http://en.wikipedia.org/wiki/PSNR" target="_blank">PSNR</a> and <a href="http://en.wikipedia.org/wiki/Structural_similarity" target="_blank">SSIM</a>.  SSIM tries
+                <p>There are better approaches to image similarity, such as <a href="https://en.wikipedia.org/wiki/PSNR" target="_blank">PSNR</a> and <a href="https://en.wikipedia.org/wiki/Structural_similarity" target="_blank">SSIM</a>.  SSIM tries
                 to capture the structural similarity too, which sounds like a good thing.  A simple MSE doesn’t
-                quite capture contour matching.  You could also investigate merging scores from <a href="http://en.wikipedia.org/wiki/Edge_detection" target="_blank">edge detection</a> into the
+                quite capture contour matching.  You could also investigate merging scores from <a href="https://en.wikipedia.org/wiki/Edge_detection" target="_blank">edge detection</a> into the
                 fitness metric e.g. mix in the MSE of the Sorbel or Canny filter of the image too.</p>
-                <p>You also have to pick the <a href="http://en.wikipedia.org/wiki/Color_space" target="_blank">colour
+                <p>You also have to pick the <a href="https://en.wikipedia.org/wiki/Color_space" target="_blank">colour
                 space</a>.  I chose RGB.  This may not be a very good choice.  There are probably better colour
                 spaces to use that more closely approximate how humans perceive colours.</p>
                 <p>This is really not practicing what I preach; I’ve been guilty of reading Charles
@@ -103,7 +112,7 @@
                 <p><em><strong>Placement</strong></em></p>
                 <p>Once you have some score for how similar each thumb is with each tile, you have to decide how
                 to place them!</p>
-                <p>The simplest approach is ’<strong><a href="http://en.wikipedia.org/wiki/Greedy_algorithm" target="_blank">greedy</a></strong>’.
+                <p>The simplest approach is ’<strong><a href="https://en.wikipedia.org/wiki/Greedy_algorithm" target="_blank">greedy</a></strong>’.
                  That is, you place the closest-matching thumb on its best tile.  And then the next and the next.</p>
                 <p><img align="right" alt="image" data-orig-height="160" data-orig-width="100" src="media/old/84505278488_2.jpg"/>One
                 way to implement this is to put each match score, tile and thumb into a list and sort it so best score
@@ -125,7 +134,7 @@
                 image similarity score.  And you make as many swap improvements as you can find, until the person
                 running the script gets tired of waiting and interrupts.  I called this the 'timed’ algorithm
                 in the script.  Result on the right again :) →</p>
-                <p><a href="http://www.ludumdare.com/compo/2014/05/01/your-game-here-2" target="_blank"><strong>Hi-Res</strong>
+                <p><a alt="dead link: http://www.ludumdare.com/compo/2014/05/01/your-game-here-2" href="/#404" target="_blank"><strong>Hi-Res</strong>
                 images here</a>.</p>
                 <p>So those pesky white thumbnails have migrated to her skin patches because whilst there are
                 closer skin-coloured matches, placing a skin-coloured patch on the black cloth is less overall error
@@ -142,7 +151,7 @@
                 <p>And special thanks to <a href="http://www.royvanrijn.com/blog/2014/04/mosaic-algorithm/" target="_blank">Roy van Rijn</a> - a rec.math kind of contestant - for the ball-plank and
                 encouragement :)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#664'">index</button>  <button class="page-link" onclick="window.location='rec.html#664'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#664'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#664'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#84505278488'">index</button>  <button class="page-link" onclick="window.location='rec.html#84505278488'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#84505278488'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#84505278488'">mosaic</button> 
 </div>
 </div>
 </div>
@@ -391,11 +400,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

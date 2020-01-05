@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>The history of Hellepoll : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,9 +33,9 @@
 <div class="posts-column column">
 <div class="page-title"><h1>The history of Hellepoll</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><a href="https://github.com/williame/hellepoll" target="_blank">Hellepoll</a>
+<post-body><p><a href="https://github.com/williame/hellepoll" target="_blank">Hellepoll</a>
                 is the open-sourcing of a framework that was built for a live video transcoding and exploding server. 
-                (Like <a href="http://www.wowza.com/" target="_blank">wowza</a> on steroids.)  Live video
+                (Like <a href="https://www.wowza.com/" target="_blank">wowza</a> on steroids.)  Live video
                 streams would come in and need transcoding to several formats, framerates and resolutions and then
                 served up to a large number of clients who were are all getting the same video at the same time-point.</p>
                 <p>Latency is the time gap between incoming video and outgoing video to all these clients, and it
@@ -51,7 +60,7 @@
                 transcode any new incoming stream dynamically.</p>
                 <p>I also worried that I’d still run out of CPU even for one stream, especially at high
                 definition.  I imagined it might be workable to put hellepoll servers in serial with the first server
-                filling in <a href="http://forum.digital-digest.com/f20/i-p-b-frames-explained-9785.html" target="_blank">I and P frames</a> at wide spacing and subsequent servers filling in b frames. 
+                filling in <a href="https://forum.digital-digest.com/f20/i-p-b-frames-explained-9785.html" target="_blank">I and P frames</a> at wide spacing and subsequent servers filling in b frames. 
                 This would be a super-cool feat and well worth a few white papers :)  Luckily hellepoll never got this
                 far and the pain of implementation details was never experienced ;)</p>
                 <p>The IO loop in hellepoll was designed to be lean.  The clients were not talking HTTP but it was
@@ -63,7 +72,7 @@
                 <p>We also stored the transcoded streams to disk.  The playing back of archived videos was done
                 through some nginx servers sharing disk.  There could have been a whole CDN arrangement there but we
                 never needed to move beyond nginx running on the same box.</p>
-                <p>The writing of the streams to disk could have been done using <a href="http://stackoverflow.com/questions/1825621/how-do-you-use-aio-and-epoll-together-in-a-single-event-loop" target="_blank">asynchronous file IO</a>.  Asynchronous network IO is readiness based - you get
+                <p>The writing of the streams to disk could have been done using <a href="https://stackoverflow.com/questions/1825621/how-do-you-use-aio-and-epoll-together-in-a-single-event-loop" target="_blank">asynchronous file IO</a>.  Asynchronous network IO is readiness based - you get
                 an event when something is buffered in the kernel waiting to be read, or when there is space in the
                 kernel-side buffer to write to.  Asynchronous file IO is completion-based however - you tell the kernel
                 to read or write some number of bytes, and get told when it has done so.  These can be combined, and I
@@ -74,7 +83,7 @@
                 <p>The HTTP handler in hellepoll was made the day before open-sourcing; without one, how would it
                 have said ‘hello world’?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#890'">index</button>  <button class="page-link" onclick="window.location='lang.html#890'">lang</button> 
+ <button class="page-link" onclick="window.location='index4.html#18200335569'">index</button>  <button class="page-link" onclick="window.location='lang.html#18200335569'">lang</button> 
 </div>
 </div>
 </div>
@@ -323,11 +332,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

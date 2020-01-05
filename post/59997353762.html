@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Running SQL in your browser : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Running SQL in your browser</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
+<post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
                 Snowden?</a></font> game I wanted you - the elite NSA Analyst - to be able to <i>hack</i>
                 the game world.  Imagine you could put your agents onto flights, or fiddle with the flight manifests so
                 that targets were refused boarding or even arrested… and how would you do this?  I decided I wanted you
@@ -32,7 +41,7 @@
                 <p dir="ltr">SELECT T.* FROM MANIFESTS AS M, MANIFESTS AS M2, TARGETS AS T WHERE T.PASS = M.PASS
                 AND M.PASS = M2.PASS AND M.FLIGHT = ‘AF-321’ AND M2.FLIGHT = 'IB-794’;</p>
                 <p dir="ltr">But I couldn’t find any working SQL engines for Javascript!  I didn’t find
-                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="http://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
+                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="https://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
                 couldn’t get it to work and its quite old and not actively developed.  There’s are also a few LINQ-likes
                 but they are not really SQL.</p>
                 <p dir="ltr">Now SQL is the lingua franca of structured data querying so I was surprised at this
@@ -89,7 +98,7 @@
                 have doubled my line-count and just gone with a classic tokeniser in the first place.</p>
                 <p dir="ltr"><b>Executing SQL</b></p>
                 <p dir="ltr">Once the query is parsed and the array of table names built and, its just to execute
-                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
+                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
                 table A had two rowsand table B had two rows then the Cartesian Product would be:</p>
                 <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B;</tt><br/><tt>A.V | B.V</tt><br/><tt>1
                 | 1</tt><br/><tt>1 | 2</tt><br/><tt>2 | 1</tt><br/><tt>2
@@ -134,10 +143,10 @@
                 array.filter() once joins were involved.  With a better tokeniser and an expanded grammar and a simple
                 query planner it could be widely useful.</p>
                 <p dir="ltr"><font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>
-                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="http://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
+                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="https://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
                 ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#705'">index</button>  <button class="page-link" onclick="window.location='rec1.html#705'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#705'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index1.html#59997353762'">index</button>  <button class="page-link" onclick="window.location='rec1.html#59997353762'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59997353762'">ludum-dare</button> 
 </div>
 </div>
 </div>
@@ -386,11 +395,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

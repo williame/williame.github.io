@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Intrusive List for Java : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Intrusive List for Java</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Intrusive lists are one of those neat data-structures that are <a href="http://www.altdevblogaday.com/2011/12/06/intrusive-lists/" target="_blank">often</a> <a href="http://www.codeofhonor.com/blog/avoiding-game-crashes-related-to-linked-lists" target="_blank">overlooked</a>.</p>
+<post-body><p>Intrusive lists are one of those neat data-structures that are <a alt="dead link: http://www.altdevblogaday.com/2011/12/06/intrusive-lists/" href="/#404" target="_blank">often</a> <a href="https://www.codeofhonor.com/blog/avoiding-game-crashes-related-to-linked-lists" target="_blank">overlooked</a>.</p>
                 <p><em><strong>TL;DR</strong> </em>download <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a></p>
                 <p>Intrusive lists have O(1) remove if you already have the address of the object, and O(1) insert
                 too at head/tail or if you already have the address of an adjacent object.  This is because they store
@@ -38,13 +47,13 @@
                 <p>Intrusive lists have advantages for some scenarios: for example, they are ideally suited to
                 most-recently-used lists.  They preserve order and it is O(1) to move an item from the middle of the
                 list to the head when it gets used.</p>
-                <p>In C/C++ and so on there are various tricks you can do with <a href="http://en.wikipedia.org/wiki/Offsetof" target="_blank">offsetof()</a> and macros to make
+                <p>In C/C++ and so on there are various tricks you can do with <a href="https://en.wikipedia.org/wiki/Offsetof" target="_blank">offsetof()</a> and macros to make
                 utility code that you can mix-in.  In Java, you cannot easily encapsulate a classic intrusive list in a
                 class because its intrusive.  You have to actually put your own prev and next pointers into your class
                 and write your own linking and unlinking code.  This can be error prone.</p>
                 <p><em>Or</em> you can allocate a linked node pointer.  Its a compromise you can make,
                 knowing that it’ll likely be allocated adjacent to the main class in memory and have the same
-                lifetime and so on.  If you’re chasing performance in Java you start thinking about <a href="http://mechanical-sympathy.blogspot.se/" target="_blank">mechanical sympathy</a> and
+                lifetime and so on.  If you’re chasing performance in Java you start thinking about <a href="https://mechanical-sympathy.blogspot.se/" target="_blank">mechanical sympathy</a> and
                 avoiding garbage collection and so on.</p>
                 <p>I offer you a simple <a href="https://gist.github.com/3751136" target="_blank">IntrusiveList.java</a>
                 class that I use.</p>
@@ -59,7 +68,7 @@
                 <p>The class could easily be extended to use weak-references.  Locking and concurrency are harder
                 to add.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#790'">index</button>  <button class="page-link" onclick="window.location='lang.html#790'">lang</button> 
+ <button class="page-link" onclick="window.location='index3.html#31869685894'">index</button>  <button class="page-link" onclick="window.location='lang.html#31869685894'">lang</button> 
 </div>
 </div>
 </div>
@@ -308,11 +317,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

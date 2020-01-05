@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Perlin Noise : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,9 +33,9 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Perlin Noise</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>I’ve added an interactive Perlin “Noise explorer” to
-                <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
-                <p>I had originally used the usual Simplex Noise Javascript port that is in <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" target="_blank">three.js</a>
+<post-body><p>I’ve added an interactive Perlin “Noise explorer” to
+                <a href="https://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+                <p>I had originally used the usual Simplex Noise Javascript port that is in <a alt="dead link: https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" href="/#404" target="_blank">three.js</a>
                 and elsewhere.</p>
                 <p>I even ported - successfully - to asm.js!  FWIW, asm.js turned out to be much slower than the
                 normal code; this isn’t code that benefits from being ported, it seems; the call overhead is
@@ -37,7 +46,7 @@
                 was trivially learnable and may be interesting yet e.g. spatial indices and priority queue heaps.</p>
                 <p>But ultimately I wasn’t happy with the tunability of the Simplex Noise
                 implementation.  So I instead set about making a very naive reimplementation of Ken Perlin’s
-                <a href="http://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
+                <a href="https://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
                 in Javascript.</p>
                 <p>This lets you set the number of octaves and the alpha and beta values for bumpiness (sometimes
                 called persistence).  If you set the scale attribute manually you can even control the scaling of the
@@ -48,11 +57,11 @@
                 <p>I didn’t pay too much attention to GLSL noise - that’s applicable for
                 rendering, but not so useful for generating game levels and so on where you really need your noise
                 accessible to Javascript (and in webGL you can’t read back framebuffers).</p>
-                <p>As a thought-experiment it ought to be possible to do a <a href="http://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
+                <p>As a thought-experiment it ought to be possible to do a <a href="https://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
                 shadow my visualisation nicely, but it would have rather more general advantages if it sped up making
                 big chunks of noise too?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#715'">index</button>  <button class="page-link" onclick="window.location='rec1.html#715'">rec</button>  <button class="page-link" onclick="window.location='game.html#715'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#57181055984'">index</button>  <button class="page-link" onclick="window.location='rec1.html#57181055984'">rec</button>  <button class="page-link" onclick="window.location='game.html#57181055984'">game</button> 
 </div>
 </div>
 </div>
@@ -301,11 +310,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

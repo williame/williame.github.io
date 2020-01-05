@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>How to make a Text Adventure : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>How to make a Text Adventure</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
+<post-body><p>UPDATE: there’s now a beautifully-illustrated<strong> <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/background1_cheat.jpg" target="_blank">cheat-sheet</a> f</strong>or <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">our
                 text-adventure</a>!</p>
                 <p>Text Adventures are excellent mental exercise to write!  They are useful for learning to
                 program; they are equally useful for seasoned programmers to refresh and recuperate on!  They can fit
@@ -33,7 +42,7 @@
                 Adventures are out of fashion though.  This <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">Ludum
                 Dare</a> we decided to resurrect the Text Adventure and this is a description of the approach we
                 took.<br/><br/>So after tiring of this blog post please do play our illustrated Text
-                Adventure <a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
+                Adventure <a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank"><em><strong>The
                 Small World of Professor Strange</strong></em></a> - we hope you enjoy playing it as
                 much as we enjoyed making it!<br/><br/><!-- more -->Before the competition started we
                 set our hearts on doing a Text Adventure.  It was just to work out how to bend a story to fit whatever
@@ -46,7 +55,7 @@
                 block smelling rule is not listed in any rulebook.<br/>Carry out smelling something:<br/>   
                 say &quot;From [the noun] you smell [scent of the noun].&quot;<br/>Instead of smelling a room:<br/>   
                 if a scented thing can be touched by the player, say &quot;You smell [the list of scented things which can be
-                touched by the player].&quot;;<br/>    otherwise say &quot;The place is blissfully odorless.&quot;    [<a href="http://gamedev.stackexchange.com/a/27067/4129" target="_blank">via</a>]</pre>
+                touched by the player].&quot;;<br/>    otherwise say &quot;The place is blissfully odorless.&quot;    [<a href="https://gamedev.stackexchange.com/a/27067/4129" target="_blank">via</a>]</pre>
                 <p>Where is the fun in that?!  I’m going to explore the do-it-yourself approach:<br/><br/>We
                 wanted to use Javascript so that the game could run in your browser.</p>
                 <p>Most Ludum Dare entries are Windows binaries, and that’s such a turn-off and
@@ -56,8 +65,8 @@
                 still a massive barrier, and there’s always a lot of rough edges.  We felt that Javascript was
                 the absolute lowest hurdle for players, and in the case of a Text Adventure its no barrier to
                 development.  So go make your Text Adventures in Javascript and let everyone play them!</p>
-                <p>A great free hosting solution is to use <a href="http://pages.github.com/" target="_blank">github
-                pages</a>; <a href="http://github.com/williame/ludum_dare_23_tiny_world" target="_blank">we
+                <p>A great free hosting solution is to use <a href="https://pages.github.com/" target="_blank">github
+                pages</a>; <a href="https://github.com/williame/ludum_dare_23_tiny_world" target="_blank">we
                 did</a>.<br/><br/>A direct technical benefit of using Javascript is that this means
                 that the entire game data can be something like JSON but neater.  Javascript object declarations are
                 super neat; unlike JSON the keys do not need to be quoted string literals and the values can be complex
@@ -110,9 +119,9 @@
                 objects.dining_room_panel.examined; }</code>.</p>
                 <p>(Here, Python’s <code>any</code> and <code>all</code>
                 functions would trump Javascript, so its swings and roundabouts on the conciseness front.)</p>
-                <p>Here’s our game data file: <a href="http://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js" target="_blank">http://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js</a><br/><br/><strong>Parsing
+                <p>Here’s our game data file: <a href="https://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js" target="_blank">http://raw.github.com/williame/ludum_dare_23_tiny_world/gh-pages/game_data.js</a><br/><br/><strong>Parsing
                 commands</strong> is really where the Text Adventure complexity slider lies.  Before the contest I
-                <a href="http://gamedev.stackexchange.com/questions/27004/what-are-some-strategies-for-parsing-user-input-in-a-text-adventure" target="_blank">asked for links</a> on this; ideal off-line reading.  The INFORM engine
+                <a href="https://gamedev.stackexchange.com/questions/27004/what-are-some-strategies-for-parsing-user-input-in-a-text-adventure" target="_blank">asked for links</a> on this; ideal off-line reading.  The INFORM engine
                 understands enough natural language processing to make sense of long, complex commands that combine
                 multiple objects with multiple outcomes.  We opted for the other end of the scale: literally listing the
                 legal commands such as “go east”, “east” and “exit
@@ -134,9 +143,9 @@
                 seems viable; as would simply using the new Javascript calls to trigger the user to receive their
                 game-state as a JSON blog the browser prompts them to save; they can then restore by drag-dropping that
                 file onto the game or using a file picker dialog.</p>
-                <p>So what are you waiting for?  You’ve got a game to make; but first why not my <em><a href="http://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">mine</a></em>?</p>
+                <p>So what are you waiting for?  You’ve got a game to make; but first why not my <em><a href="https://williame.github.com/ludum_dare_23_tiny_world_post_compo/" target="_blank">mine</a></em>?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#852'">index</button>  <button class="page-link" onclick="window.location='rec2.html#852'">rec</button>  <button class="page-link" onclick="window.location='game.html#852'">game</button>  <button class="page-link" onclick="window.location='classic.html#852'">classic</button> 
+ <button class="page-link" onclick="window.location='index4.html#21865366869'">index</button>  <button class="page-link" onclick="window.location='rec2.html#21865366869'">rec</button>  <button class="page-link" onclick="window.location='game.html#21865366869'">game</button>  <button class="page-link" onclick="window.location='classic.html#21865366869'">classic</button> 
 </div>
 </div>
 </div>
@@ -385,11 +394,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

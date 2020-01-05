@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: game</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -37,87 +46,39 @@
     </div>
 
 <div class="post">
-<div class="maximize-post" onclick="window.location='post/13269950091.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="934">
+<div class="maximize-post" onclick="window.location='post/13270747573.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="13270747573">
     
 </a>
-<?xml version="1.0" ?><post-body><p>A while ago, I was playing with computing line-of-sight for game-like heightmap
-                terrain.  I wanted to efficiently compute which tiles in it were visible from an eye at any given
-                location and height.</p>
-                <p><a href="http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf" rel="nofollow">http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf</a>
-                suggested that heightmaps outperform turning the terrain into some kind of mesh, but they sample the
-                grid using Bresenhams.</p>
-                <p>If I were to adopt that, I’d have to do a line-of-sight Bresenham’s line
-                for each and every tile on the map. It occurred to me that it ought to be possible to reuse most of the
-                calculations and compute the heightmap in a single pass if you fill outwards away from the eye - a
-                scanline fill kind of approach perhaps?</p>
-                <p>Here is the O(n) sweep that I came up with; I seems the same as that given in the <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.3639&amp;rep=rep1&amp;type=pdf">paper
-                by Franklin and Ray</a>, only in this case I am walking from eye outwards instead of walking the
-                perimeter doing a Bresenham towards the centre; to my mind, my approach would have much better caching
-                behaviour - i.e. be faster - and use less memory since it doesn’t have to track the vector for
-                each tile, only remember a scanline’s worth:</p>
-                <pre><code>typedef std::vector&lt;float&gt; visbuf_t;
-
-                inline void map::_visibility_scan(const visbuf_t&amp; in,visbuf_t&amp; out,const vec_t&amp;
-                eye,int start_x,int stop_x,int y,int prev_y) {
-                const int xdir = (start_x &lt; stop_x)? 1: -1;
-                for(int x=start_x; x!=stop_x; x+=xdir) {
-                const int x_diff = abs(eye.x-x), y_diff = abs(eye.z-y);
-                const bool horiz = (x_diff &gt;= y_diff);
-                const int x_step = horiz? 1: x_diff/y_diff;
-                const int in_x = x-x_step*xdir; // where in the in buffer would we get the inner value?
-                const float outer_d = vec2_t(x,y).distance(vec2_t(eye.x,eye.z));
-                const float inner_d = vec2_t(in_x,horiz? y: prev_y).distance(vec2_t(eye.x,eye.z));
-                const float inner = (horiz? out: in).at(in_x)*(outer_d/inner_d); // get the inner value, scaling by
-                distance
-                const float outer = height_at(x,y)-eye.y; // height we are at right now in the map, eye-relative
-                if(inner &lt;= outer) {
-                out.at(x) = outer;
-                vis.at(y*width+x) = VISIBLE;
-                } else {
-                out.at(x) = inner;
-                vis.at(y*width+x) = NOT_VISIBLE;
-                }
-                }
-                }
-
-                void map::visibility_add(const vec_t&amp; eye) {
-                const float BASE = -10000; // represents a downward vector that would always be visible
-                visbuf_t scan_0, scan_out, scan_in;
-                scan_0.resize(width);
-                vis[eye.z*width+eye.x-1] = vis[eye.z*width+eye.x] = vis[eye.z*width+eye.x+1] = VISIBLE;
-                scan_0.at(eye.x) = BASE;
-                scan_0.at(eye.x-1) = BASE;
-                scan_0.at(eye.x+1) = BASE;
-                _visibility_scan(scan_0,scan_0,eye,eye.x+2,width,eye.z,eye.z);
-                _visibility_scan(scan_0,scan_0,eye,eye.x-2,-1,eye.z,eye.z);
-                scan_out = scan_0;
-                for(int y=eye.z+1; y&lt;height; y++) {
-                scan_in = scan_out;
-                _visibility_scan(scan_in,scan_out,eye,eye.x,-1,y,y-1);
-                _visibility_scan(scan_in,scan_out,eye,eye.x,width,y,y-1);
-                }
-                scan_out = scan_0;
-                for(int y=eye.z-1; y&gt;=0; y--) {
-                scan_in = scan_out;
-                _visibility_scan(scan_in,scan_out,eye,eye.x,-1,y,y+1);
-                _visibility_scan(scan_in,scan_out,eye,eye.x,width,y,y+1);
-                }
-                }
-                </code></pre>
-            <iframe frameborder="0" src="https://www.youtube.com/embed/ppbvMzbNcWg"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index5.html#934'">index</button>  <button class="page-link" onclick="window.location='rec3.html#934'">rec</button> 
+<?xml version="1.0" ?><post-body><p>When playing with game engine ideas, I struggled with the fact that my laptops all
+                had very very bad integrated chips by Intel.  Yeap, those ones.</p>
+                <p>I wanted a nice cartoony fluffy clouds and bobbly trees, but all those spheres were taking just
+                too many polygons.</p>
+                <p>The solution I prototyped was to bill-board spheres… complete with depth.</p>
+                <p>The billboard image was actually a depth-map.  I was using a special value to indicate no texel
+                and do a discard in the fragment shader.</p>
+                <p>To get nice edges on the spheres I did it in two passes; first pass, draw all opaque texels
+                inside the circle of the billboard, setting depth; second pass, draw all semi-transparent texels on the
+                edges of the spheres without setting depth (i.e. its at billboard depth).</p>
+                <p>I found that I could draw almost a thousand such spheres at a good enough framerate on the
+                worst cards.  On more average ATI and NVidia cards the framerate was nicely in the hundreds.  So this is
+                a very efficient technique.</p>
+                <p>Shadows can be done by sampling the depth buffer in a second pass and using a 1D texture that
+                is the cross-section of the sphere.  I didn’t prototype that bit; its an exercise for the
+                dedicated reader ;)</p>
+            <iframe frameborder="0" src="https://www.youtube.com/embed/88idbFlvQV0"> </iframe></post-body>
+ <button class="page-link" onclick="window.location='index6.html#13270747573'">index</button>  <button class="page-link" onclick="window.location='rec3.html#13270747573'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/13266300297.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="940">
+<a name="13266300297">
     
 </a>
 <?xml version="1.0" ?><post-body><p>Haxe is a great tool for making Flash programs in.  One thing that Haxe supports is
                 special op-codes for raw memory access.</p>
-                <ul><li>allocate the buffer using <a href="http://haxe.org/com/libs/basicmemorymanager" rel="nofollow" target="_blank">will.basicMemoryManager</a></li>
+                <ul><li>allocate the buffer using <a alt="dead link: http://haxe.org/com/libs/basicmemorymanager" href="/#404" rel="nofollow" target="_blank">will.basicMemoryManager</a></li>
                 <li>we let the object container do the rotation and such</li>
                 <li>for each frame, we regenerate the image that we’re spinning</li>
                 <li>the voxels look like columns, but are actually streaks on a flat image</li>
@@ -131,13 +92,13 @@
                 <li>we can pre-calculate if voxels are never visible and skip them</li>
                 </ul>
             <iframe frameborder="0" src="https://www.youtube.com/embed/7-pm1-bBj0M"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index6.html#940'">index</button>  <button class="page-link" onclick="window.location='rec3.html#940'">rec</button> 
+ <button class="page-link" onclick="window.location='index6.html#13266300297'">index</button>  <button class="page-link" onclick="window.location='rec3.html#13266300297'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/13265549295.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="942">
+<a name="13265549295">
     
 </a>
 <?xml version="1.0" ?><post-body><div>
@@ -155,7 +116,7 @@
                 still having the option of a bit of variety and such.</div>
                 </div>
             <iframe frameborder="0" src="https://www.youtube.com/embed/PAVksn4btKU"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index6.html#942'">index</button>  <button class="page-link" onclick="window.location='rec3.html#942'">rec</button> 
+ <button class="page-link" onclick="window.location='index6.html#13265549295'">index</button>  <button class="page-link" onclick="window.location='rec3.html#13265549295'">rec</button> 
 
 </div>
 
@@ -415,11 +376,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

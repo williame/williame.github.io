@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>SSIM vs MSE for Mosaics : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,18 +33,18 @@
 <div class="posts-column column">
 <div class="page-title"><h1>SSIM vs MSE for Mosaics</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><img data-orig-height="125" data-orig-width="600" src="media/old/117234199303_1.jpg"/><p>(On the left, a target image.
-                 On the right, a <a href="http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/">mosaic made from
+<post-body><img data-orig-height="125" data-orig-width="600" src="media/old/117234199303_1.jpg"/><p>(On the left, a target image.
+                 On the right, a <a alt="dead link: http://ludumdare.com/compo/2015/04/22/i-made-a-list-of-games-you-should-play/" href="/#404">mosaic made from
                 thumbnails of all the Ludum Dare 32 games</a>, positioned using an MSE score metric.)</p><p>Making
                 mosaics is in two steps:</p><ol><li>score each tile in each position</li><li>determine
                 the optimal positioning of all tiles to maximize the total likeness</li></ol><p>The
                 second part is easy (although I tried imprecise approximations at first, and only discovered it fairly
-                recently): use the <a href="http://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
-                that first step that’s tricky.</p><p>I have been using <a href="http://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
+                recently): use the <a href="https://en.wikipedia.org/wiki/Hungarian_algorithm">Hungarian Algorithm</a>.</p><p>Its
+                that first step that’s tricky.</p><p>I have been using <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error (MSE)</a> and have
                 been fairly happy with the result.  But readers have pondered if there aren’t better metrics that better
                 account for shape and contrast and such…</p><p>So to please some Ludum Darers
-                (and because I was curious), I tried out some algorithms.</p><p>First, <a href="http://Peak%20signal-to-noise%20ratio">Peak Signal to Noise Ratio (PSNR)</a> is just a
-                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="http://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
+                (and because I was curious), I tried out some algorithms.</p><p>First, <a alt="dead link: http://Peak%20signal-to-noise%20ratio" href="/#404">Peak Signal to Noise Ratio (PSNR)</a> is just a
+                rephrasing of MSE and the results are much the same.</p><p>Second, I tried <a href="https://en.wikipedia.org/wiki/Structural_similarity">Structural Similarity (SSIM) index</a>.
                  This was a promising avenue to explore.  My mosaic maker is Python and there’s a scikit helper, but
                 scikit doesn’t work with pypy (and neither does a stock numpy; trying to get the mosaic maker to work
                 happily in pypy with these kinds of dependencies has been a nightmare).  In the end I went with pyssim
@@ -53,7 +62,7 @@
                 a great distance where the tiles are increasingly pixel-sized, tile colour dominates over shapes within
                 the tile?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#650'">index</button>  <button class="page-link" onclick="window.location='rec.html#650'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#650'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#650'">mosaic</button> 
+ <button class="page-link" onclick="window.location='index.html#117234199303'">index</button>  <button class="page-link" onclick="window.location='rec.html#117234199303'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#117234199303'">ludum-dare</button>  <button class="page-link" onclick="window.location='mosaic.html#117234199303'">mosaic</button> 
 </div>
 </div>
 </div>
@@ -302,11 +311,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

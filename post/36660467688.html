@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Rendering Spheres with Triangles : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,27 +33,27 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Rendering Spheres with Triangles</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="http://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
+<post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="https://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
                 <p>There are two general approaches:</p>
-                <p><img height="94" src="http://i.stack.imgur.com/kSSSF.png" width="200"/></p>
+                <p><img height="94" src="https://i.stack.imgur.com/kSSSF.png" width="200"/></p>
                 <p>The leftmost is termed the <em><strong>uv-sphere</strong></em> and the
                 rightmost an <em><strong>icosphere</strong></em>.</p>
                 <p>The uv-sphere looks like a globe. For many purposes it is perfectly fine, but for some use
                 cases, e.g. if you want to deform the sphere, it is disadvantageous that the density of vertices is
                 greater around the poles.  The icosphere vertices are distributed evenly.</p>
                 <p>GLUT tends to use the uv approach: look at the function <code>glutSolidSphere()</code>
-                in the <a href="http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" target="_blank">freeglut sourcecode</a>.</p>
+                in the <a alt="dead link: http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" href="/#404" target="_blank">freeglut sourcecode</a>.</p>
                 <p>And <strong>webGL</strong> doesn’t have <code>glutSolidSphere()</code>. 
                 Oh well.  <strong><a href="https://gist.github.com/4153824" target="_blank">Here’s
                 my code for creating an untextured icosphere online</a>.</strong></p>
                 <p>Here is an excellent article on producing an icosphere: <a href="http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html" target="_blank">http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html</a></p>
                 <p>I’ve also experiemented with tiling spheres for RTS games etc.  Here’s an
-                excellent guide to how you might divide the sphere surface into zones: <a href="http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
+                excellent guide to how you might divide the sphere surface into zones: <a alt="dead link: http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" href="/#404" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
                 <p>Finally, texturing.  <a href="http://vterrain.org/Textures/spherical.html" target="_blank">http://vterrain.org/Textures/spherical.html</a>
-                gives an excellent description of how you might choose to texture them, and <a href="http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
+                gives an excellent description of how you might choose to texture them, and <a href="https://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
                 is - as iñigo is - brilliant.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#770'">index</button>  <button class="page-link" onclick="window.location='rec1.html#770'">rec</button>  <button class="page-link" onclick="window.location='game.html#770'">game</button> 
+ <button class="page-link" onclick="window.location='index3.html#36660467688'">index</button>  <button class="page-link" onclick="window.location='rec1.html#36660467688'">rec</button>  <button class="page-link" onclick="window.location='game.html#36660467688'">game</button> 
 </div>
 </div>
 </div>
@@ -293,11 +302,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

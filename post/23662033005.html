@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Bounds vs Points in Spatial Indexes : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Bounds vs Points in Spatial Indexes</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Hmmm Spatial <a href="http://www.worldwidewords.org/qa/qa-ind2.htm" target="_blank">Indices</a>.</p>
+<post-body><p>Hmmm Spatial <a href="http://www.worldwidewords.org/qa/qa-ind2.htm" target="_blank">Indices</a>.</p>
                 <p>In GIS land I’ve been working recently with finding intersecting circles.</p>
                 <p>Most ‘fixes’ from phones and things are given as longitude, latitude and
                 radius.  The phone knows only it is within some distance of some point (as in, how far from a fixed
@@ -32,7 +41,7 @@
                 <p>Sometimes you get approximate height above sea level too, but I think that’s derived
                 from the fixed cell-phone tower and some averaging.  But its not so interesting luckily.</p>
                 <p>The largest real radius I’ve seen is approaching 30 miles!</p>
-                <p>A shallow look at your average <a href="http://www.opengeospatial.org/" target="_blank">GIS</a>
+                <p>A shallow look at your average <a href="https://www.opengeospatial.org/" target="_blank">GIS</a>
                 database and its modeling points not these circles.</p>
                 <p><!-- more -->Two circles (or spheres) overlap if the distance between their centres is
                 less than the sum of their radii.</p>
@@ -45,7 +54,7 @@
                 is indexed so its maximum value is known, that’d still be scary.</p>
                 <p>I relived a past chain of thought when I was making hobby spatial indices for my hobby gaming
                 experiments…</p>
-                <p>Its normal to create game <a href="http://en.wikipedia.org/wiki/Octree" target="_blank">octrees</a>
+                <p>Its normal to create game <a href="https://en.wikipedia.org/wiki/Octree" target="_blank">octrees</a>
                 and such storing the points of units and objects.  And then, when searching for all objects near some
                 point, to add a fudge of the largest unit or object size.  This is because the space indexed is much
                 larger than the known maximum unit size.</p>
@@ -72,9 +81,9 @@
                 to sort those things that moved and then merge that into a new visible list in O(n). Those types of
                 tricks gained real frames for me.</p>
                 <p>My implementation was a bit sloppy; you can infer all the intersection tests for children from
-                testing against the centre point and so on but my simpler-to-follow redundant <a href="http://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box" target="_blank">aabb</a> intersection testing never glowed in profiling.</p>
+                testing against the centre point and so on but my simpler-to-follow redundant <a href="https://en.wikipedia.org/wiki/Minimum_bounding_box#Axis-aligned_minimum_bounding_box" target="_blank">aabb</a> intersection testing never glowed in profiling.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#843'">index</button>  <button class="page-link" onclick="window.location='rec2.html#843'">rec</button>  <button class="page-link" onclick="window.location='game.html#843'">game</button> 
+ <button class="page-link" onclick="window.location='index4.html#23662033005'">index</button>  <button class="page-link" onclick="window.location='rec2.html#23662033005'">rec</button>  <button class="page-link" onclick="window.location='game.html#23662033005'">game</button> 
 </div>
 </div>
 </div>
@@ -323,11 +332,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

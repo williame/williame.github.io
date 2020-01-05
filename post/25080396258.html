@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Oh MySQL I hate you : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,13 +33,13 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Oh MySQL I hate you</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
+<post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
                 <p>In no particular order, and not stopping at 5:</p>
-                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                <ol><li>your table names are <a href="https://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
                 on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
-                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                <li>data definitions (DDL) <a href="https://stackoverflow.com/a/687006/15721" target="_blank">are
                 not</a> in transactions</li>
-                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                <li>you don’t have a transaction-safe <a href="https://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
                 table (so create them temporarily for each connection, and clear them manually on rollback)</li>
                 <li><!-- more -->you can mix transaction-safe and non-transaction safe tables in a
                 transaction and, if it rolls back, the non-transaction safe tables are not rolled back.  And this is
@@ -38,18 +47,18 @@
                 <li>the default character set is latin1.  Well, its not even latin1 apparently, its just <em>called</em>
                 that.  Its actually cp1252 with eight characters randomly shifted around. You have to configure the
                 server / database / column to be something else <em>and</em> configure your client to get
-                back what you put into character columns; in Python, configuring the client is a <a href="http://www.harelmalka.com/?p=81" target="_blank">few switches scattered about</a> and not
+                back what you put into character columns; in Python, configuring the client is a <a alt="dead link: http://www.harelmalka.com/?p=81" href="/#404" target="_blank">few switches scattered about</a> and not
                 just one.  And I have a hazy memory of having to slap “BINARY” keywords on my
-                VARCHAR columns to get out what I put in or something.  From <a href="http://dev.mysql.com/doc/refman/5.0/en/charset-syntax.html" target="_blank">the docs</a>:<br/><blockquote>The
+                VARCHAR columns to get out what I put in or something.  From <a href="https://dev.mysql.com/doc/refman/5.0/en/charset-syntax.html" target="_blank">the docs</a>:<br/><blockquote>The
                 description in the following sections may appear complex, but it has been found in practice that
                 multiple-level defaulting leads to natural and obvious results.</blockquote>
                 Yeah right!</li>
                 <li>and the UTF-8 isn’t actually proper full UTF-8, it has UCS2 internally somewhere so
                 no Klingon code-points apparently.  You need to specify “utf8mb4” if you’re
                 storing music</li>
-                <li>InnoDB is <a href="http://stackoverflow.com/questions/9819271/why-is-mysql-innodb-insert-so-slow" target="_blank">shockingly
+                <li>InnoDB is <a href="https://stackoverflow.com/questions/9819271/why-is-mysql-innodb-insert-so-slow" target="_blank">shockingly
                 slow</a> if you don’t have nice sequential primary keys</li>
-                <li>well, its shockingly <a href="http://www.mysqlperformanceblog.com/2008/02/01/performance-gotcha-of-mysql-memory-tables/" target="_blank">slow</a> any which way</li>
+                <li>well, its shockingly <a href="https://www.mysqlperformanceblog.com/2008/02/01/performance-gotcha-of-mysql-memory-tables/" target="_blank">slow</a> any which way</li>
                 <li>it defaults to non-transaction-safe table types (on some platforms and packaging)</li>
                 <li>sometimes on some clients and some platforms at some strictness levels it will create tables
                 in the default storage engine if it doesn’t recognise your storage engine<br/><pre><code>CREATE
@@ -65,7 +74,7 @@
                 <p>(You may also like: <a href="post/16399069781.html" target="_blank">Google:
                 moreSQL is real</a> and <a href="post/16516763725.html" target="_blank">how I got massively faster DB with async batching</a>)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#835'">index</button>  <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='db.html#835'">db</button>  <button class="page-link" onclick="window.location='classic.html#835'">classic</button> 
+ <button class="page-link" onclick="window.location='index4.html#25080396258'">index</button>  <button class="page-link" onclick="window.location='perf.html#25080396258'">perf</button>  <button class="page-link" onclick="window.location='db.html#25080396258'">db</button>  <button class="page-link" onclick="window.location='classic.html#25080396258'">classic</button> 
 </div>
 </div>
 </div>
@@ -314,11 +323,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

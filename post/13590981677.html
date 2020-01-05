@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Performance lessons for HTTP sockets : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Performance lessons for HTTP sockets</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><a href="https://github.com/williame/hellepoll" target="_blank" title="hellepoll">hellepoll</a>
+<post-body><p><a href="https://github.com/williame/hellepoll" target="_blank" title="hellepoll">hellepoll</a>
                 is a fast little webserver that I’ve made.  I’ve written a few little custom event
                 loops like this over the years; this isn’t the first, and likely not the last.</p>
                 <p>In the tightest HTTP handling code you have to handle pipelining and flushing.  This is the
@@ -33,11 +42,11 @@
                 only non-keep-alive connections you might see is if you are behind a particularly basic proxy (nginx
                 stop blushing, people seem to forgive you) or if your client is actually a bit of app code running with
                 some dead-simple HTTP client rather than a sophisticated browser.</p>
-                <p>HTTP clients can <a href="http://en.wikipedia.org/wiki/HTTP_pipelining" target="_blank" title="pipeline                 requests">pipeline requests</a> - that is, they can issue a request to fetch a
+                <p>HTTP clients can <a href="https://en.wikipedia.org/wiki/HTTP_pipelining" target="_blank" title="pipeline                 requests">pipeline requests</a> - that is, they can issue a request to fetch a
                 page before previously-requested pages have been served.  The server has to reply in order, but can
                 prepare pages to be sent rather than having to wait to process a request when previous requests are
                 being served.</p>
-                <p><img alt="HTTP pipelining from wikipedia" height="445" src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png" width="640"/></p>
+                <p><img alt="HTTP pipelining from wikipedia" height="445" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png" width="640"/></p>
                 <p>If you are using a blocking IO model, you have to really deal with each request in sequence;
                 attempting to parse-ahead pipelined requests and juggle them will result in you writing a
                 mini-asynchronous IO loop of your own and you might as well just bite the bullet and be asynchronous
@@ -75,7 +84,7 @@
                 data and the slower your language choice the bigger the payoff - I’d imagine it an ideal
                 speedup for Python-based multi-user chat servers, for example.</p>
                 <p>Some clients use keep-alive connections but don’t pipeline.  In this case, when you
-                write something, they’ll be waiting for <a href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" title="Nagle">Nagle</a>
+                write something, they’ll be waiting for <a href="https://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank" title="Nagle">Nagle</a>
                 to kick in and actually send it over the wire before sending their next request.  <em>This means
                 they will be slower than if they had connection-closed!</em>  In these circumstances, it is
                 important to flush the write buffer immediately you have written the final part of the response if the
@@ -90,7 +99,7 @@
                 pipelining++ and sequential chunks belonging to different requests can be written in any order.  It
                 sounds delicious.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index5.html#929'">index</button>  <button class="page-link" onclick="window.location='perf.html#929'">perf</button> 
+ <button class="page-link" onclick="window.location='index5.html#13590981677'">index</button>  <button class="page-link" onclick="window.location='perf.html#13590981677'">perf</button> 
 </div>
 </div>
 </div>
@@ -339,11 +348,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Scaling my Server : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,8 +33,8 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Scaling my Server</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>(<a href="post/53751799442.html" target="_blank">Followup</a>.  Also  <a href="post/53836725910.html" target="_blank">highscalability.com</a>)</p>
-                <p>At the beginning of the <a href="http://www.mblox.com/" target="_blank">project</a>
+<post-body><p>(<a href="post/53751799442.html" target="_blank">Followup</a>.  Also  <a href="post/53836725910.html" target="_blank">highscalability.com</a>)</p>
+                <p>At the beginning of the <a alt="dead link: http://www.mblox.com/" href="/#404" target="_blank">project</a>
                 to build a large-scale targeted multi-recipient messaging server, I opted to use the simplest, most
                 mainstream architecture possible: put everything in a RDBMS and let each web handler run queries.</p>
                 <p>It is a bit like push email but with groups and you can edit and recall messages even after
@@ -59,7 +68,7 @@
                 mature at the time (nor even now, yet).  Even if we tricked it out, a Python server is lucky to be able
                 to handle a few thousand web requests per second which meant sending a message to a million recipients
                 could take some considerable time.</p>
-                <p>And the DB was slow.  More correctly, spinning disks are <a href="http://stackoverflow.com/questions/3038999/what-is-the-cost-of-memory-access/3039079#3039079" target="_blank">slow</a>, and you’ll prise ACID our of my dead hands.</p>
+                <p>And the DB was slow.  More correctly, spinning disks are <a href="https://stackoverflow.com/questions/3038999/what-is-the-cost-of-memory-access/3039079#3039079" target="_blank">slow</a>, and you’ll prise ACID our of my dead hands.</p>
                 <p>So the system needed a rewrite.  <strong>Rewrite #1</strong>.</p>
                 <p>At this stage, the single biggest problem was the DB, so what I did is move the DB into RAM and
                 write-through to the database for persistence.  Python’s excellent dictionaries, sets and the
@@ -173,7 +182,7 @@
                 <p>There’s no rewrite #3 on the horizon other than perhaps for the tradition of it.  I’ll
                 keep you posted ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#726'">index</button>  <button class="page-link" onclick="window.location='perf.html#726'">perf</button>  <button class="page-link" onclick="window.location='classic.html#726'">classic</button> 
+ <button class="page-link" onclick="window.location='index2.html#53349845356'">index</button>  <button class="page-link" onclick="window.location='perf.html#53349845356'">perf</button>  <button class="page-link" onclick="window.location='classic.html#53349845356'">classic</button> 
 </div>
 </div>
 </div>
@@ -422,11 +431,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

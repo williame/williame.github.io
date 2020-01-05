@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: db</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -31,7 +40,7 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/172424230628.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="633">
+<a name="172424230628">
     <h2>Faster searches with non-prefix fields in composite indices</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Here’s a horrid hack or neat trick to work around a gaping inefficiency in the MySQL
@@ -70,16 +79,16 @@
                 And of course it doesn’t work with hash indices.</p><p>Does MariaDB use this trick
                 internally automatically?  I don’t know but I doubt it.</p><p>Does PostgreSQL?  No idea. 
                 Etc.</p><p><i>If you liked this</i> you might like my recent stats on <a href="post/160628887798.html">database
-                compression</a> or browse some of my <a href="https://this blog">earlier
+                compression</a> or browse some of my <a alt="dead link: https://this blog" href="/#404">earlier
                 posts</a> </p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#633'">index</button>  <button class="page-link" onclick="window.location='perf.html#633'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#633'">mysql</button> 
+ <button class="page-link" onclick="window.location='index.html#172424230628'">index</button>  <button class="page-link" onclick="window.location='perf.html#172424230628'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#172424230628'">mysql</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/160628887798.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="635">
+<a name="160628887798">
     <h2>Compressing MySQL databases</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><i>TL;DR: use TokuDB.  Always.  It massively reduces storage requirements and
@@ -156,25 +165,25 @@
                 moves the goalposts.  It means I can build bigger systems without scaling sideways.  I don’t get why
                 everyone still uses InnoDB ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#635'">index</button>  <button class="page-link" onclick="window.location='perf.html#635'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#635'">mysql</button> 
+ <button class="page-link" onclick="window.location='index.html#160628887798'">index</button>  <button class="page-link" onclick="window.location='perf.html#160628887798'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#160628887798'">mysql</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/26063783576.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="827">
+<a name="26063783576">
     <h2>LevelDB isn&#39;t the fastest kid in town</h2>
 </a>
-<?xml version="1.0" ?><post-body><p><a href="http://www.sqlite.org/src4/doc/trunk/www/index.wiki" target="_blank">SQLite4</a>
-                <a href="http://www.sqlite.org/src4/doc/trunk/www/design.wiki" target="_blank">is faster</a>:</p>
+<?xml version="1.0" ?><post-body><p><a href="https://www.sqlite.org/src4/doc/trunk/www/index.wiki" target="_blank">SQLite4</a>
+                <a href="https://www.sqlite.org/src4/doc/trunk/www/design.wiki" target="_blank">is faster</a>:</p>
                 <blockquote>
                 <p>The default built-in storage engine is a log-structured merge database. It is very fast, faster
                 than LevelDB, supports nested transactions, and stores all content in a single disk file.</p>
                 </blockquote>
-                <p>How much faster, or faster <a href="http://stackoverflow.com/a/9819411/15721" target="_blank">for what</a> they don’t say.</p>
+                <p>How much faster, or faster <a href="https://stackoverflow.com/a/9819411/15721" target="_blank">for what</a> they don’t say.</p>
                 <p>So this brings the speed demons to three:</p>
-                <ul><li><a href="http://code.google.com/p/leveldb/" target="_blank">LevelDB</a>,
-                a <a href="http://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/" target="_blank">log-structured merge</a> database</li>
+                <ul><li><a href="https://code.google.com/p/leveldb/" target="_blank">LevelDB</a>,
+                a <a href="https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/" target="_blank">log-structured merge</a> database</li>
                 <li>SQLite4, with the default storage-engine which is a log-structured merge database too</li>
                 <li><a href="http://www.tokutek.com/" target="_blank">TokuDB</a>, a <a href="http://www.tokutek.com/resources/technology/" target="_blank">fractal tree</a> database</li>
                 </ul><p>It will of course be exciting to see how fast they actually are on realistic
@@ -185,31 +194,31 @@
                 into SQLite4.</p>
                 <p>What’s exciting you the storage engine front?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#827'">index</button>  <button class="page-link" onclick="window.location='perf.html#827'">perf</button> 
+ <button class="page-link" onclick="window.location='index3.html#26063783576'">index</button>  <button class="page-link" onclick="window.location='perf.html#26063783576'">perf</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/25080396258.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="835">
+<a name="25080396258">
     <h2>Oh MySQL I hate you</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
                 <p>In no particular order, and not stopping at 5:</p>
-                <ol><li>your table names are <a href="http://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
+                <ol><li>your table names are <a href="https://dev.mysql.com/doc/refman/5.0/en/identifier-case-sensitivity.html" target="_blank">case-sensitive
                 on some platforms</a> (and, on some platforms, dependent on file system type!) but not others</li>
-                <li>data definitions (DDL) <a href="http://stackoverflow.com/a/687006/15721" target="_blank">are
+                <li>data definitions (DDL) <a href="https://stackoverflow.com/a/687006/15721" target="_blank">are
                 not</a> in transactions</li>
-                <li>you don’t have a transaction-safe <a href="http://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
+                <li>you don’t have a transaction-safe <a href="https://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
                 table (so create them temporarily for each connection, and clear them manually on rollback)</li>
                 <li><!-- more --></li></ol></post-body>
- <button class="page-link" onclick="window.location='index4.html#835'">index</button>  <button class="page-link" onclick="window.location='perf.html#835'">perf</button>  <button class="page-link" onclick="window.location='classic.html#835'">classic</button> 
+ <button class="page-link" onclick="window.location='index4.html#25080396258'">index</button>  <button class="page-link" onclick="window.location='perf.html#25080396258'">perf</button>  <button class="page-link" onclick="window.location='classic.html#25080396258'">classic</button> 
 <button class="page-link" onclick="window.location='post/25080396258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19346002203.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="878">
+<a name="19346002203">
     <h2>How I got massively faster DB with in-process replication</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
@@ -221,13 +230,13 @@
                 they are blazingly slow.</p>
                 <p>This is because the straightforward way to connect a database to a web app is naive.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index4.html#878'">index</button>  <button class="page-link" onclick="window.location='perf.html#878'">perf</button> 
+ <button class="page-link" onclick="window.location='index4.html#19346002203'">index</button>  <button class="page-link" onclick="window.location='perf.html#19346002203'">perf</button> 
 <button class="page-link" onclick="window.location='post/19346002203.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/16516763725.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="907">
+<a name="16516763725">
     <h2>How I got massively faster DB with async batching</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
@@ -244,21 +253,21 @@
                 <p>What I built is so generally applicable I offer it here as a useful pattern for your projects
                 when you hit the same scaling issues we did:</p>
                 <!-- more --></post-body>
- <button class="page-link" onclick="window.location='index5.html#907'">index</button>  <button class="page-link" onclick="window.location='perf.html#907'">perf</button>  <button class="page-link" onclick="window.location='classic.html#907'">classic</button> 
+ <button class="page-link" onclick="window.location='index5.html#16516763725'">index</button>  <button class="page-link" onclick="window.location='perf.html#16516763725'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16516763725'">classic</button> 
 <button class="page-link" onclick="window.location='post/16516763725.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/16399069781.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="909">
+<a name="16399069781">
     <h2>Google: MoreSQL is Real</h2>
 </a>
-<?xml version="1.0" ?><post-body><p><img align="left" alt="Alex Tatiyants made this" height="75" src="http://img197.imageshack.us/img197/959/moresql.png" width="257"/></p>
-                <p>The post <a href="http://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
+<?xml version="1.0" ?><post-body><p><img align="left" alt="dead link: http://img197.imageshack.us/img197/959/moresql.png" height="75" src="/#404" width="257"/></p>
+                <p>The post <a href="https://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
                 tongue-in-cheek.  But its more true and serious and real than the NoSQL crowd want to admit.  And Alex
                 made a sweet logo.</p>
                 <!-- more --></post-body>
- <button class="page-link" onclick="window.location='index5.html#909'">index</button>  <button class="page-link" onclick="window.location='perf.html#909'">perf</button>  <button class="page-link" onclick="window.location='classic.html#909'">classic</button> 
+ <button class="page-link" onclick="window.location='index5.html#16399069781'">index</button>  <button class="page-link" onclick="window.location='perf.html#16399069781'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16399069781'">classic</button> 
 <button class="page-link" onclick="window.location='post/16399069781.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
@@ -511,11 +520,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

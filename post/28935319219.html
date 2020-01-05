@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Rod-marching on the GPU : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,9 +33,9 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Rod-marching on the GPU</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>My <strong><a href="post/26628848007.html" target="_blank">rod-marching</a></strong>
+<post-body><p>My <strong><a href="post/26628848007.html" target="_blank">rod-marching</a></strong>
                 was an order-of-magnitude faster than classic per-pixel ray-marching on the CPU.</p>
-                <p>I have now <a href="http://williame.github.com/Mandel_1" target="_blank">approximated it
+                <p>I have now <a href="https://williame.github.com/Mandel_1" target="_blank">approximated it
                 on the GPU</a> - try it <strong>live in your browser</strong> and report back on your
                 performance statistics please :)</p>
                 <p>First, you render the scene to a small texture, then use this texture as input to the bigger
@@ -35,12 +44,12 @@
                 Then you render to a 256x256 texture using the 64x64 texture as input and another small number of ray
                 steps.  And finally you render to the screen with normal ray-steps and the 256x256 texture as input.</p>
                 <p>Sadly, the SIMD nature of GPUs works against the big gains seen on the CPU.  Also, the cost of
-                changing render targets adds overhead.  On wimpy laptop ATI GPUs I’ve <a href="http://www.fractalforums.com/index.php?topic=12906.0" target="_blank">had speed reports</a>
+                changing render targets adds overhead.  On wimpy laptop ATI GPUs I’ve <a href="https://www.fractalforums.com/index.php?topic=12906.0" target="_blank">had speed reports</a>
                 of 25 to 50% improvement.  This is not to be sniffed at if it takes you from 10 fps to 15 fps it takes
                 you from unplayable to barely tolerable :)</p>
                 <p>What is perhaps more interesting is the code I wrote to get webGL going.  I have a nice little
                 gluOrtho2D / glOrtho and gluPerspective as well as mat4 inverse function in there for you to copy.</p>
-                <p><!-- more -->Also generally useful, there’s a bitmap (<a href="http://www.angelcode.com/products/bmfont/" target="_blank">AngelCode</a>) <a href="https://github.com/williame/Mandel_1/blob/3bc9db02dcf059805b545a350087ecf4ef0148fc/ui.js#L69" target="_blank">font renderer</a> and a window concept in there.  Having worked making UI
+                <p><!-- more -->Also generally useful, there’s a bitmap (<a href="https://www.angelcode.com/products/bmfont/" target="_blank">AngelCode</a>) <a href="https://github.com/williame/Mandel_1/blob/3bc9db02dcf059805b545a350087ecf4ef0148fc/ui.js#L69" target="_blank">font renderer</a> and a window concept in there.  Having worked making UI
                 toolkits for real its kind of hard to fight the urge to go make UI toolkits everywhere I go.  They get
                 more and more minimal each time though.</p>
                 <p>The basic approach for modern OpenGL(ES) applications is to use textured triangles (<a href="post/14011115100.html" target="_blank">I want GL_QUAD back!</a>) everywhere - fonts, borders etc - and ‘record’
@@ -50,7 +59,7 @@
                 <p>I guess I’ll add nice widget border utility, some layout managers and then some
                 simple widgets like labels and sliders and buttons and so on soon enough.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#809'">index</button>  <button class="page-link" onclick="window.location='rec2.html#809'">rec</button>  <button class="page-link" onclick="window.location='game.html#809'">game</button> 
+ <button class="page-link" onclick="window.location='index3.html#28935319219'">index</button>  <button class="page-link" onclick="window.location='rec2.html#28935319219'">rec</button>  <button class="page-link" onclick="window.location='game.html#28935319219'">game</button> 
 </div>
 </div>
 </div>
@@ -299,11 +308,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

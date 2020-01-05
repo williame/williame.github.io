@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: rec</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -38,7 +47,7 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/69583927490.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="686">
+<a name="69583927490">
     
 </a>
 <?xml version="1.0" ?><post-body><p>I was packing away an old unused computer that I’d been letting my
@@ -55,7 +64,7 @@
                 <p>One of my projects then was making modding tools for the Command &amp; Conquer Tiberian Sun
                 game.  I’d been making voxel editors at uni, but by the year 2000 the source to the first
                 voxel editor had been lost, and I’d had to make a second voxel editor.</p>
-                <p>The Tiberian Sun units were stored as <a href="http://en.wikipedia.org/wiki/Voxel">voxels</a>
+                <p>The Tiberian Sun units were stored as <a href="https://en.wikipedia.org/wiki/Voxel">voxels</a>
                 - think of them as tiny cubes arranged to approximate a 3D representation - and my editors were the
                 first user-friendly editor attempts for them.  They really opened up what was possible for modders, who
                 adopted my tools - inadequacies and all - with glee.</p>
@@ -86,13 +95,13 @@
                 doubtless be throwing away my last computer with a USB jack, and hopefully I’ll remember to
                 copy and rummage around in my old projects :)</p>
             <p><a href="media/old/69583927490_2.png"><img src="media/old/69583927490_1.png"/></a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#686'">index</button> 
+ <button class="page-link" onclick="window.location='index1.html#69583927490'">index</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/60190775649.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="704">
+<a name="60190775649">
     
 </a>
 <?xml version="1.0" ?><post-body><p>To: <em>All secret agents</em></p>
@@ -101,13 +110,13 @@
                 <p>Security: <strong><em>TOP SECRET</em></strong></p>
                 <p>Play: <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">my game!</a></p>
             <iframe frameborder="0" src="https://www.youtube.com/embed/mfvg7LfmgGg"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index1.html#704'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#704'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index1.html#60190775649'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#60190775649'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59997353762.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="705">
+<a name="59997353762">
     <h2>Running SQL in your browser</h2>
 </a>
 <?xml version="1.0" ?><post-body><p dir="ltr">As a key part of my Ludum Dare entry <font color="#4c4c4c"><a href="post/59476092289.html">The NSA’s Where’s
@@ -118,7 +127,7 @@
                 <p dir="ltr">SELECT T.* FROM MANIFESTS AS M, MANIFESTS AS M2, TARGETS AS T WHERE T.PASS = M.PASS
                 AND M.PASS = M2.PASS AND M.FLIGHT = ‘AF-321’ AND M2.FLIGHT = 'IB-794’;</p>
                 <p dir="ltr">But I couldn’t find any working SQL engines for Javascript!  I didn’t find
-                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="http://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
+                the emscripten SQLite. The only thing I could find was <font color="#4c4c4c"><a href="https://code.google.com/p/trimpath/wiki/TrimQuery">TrimQuery</a></font>, but I
                 couldn’t get it to work and its quite old and not actively developed.  There’s are also a few LINQ-likes
                 but they are not really SQL.</p>
                 <p dir="ltr">Now SQL is the lingua franca of structured data querying so I was surprised at this
@@ -175,7 +184,7 @@
                 have doubled my line-count and just gone with a classic tokeniser in the first place.</p>
                 <p dir="ltr"><b>Executing SQL</b></p>
                 <p dir="ltr">Once the query is parsed and the array of table names built and, its just to execute
-                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
+                the query.  And this is surprisingly simple using the <font color="#4c4c4c"><a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian Product</a></font>.  If
                 table A had two rowsand table B had two rows then the Cartesian Product would be:</p>
                 <p dir="ltr"><tt>SELECT A.V, B.V FROM A, B;</tt><br/><tt>A.V | B.V</tt><br/><tt>1
                 | 1</tt><br/><tt>1 | 2</tt><br/><tt>2 | 1</tt><br/><tt>2
@@ -220,19 +229,19 @@
                 array.filter() once joins were involved.  With a better tokeniser and an expanded grammar and a simple
                 query planner it could be widely useful.</p>
                 <p dir="ltr"><font color="#4c4c4c"><a href="https://github.com/williame/ludum_dare_27_snowden/blob/gh-pages/sql.js">sql.js</a></font>
-                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="http://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
+                is doubtlessly more interesting than actually <font color="#4c4c4c"><a href="https://williame.github.io/ludum_dare_27_snowden/index.html">playing the game</a></font>
                 ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#705'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#705'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index1.html#59997353762'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59997353762'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59476092289.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="709">
+<a name="59476092289">
     
 </a>
-<?xml version="1.0" ?><post-body><p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot0.jpg"/></p>
+<?xml version="1.0" ?><post-body><p><img alt="" src="https://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot0.jpg"/></p>
                 <p>For the Ludum Dare game jam this weekend I made a <a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313" target="_blank">Snowden-themed
                 game</a> :)</p>
                 <p>You are an NSA Analyst and you have to move your agents onto flights to find Snowden and
@@ -242,7 +251,7 @@
                 surprise!  The truth is the NSA is still stuck on Windows GOV edition, which is based on Windows ME.
                  Clippy is in there too!  And their IT department will soon start an upgrade of the mail system to Lotus
                 Notes!</p>
-                <p><img alt="" src="http://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot1.jpg"/></p>
+                <p><img alt="" src="https://www.ludumdare.com/compo/wp-content/compo2/273708/10313-shot1.jpg"/></p>
                 <p>To be honest, the game is only for data junkies.  And data junkies are the kind of people who’d
                 like a more subtly balanced and tuned model underneath, which you don’t get from a one weekend
                 project.  So nobody is going to like it :/</p>
@@ -252,13 +261,13 @@
                 <p>The Ludum Dare theme was “10 seconds”, but if you want 10 seconds you can
                 go play the 2000 other game entries that take the theme seriously instead!</p>
             <p><a href="http://www.ludumdare.com/compo/ludum-dare-27/?action=preview&amp;uid=10313">NSA: Where's Snowden?</a></p></post-body>
- <button class="page-link" onclick="window.location='index1.html#709'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#709'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index1.html#59476092289'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59476092289'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59177409349.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="710">
+<a name="59177409349">
     <h2>What does the NSA computer screen look like?</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My Ludum Dare 27 game entry is going to be you - the NSA “Analyst”
@@ -274,13 +283,13 @@
                 about the visual style.  Perhaps people will prefer a futuristic modern star-trek UI with lots of solid
                 fill rounded corner borders and semi-transparency and transition effects?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index1.html#710'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#710'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index1.html#59177409349'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59177409349'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59140606458.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="711">
+<a name="59140606458">
     <h2>I&#39;m going to enter the Ludum Dare 27 game-making competition and I&#39;m going to use ... SQL!
             </h2>
 </a>
@@ -296,21 +305,36 @@
                 <p>So as you see, I really am picking the best of all worlds: Javascript + SQL +
                 MySQL bugsfeatures… what’s not to love?</p>
                 <p>Maybe I have time to add DELETE and UPDATE before the LD starts and I need to work out some
-                game to use all this awesomeness on… <img alt=":)" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
+                game to use all this awesomeness on… <img alt=":)" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
                 <p><a href="http://www.ludumdare.com/compo/2013/08/23/im-in-and-im-going-to-use-sql/" target="_blank">&lt;/smug twit&gt;</a></p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#711'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#711'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index2.html#59140606458'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59140606458'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="57140204975">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
+                worlds.  In the end, I needed to visualise the noise function itself:</p>
+                <p><img src="media/old/57140204975_1.jpg"/></p>
+                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
+                next <a href="https://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#57140204975'">index</button>  <button class="page-link" onclick="window.location='game.html#57140204975'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/57181055984.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="715">
+<a name="57181055984">
     <h2>Perlin Noise</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I’ve added an interactive Perlin “Noise explorer” to
-                <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
-                <p>I had originally used the usual Simplex Noise Javascript port that is in <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" target="_blank">three.js</a>
+                <a href="https://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+                <p>I had originally used the usual Simplex Noise Javascript port that is in <a alt="dead link: https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" href="/#404" target="_blank">three.js</a>
                 and elsewhere.</p>
                 <p>I even ported - successfully - to asm.js!  FWIW, asm.js turned out to be much slower than the
                 normal code; this isn’t code that benefits from being ported, it seems; the call overhead is
@@ -321,7 +345,7 @@
                 was trivially learnable and may be interesting yet e.g. spatial indices and priority queue heaps.</p>
                 <p>But ultimately I wasn’t happy with the tunability of the Simplex Noise
                 implementation.  So I instead set about making a very naive reimplementation of Ken Perlin’s
-                <a href="http://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
+                <a href="https://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
                 in Javascript.</p>
                 <p>This lets you set the number of octaves and the alpha and beta values for bumpiness (sometimes
                 called persistence).  If you set the scale attribute manually you can even control the scaling of the
@@ -332,32 +356,17 @@
                 <p>I didn’t pay too much attention to GLSL noise - that’s applicable for
                 rendering, but not so useful for generating game levels and so on where you really need your noise
                 accessible to Javascript (and in webGL you can’t read back framebuffers).</p>
-                <p>As a thought-experiment it ought to be possible to do a <a href="http://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
+                <p>As a thought-experiment it ought to be possible to do a <a href="https://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
                 shadow my visualisation nicely, but it would have rather more general advantages if it sped up making
                 big chunks of noise too?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#715'">index</button>  <button class="page-link" onclick="window.location='game.html#715'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="716">
-    <h2>Perlin Noise</h2>
-</a>
-<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
-                worlds.  In the end, I needed to visualise the noise function itself:</p>
-                <p><img src="media/old/57140204975_1.jpg"/></p>
-                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
-                next <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
-            </post-body>
- <button class="page-link" onclick="window.location='index2.html#716'">index</button>  <button class="page-link" onclick="window.location='game.html#716'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#57181055984'">index</button>  <button class="page-link" onclick="window.location='game.html#57181055984'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/53831974133.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="724">
+<a name="53831974133">
     <h2>Drawing RTS maps fast</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/53831974133_1.jpg"/></p>
@@ -371,13 +380,13 @@
                 had strange anonymous handles on-line in those days except me - and we made some really cool mods and
                 games.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index2.html#724'">index</button>  <button class="page-link" onclick="window.location='game.html#724'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#53831974133'">index</button>  <button class="page-link" onclick="window.location='game.html#53831974133'">game</button> 
 <button class="page-link" onclick="window.location='post/53831974133.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/49797579721.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="730">
+<a name="49797579721">
     <h2>WillCity update</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/49797579721_1.jpg"/></p>
@@ -426,13 +435,13 @@
                 <li>with some basic clamping</li>
                 </ol>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#730'">index</button>  <button class="page-link" onclick="window.location='game.html#730'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#49797579721'">index</button>  <button class="page-link" onclick="window.location='game.html#49797579721'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/49171822294.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="735">
+<a name="49171822294">
     <h2>What I&#39;m working on</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My blog has been rather quiet recently… due mainly to renovation projects
@@ -441,34 +450,19 @@
                 my hobby simulator so far:</p>
                 <p><img src="media/old/49171822294_1.jpg"/></p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#735'">index</button>  <button class="page-link" onclick="window.location='game.html#735'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="738">
-    <h2>barebones.js updated</h2>
-</a>
-<?xml version="1.0" ?><post-body><p>It now includes a <a href="http://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
-                RTS game!  Just add units…</p>
-                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
-                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
-                working out the tile under the mouse cursor.  Stay tuned.</p>
-            </post-body>
- <button class="page-link" onclick="window.location='index2.html#738'">index</button>  <button class="page-link" onclick="window.location='game.html#738'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#49171822294'">index</button>  <button class="page-link" onclick="window.location='game.html#49171822294'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/48129403865.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="739">
+<a name="48129403865">
     <h2>How to do 3D terrain for your game</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>The <a href="https://github.com/williame/barebones.js" target="_blank">barebones.js</a>
                 project contains a simple grid-based webGL-drawn terrain that serves as a ready-to-build-upon skeleton
                 for your game:</p>
-                <p><a href="http://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
+                <p><a href="https://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
 
                 <h2>features</h2>
                 <p>The demo shows:</p>
@@ -486,33 +480,48 @@
                 </ul><p>We’ll cover each of these points below:</p>
                 <h2>the map</h2>
                 <p><img align="left" src="media/old/48129403865_1.png"/>
-                The map is fundamentally a 2D <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
+                The map is fundamentally a 2D <a href="https://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
                 If the map is, say, 100x100 squares then we’ll have 101x101 height points.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#739'">index</button>  <button class="page-link" onclick="window.location='game.html#739'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#48129403865'">index</button>  <button class="page-link" onclick="window.location='game.html#48129403865'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="48137647814">
+    <h2>barebones.js updated</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>It now includes a <a href="https://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
+                RTS game!  Just add units…</p>
+                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
+                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
+                working out the tile under the mouse cursor.  Stay tuned.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='index2.html#48137647814'">index</button>  <button class="page-link" onclick="window.location='game.html#48137647814'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/45193855853.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="746">
+<a name="45193855853">
     <h2>Drawing things in the shadow of a sphere</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
                 - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
                 else a child of the cold war?</p>
-                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                <p>I had this particular image in mind from the 80s film “<a href="https://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
                 see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
                 me, so I wanted to capture that feel:</p>
                 <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index2.html#746'">index</button>  <button class="page-link" onclick="window.location='game.html#746'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#45193855853'">index</button>  <button class="page-link" onclick="window.location='game.html#45193855853'">game</button> 
 <button class="page-link" onclick="window.location='post/45193855853.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/43800948133.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="754">
+<a name="43800948133">
     <h2>Efficient procedural flame particle effects</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I was playing the other month with making flame particle effects.  Lots of flame
@@ -536,20 +545,20 @@
                 <p>In this way I could have lots - easily filling the whole screen with tens of thousands - of
                 point-sprite-based fire particles and no two systems looked identical!</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#754'">index</button>  <button class="page-link" onclick="window.location='game.html#754'">game</button> 
+ <button class="page-link" onclick="window.location='index2.html#43800948133'">index</button>  <button class="page-link" onclick="window.location='game.html#43800948133'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/40512693117.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="763">
+<a name="40512693117">
     <h2>The Crown Jewels Job – Autopsy</h2>
 </a>
 <?xml version="1.0" ?><post-body><div>
                 <p>Opening myself up here, but to be honest I’m deeply disappointed about our Ludum Dare
                 game-making-contest score history. I expected more of us; we aimed higher, and we hoped to make
                 something that would please and wow the crowd.</p>
-                <p><img alt="" height="307" src="http://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
+                <p><img alt="" height="307" src="https://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
                 <p><a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">And we abjectly failed, again.</a></p>
                 <p>We’ve always aimed to challenge norms; in <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">LD23</a>
                 we’d tried to put graphics into text adventures in an interesting, new way. We’ve tried to enter a
@@ -557,7 +566,7 @@
                 to make a 2D platform game without tiles.</p>
                 <p><em><strong>We really are overactive underachievers.</strong></em></p>
                 <p>Our highest LD25 score was for music. We were perhaps not clear enough that that was the one
-                thing we had not ourselves made <img alt=":(" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
+                thing we had not ourselves made <img alt=":(" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
                 picked up on the Internet, and we thought we’d explained that.</p>
                 <p>So why did we fail so miserably? <strong>Bad control.</strong>  We should have had
                 a lot more and we lacked in plenty of areas, but I think that the playability was most affected by the
@@ -590,18 +599,18 @@
                 back for another beating; we’ll see.</p>
                 </div>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#763'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#763'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index2.html#40512693117'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#40512693117'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/38462176877.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="764">
+<a name="38462176877">
     <h2>The Crown Jewels Job</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><em>Introducing</em> our game for the <a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">Ludum
                 Dare #25</a> competition:</p>
-                <p><big><a href="http://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
+                <p><big><a href="https://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
                 <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/W5T_mswWhnQ" width="420"> </iframe></p>
                 <p>To think we made all this in just 72 hours?!</p>
                 <p>The theme for the competition was “<em>you are the villain</em>”.</p>
@@ -613,13 +622,13 @@
                 made it from scratch, is not so great.</p>
                 <p>If there’s a criticism of the game-play its the wrong-feeling control system.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index2.html#764'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#764'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index2.html#38462176877'">index</button>  <button class="page-link" onclick="window.location='ludum-dare.html#38462176877'">ludum-dare</button> 
 <button class="page-link" onclick="window.location='post/38462176877.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/38051204853.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="765">
+<a name="38051204853">
     <h2>Dave the Dastard: Ludum Dare 25 - end of day one</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>That’s just a working title…</p>
@@ -636,42 +645,42 @@
                 levels and add assets straight from the browser, rather than emailing them to me!  Ah the magic of my
                 little git web server.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#765'">index</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#765'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='index2.html#38051204853'">index</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#38051204853'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/36660467688.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="770">
+<a name="36660467688">
     <h2>Rendering Spheres with Triangles</h2>
 </a>
-<?xml version="1.0" ?><post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="http://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
+<?xml version="1.0" ?><post-body><p>Creating spheres programmatically has turned up a <a href="http://twistedoakstudios.com/blog/?p=1080" target="_blank">couple</a> <a href="https://gamedev.stackexchange.com/questions/16585/how-do-you-programmatically-generate-a-sphere" target="_blank">of</a> times recently.  So here are my own notes:</p>
                 <p>There are two general approaches:</p>
-                <p><img height="94" src="http://i.stack.imgur.com/kSSSF.png" width="200"/></p>
+                <p><img height="94" src="https://i.stack.imgur.com/kSSSF.png" width="200"/></p>
                 <p>The leftmost is termed the <em><strong>uv-sphere</strong></em> and the
                 rightmost an <em><strong>icosphere</strong></em>.</p>
                 <p>The uv-sphere looks like a globe. For many purposes it is perfectly fine, but for some use
                 cases, e.g. if you want to deform the sphere, it is disadvantageous that the density of vertices is
                 greater around the poles.  The icosphere vertices are distributed evenly.</p>
                 <p>GLUT tends to use the uv approach: look at the function <code>glutSolidSphere()</code>
-                in the <a href="http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" target="_blank">freeglut sourcecode</a>.</p>
+                in the <a alt="dead link: http://freeglut.svn.sourceforge.net/viewvc/freeglut/trunk/freeglut/freeglut/src/freeglut_geometry.c?revision=926&amp;view=markup" href="/#404" target="_blank">freeglut sourcecode</a>.</p>
                 <p>And <strong>webGL</strong> doesn’t have <code>glutSolidSphere()</code>. 
                 Oh well.  <strong><a href="https://gist.github.com/4153824" target="_blank">Here’s
                 my code for creating an untextured icosphere online</a>.</strong></p>
                 <p>Here is an excellent article on producing an icosphere: <a href="http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html" target="_blank">http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html</a></p>
                 <p>I’ve also experiemented with tiling spheres for RTS games etc.  Here’s an
-                excellent guide to how you might divide the sphere surface into zones: <a href="http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
+                excellent guide to how you might divide the sphere surface into zones: <a alt="dead link: http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html" href="/#404" target="_blank">http://kiwi.atmos.colostate.edu/BUGS/geodesic/text.html</a></p>
                 <p>Finally, texturing.  <a href="http://vterrain.org/Textures/spherical.html" target="_blank">http://vterrain.org/Textures/spherical.html</a>
-                gives an excellent description of how you might choose to texture them, and <a href="http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
+                gives an excellent description of how you might choose to texture them, and <a href="https://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm" target="_blank">http://www.iquilezles.org/www/articles/patchedsphere/patchedsphere.htm</a>
                 is - as iñigo is - brilliant.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#770'">index</button>  <button class="page-link" onclick="window.location='game.html#770'">game</button> 
+ <button class="page-link" onclick="window.location='index3.html#36660467688'">index</button>  <button class="page-link" onclick="window.location='game.html#36660467688'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/35858593837.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="771">
+<a name="35858593837">
     <h2>tic-tac-toe</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My daughters have made a little tic-tac-toe game.  Its a little 3x3 board, played
@@ -694,11 +703,11 @@
                 <p>And then dot chewed on it for half an hour and then seg-faulted.</p>
                 <p>I tried other graphviz tools (which treat the graph as undirected), but was unhappy with their
                 output:</p>
-                <p><img height="249" src="http://i.stack.imgur.com/orvyk.png" width="314"/></p>
-                <p><img height="972" src="http://i.stack.imgur.com/GJfeQ.png" width="957"/></p>
-                <p>I asked for help on <a href="http://stackoverflow.com/questions/13417411/laying-out-a-large-graph-with-graphviz" target="_blank">StackOverflow</a>.</p>
+                <p><img height="249" src="https://i.stack.imgur.com/orvyk.png" width="314"/></p>
+                <p><img height="972" src="https://i.stack.imgur.com/GJfeQ.png" width="957"/></p>
+                <p>I asked for help on <a href="https://stackoverflow.com/questions/13417411/laying-out-a-large-graph-with-graphviz" target="_blank">StackOverflow</a>.</p>
                 <p>And a chap kindly showed me a zoomed-out layout that works:</p>
-                <p><img height="1032" src="http://i.stack.imgur.com/L4LJ3.png" width="1250"/></p>
+                <p><img height="1032" src="https://i.stack.imgur.com/L4LJ3.png" width="1250"/></p>
                 <p>At that ridiculous zoom, there’s a definite pattern there…</p>
                 <p>Only problem is, whilst I can get graphviz to generate that chart, I can’t view it!</p>
                 <p>The image is a monster.  PNG 20380x16854, 59.73MB compressed …</p>
@@ -711,7 +720,7 @@
                 layout engine too, and … well, I welcome anyone who can master graphviz and has more RAM than
                 I :)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#771'">index</button>  <button class="page-link" onclick="window.location='game.html#771'">game</button> 
+ <button class="page-link" onclick="window.location='index3.html#35858593837'">index</button>  <button class="page-link" onclick="window.location='game.html#35858593837'">game</button> 
 
 </div>
 
@@ -971,11 +980,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

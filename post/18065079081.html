@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Cogs Bad : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,18 +33,18 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Cogs Bad</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><em>There is something really wrong with modern programmers.  Very wrong
-                indeed.</em><br/><br/><a href="http://www.mailinator.com/" target="_blank">Mailinator</a>
-                creator Paul Tyma has a <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
+<post-body><p><em>There is something really wrong with modern programmers.  Very wrong
+                indeed.</em><br/><br/><a href="https://www.mailinator.com/" target="_blank">Mailinator</a>
+                creator Paul Tyma has a <a href="https://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">great
                 blog post</a> on how he compresses our email by 90%. He  has a simple LRU cache of lines and
                 consecutive lines from emails, so emails become a list of line string pointers where most are shared. 
                 He also has a background thread doing rather stronger LZMA compression on large emails.  He’s
-                winning.<br/><br/><!-- more -->(Its well worth reading the <a href="http://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">mailinator
+                winning.<br/><br/><!-- more -->(Its well worth reading the <a href="https://mailinator.blogspot.com/2012/02/how-mailinator-compresses-email-by-90.html" target="_blank">mailinator
                 blog post</a> again and spend a minute thinking about how to store the individual lines from 3500
                 emails per second; how you’d need to fetch them to recover an email if someone wanted to read
                 it and so on.  It turns out to be quite obvious that a normal Java hash-table and linked list is a just
                 fine way of doing it with excellent performance characteristics ;)</p>
-                <p>Thing is, in one of the <a href="http://news.ycombinator.com/item?id=3617704" target="_blank">comments</a> on the Hacker News version of the article, someone wonders why he
+                <p>Thing is, in one of the <a href="https://news.ycombinator.com/item?id=3617704" target="_blank">comments</a> on the Hacker News version of the article, someone wonders why he
                 didn’t use Redis for the LRU.<br/><br/>I think of the kindest, least shouting way
                 to hint that that’s not such a good idea; I say it might be higher latency to block on a Redis
                 LRU than using a in-process data-structure.  <em>Other</em> commenters responds by saying
@@ -89,12 +98,12 @@
                 <p>This avoiding cogs mantra ought to be the default operating mode when considering a new
                 project.  <strong>Cogs bad.  Cogs bad!</strong>  There, hopefully I’ve started us
                 a new movement :)<br/><br/><small>Footnote: Mailinator creator Paul Tyma has only good
-                posts, including opinions on asynchronous IO :)  <a href="http://mailinator.blogspot.com/" target="_blank">Go read his blog</a>.  Especially relevant are <a href="http://mailinator.blogspot.com/2011/05/notes-from-programming-leap-to.html" target="_blank">these
+                posts, including opinions on asynchronous IO :)  <a href="https://mailinator.blogspot.com/" target="_blank">Go read his blog</a>.  Especially relevant are <a alt="dead link: http://mailinator.blogspot.com/2011/05/notes-from-programming-leap-to.html" href="/#404" target="_blank">these
                 slides</a>.</small></p>
-                <p>(As seen on <a href="http://news.ycombinator.com/item?id=3620712" target="_blank">Hacker
-                News</a>; more recently on <a href="http://www.reddit.com/r/programming/comments/qhaje/there_is_something_really_wrong_with_modern/" target="_blank">reddit</a>; have you seen it anywhere else?)</p>
+                <p>(As seen on <a href="https://news.ycombinator.com/item?id=3620712" target="_blank">Hacker
+                News</a>; more recently on <a alt="dead link: http://www.reddit.com/r/programming/comments/qhaje/there_is_something_really_wrong_with_modern/" href="/#404" target="_blank">reddit</a>; have you seen it anywhere else?)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#895'">index</button>  <button class="page-link" onclick="window.location='classic.html#895'">classic</button> 
+ <button class="page-link" onclick="window.location='index4.html#18065079081'">index</button>  <button class="page-link" onclick="window.location='classic.html#18065079081'">classic</button> 
 </div>
 </div>
 </div>
@@ -343,11 +352,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

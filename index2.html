@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: index</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -38,7 +47,7 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/59140606458.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="711">
+<a name="59140606458">
     <h2>I&#39;m going to enter the Ludum Dare 27 game-making competition and I&#39;m going to use ... SQL!
             </h2>
 </a>
@@ -54,21 +63,36 @@
                 <p>So as you see, I really am picking the best of all worlds: Javascript + SQL +
                 MySQL bugsfeatures… what’s not to love?</p>
                 <p>Maybe I have time to add DELETE and UPDATE before the LD starts and I need to work out some
-                game to use all this awesomeness on… <img alt=":)" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
+                game to use all this awesomeness on… <img alt=":)" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_smile.gif"/></p>
                 <p><a href="http://www.ludumdare.com/compo/2013/08/23/im-in-and-im-going-to-use-sql/" target="_blank">&lt;/smug twit&gt;</a></p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#711'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#711'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec1.html#59140606458'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#59140606458'">ludum-dare</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="57140204975">
+    <h2>Perlin Noise</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
+                worlds.  In the end, I needed to visualise the noise function itself:</p>
+                <p><img src="media/old/57140204975_1.jpg"/></p>
+                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
+                next <a href="https://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#57140204975'">rec</button>  <button class="page-link" onclick="window.location='game.html#57140204975'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/57181055984.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="715">
+<a name="57181055984">
     <h2>Perlin Noise</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I’ve added an interactive Perlin “Noise explorer” to
-                <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
-                <p>I had originally used the usual Simplex Noise Javascript port that is in <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" target="_blank">three.js</a>
+                <a href="https://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
+                <p>I had originally used the usual Simplex Noise Javascript port that is in <a alt="dead link: https://github.com/mrdoob/three.js/blob/master/examples/js/SimplexNoise.js" href="/#404" target="_blank">three.js</a>
                 and elsewhere.</p>
                 <p>I even ported - successfully - to asm.js!  FWIW, asm.js turned out to be much slower than the
                 normal code; this isn’t code that benefits from being ported, it seems; the call overhead is
@@ -79,7 +103,7 @@
                 was trivially learnable and may be interesting yet e.g. spatial indices and priority queue heaps.</p>
                 <p>But ultimately I wasn’t happy with the tunability of the Simplex Noise
                 implementation.  So I instead set about making a very naive reimplementation of Ken Perlin’s
-                <a href="http://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
+                <a href="https://mrl.nyu.edu/~perlin/doc/oscar.html#noise" target="_blank">classic C noise</a>
                 in Javascript.</p>
                 <p>This lets you set the number of octaves and the alpha and beta values for bumpiness (sometimes
                 called persistence).  If you set the scale attribute manually you can even control the scaling of the
@@ -90,52 +114,17 @@
                 <p>I didn’t pay too much attention to GLSL noise - that’s applicable for
                 rendering, but not so useful for generating game levels and so on where you really need your noise
                 accessible to Javascript (and in webGL you can’t read back framebuffers).</p>
-                <p>As a thought-experiment it ought to be possible to do a <a href="http://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
+                <p>As a thought-experiment it ought to be possible to do a <a href="https://www.fractalforums.com/general-discussion-b77/distance-estimator-for-perlin-noise/msg64073/#msg64073" target="_blank">distance estimator </a>for Perlin Noise at any threshold.  This would help me
                 shadow my visualisation nicely, but it would have rather more general advantages if it sped up making
                 big chunks of noise too?</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#715'">rec</button>  <button class="page-link" onclick="window.location='game.html#715'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/57140204975.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="716">
-    <h2>Perlin Noise</h2>
-</a>
-<?xml version="1.0" ?><post-body><p>I’ve been trying to understand how to use noise to generate stuff like game
-                worlds.  In the end, I needed to visualise the noise function itself:</p>
-                <p><img src="media/old/57140204975_1.jpg"/></p>
-                <p>So I made a quick cube spinner and I’ll put the viewer - possibly editor - into the
-                next <a href="http://williame.github.io/barebones.js/" target="_blank">barebones.js</a>.</p>
-            </post-body>
- <button class="page-link" onclick="window.location='rec1.html#716'">rec</button>  <button class="page-link" onclick="window.location='game.html#716'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/53836725910.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="723">
-    <h2>What highscalability.com says about Scaling my Server</h2>
-</a>
-<?xml version="1.0" ?><post-body><blockquote>
-                <p>Williams Edwards writes a wonderful, slow lingering tale of <a href="post/53349845356.html">Scaling my Server</a> through
-                a series of rewrites to create a system that effortlessly maintains millions and millions of active
-                users. The article is packed with goodness, but the result was to write in Java, use a central shardable
-                server to push messages to devices, scale proportional to active users not total users, keep live data
-                in RAM persist in a database, version the DB, use application level message ACKs, use
-                DataInput/OutputStreams, use a faster JSON parser, there’s a  limit to the number of TLS
-                connections can terminate, Java data types have a lot of overhead which limits the number you can keep
-                in RAM, Java hashtables are wasteful. [<a href="http://highscalability.com/blog/2013/6/21/stuff-the-internet-says-on-scalability-for-june-21-2013.html" target="_blank">src</a>]</p>
-                </blockquote>
-            </post-body>
- <button class="page-link" onclick="window.location='perf.html#723'">perf</button> 
+ <button class="page-link" onclick="window.location='rec1.html#57181055984'">rec</button>  <button class="page-link" onclick="window.location='game.html#57181055984'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/53831974133.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="724">
+<a name="53831974133">
     <h2>Drawing RTS maps fast</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/53831974133_1.jpg"/></p>
@@ -149,13 +138,33 @@
                 had strange anonymous handles on-line in those days except me - and we made some really cool mods and
                 games.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec1.html#724'">rec</button>  <button class="page-link" onclick="window.location='game.html#724'">game</button> 
+ <button class="page-link" onclick="window.location='rec1.html#53831974133'">rec</button>  <button class="page-link" onclick="window.location='game.html#53831974133'">game</button> 
 <button class="page-link" onclick="window.location='post/53831974133.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
+<div class="maximize-post" onclick="window.location='post/53836725910.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="53836725910">
+    <h2>What highscalability.com says about Scaling my Server</h2>
+</a>
+<?xml version="1.0" ?><post-body><blockquote>
+                <p>Williams Edwards writes a wonderful, slow lingering tale of <a href="post/53349845356.html">Scaling my Server</a> through
+                a series of rewrites to create a system that effortlessly maintains millions and millions of active
+                users. The article is packed with goodness, but the result was to write in Java, use a central shardable
+                server to push messages to devices, scale proportional to active users not total users, keep live data
+                in RAM persist in a database, version the DB, use application level message ACKs, use
+                DataInput/OutputStreams, use a faster JSON parser, there’s a  limit to the number of TLS
+                connections can terminate, Java data types have a lot of overhead which limits the number you can keep
+                in RAM, Java hashtables are wasteful. [<a alt="dead link: http://highscalability.com/blog/2013/6/21/stuff-the-internet-says-on-scalability-for-june-21-2013.html" href="/#404" target="_blank">src</a>]</p>
+                </blockquote>
+            </post-body>
+ <button class="page-link" onclick="window.location='perf.html#53836725910'">perf</button> 
+
+</div>
+
+<div class="post">
 <div class="maximize-post" onclick="window.location='post/53751799442.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="725">
+<a name="53751799442">
     <h2>Scaling my Server: follow-up</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><a href="post/53349845356.html" target="_blank">Previously</a>, I described how I tried to do the simplest possible thing that
@@ -164,7 +173,7 @@
                 <p><strong>Doing it wrong</strong></p>
                 <blockquote>
                 <div>This is a lot of words for “I needed message queues and keep doing it wrong”
-                <small>[<a href="http://stackoverflow.com/questions/17274553/dont-use-the-database-as-a-queue" target="_blank">proggit</a>]</small></div>
+                <small>[<a alt="dead link: http://stackoverflow.com/questions/17274553/dont-use-the-database-as-a-queue" href="/#404" target="_blank">proggit</a>]</small></div>
                 </blockquote>
                 <p>Ooooh cheap shot, love it!  I’d be the first to raise such an objection but on deeper
                 inspection I begin to wonder what we all mean by this bit of wisdom.  There’s a <a href="https://blog.engineyard.com/2011/5-subtle-ways-youre-using-mysql-as-a-queue-and-why-itll-bite-you" target="_blank">nice article</a> on it, but the alternatives really aren’t there as I
@@ -190,17 +199,17 @@
                 eye-opening.  I need to clean up my writing style!  Its been really fun to get so much feedback, and so
                 much positive feedback too!  Thank you all, and I’ll keep you updated…</p>
             </post-body>
- <button class="page-link" onclick="window.location='perf.html#725'">perf</button> 
+ <button class="page-link" onclick="window.location='perf.html#53751799442'">perf</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/53349845356.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="726">
+<a name="53349845356">
     <h2>Scaling my Server</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>(<a href="post/53751799442.html" target="_blank">Followup</a>.  Also  <a href="post/53836725910.html" target="_blank">highscalability.com</a>)</p>
-                <p>At the beginning of the <a href="http://www.mblox.com/" target="_blank">project</a>
+                <p>At the beginning of the <a alt="dead link: http://www.mblox.com/" href="/#404" target="_blank">project</a>
                 to build a large-scale targeted multi-recipient messaging server, I opted to use the simplest, most
                 mainstream architecture possible: put everything in a RDBMS and let each web handler run queries.</p>
                 <p>It is a bit like push email but with groups and you can edit and recall messages even after
@@ -217,13 +226,55 @@
                 company and that simplified the deploy story).</p>
                 <p>You already know I’m going to tell you this was a mistake:</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='perf.html#726'">perf</button>  <button class="page-link" onclick="window.location='classic.html#726'">classic</button> 
+ <button class="page-link" onclick="window.location='perf.html#53349845356'">perf</button>  <button class="page-link" onclick="window.location='classic.html#53349845356'">classic</button> 
 <button class="page-link" onclick="window.location='post/53349845356.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
+<div class="maximize-post" onclick="window.location='post/49786413417.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="49786413417">
+    <h2>The kid&#39;s computer</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>I now have a ‘spare’ old laptop and I’m thinking about
+                setting it up so my oldest daughter can use it.</p>
+                <p>My daughters have no shortage of ready access to tech already:</p>
+                <ol><li>an old stationary computer with <a href="http://www.qimo4kids.com/" target="_blank">Qimo</a> Linux and no internet access</li>
+                <li>an old eee pc netbook with <a href="https://www.doudoulinux.org/web/english/index.html" target="_blank">Doudou</a> Linux and no internet access</li>
+                <li>an ipad 2 they borrow all the time, and are very adept at using - especially spotify, youtube
+                and a hundred make-up games</li>
+                <li>an intimate knowledge of DVD players and all that kind of thing</li>
+                </ol><p>Remember <a href="post/19500788060.html" target="_blank">my
+                tech-savvy generation</a>?  That was a year ago now!  Considering that they can’t read
+                nor write English yet I am often flabbergasted at their proficiency.</p>
+                <p>I think its time to give them a computer with internet access and perhaps start trying to send
+                them down a programming path too.</p>
+                <p>My eldest daughter, at 7, is very inventive and is currently planning a flying car.  For real.
+                 Of course I’m sure she understands its just fun to plan, but plan she does.  Its full of
+                little innovations like a bin between the seats so you can throw away sandwiches and things you don’t
+                like and then the motor itself will be driven by rubbish.  This is after a discussion at school about
+                recycling, of course.  You can tell I’m a very proud dad :)  We’ve just spent a week
+                collecting pictures of double-decker buses and things getting stuck under bridges in an attempt to
+                determine how high they can be…</p>
+                <p>She is already giving me lots of advice on my city building game, and has recently petitioned
+                for bridges and tunnels.  Its really exciting to listen to her describe the cities we could build…</p>
+                <p>I want to foster this curiosity by leading her towards programming too.  I think of programming
+                as lego without gravity, and want her to build wonderful virtual worlds.  Its not that I imagine there’s
+                a career ahead, but rather that I want her to have a boundless world to explore and conquer, rather like
+                books provided our generations with.</p>
+                <p>So the meat of my question:</p>
+                <ol><li>what OS or such do I put on this laptop?</li>
+                <li>how do I set it up for safe browsing etc?</li>
+                <li>are there any Incredible-Machine -type games these days?</li>
+                <li>what kind of programming environments should I start her on?</li>
+                </ol>
+            </post-body>
+ <button class="page-link" onclick="window.location='classic.html#49786413417'">classic</button> 
+
+</div>
+
+<div class="post">
 <div class="maximize-post" onclick="window.location='post/49797579721.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="730">
+<a name="49797579721">
     <h2>WillCity update</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img alt="image" src="media/old/49797579721_1.jpg"/></p>
@@ -272,55 +323,13 @@
                 <li>with some basic clamping</li>
                 </ol>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#730'">rec</button>  <button class="page-link" onclick="window.location='game.html#730'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/49786413417.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="731">
-    <h2>The kid&#39;s computer</h2>
-</a>
-<?xml version="1.0" ?><post-body><p>I now have a ‘spare’ old laptop and I’m thinking about
-                setting it up so my oldest daughter can use it.</p>
-                <p>My daughters have no shortage of ready access to tech already:</p>
-                <ol><li>an old stationary computer with <a href="http://www.qimo4kids.com/" target="_blank">Qimo</a> Linux and no internet access</li>
-                <li>an old eee pc netbook with <a href="http://www.doudoulinux.org/web/english/index.html" target="_blank">Doudou</a> Linux and no internet access</li>
-                <li>an ipad 2 they borrow all the time, and are very adept at using - especially spotify, youtube
-                and a hundred make-up games</li>
-                <li>an intimate knowledge of DVD players and all that kind of thing</li>
-                </ol><p>Remember <a href="post/19500788060.html" target="_blank">my
-                tech-savvy generation</a>?  That was a year ago now!  Considering that they can’t read
-                nor write English yet I am often flabbergasted at their proficiency.</p>
-                <p>I think its time to give them a computer with internet access and perhaps start trying to send
-                them down a programming path too.</p>
-                <p>My eldest daughter, at 7, is very inventive and is currently planning a flying car.  For real.
-                 Of course I’m sure she understands its just fun to plan, but plan she does.  Its full of
-                little innovations like a bin between the seats so you can throw away sandwiches and things you don’t
-                like and then the motor itself will be driven by rubbish.  This is after a discussion at school about
-                recycling, of course.  You can tell I’m a very proud dad :)  We’ve just spent a week
-                collecting pictures of double-decker buses and things getting stuck under bridges in an attempt to
-                determine how high they can be…</p>
-                <p>She is already giving me lots of advice on my city building game, and has recently petitioned
-                for bridges and tunnels.  Its really exciting to listen to her describe the cities we could build…</p>
-                <p>I want to foster this curiosity by leading her towards programming too.  I think of programming
-                as lego without gravity, and want her to build wonderful virtual worlds.  Its not that I imagine there’s
-                a career ahead, but rather that I want her to have a boundless world to explore and conquer, rather like
-                books provided our generations with.</p>
-                <p>So the meat of my question:</p>
-                <ol><li>what OS or such do I put on this laptop?</li>
-                <li>how do I set it up for safe browsing etc?</li>
-                <li>are there any Incredible-Machine -type games these days?</li>
-                <li>what kind of programming environments should I start her on?</li>
-                </ol>
-            </post-body>
- <button class="page-link" onclick="window.location='classic.html#731'">classic</button> 
+ <button class="page-link" onclick="window.location='rec1.html#49797579721'">rec</button>  <button class="page-link" onclick="window.location='game.html#49797579721'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/49171822294.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="735">
+<a name="49171822294">
     <h2>What I&#39;m working on</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>My blog has been rather quiet recently… due mainly to renovation projects
@@ -329,34 +338,19 @@
                 my hobby simulator so far:</p>
                 <p><img src="media/old/49171822294_1.jpg"/></p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#735'">rec</button>  <button class="page-link" onclick="window.location='game.html#735'">game</button> 
-
-</div>
-
-<div class="post">
-<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="738">
-    <h2>barebones.js updated</h2>
-</a>
-<?xml version="1.0" ?><post-body><p>It now includes a <a href="http://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
-                RTS game!  Just add units…</p>
-                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
-                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
-                working out the tile under the mouse cursor.  Stay tuned.</p>
-            </post-body>
- <button class="page-link" onclick="window.location='rec1.html#738'">rec</button>  <button class="page-link" onclick="window.location='game.html#738'">game</button> 
+ <button class="page-link" onclick="window.location='rec1.html#49171822294'">rec</button>  <button class="page-link" onclick="window.location='game.html#49171822294'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/48129403865.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="739">
+<a name="48129403865">
     <h2>How to do 3D terrain for your game</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>The <a href="https://github.com/williame/barebones.js" target="_blank">barebones.js</a>
                 project contains a simple grid-based webGL-drawn terrain that serves as a ready-to-build-upon skeleton
                 for your game:</p>
-                <p><a href="http://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
+                <p><a href="https://williame.github.io/barebones.js" target="_blank"><em><img alt="image" src="media/old/48129403865_1.jpg"/></em></a></p>
 
                 <h2>features</h2>
                 <p>The demo shows:</p>
@@ -374,24 +368,39 @@
                 </ul><p>We’ll cover each of these points below:</p>
                 <h2>the map</h2>
                 <p><img align="left" src="media/old/48129403865_1.png"/>
-                The map is fundamentally a 2D <a href="http://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
+                The map is fundamentally a 2D <a href="https://en.wikipedia.org/wiki/Heightmap" target="_blank">height-map</a>. 
                 If the map is, say, 100x100 squares then we’ll have 101x101 height points.</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#739'">rec</button>  <button class="page-link" onclick="window.location='game.html#739'">game</button> 
+ <button class="page-link" onclick="window.location='rec1.html#48129403865'">rec</button>  <button class="page-link" onclick="window.location='game.html#48129403865'">game</button> 
+
+</div>
+
+<div class="post">
+<div class="maximize-post" onclick="window.location='post/48137647814.html'"><img src="static/icons/maximize-2.svg"/></div>
+<a name="48137647814">
+    <h2>barebones.js updated</h2>
+</a>
+<?xml version="1.0" ?><post-body><p>It now includes a <a href="https://williame.github.io/barebones.js/" target="_blank">simple terrain demo</a>.  Hopefully its an ideal skeleton for turning into <em>your</em>
+                RTS game!  Just add units…</p>
+                <p><img alt="image" src="media/old/48137647814_1.jpg"/></p>
+                <p>I will soon be blogging about how I did the terrain and the navigation of it and things like
+                working out the tile under the mouse cursor.  Stay tuned.</p>
+            </post-body>
+ <button class="page-link" onclick="window.location='rec1.html#48137647814'">rec</button>  <button class="page-link" onclick="window.location='game.html#48137647814'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/46548666358.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="741">
+<a name="46548666358">
     <h2>hand-written asm.js</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><a href="http://asmjs.org/" target="_blank">asm.js</a> leaves me
-                divided.  I agree to a large extent with <a href="http://mrale.ph/blog/2013/03/28/why-asmjs-bothers-me.html" target="_blank">this old V8 coder</a>.</p>
+                divided.  I agree to a large extent with <a alt="dead link: http://mrale.ph/blog/2013/03/28/why-asmjs-bothers-me.html" href="/#404" target="_blank">this old V8 coder</a>.</p>
                 <p>I care a lot about pure Javascript performance.  A recent project had me making a web worker
                 that had to do lots of path finding.  And no matter how fast your priority queue implementation is, it
                 isn’t fast enough.</p>
-                <p>I’ve been basing my priority queue on <a href="http://eloquentjavascript.net/appendix2.html" target="_blank">this one</a>.  The hottest
+                <p>I’ve been basing my priority queue on <a href="https://eloquentjavascript.net/appendix2.html" target="_blank">this one</a>.  The hottest
                 function is the scoring function; its not a big function - <code>function(a,b) { return a[0] &lt;
                 b[0]; }</code> - but its called a lot.</p>
                 <p>In my problem domain the maximum size of the queue is bounded by the size of the board and the
@@ -424,30 +433,30 @@
                 <p>I want tools and a generic Javascript runtime that can infer what asm.js wants the coder to
                 specify.</p>
             </post-body>
- <button class="page-link" onclick="window.location='lang.html#741'">lang</button> 
+ <button class="page-link" onclick="window.location='lang.html#46548666358'">lang</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/45193855853.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="746">
+<a name="45193855853">
     <h2>Drawing things in the shadow of a sphere</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>For the <a href="http://www.ludumdare.com/compo/minild-40/?action=preview&amp;uid=10313" target="_blank">Ludum Dare mini 40</a> competition - theme “The Real World”
                 - I started on a launch-your-ICBMs game called “Mutual Assured Destruction”.  Anyone
                 else a child of the cold war?</p>
-                <p>I had this particular image in mind from the 80s film “<a href="http://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
+                <p>I had this particular image in mind from the 80s film “<a href="https://www.imdb.com/title/tt0086567/" target="_blank">War Games</a>” where you
                 see vector-graphic missile arcs incoming.  The graphics in that film really left a lasting impression on
                 me, so I wanted to capture that feel:</p>
                 <p><img alt="image" src="media/old/45193855853_1.jpg"/></p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec1.html#746'">rec</button>  <button class="page-link" onclick="window.location='game.html#746'">game</button> 
+ <button class="page-link" onclick="window.location='rec1.html#45193855853'">rec</button>  <button class="page-link" onclick="window.location='game.html#45193855853'">game</button> 
 <button class="page-link" onclick="window.location='post/45193855853.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/43800948133.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="754">
+<a name="43800948133">
     <h2>Efficient procedural flame particle effects</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I was playing the other month with making flame particle effects.  Lots of flame
@@ -471,13 +480,13 @@
                 <p>In this way I could have lots - easily filling the whole screen with tens of thousands - of
                 point-sprite-based fire particles and no two systems looked identical!</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#754'">rec</button>  <button class="page-link" onclick="window.location='game.html#754'">game</button> 
+ <button class="page-link" onclick="window.location='rec1.html#43800948133'">rec</button>  <button class="page-link" onclick="window.location='game.html#43800948133'">game</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/43394068341.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="756">
+<a name="43394068341">
     <h2>Ruby&#39;s Principle of Too Much Power</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
@@ -502,19 +511,19 @@
                 <p><em>Only it then turns out</em> that the Ruby JSON parser … yes, you’ve
                 guessed it … the <em>Ruby</em> JSON parser can instantiate complex objects too.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='lang.html#756'">lang</button>  <button class="page-link" onclick="window.location='classic.html#756'">classic</button> 
+ <button class="page-link" onclick="window.location='lang.html#43394068341'">lang</button>  <button class="page-link" onclick="window.location='classic.html#43394068341'">classic</button> 
 <button class="page-link" onclick="window.location='post/43394068341.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/42912076785.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="760">
+<a name="42912076785">
     <h2>Why is Ruby bad security?</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>More: <em><a href="post/43394068341.html" target="_blank">Ruby’s Principle of Too Much Power</a></em></p>
-                <p>Another week, another <a href="http://www.zweitag.de/en/blog/ruby-on-rails-vulnerable-to-mass-assignment-and-sql-injection" target="_blank">Ruby on Rails exploit</a>.  <a href="http://rubysource.com/anatomy-of-an-exploit-an-in-depth-look-at-the-rails-yaml-vulnerability/" target="_blank">Again</a> it attacks derserialisation libraries that can, it turns out,
+                <p>Another week, another <a href="https://www.zweitag.de/en/blog/ruby-on-rails-vulnerable-to-mass-assignment-and-sql-injection" target="_blank">Ruby on Rails exploit</a>.  <a href="http://rubysource.com/anatomy-of-an-exploit-an-in-depth-look-at-the-rails-yaml-vulnerability/" target="_blank">Again</a> it attacks derserialisation libraries that can, it turns out,
                 instantiate complex objects.  Not all the flaws can be blamed on over-ambition of the serialisation
-                libraries like YAML and now JSON, though.  There was a spate of <a href="http://blog.mhartl.com/2008/09/21/mass-assignment-in-rails-applications/" target="_blank">mass-assignment
+                libraries like YAML and now JSON, though.  There was a spate of <a alt="dead link: http://blog.mhartl.com/2008/09/21/mass-assignment-in-rails-applications/" href="/#404" target="_blank">mass-assignment
                 </a>vulnerabilities and others and doubtless some I’ve forgotten.</p>
                 <p><em><strong>update</strong></em>: I spoke too soon: there’s
                 <a href="https://groups.google.com/forum/?fromgroups=#!topic/rubyonrails-security/AFBKNY7VSH8" target="_blank">yet another</a> assignment vulnerability right now, again….</p>
@@ -534,20 +543,20 @@
                 <p>I just can’t see Go and Python frameworks suffering in the same way and to such a
                 large endemic extent.</p>
             </post-body>
- <button class="page-link" onclick="window.location='lang.html#760'">lang</button>  <button class="page-link" onclick="window.location='classic.html#760'">classic</button> 
+ <button class="page-link" onclick="window.location='lang.html#42912076785'">lang</button>  <button class="page-link" onclick="window.location='classic.html#42912076785'">classic</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/40512693117.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="763">
+<a name="40512693117">
     <h2>The Crown Jewels Job – Autopsy</h2>
 </a>
 <?xml version="1.0" ?><post-body><div>
                 <p>Opening myself up here, but to be honest I’m deeply disappointed about our Ludum Dare
                 game-making-contest score history. I expected more of us; we aimed higher, and we hoped to make
                 something that would please and wow the crowd.</p>
-                <p><img alt="" height="307" src="http://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
+                <p><img alt="" height="307" src="https://www.ludumdare.com/compo/wp-content/compo2/201083/10313-shot0.png" width="617"/></p>
                 <p><a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">And we abjectly failed, again.</a></p>
                 <p>We’ve always aimed to challenge norms; in <a href="http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&amp;uid=10313" target="_blank">LD23</a>
                 we’d tried to put graphics into text adventures in an interesting, new way. We’ve tried to enter a
@@ -555,7 +564,7 @@
                 to make a 2D platform game without tiles.</p>
                 <p><em><strong>We really are overactive underachievers.</strong></em></p>
                 <p>Our highest LD25 score was for music. We were perhaps not clear enough that that was the one
-                thing we had not ourselves made <img alt=":(" src="http://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
+                thing we had not ourselves made <img alt=":(" src="https://www.ludumdare.com/compo/wp-includes/images/smilies/icon_sad.gif"/> It was a track we’d
                 picked up on the Internet, and we thought we’d explained that.</p>
                 <p>So why did we fail so miserably? <strong>Bad control.</strong>  We should have had
                 a lot more and we lacked in plenty of areas, but I think that the playability was most affected by the
@@ -588,18 +597,18 @@
                 back for another beating; we’ll see.</p>
                 </div>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#763'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#763'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec1.html#40512693117'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#40512693117'">ludum-dare</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/38462176877.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="764">
+<a name="38462176877">
     <h2>The Crown Jewels Job</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><em>Introducing</em> our game for the <a href="http://www.ludumdare.com/compo/ludum-dare-25/?action=preview&amp;uid=10313" target="_blank">Ludum
                 Dare #25</a> competition:</p>
-                <p><big><a href="http://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
+                <p><big><a href="https://williame.github.com/ludum_dare_25_you_are_the_villain/" target="_blank">The Crown Jewels Job!</a></big></p>
                 <p><iframe frameborder="0" height="315" src="http://www.youtube.com/embed/W5T_mswWhnQ" width="420"> </iframe></p>
                 <p>To think we made all this in just 72 hours?!</p>
                 <p>The theme for the competition was “<em>you are the villain</em>”.</p>
@@ -611,13 +620,13 @@
                 made it from scratch, is not so great.</p>
                 <p>If there’s a criticism of the game-play its the wrong-feeling control system.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='rec1.html#764'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#764'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec1.html#38462176877'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare.html#38462176877'">ludum-dare</button> 
 <button class="page-link" onclick="window.location='post/38462176877.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/38051204853.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="765">
+<a name="38051204853">
     <h2>Dave the Dastard: Ludum Dare 25 - end of day one</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>That’s just a working title…</p>
@@ -634,7 +643,7 @@
                 levels and add assets straight from the browser, rather than emailing them to me!  Ah the magic of my
                 little git web server.</p>
             </post-body>
- <button class="page-link" onclick="window.location='rec1.html#765'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#765'">ludum-dare</button> 
+ <button class="page-link" onclick="window.location='rec1.html#38051204853'">rec</button>  <button class="page-link" onclick="window.location='ludum-dare1.html#38051204853'">ludum-dare</button> 
 
 </div>
 
@@ -894,11 +903,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

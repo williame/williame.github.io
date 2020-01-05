@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>I know someone whose 2-factor phone authentication was hacked... : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,9 +33,9 @@
 <div class="posts-column column">
 <div class="page-title"><h1>I know someone whose 2-factor phone authentication was hacked...</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Password hashing best practice (TL;DR <a href="http://yorickpeterse.com/articles/use-bcrypt-fool" target="_blank">use bcrypt</a>) has
+<post-body><p>Password hashing best practice (TL;DR <a href="https://yorickpeterse.com/articles/use-bcrypt-fool" target="_blank">use bcrypt</a>) has
                 been a bit in the spotlight recently.</p>
-                <p>There has been a natural progression in the blogosphere as it tracks <a href="http://blog.linkedin.com/2012/06/06/linkedin-member-passwords-compromised/" target="_blank">LinkedIn’s
+                <p>There has been a natural progression in the blogosphere as it tracks <a href="https://blog.linkedin.com/2012/06/06/linkedin-member-passwords-compromised/" target="_blank">LinkedIn’s
                 shame</a>.  Yes you should use a password hash function with integrated salting e.g. bcrypt or
                 scrypt.  Yes its scary reading developers comment as they fuddle through trying to invent their own
                 solution in the comments to stories.</p>
@@ -36,7 +45,7 @@
                 <blockquote>
                 <p>But the real answer is things like two-factor authentication with smart phones. Two factor
                 authentication seems like the answer to me. I think ten years from now this is going to be a common
-                approach. [<a href="http://krebsonsecurity.com/2012/06/how-companies-can-beef-up-password-security/" target="_blank">Thomas H. Ptacek</a>]</p>
+                approach. [<a href="https://krebsonsecurity.com/2012/06/how-companies-can-beef-up-password-security/" target="_blank">Thomas H. Ptacek</a>]</p>
                 </blockquote>
                 <p>Its a step in the right direction of course.  But a chain is as weak as the weakest link and
                 phone companies are very weak links indeed:</p>
@@ -59,7 +68,7 @@
                 un-transfers money, relief all round.  But bank then says “but we did transfer a large sum
                 last week”…</p>
                 <p>Luckily the police do investigate (apparently they mostly decline to) because there is video
-                footage of someone(<a href="http://en.wikipedia.org/wiki/Money_mule" target="_blank">?</a>)
+                footage of someone(<a href="https://en.wikipedia.org/wiki/Money_mule" target="_blank">?</a>)
                 withdrawing the money.  The bank un-transfers the first amount.</p>
                 <p>Friend phones BT.  BT have a phone recording of the transfer being requested, but is spooky to
                 listen to.  This is a common enough attack that BT have a system whereby you can put a <em>password</em>
@@ -80,8 +89,8 @@
                 negotiation on how much is a little bit proceeds.  Friend says &quot;I’ll think about it”
                 and hangs up.</p>
                 <p>I said it was bizarre.</p>
-                <p>They key thing?  Phone company support staff have been successfully <a href="http://en.wikipedia.org/wiki/Social_engineering_%28security%29" target="_blank">socially
-                engineered</a> from like forever, and for those preferring technical attacks <a href="http://en.wikipedia.org/wiki/Phone_cloning" target="_blank">phones can be cloned</a> too.</p>
+                <p>They key thing?  Phone company support staff have been successfully <a href="https://en.wikipedia.org/wiki/Social_engineering_%28security%29" target="_blank">socially
+                engineered</a> from like forever, and for those preferring technical attacks <a href="https://en.wikipedia.org/wiki/Phone_cloning" target="_blank">phones can be cloned</a> too.</p>
                 <p>2 factor authentication with phones is only going to be a small speed-bump against determined
                 attackers.</p>
                 <p><em>ADDED now in the same vein</em>:</p>
@@ -99,15 +108,15 @@
                 <li>and the attacker failed to just transfer amounts under the limit that requires phone
                 confirmation</li>
                 </ul><p>Have I missed any?  Probably.</p>
-                <p>I told him to burn and build.  I told him to use a <a href="http://www.knopper.net/knoppix/index-en.html" target="_blank">Knoppix CD</a> when using
+                <p>I told him to burn and build.  I told him to use a <a href="https://www.knopper.net/knoppix/index-en.html" target="_blank">Knoppix CD</a> when using
                 the computer for banking.  I don’t think I was heeded.</p>
                 <p>Using bootable CDs for banking is a great idea.  Its impossible for a write-only media to get
                 infected with a trojan that will survive a reboot.  I tried to get someone who has access to some shared
                 accounts to use one, but sadly KHTML didn’t work with the banking website.  Arrrgggh.</p>
-                <p>My banks all use <a href="http://en.wikipedia.org/wiki/Security_token" target="_blank">secure
+                <p>My banks all use <a href="https://en.wikipedia.org/wiki/Security_token" target="_blank">secure
                 fobs</a>.  To log in on-line, and to confirm transactions, they present you with a challenge; you
                 enter the challenge into the fob and then type the code it displays.</p>
-                <p>The latest banking trojans are <a href="http://www.schneier.com/blog/archives/2009/09/hacking_two-fac.html" target="_blank">nasty
+                <p>The latest banking trojans are <a href="https://www.schneier.com/blog/archives/2009/09/hacking_two-fac.html" target="_blank">nasty
                 pieces of work</a>.  They can piggy-back sessions where you are using a secure fob as two factor
                 and add their own (hidden) transfers to your own.  I’ve heard of trojans that are adapted to
                 my banks and their non-English language; these trojans are moving down to target even regional banks
@@ -120,12 +129,12 @@
                 authorised is too much.</p>
                 <p>And I don’t think customers will think twice at being asked to enter the amount when
                 they confirm transactions.  In fact, I think it feels natural.</p>
-                <p>A <a href="http://news.ycombinator.com/item?id=4100614" target="_blank">comment</a>
+                <p>A <a href="https://news.ycombinator.com/item?id=4100614" target="_blank">comment</a>
                 said this well; “<em>something I can access</em>” (the secure fob which
                 can still be piggy backed) is not as strong a factor as “<strong>something I
                 know/am/have</strong>” (the sum of the transaction).<br/></p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#836'">index</button>  <button class="page-link" onclick="window.location='classic.html#836'">classic</button> 
+ <button class="page-link" onclick="window.location='index4.html#24949768311'">index</button>  <button class="page-link" onclick="window.location='classic.html#24949768311'">classic</button> 
 </div>
 </div>
 </div>
@@ -374,11 +383,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

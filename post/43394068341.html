@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Ruby&#39;s Principle of Too Much Power : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Ruby&#39;s Principle of Too Much Power</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
+<post-body><p>Previously: <em><a href="post/42912076785.html" target="_blank">Why
                 is Ruby bad security?</a></em></p>
                 <p><strong>TL;DR</strong></p>
                 <ul><li>Ruby libraries need to stop being too powerful.</li>
@@ -54,13 +63,13 @@
                 <p>Lisp’s boast is that <em>Code is Data</em>.  Ruby accidentally and
                 regrettably allowed Data to become Code.  Oops.</p>
                 <p><strong>The principle of least power</strong></p>
-                <p>There’s a good, old-fashioned engineering principle called the <a href="http://en.wikipedia.org/wiki/Rule_of_least_power" target="_blank">principle of least power</a>. 
+                <p>There’s a good, old-fashioned engineering principle called the <a href="https://en.wikipedia.org/wiki/Rule_of_least_power" target="_blank">principle of least power</a>. 
                 As I see it, its <em>not</em> just for data formats (like JSON, XML and YAML) but also a
                 mindset for developing things.</p>
                 <p>Don’t take a detour to facilitate future expansion.  Don’t build
                 special-case logic into a general-purpose library.  Compose complex systems from simple libraries
                 instead of large, opaque libraries bristling with special-case support.</p>
-                <p>I’ve said its a Ruby psyche thing.  <a href="http://www.reddit.com/r/programming/comments/18o4e4/your_xml_parser_will_destroy_everything_you_have/c8gkppx" target="_blank">Others</a> blame Rubyist inexperience:</p>
+                <p>I’ve said its a Ruby psyche thing.  <a alt="dead link: http://www.reddit.com/r/programming/comments/18o4e4/your_xml_parser_will_destroy_everything_you_have/c8gkppx" href="/#404" target="_blank">Others</a> blame Rubyist inexperience:</p>
                 <blockquote>
                 <p><a href="post/42912076785.html" target="_blank">[Will]</a> says that “The aim is to be so declarative, so high-level
                 as to no longer see nor understand what is happening beneath and before.” What really happens
@@ -82,7 +91,7 @@
                 <p>But we will agree the whole Rubyist lets-bang-gems-you-couldn’t-write-together
                 mindset has to go.  Programmers should know what the libraries they use do.  And those libraries should
                 do what you expect them to do <em>and</em> <em>nothing more</em>.  There’s
-                a whole <a href="http://en.wikipedia.org/wiki/Principle_of_least_astonishment" target="_blank">principle
+                a whole <a href="https://en.wikipedia.org/wiki/Principle_of_least_astonishment" target="_blank">principle
                 of least surprise</a> in library functionality.</p>
                 <p>And always pay double-attention to deserialising data into code; never build that into the
                 deserialisation library, always build that into a library that sits on top of the deserialisation
@@ -93,7 +102,7 @@
                 the rubygems YAML exploit, some Ruby app somewhere is deserialising XML or JSON that’s been
                 stored in a database right now and … bang!</p>
             </post-body>
- <button class="page-link" onclick="window.location='index2.html#756'">index</button>  <button class="page-link" onclick="window.location='lang.html#756'">lang</button>  <button class="page-link" onclick="window.location='classic.html#756'">classic</button> 
+ <button class="page-link" onclick="window.location='index2.html#43394068341'">index</button>  <button class="page-link" onclick="window.location='lang.html#43394068341'">lang</button>  <button class="page-link" onclick="window.location='classic.html#43394068341'">classic</button> 
 </div>
 </div>
 </div>
@@ -342,11 +351,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

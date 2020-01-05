@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Compressing 3D Game Models : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,13 +33,13 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Compressing 3D Game Models</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Sometimes I start to write, or at least start to think about writing, computer
+<post-body><p>Sometimes I start to write, or at least start to think about writing, computer
                 games.  I find the engine writing attractive.  I’m sitting on a few great game ideas; oh to
                 have the financial freedom to go be an indie game maker!</p>
                 <p>As I start to write the game I find my mind inexplicably drawn by technical details.</p>
                 <p>One technical detail that I’m inexplicably drawn to each time is how to compress the
                 artwork.  I reckon that games could be <strong>compressed 3x better</strong>:</p>
-                <p><a href="http://megaglest.org/" target="_blank"><!-- more -->Glest</a> is a
+                <p><a href="https://megaglest.org/" target="_blank"><!-- more -->Glest</a> is a
                 great open source game with a vibrant and active modding community.  Its a good example that I’ve
                 studied.</p>
                 <p>A Glest mod may be anywhere between 20 and 200MB, as zipped by 7-zip.  That’s a lot
@@ -39,12 +48,12 @@
                 is the textures to go on those models.  Some mods have non-trivial quanities of OGG music, which I’ll
                 ignore for the rest of this article.  (And the configuration files (Glest uses XML) really don’t
                 count for anything bytewise.)</p>
-                <p>The G3D model format is keyframe-based vertex animation.  Its just like id’s <a href="http://en.wikipedia.org/wiki/MD2_%28file_format%29" target="_blank">MD2</a>/MD3, which
+                <p>The G3D model format is keyframe-based vertex animation.  Its just like id’s <a href="https://en.wikipedia.org/wiki/MD2_%28file_format%29" target="_blank">MD2</a>/MD3, which
                 they used in Quake II.</p>
                 <p>Each model is made from meshes.  Each mesh has a number of frames, and for each frame it stores
                 the vertices and normals and texture coordinates.  It stores an index array describing the triangles to
                 make from these verices too; it stores only one copy of this, which is used for all frames.</p>
-                <p>The absolute first step is to move to a <a href="http://en.wikipedia.org/wiki/Skeletal_animation" target="_blank">bones animation</a>
+                <p>The absolute first step is to move to a <a href="https://en.wikipedia.org/wiki/Skeletal_animation" target="_blank">bones animation</a>
                 system instead.  In a bones animation you have a list of vertices and and index describing how to join
                 vertices to make triangles.  For each vertex you attach to one or a handful of bones by different
                 weights.  You can compute the position of each vertex for any given time point by moving the bones.  id
@@ -61,18 +70,18 @@
                 necessary when drawn in-game.  But this is lossy; I’d rather steer away from making judgements
                 on artwork; that’s for the artist.  If they give us a ridiculously high-poly model, we have to
                 take it.</p>
-                <p><img align="left" height="210" src="http://img210.imageshack.us/img210/9290/landship1.jpg" width="240"/>Many models contain massive amounts of symmetry.  You can note that the left side of the
+                <p><img align="left" alt="dead link: http://img210.imageshack.us/img210/9290/landship1.jpg" height="210" src="/#404" width="240"/>Many models contain massive amounts of symmetry.  You can note that the left side of the
                 torso mesh is the same as the right but mirrored, and just store the left side and instructions to
                 mirror it to create the right side.  This is not, of course, universally true.  But the vast majority of
                 Glest-style models could be halved.  You can do this on a sub-mesh basis.</p>
-                <p><img align="right" alt="Some legs under the cloak that are just not needed" height="240" src="http://img593.imageshack.us/img593/6013/glest3.png" width="320"/></p>
+                <p><img align="right" alt="dead link: http://img593.imageshack.us/img593/6013/glest3.png" height="240" src="/#404" width="320"/></p>
                 <p>Hidden surface removal often relies on knowing about the constraints of the camera in the
                 destination game.  In glest, for example, the undersides of models will never see the light of day.</p>
                 <p>To the right here is a model with hidden surfaces (green) as found by a Python script I wrote
                 to test this -&gt;</p>
-                <p>You can usually save space by moving to <a href="http://en.wikipedia.org/wiki/Triangle_strip" target="_blank">triangle strips</a> instead
+                <p>You can usually save space by moving to <a href="https://en.wikipedia.org/wiki/Triangle_strip" target="_blank">triangle strips</a> instead
                 of triangles.  There are tools to do this from Nvidia, ATI and others; I have played with the excellent
-                <a href="http://www.cs.sunysb.edu/~stripe/stripev2.html" target="_blank">stripe</a>.  This
+                <a href="https://www.cs.sunysb.edu/~stripe/stripev2.html" target="_blank">stripe</a>.  This
                 will more than half your file without affecting your ability to do further compression.</p>
                 <p>Many models use auto-normals.  Or the auto-normals are close enough in most cases.  If you
                 compute the auto-normals and store the diff to the actual normal, rounded to some precision (MD5, for
@@ -93,12 +102,12 @@
                 slows.  Also, it occurs to me that vertices are most likely to be attached to bones that are near them
                 and their neighbours, and I haven’t seen any papers discussing modeling that.</p>
                 <p><strong>Compressing compressed textures</strong></p>
-                <p>Update: <a href="http://cbloomrants.blogspot.se/2012/04/04-05-12-dxt-is-not-enough-part-2.html" target="_blank">excellent
+                <p>Update: <a href="https://cbloomrants.blogspot.se/2012/04/04-05-12-dxt-is-not-enough-part-2.html" target="_blank">excellent
                 expert analysis</a></p>
                 <p>I’ve mostly concentrated on compressing meshes so my ideas on compressing the
                 textures - and even modeling that compression on the mesh that we know they fit - has not really been
                 experimented with.  So I’ll list my ideas a bit more briefly and with less conviction:</p>
-                <p><img align="left" height="256" src="http://img600.imageshack.us/img600/8430/textureworker.jpg" width="256"/>Often, especially where
+                <p><img align="left" alt="dead link: http://img600.imageshack.us/img600/8430/textureworker.jpg" height="256" src="/#404" width="256"/>Often, especially where
                 we have corresponding mirroring in the mesh, we have corresponding mirroring in the texture maps. 
                 (Mirroring of texture coordinates for meshes kind of relies on this,)  Looking at the texture map for a
                 model is often full of striking symmetry.  You could simply store half and note how and where to mirror,
@@ -107,7 +116,7 @@
                 <p>Sometimes textures are lossy compressed but that really has to be an artist choice again; you
                 can’t go JPGing texture maps (you can have grayscale JPGs for alpha channel) automatically
                 really.  Texture compression e.g. DDS/PVRTC/ATITC etc is again an artist choice.</p>
-                <p>It is exciting to wonder if <a href="http://kdepepo.wordpress.com/2012/01/30/fast-lossless-color-image-compression/" target="_blank">iz
+                <p>It is exciting to wonder if <a href="https://kdepepo.wordpress.com/2012/01/30/fast-lossless-color-image-compression/" target="_blank">iz
                 compression</a> can be applied to compressed textures; it is said to be comparable to PNG on
                 ratio, but at least 2x faster to decode i.e. load!</p>
                 <p>Textures are often pre-mip-mapped and when you have a mip-mapped image you one of the levels to
@@ -118,7 +127,7 @@
                 <p>So, in this way, I think you can use less than a third as much bandwidth and disk space to
                 store the exact same 3D game models.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index5.html#901'">index</button>  <button class="page-link" onclick="window.location='rec2.html#901'">rec</button>  <button class="page-link" onclick="window.location='game.html#901'">game</button> 
+ <button class="page-link" onclick="window.location='index5.html#17369540725'">index</button>  <button class="page-link" onclick="window.location='rec2.html#17369540725'">rec</button>  <button class="page-link" onclick="window.location='game.html#17369540725'">game</button> 
 </div>
 </div>
 </div>
@@ -367,11 +376,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

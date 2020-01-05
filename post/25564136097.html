@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>If you defend those involved in the OpenGL ES specification, you are an idiot : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,15 +33,15 @@
 <div class="posts-column column">
 <div class="page-title"><h1>If you defend those involved in the OpenGL ES specification, you are an idiot</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>Jamie Zawinski (jwz), <a href="http://www.jwz.org/about.html" target="_blank">famed</a>
+<post-body><p>Jamie Zawinski (jwz), <a alt="dead link: http://www.jwz.org/about.html" href="/#404" target="_blank">famed</a>
                 hacker and nightclub owner, has called a lot of people idiots over the years.  Just now he called out
-                <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">those
+                <a alt="dead link: http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" href="/#404" target="_blank">those
                 who wrote the OpenGL ES specs</a>.  I wholeheartedly agree with him; I’ve run into the
                 same hassle before e.g. <a href="post/14011115100.html" target="_blank">OpenGLES I want my quads back</a></p>
                 <p><strong><em>Who’s an idiot?</em></strong></p>
                 <p>The reception to Jamie’s sentiment on-line has been blistering.  There’s a
-                very vocal bunch on <a href="http://news.ycombinator.com/item?id=4134426" target="_blank">Hacker
-                News</a> and <a href="http://www.reddit.com/r/opengl/comments/vawln/jwz_if_you_were_involved_in_the_opengl_es/" target="_blank">reddit</a> who disagree strongly (with whatever they understand Jamie’s
+                very vocal bunch on <a href="https://news.ycombinator.com/item?id=4134426" target="_blank">Hacker
+                News</a> and <a alt="dead link: http://www.reddit.com/r/opengl/comments/vawln/jwz_if_you_were_involved_in_the_opengl_es/" href="/#404" target="_blank">reddit</a> who disagree strongly (with whatever they understand Jamie’s
                 point to be).</p>
                 <p>Its hard to say if its a minority or majority because the non-vocal ones don’t get
                 counted.  Most who read these sites don’t comment; <a href="post/18839832580.html" target="_blank">I have stats</a>.  So lets give everyone the benefit of the doubt and think its
@@ -44,11 +53,11 @@
                 OpenGL ES was hatched and <strong>the whole point is that we shouldn’t have OpenGL ES</strong>! 
                 We should just have had OpenGL.</p>
                 <p>I used to be a graphics stack architect and then technical product manager for graphics at a
-                smart-phone <a href="http://en.wikipedia.org/wiki/UIQ" target="_blank">platform</a> back in
+                smart-phone <a href="https://en.wikipedia.org/wiki/UIQ" target="_blank">platform</a> back in
                 the mid 2000s.  I’m <em>not</em> going to argue from authority - I was a
                 super-small side-sitter who was in no way ‘in’ nor involved with the Khronos
                 committee members.  But I did know a few members (whom I should apologise in advance to) and had quite a
-                few more visit me.  <a href="http://www.khronos.org/" target="_blank">Khronos Group</a> is
+                few more visit me.  <a href="https://www.khronos.org/" target="_blank">Khronos Group</a> is
                 where these committees thrash out these standards.</p>
                 <p>There is only one reason that these industry committees threw out OpenGL backwards
                 compatibility: the interests of the committee member companies.</p>
@@ -82,7 +91,7 @@
                 doesn’t have to be an expensive syscall or something at that point.  It can be put into an
                 array to be shipped somewhere when swap-buffers is called.</p>
                 <p>Chrome’s native client does just this.  And the only problem you have with this model
-                is <a href="http://www.opengl.org/sdk/docs/man/xhtml/glGetError.xml" target="_blank">`<code>glGetError</code>`</a>.</p>
+                is <a alt="dead link: http://www.opengl.org/sdk/docs/man/xhtml/glGetError.xml" href="/#404" target="_blank">`<code>glGetError</code>`</a>.</p>
                 <p>Symbian moved from immediate-mode drawing to retained-mode drawing, which is analogous, with
                 very few bumps.</p>
                 <p>Jamie’s code for stuffing OpenGL draw calls into arrays and such did it too.  <em>And
@@ -95,7 +104,7 @@
                 what you’re doing.  But that’s the kind of problem that’s quite solvable.</p>
                 <p>You can take any insurmountable problem with supporting OpenGL 1.x well and work out how to
                 overcome it without sacrificing performance, I promise you.</p>
-                <p>So really OpenGL ES can be seen as a variation on the <a href="http://www.jwz.org/doc/cadt.html" target="_blank">CADT development model</a>, although
+                <p>So really OpenGL ES can be seen as a variation on the <a alt="dead link: http://www.jwz.org/doc/cadt.html" href="/#404" target="_blank">CADT development model</a>, although
                 the age-group and motives might not align.</p>
                 <p><strong><em>Now let me rip into the GPU maker’s approach to software</em></strong>;
                 I have to pick that out as a third dynamic here:</p>
@@ -114,7 +123,7 @@
                 <p>You’ve gotta respect any programmers fighting the good fight for us 3rd parties in
                 these companies.</p>
                 <p><em><strong>What’s the big deal?</strong></em></p>
-                <p>Jamie <a href="http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" target="_blank">says it great</a>:</p>
+                <p>Jamie <a alt="dead link: http://www.jwz.org/blog/2012/06/i-have-ported-xscreensaver-to-the-iphone/" href="/#404" target="_blank">says it great</a>:</p>
                 <blockquote>
                 <p>If there are old features that you would like to discourage the use of, then you mark them as
                 obsolete – but you <em>do not remove them</em> because <em>thou shalt not
@@ -135,7 +144,7 @@
                 <p>I recall much swearing and teeth gnashing behind closed doors with phone manufacturers.  Bloody
                 standards bodies, who do they think they serve?  Oh, right…</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#831'">index</button>  <button class="page-link" onclick="window.location='classic.html#831'">classic</button> 
+ <button class="page-link" onclick="window.location='index3.html#25564136097'">index</button>  <button class="page-link" onclick="window.location='classic.html#25564136097'">classic</button> 
 </div>
 </div>
 </div>
@@ -384,11 +393,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

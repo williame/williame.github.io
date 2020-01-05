@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>Deterministic Testing of Async Loops : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,8 +33,8 @@
 <div class="posts-column column">
 <div class="page-title"><h1>Deterministic Testing of Async Loops</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>A lot of in-production phone crashes I’ve debugged over the years have
-                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="http://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
+<post-body><p>A lot of in-production phone crashes I’ve debugged over the years have
+                crashed in error-handling code.  The error handling code itself is never as well tested as the <a href="https://en.wikipedia.org/wiki/Happy_path" target="_blank">happy path</a>.</p>
                 <p>Hackers like working on tools and hackers are often attracted to writing test frameworks.  I
                 know I was.  So while working at UIQ (we made a smartphone OS) I wrote a simple exhaustive exception
                 generator.</p>
@@ -58,7 +67,7 @@
                 <p>Symbian was different from desktop operating systems in that requesting a page of memory
                 actually reserved a page for you.  Desktop operating systems don’t actually do that; you can
                 create a 100MB buffer or something and yet until you touch each page in that allocation the page isn’t
-                there; it might not be there and you might get a <a href="http://en.wikipedia.org/wiki/SIGSEGV" target="_blank">SIGSEGV</a>/STATUS_ACCESS_VIOLATION.</p>
+                there; it might not be there and you might get a <a href="https://en.wikipedia.org/wiki/SIGSEGV" target="_blank">SIGSEGV</a>/STATUS_ACCESS_VIOLATION.</p>
                 <p>Of course memory allocations can only truly fail if they cross a page boundary and require a
                 new page to be allocated, and there isn’t any free RAM.  But because there was lots of theming
                 hooks very early in the app startup process on UIQ and because the memory allocations there were data
@@ -78,9 +87,9 @@
                 machine (valgrind-like?) controlled shared memory access?</p>
                 <p>We never did get Opera to actually run my tool though.  They had plenty of bugs they already
                 knew about to be dealing with ;)</p>
-                <p>(on <a href="http://news.ycombinator.com/item?id=3616122" target="_blank">HackerNews</a>)</p>
+                <p>(on <a href="https://news.ycombinator.com/item?id=3616122" target="_blank">HackerNews</a>)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#896'">index</button>  <button class="page-link" onclick="window.location='lang.html#896'">lang</button> 
+ <button class="page-link" onclick="window.location='index4.html#18005723026'">index</button>  <button class="page-link" onclick="window.location='lang.html#18005723026'">lang</button> 
 </div>
 </div>
 </div>
@@ -329,11 +338,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <title>Will Edward&#39;s Programming: comp</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27302158-1');
+    </script>
 
 </head>
 <body>
@@ -31,14 +40,14 @@
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/87682811573.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="662">
+<a name="87682811573">
     <h2>Compressing Scrabble Dictionaries</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>The newest r<a href="http://www.azspcs.net/" target="_blank">ec.math Al
                 Zimmermann Programming Contest</a> is a solitaire Scrabble puzzle called ’<a href="http://www.azspcs.net/Contest/AlphabetCity" target="_blank">Alphabet City</a>’.</p>
                 <p>Wait, what do you mean you’re not entering that programming contest??  Its a really
                 really nice clean problem and it’s addictive as 2048!</p>
-                <p>To lookup scrabble words quickly, people use a <a href="http://en.wikipedia.org/wiki/GADDAG" target="_blank">GADDAG</a>.  The GADDAG is a tree data-structure.  Each node represents a
+                <p>To lookup scrabble words quickly, people use a <a href="https://en.wikipedia.org/wiki/GADDAG" target="_blank">GADDAG</a>.  The GADDAG is a tree data-structure.  Each node represents a
                 character, and has pointers to all the child nodes that continue all possible words.</p>
                 <p>The key thing is that every rotation of each word is stored in the GADDAG.  To have a GADDAG of
                 the words ALL, BALL and CALL, for each word we add all rotations.  This is LLA@, LA@L, A@LL for <em>ALL</em>,
@@ -67,29 +76,29 @@
                 nodes in it, which is a point I want to make :)</p>
                 <p>3 words, 11 rotations and 27 nodes.</p>
                 <p>Lets start compressing it:</p>
-                <p>The first thing to note is that, unlike the ALL, BALL, CALL <a href="http://nullwords.wordpress.com/2013/02/27/gaddag-data-structure/" target="_blank">example</a> on
+                <p>The first thing to note is that, unlike the ALL, BALL, CALL <a href="https://nullwords.wordpress.com/2013/02/27/gaddag-data-structure/" target="_blank">example</a> on
                 NullWords blog, I am storing the terminating characters (the blue nodes) in a separate set off the node.
                  This is how the prefix LLA is followed by a single node with both B and C in it.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index.html#662'">index</button>  <button class="page-link" onclick="window.location='rec.html#662'">rec</button> 
+ <button class="page-link" onclick="window.location='index.html#87682811573'">index</button>  <button class="page-link" onclick="window.location='rec.html#87682811573'">rec</button> 
 <button class="page-link" onclick="window.location='post/87682811573.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/17490392306.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="900">
+<a name="17490392306">
     <h2>Same Game, Same Sucker</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I had <a href="post/15882406012.html" target="_blank">previously
                 said</a>:</p>
                 <blockquote>
-                <p>There is a new <a href="http://infinitesearchspace.dyndns.org/samegame" target="_blank">SameGame
+                <p>There is a new <a alt="dead link: http://infinitesearchspace.dyndns.org/samegame" href="/#404" target="_blank">SameGame
                 </a>contest over at Infinite Search Space.  But I’m not tempted.  Yet.  Risk is, as I think more
                 about it, I’ll think of some little thing and then I’ll try it out and then its a slippery slope…</p>
                 </blockquote>
                 <p>Admittedly <a href="post/16322614828.html" target="_blank">Ludum Dare</a> got my coding need sated, and so I became easy prey for thinking
                 problems.</p>
-                <p>That’s how it was that I was so easily suckered by <a href="http://www.redcode.nl/" target="_blank">Roy</a> when he started asking me about how to
+                <p>That’s how it was that I was so easily suckered by <a alt="dead link: http://www.redcode.nl/" href="/#404" target="_blank">Roy</a> when he started asking me about how to
                 quickly compute SameGame board moves…</p>
                 <p>What started out as an outlining of how it might be fast turned into a brute solver in C++
                 (well, C with encapsulation; my C++ tends not to be so STLised so sue me).  See, its hard to express
@@ -109,7 +118,7 @@
                 time.  If you are taking a normal 32- or 64-bit random number and throwing all but one bit away to make
                 a choice, that’s going to <em>really</em> slow you down.</p>
                 <p>I often ask questions I think I know the answer to on StackOverflow, because often you get
-                interesting mind-expanding angles and corrections (but sadly <a href="http://stackoverflow.com/questions/8703223/re-using-random-number-in-reservoir-sampling" target="_blank">not always</a>).  So I asked something <a href="http://stackoverflow.com/questions/9116361/how-to-efficiently-nearly-sort-a-list" target="_blank">SameGame-related</a>
+                interesting mind-expanding angles and corrections (but sadly <a href="https://stackoverflow.com/questions/8703223/re-using-random-number-in-reservoir-sampling" target="_blank">not always</a>).  So I asked something <a href="https://stackoverflow.com/questions/9116361/how-to-efficiently-nearly-sort-a-list" target="_blank">SameGame-related</a>
                 and got a JSort lead that is well worth following up :)  (Only of course with a roulette you don’t
                 actually need to sort them.)</p>
                 <p>I think with effort you could get performance back up towards 2M/s but with rather less
@@ -118,17 +127,17 @@
                 thinking about it just when I think I’m successfully focusing on something more mundane. 
                 Arrrgggghhhh Roy its all your fault :)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#900'">index</button>  <button class="page-link" onclick="window.location='rec2.html#900'">rec</button> 
+ <button class="page-link" onclick="window.location='index4.html#17490392306'">index</button>  <button class="page-link" onclick="window.location='rec2.html#17490392306'">rec</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/16756548314.html'"><img src="static/icons/maximize-2.svg"/></div>
-<a name="905">
+<a name="16756548314">
     <h2>Cause&#39;s Levenshtein Distance Challenge</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>I hadn’t seen this before, but I bumped into a Python version on the web:
-                <a href="http://andothernoise.blogspot.com/2012/01/solving-causes-levenshtein-distance.html" rel="author" target="_blank">Alexandros Marino</a></p>
+                <a href="https://andothernoise.blogspot.com/2012/01/solving-causes-levenshtein-distance.html" rel="author" target="_blank">Alexandros Marino</a></p>
                 <p>His time of 11 seconds - 12 seconds on my laptop - seems a little slow :)</p>
                 <p>From the beginning, two things jump out: that he’s using the <em>same</em>
                 splices a lot and that he’s using yield.</p>
@@ -169,7 +178,7 @@
                 <p>Hmm.  22 seconds.  Not going in the right direction :)  I’ll send it in to the
                 shedskin list so they can consider how its hurting.</p>
             </post-body>
- <button class="page-link" onclick="window.location='index5.html#905'">index</button>  <button class="page-link" onclick="window.location='rec2.html#905'">rec</button> 
+ <button class="page-link" onclick="window.location='index5.html#16756548314'">index</button>  <button class="page-link" onclick="window.location='rec2.html#16756548314'">rec</button> 
 
 </div>
 
@@ -422,11 +431,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

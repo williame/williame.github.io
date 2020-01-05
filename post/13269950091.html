@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title> : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,17 +33,17 @@
 <div class="posts-column column">
 
 <div class="post">
-<?xml version="1.0" ?><post-body><p>A while ago, I was playing with computing line-of-sight for game-like heightmap
+<post-body><p>A while ago, I was playing with computing line-of-sight for game-like heightmap
                 terrain.  I wanted to efficiently compute which tiles in it were visible from an eye at any given
                 location and height.</p>
-                <p><a href="http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf" rel="nofollow">http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf</a>
+                <p><a alt="dead link: http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf" href="/#404" rel="nofollow">http://web.tecgraf.puc-rio.br/publications/artigo_1999_efficient_lineofsight_algorithms.pdf</a>
                 suggested that heightmaps outperform turning the terrain into some kind of mesh, but they sample the
                 grid using Bresenhams.</p>
                 <p>If I were to adopt that, I’d have to do a line-of-sight Bresenham’s line
                 for each and every tile on the map. It occurred to me that it ought to be possible to reuse most of the
                 calculations and compute the heightmap in a single pass if you fill outwards away from the eye - a
                 scanline fill kind of approach perhaps?</p>
-                <p>Here is the O(n) sweep that I came up with; I seems the same as that given in the <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.3639&amp;rep=rep1&amp;type=pdf">paper
+                <p>Here is the O(n) sweep that I came up with; I seems the same as that given in the <a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.156.3639&amp;rep=rep1&amp;type=pdf">paper
                 by Franklin and Ray</a>, only in this case I am walking from eye outwards instead of walking the
                 perimeter doing a Bresenham towards the centre; to my mind, my approach would have much better caching
                 behaviour - i.e. be faster - and use less memory since it doesn’t have to track the vector for
@@ -89,7 +98,7 @@
                 }
                 </code></pre>
             <iframe frameborder="0" src="https://www.youtube.com/embed/ppbvMzbNcWg"> </iframe></post-body>
- <button class="page-link" onclick="window.location='index5.html#934'">index</button>  <button class="page-link" onclick="window.location='rec3.html#934'">rec</button>  <button class="page-link" onclick="window.location='game1.html#934'">game</button> 
+ <button class="page-link" onclick="window.location='index5.html#13269950091'">index</button>  <button class="page-link" onclick="window.location='rec3.html#13269950091'">rec</button>  <button class="page-link" onclick="window.location='game.html#13269950091'">game</button> 
 </div>
 </div>
 </div>
@@ -338,11 +347,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

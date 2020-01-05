@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>How I got massively faster DB with async batching : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>How I got massively faster DB with async batching</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
+<post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
                 article:</p>
                 <blockquote>
                 <p><big>I found databases to be fastest when my own code buffers DB interaction and reorders
@@ -39,17 +48,17 @@
                 when you hit the same scaling issues we did:</p>
                 <!-- more -->
                 <p>I use asynchronous IO loop servers all the time.  Likely you do too.  I’ve used a lot
-                of <a href="http://twistedmatrix.com/" target="_blank">twisted</a> (so named because that’s
-                what it does to your sanity), more recently <a href="http://www.tornadoweb.org/" target="_blank">tornado</a>
+                of <a href="https://twistedmatrix.com/" target="_blank">twisted</a> (so named because that’s
+                what it does to your sanity), more recently <a alt="dead link: http://www.tornadoweb.org/" href="/#404" target="_blank">tornado</a>
                 (saner and tidier; possibly abandon-ware, and the non-existent error-handling is surely malicious;
-                rightly popular); I’ve contributed the inner IO loop to <a href="http://incubator.apache.org/deft/" target="_blank">deft </a>and I’ve written my
+                rightly popular); I’ve contributed the inner IO loop to <a alt="dead link: http://incubator.apache.org/deft/" href="/#404" target="_blank">deft </a>and I’ve written my
                 own <a href="https://github.com/williame/hellepoll" target="_blank">hellepoll</a> (leanest
-                and meanest).  I haven’t used <a href="http://nodejs.org/" target="_blank">node.js</a>;
+                and meanest).  I haven’t used <a href="https://nodejs.org/" target="_blank">node.js</a>;
                 that’s the one you’ve been using, right? :)  So that’s my CV and context.</p>
                 <p>And if you are building an IO loop, you are likely still doing your DB blocking.  When your DB
                 is slow, you’re told to just make your DB faster, or to spin your DB out to a separate server
                 and bounce your DB calls via HTTP!</p>
-                <p><img src="http://img815.imageshack.us/img815/8805/20120126171105.jpg"/></p>
+                <p><img alt="dead link: http://img815.imageshack.us/img815/8805/20120126171105.jpg" src="/#404"/></p>
                 <p>Doing blocking IO to the DB in an IO loop means your web-server goes as fast as the DB. 
                 Requests that arrive whilst waiting for the DB to do its thing have to wait.</p>
                 <p>You typically have several web-server instances and incoming requests are being load-balanced
@@ -58,7 +67,7 @@
                 <p>Some IO loops come with a DB connection pool worker threads concept.  This means you can
                 service non-DB-touching requests whilst the DB thread(s) are busy, but otherwise you get queued up. 
                 This is a major improvement:</p>
-                <p><img src="http://img580.imageshack.us/img580/5633/20120127194726.jpg"/></p>
+                <p><img alt="dead link: http://img580.imageshack.us/img580/5633/20120127194726.jpg" src="/#404"/></p>
                 <p>You have a thread pool of DB connection worker threads, each eating incoming requests,
                 submitting them to the database, and then calling back to the web request when complete.  So the race
                 between web requests can happen within the single server, and you have to be aware of that.</p>
@@ -82,7 +91,7 @@
                 <p>Now at this point, we could have tried all kinds of things.  We don’t want to give up
                 on ACID, and our code is already in the DB connection pool worker thread with callbacks architecture. 
                 Our database is largely prescribed from outside.  So the thing we did try is novel and new though:</p>
-                <p><img src="http://img834.imageshack.us/img834/139/20120126171128.jpg"/></p>
+                <p><img alt="dead link: http://img834.imageshack.us/img834/139/20120126171128.jpg" src="/#404"/></p>
                 <p>I created a database worker queue that greedily ate the queued up statements (these statements
                 were not SQL, but rather commands that it understood; they could have been SQL, but parsing SQL is not
                 necessary if you write the code that submits to the queue too).  It then grouped them, sorted them, and
@@ -104,7 +113,7 @@
                 <p>But oh boy was the performance worth it!  Absolutely no trouble making a single Python(!)
                 server saturate both network IO and DB disk.</p>
                 <p><em><strong>This design has exactly the same access schematics as the DB connection
-                pool approach.  The only <big>ACID</big> you give up is a tiny bit of <a href="http://en.wikipedia.org/wiki/ACID#Isolation">Isolation</a>.</strong></em></p>
+                pool approach.  The only <big>ACID</big> you give up is a tiny bit of <a href="https://en.wikipedia.org/wiki/ACID#Isolation">Isolation</a>.</strong></em></p>
                 <p>By putting many statements into a single transaction, this breaks isolation.  As wikipedia
                 says, I am not the first to do so.  Isolation is only broken if there is a validation error in some of
                 the data; that would zap the other statements that chance put in the same transaction.  However,
@@ -153,7 +162,7 @@
                 though.</p>
                 <p><em>You may also like: <a href="post/19346002203.html" target="_self">How I got massively faster DB with in-process replication</a><br/></em></p>
             </post-body>
- <button class="page-link" onclick="window.location='index5.html#907'">index</button>  <button class="page-link" onclick="window.location='perf.html#907'">perf</button>  <button class="page-link" onclick="window.location='db.html#907'">db</button>  <button class="page-link" onclick="window.location='classic.html#907'">classic</button> 
+ <button class="page-link" onclick="window.location='index5.html#16516763725'">index</button>  <button class="page-link" onclick="window.location='perf.html#16516763725'">perf</button>  <button class="page-link" onclick="window.location='db.html#16516763725'">db</button>  <button class="page-link" onclick="window.location='classic.html#16516763725'">classic</button> 
 </div>
 </div>
 </div>
@@ -402,11 +411,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

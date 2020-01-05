@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>How I got massively faster DB with in-process replication : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,7 +33,7 @@
 <div class="posts-column column">
 <div class="page-title"><h1>How I got massively faster DB with in-process replication</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
+<post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
                 <em>write</em>-heavy database web-app go fast.  In this essay I will describe a technique I
                 touched on which makes <em><strong>read-heavy</strong></em> database web-apps go
                 fast!</p>
@@ -45,14 +54,14 @@
                 rather than each being sent to the server to be answered.  This even allows you to maintain views of the
                 data in RAM and invalidate or recalculate them as needed.</p>
                 <p>Sadly I am unaware of any good frameworks for this (although with some pain and lots of gotchas
-                <a href="http://www.sqlalchemy.org/" target="_blank">sqlalchemy</a> does it somewhat, if not
+                <a href="https://www.sqlalchemy.org/" target="_blank">sqlalchemy</a> does it somewhat, if not
                 transparently).  It should be enough to say ‘store the entire contents of this table in RAM’
                 and the ORM goes away and does that.</p>
                 <p>I have made custom frameworks that do this.  My own frameworks have been asynchronous (as in
                 you can watch a row and get a callback when its committed or superseded and see its previous versions
                 and such) and mixed in with the <a href="post/16516763725.html" target="_blank">async batching</a> I described previously.  But its a generic thing and it
                 could be synchronous.</p>
-                <p>(Python is sorely lacking an ordered collection; I use one of the many native <a href="http://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank">tree</a>
+                <p>(Python is sorely lacking an ordered collection; I use one of the many native <a href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree" target="_blank">tree</a>
                 eggs out there, but this <em>really</em> ought to be part of the language runtime.)</p>
                 <p>An issue becomes having several worker processes serving the same database.  The first approach
                 to try is <em>don’t</em>.  The first rule of distribution is <em>don’t</em>. 
@@ -64,21 +73,21 @@
                 <p>When you have the tables in RAM in each process instead, you have to start trying to keep them
                 in sync.  At this point having a framework do this rather than having to roll your own is a big plus! 
                 But its possible:</p>
-                <p>If <a href="http://en.wikipedia.org/wiki/Eventual_consistency" target="_blank">eventual
-                consistency</a> is acceptable you can use message queues to do this (PostgreSQL 9 even has a <a href="http://taotetek.wordpress.com/2011/02/16/101/" target="_blank">pub-sub</a> system built
+                <p>If <a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank">eventual
+                consistency</a> is acceptable you can use message queues to do this (PostgreSQL 9 even has a <a href="https://taotetek.wordpress.com/2011/02/16/101/" target="_blank">pub-sub</a> system built
                 in).  Or you can use another message queue.</p>
                 <p>My mind races ahead and imagines using the normal cluster replication log stream from the real
-                database being subscribed to by the web workers.  Or some <a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29" target="_blank">Paxos</a>
+                database being subscribed to by the web workers.  Or some <a href="https://en.wikipedia.org/wiki/Paxos_%28computer_science%29" target="_blank">Paxos</a>
                 service.  The key thing is that despite writes being slow, reads are fast because reads are not going
                 out-of-process.</p>
-                <p>Just caching things in <a href="http://memcached.org/" target="_blank">memcached</a>
-                is <a href="http://highscalability.com/blog/2012/3/12/google-taming-the-long-latency-tail-when-more-machines-equal.html" target="_blank">much slower</a> than keeping an authoritative copy of them in-process. 
+                <p>Just caching things in <a href="https://memcached.org/" target="_blank">memcached</a>
+                is <a alt="dead link: http://highscalability.com/blog/2012/3/12/google-taming-the-long-latency-tail-when-more-machines-equal.html" href="/#404" target="_blank">much slower</a> than keeping an authoritative copy of them in-process. 
                 Memcache comes into play when your dataset is much larger than the RAM of a single web-worker, and that’s
                 just not true in the use-case I am describing here.</p>
                 <p>Doing complex queries by the intersection of Python sets is pure pleasure and blazingly fast
                 :)  If you are using a faster runtime, blazingly faster ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index4.html#878'">index</button>  <button class="page-link" onclick="window.location='perf.html#878'">perf</button>  <button class="page-link" onclick="window.location='db.html#878'">db</button> 
+ <button class="page-link" onclick="window.location='index4.html#19346002203'">index</button>  <button class="page-link" onclick="window.location='perf.html#19346002203'">perf</button>  <button class="page-link" onclick="window.location='db.html#19346002203'">db</button> 
 </div>
 </div>
 </div>
@@ -327,11 +336,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 

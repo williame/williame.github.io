@@ -7,6 +7,15 @@
     <meta http-equiv="Expires" content="0" />
     <base href=".."/>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27302158-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-27302158-1');
+    </script>
     <title>A novel profiler for Python : Will Edward&#39;s Programming</title>
 </head>
 <body>
@@ -24,15 +33,15 @@
 <div class="posts-column column">
 <div class="page-title"><h1>A novel profiler for Python</h1></div>
 <div class="post">
-<?xml version="1.0" ?><post-body><p><em><strong>UPDATE</strong></em>: now on <a href="https://github.com/williame/will_profile" target="_blank">github</a> with a <a href="http://williame.github.com/will_profile/example.html" target="_blank">clickable example</a>! 
-                You can even use the <a href="http://williame.github.com/will_profile/will_profile.html" target="_blank">on-line viewer</a> for your own traces.</p>
+<post-body><p><em><strong>UPDATE</strong></em>: now on <a href="https://github.com/williame/will_profile" target="_blank">github</a> with a <a href="https://williame.github.com/will_profile/example.html" target="_blank">clickable example</a>! 
+                You can even use the <a href="https://williame.github.com/will_profile/will_profile.html" target="_blank">on-line viewer</a> for your own traces.</p>
                 <p>At work, I’ve been trying to profile a very CPU-intensive part of a long-running
                 Python server.</p>
                 <p>There was a time, back in the dark ages, when randomly stopping your program in a debugger and
                 memorising the stack trace was a perfectly respectable way to ‘profile’ your code!</p>
                 <p>And it actually worked very well.  But somehow, with the advent of fancy profiling tools, the
                 simple and robust approach became forgotten…</p>
-                <p><a href="http://stackoverflow.com/questions/9819142/profiling-a-long-running-python-server" target="_blank">In order to profile my servers</a>, I’ve added the <a href="http://code.google.com/p/yappi/" target="_blank">yappi</a> profiler in such a way that it
+                <p><a href="https://stackoverflow.com/questions/9819142/profiling-a-long-running-python-server" target="_blank">In order to profile my servers</a>, I’ve added the <a href="https://code.google.com/p/yappi/" target="_blank">yappi</a> profiler in such a way that it
                 can be started and stopped via a debug HTTP interface.  So you can, remotely, turn on and off profiling
                 and recover the log.</p>
                 <p>This has worked better than nothing, but I’ve found it problematic; yappi - and other
@@ -47,7 +56,7 @@
                 <p><img src="media/old/35134924139_1.jpg"/></p>
                 <p><!-- more -->Why do I want the raw full stack-traces?  Because these are key to
                 understanding what your program is doing!  Stopping a program randomly in a debugger a few times is a
-                <a href="http://stackoverflow.com/a/378024/15721" target="_blank">very good way</a> of
+                <a href="https://stackoverflow.com/a/378024/15721" target="_blank">very good way</a> of
                 discovering your bottlenecks, and my script just automates it.</p>
                 <p>I had a very clear idea of how I wanted to see the output.  And the output is JSON.  So, rather
                 than making a little tkinter viewer app, I just threw together a rough Javascript page that you can
@@ -74,7 +83,7 @@
                 <p>I hope my quick scripts are useful to you when you have to debug a long-running, CPU-intensive
                 task in the future!</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#774'">index</button>  <button class="page-link" onclick="window.location='perf.html#774'">perf</button> 
+ <button class="page-link" onclick="window.location='index3.html#35134924139'">index</button>  <button class="page-link" onclick="window.location='perf.html#35134924139'">perf</button> 
 </div>
 </div>
 </div>
@@ -323,11 +332,11 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/57140204975.html'">Perlin Noise</div>
+                    <div class="page-map-leaf" onclick="window.location='post/57181055984.html'">Perlin Noise</div>
                 
             
                 
