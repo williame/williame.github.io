@@ -1,5 +1,5 @@
 body {
-    background-color: powderblue;
+    background-color: #C6DEFF;
 }
 
 pre {
@@ -27,10 +27,12 @@ blockquote {
 }
 
 .posts-column {
+    min-width: 400px;
     max-width: 800px;
 }
 
 .page-title {
+    background-color: #CFDFFF;
     margin: 3px;
     padding: 10px;
     border: 1px solid black;
@@ -40,6 +42,7 @@ blockquote {
 .index-bar {}
 
 .page-map {
+    background-color: #CFDFFF;
     margin: 3px;
     padding: 10px;
     border: 1px solid black;
@@ -95,6 +98,7 @@ blockquote {
 }
 
 .post {
+    background-color: #D3E3FF;
     margin: 3px;
     padding: 10px;
     padding-bottom: 25px;
@@ -102,6 +106,10 @@ blockquote {
     border-radius: 25px;
     overflow-x: auto;
     font-size: 16pt;
+}
+
+.post h2 {
+    cursor: pointer;
 }
 
 .maximize-post {

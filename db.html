@@ -5,6 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    
     <title>Will Edward&#39;s Programming: db</title>
     <link rel="stylesheet" type="text/css" href="static/style.css"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -41,7 +42,7 @@
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/172424230628.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="172424230628">
-    <h2>Faster searches with non-prefix fields in composite indices</h2>
+    <h2 onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Here’s a horrid hack or neat trick to work around a gaping inefficiency in the MySQL
                 query planner:</p><p>Imagine you have a very large table and a composite index e.g. the
@@ -82,14 +83,14 @@
                 compression</a> or browse some of my <a alt="dead link: https://this blog" href="/#404">earlier
                 posts</a> </p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#172424230628'">index</button>  <button class="page-link" onclick="window.location='perf.html#172424230628'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#172424230628'">mysql</button> 
+ <button class="page-link" onclick="window.location='perf.html#172424230628'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#172424230628'">mysql</button>  <button class="page-link" onclick="window.location='index.html#172424230628'">index</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/160628887798.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="160628887798">
-    <h2>Compressing MySQL databases</h2>
+    <h2 onclick="window.location='post/160628887798.html'">Compressing MySQL databases</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><i>TL;DR: use TokuDB.  Always.  It massively reduces storage requirements and
                 is massively faster than InnoDB, even on low end hardware.  My tables were compressed to just <b>12%</b>
@@ -165,14 +166,14 @@
                 moves the goalposts.  It means I can build bigger systems without scaling sideways.  I don’t get why
                 everyone still uses InnoDB ;)</p>
             </post-body>
- <button class="page-link" onclick="window.location='index.html#160628887798'">index</button>  <button class="page-link" onclick="window.location='perf.html#160628887798'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#160628887798'">mysql</button> 
+ <button class="page-link" onclick="window.location='perf.html#160628887798'">perf</button>  <button class="page-link" onclick="window.location='mysql.html#160628887798'">mysql</button>  <button class="page-link" onclick="window.location='index.html#160628887798'">index</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/26063783576.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="26063783576">
-    <h2>LevelDB isn&#39;t the fastest kid in town</h2>
+    <h2 onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><a href="https://www.sqlite.org/src4/doc/trunk/www/index.wiki" target="_blank">SQLite4</a>
                 <a href="https://www.sqlite.org/src4/doc/trunk/www/design.wiki" target="_blank">is faster</a>:</p>
@@ -194,14 +195,14 @@
                 into SQLite4.</p>
                 <p>What’s exciting you the storage engine front?</p>
             </post-body>
- <button class="page-link" onclick="window.location='index3.html#26063783576'">index</button>  <button class="page-link" onclick="window.location='perf.html#26063783576'">perf</button> 
+ <button class="page-link" onclick="window.location='perf.html#26063783576'">perf</button>  <button class="page-link" onclick="window.location='index3.html#26063783576'">index</button> 
 
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/25080396258.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="25080396258">
-    <h2>Oh MySQL I hate you</h2>
+    <h2 onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>Top 5 lists are super-good link bait, so I’ll make my own sad one.</p>
                 <p>In no particular order, and not stopping at 5:</p>
@@ -212,14 +213,14 @@
                 <li>you don’t have a transaction-safe <a href="https://dev.mysql.com/doc/refman/5.0/en/memory-storage-engine.html" target="_blank">memory</a>
                 table (so create them temporarily for each connection, and clear them manually on rollback)</li>
                 <li><!-- more --></li></ol></post-body>
- <button class="page-link" onclick="window.location='index4.html#25080396258'">index</button>  <button class="page-link" onclick="window.location='perf.html#25080396258'">perf</button>  <button class="page-link" onclick="window.location='classic.html#25080396258'">classic</button> 
+ <button class="page-link" onclick="window.location='perf.html#25080396258'">perf</button>  <button class="page-link" onclick="window.location='classic.html#25080396258'">classic</button>  <button class="page-link" onclick="window.location='index4.html#25080396258'">index</button> 
 <button class="page-link" onclick="window.location='post/25080396258.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/19346002203.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="19346002203">
-    <h2>How I got massively faster DB with in-process replication</h2>
+    <h2 onclick="window.location='post/19346002203.html'">How I got massively faster DB with in-process replication</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>In my essay <a href="post/16516763725.html" target="_blank">How I got massively faster DB with async batching</a> I described how to make a
                 <em>write</em>-heavy database web-app go fast.  In this essay I will describe a technique I
@@ -230,14 +231,14 @@
                 they are blazingly slow.</p>
                 <p>This is because the straightforward way to connect a database to a web app is naive.</p>
                 <p><!-- more --></p></post-body>
- <button class="page-link" onclick="window.location='index4.html#19346002203'">index</button>  <button class="page-link" onclick="window.location='perf.html#19346002203'">perf</button> 
+ <button class="page-link" onclick="window.location='perf.html#19346002203'">perf</button>  <button class="page-link" onclick="window.location='index4.html#19346002203'">index</button> 
 <button class="page-link" onclick="window.location='post/19346002203.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/16516763725.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="16516763725">
-    <h2>How I got massively faster DB with async batching</h2>
+    <h2 onclick="window.location='post/16516763725.html'">How I got massively faster DB with async batching</h2>
 </a>
 <?xml version="1.0" ?><post-body><p>As said in my <a href="post/16399069781.html" target="_self">moreSQL</a>
                 article:</p>
@@ -253,21 +254,21 @@
                 <p>What I built is so generally applicable I offer it here as a useful pattern for your projects
                 when you hit the same scaling issues we did:</p>
                 <!-- more --></post-body>
- <button class="page-link" onclick="window.location='index5.html#16516763725'">index</button>  <button class="page-link" onclick="window.location='perf.html#16516763725'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16516763725'">classic</button> 
+ <button class="page-link" onclick="window.location='perf.html#16516763725'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16516763725'">classic</button>  <button class="page-link" onclick="window.location='index5.html#16516763725'">index</button> 
 <button class="page-link" onclick="window.location='post/16516763725.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
 <div class="post">
 <div class="maximize-post" onclick="window.location='post/16399069781.html'"><img src="static/icons/maximize-2.svg"/></div>
 <a name="16399069781">
-    <h2>Google: MoreSQL is Real</h2>
+    <h2 onclick="window.location='post/16399069781.html'">Google: MoreSQL is Real</h2>
 </a>
 <?xml version="1.0" ?><post-body><p><img align="left" alt="dead link: http://img197.imageshack.us/img197/959/moresql.png" height="75" src="/#404" width="257"/></p>
                 <p>The post <a href="https://tatiyants.com/nosql-no-more-lets-double-down-with-moresql/" target="_blank">NoSQL no more: let’s double down with MoreSQL</a> is said
                 tongue-in-cheek.  But its more true and serious and real than the NoSQL crowd want to admit.  And Alex
                 made a sweet logo.</p>
                 <!-- more --></post-body>
- <button class="page-link" onclick="window.location='index5.html#16399069781'">index</button>  <button class="page-link" onclick="window.location='perf.html#16399069781'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16399069781'">classic</button> 
+ <button class="page-link" onclick="window.location='perf.html#16399069781'">perf</button>  <button class="page-link" onclick="window.location='classic.html#16399069781'">classic</button>  <button class="page-link" onclick="window.location='index5.html#16399069781'">index</button> 
 <button class="page-link" onclick="window.location='post/16399069781.html'"><b>read&nbsp;more&nbsp;&rarr;</b></button>
 </div>
 
@@ -280,42 +281,11 @@
 <div class="column">
     <div class="page-map">
         
-            
-
-    <div class="page-map-branch">
-    <b>databases</b>
-        
-            <img class="feather" src="static/icons/database.svg"/>
+            <div class="page-link" onclick="window.location='index.html'">main&nbsp;page&nbsp;&uarr;</div>
+            <hr/>
         
         
-            <div class="page-map-section">
             
-                
-                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
-                
-            
-                
-                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
-                
-            
-                
-                    <div class="page-map-leaf" onclick="window.location='post/26063783576.html'">LevelDB isn&#39;t the fastest kid in town</div>
-                
-            
-                
-                    <div class="page-map-leaf" onclick="window.location='post/25080396258.html'">Oh MySQL I hate you</div>
-                
-            
-                
-                    <div class="page-link" onclick="window.location='db.html'">more&nbsp;&rarr;</div>
-                
-            
-                
-            
-                
-            
-        
-    </div>
 
 
         
@@ -330,6 +300,14 @@
             <div class="page-map-section">
             
                 
+                    <div class="page-map-leaf" onclick="window.location='post/172424230628.html'">Faster searches with non-prefix fields in composite indices</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/160628887798.html'">Compressing MySQL databases</div>
+                
+            
+                
                     <div class="page-map-leaf" onclick="window.location='post/53836725910.html'">What highscalability.com says about Scaling my Server</div>
                 
             
@@ -338,19 +316,26 @@
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
-                
-            
-                
-                    <div class="page-map-leaf" onclick="window.location='post/35134924139.html'">A novel profiler for Python</div>
-                
-            
-                
-                    <div class="page-map-leaf" onclick="window.location='post/13590981677.html'">Performance lessons for HTTP sockets</div>
+                    <div class="page-link" onclick="window.location='perf.html'">more&nbsp;&rarr;</div>
                 
             
                 
             
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+            </div>
         
     </div>
 
@@ -367,19 +352,19 @@
             <div class="page-map-section">
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/53349845356.html'">Scaling my Server</div>
-                
-            
-                
                     <div class="page-map-leaf" onclick="window.location='post/49786413417.html'">The kid&#39;s computer</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/43394068341.html'">Ruby&#39;s Principle of Too Much Power</div>
+                    <div class="page-map-leaf" onclick="window.location='post/37291851878.html'">Making the History of Worlds Religions map</div>
                 
             
                 
-                    <div class="page-map-leaf" onclick="window.location='post/42912076785.html'">Why is Ruby bad security?</div>
+                    <div class="page-map-leaf" onclick="window.location='post/25564136097.html'">If you defend those involved in the OpenGL ES specification, you are an idiot</div>
+                
+            
+                
+                    <div class="page-map-leaf" onclick="window.location='post/25426541504.html'">Stackoverflow unwinding?</div>
                 
             
                 
@@ -410,20 +395,7 @@
             
                 
             
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
+            </div>
         
     </div>
 
@@ -493,6 +465,7 @@
             
                 
             
+            </div>
         
     </div>
 
@@ -567,6 +540,7 @@
             
                 
             
+            </div>
         
     </div>
 
@@ -646,15 +620,18 @@
             
                 
             
+            </div>
         
     </div>
 
 
             
+            </div>
         
     </div>
 
 
+        
         
     </div>
 </div>
