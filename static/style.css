@@ -1,5 +1,11 @@
 body {
-    background-color: #C6DEFF;
+    background-image: url('backgrounds/abstract-2-fs8.png');
+    background-repeat: repeat;
+    background-size: 10%;
+}
+
+div {
+    background-color: snow;
 }
 
 pre {
@@ -32,7 +38,6 @@ blockquote {
 }
 
 .page-title {
-    background-color: #CFDFFF;
     margin: 3px;
     padding: 10px;
     border: 1px solid black;
@@ -42,7 +47,6 @@ blockquote {
 .index-bar {}
 
 .page-map {
-    background-color: #CFDFFF;
     margin: 3px;
     padding: 10px;
     border: 1px solid black;
@@ -63,7 +67,8 @@ blockquote {
 }
 
 .page-map-leaf:hover {
-    background-color: white;
+    background-color: FloralWhite;
+    text-decoration: underline;
 }
 
 .pages-index {
@@ -82,7 +87,7 @@ blockquote {
 }
 
 .page-link:hover {
-    background-color: white;
+    background-color: FloralWhite;
 }
 
 .page-next-link {
@@ -98,7 +103,6 @@ blockquote {
 }
 
 .post {
-    background-color: #D3E3FF;
     margin: 3px;
     padding: 10px;
     padding-bottom: 25px;

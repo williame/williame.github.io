@@ -16,18 +16,26 @@
       gtag('js', new Date());
       gtag('config', 'UA-27302158-1');
     </script>
-    <title>Testing 1 2 3 : Will Edward&#39;s Programming</title>
+    <title>Performance Impact of UUIDs : Will Edward&#39;s Programming</title>
     <!--
     <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Testing 1 2 3</title>
+    <title>Performance Impact of UUIDs</title>
     <draft/>
     <tag>featured</tag>
+    <tag>db</tag>
+    <tag>perf</tag>
 
-<date>2020-01-08</date></head>
+<date>2020-10-27</date></head>
 <body>
-<p>this is my body</p>
+<p>As the <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">wikipedia article</a> states, UUIDs can
+have an impact on database performance.</p>
+<p>UUIDs (and, these days, we usually mean UUID4, which is just a big string of random digits) make very poor database
+keys because databases use sorted structures to store keys and rows.</p>
+<p>A <a href="https://github.com/ulid/spec">ULID</a> is a lexically sortable ID whose highest bits are a timestamp.  This
+means that ULIDs generated at much the same time will be grouped together, meaning that a stream of ULIDs generated over
+time are nearly sorted.</p>
 </body>
 </html>
     -->
@@ -46,10 +54,16 @@
     <p style="font-size: 16pt; width:90%;">These days I mostly work with <b>data</b>, <b>big data</b> and <b><i>fitting big data onto small boxes</i></b>.</p>
 </div>
 <div class="posts-column column">
-<div class="page-title"><h1>Testing 1 2 3</h1></div>
+<div class="page-title"><h1>Performance Impact of UUIDs</h1></div>
 <div class="post">
 <post-body>
-<p>this is my body</p>
+<p>As the <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">wikipedia article</a> states, UUIDs can
+have an impact on database performance.</p>
+<p>UUIDs (and, these days, we usually mean UUID4, which is just a big string of random digits) make very poor database
+keys because databases use sorted structures to store keys and rows.</p>
+<p>A <a href="https://github.com/ulid/spec">ULID</a> is a lexically sortable ID whose highest bits are a timestamp.  This
+means that ULIDs generated at much the same time will be grouped together, meaning that a stream of ULIDs generated over
+time are nearly sorted.</p>
 </post-body>
  <button class="page-link" onclick="window.location='draft.html#1'">draft</button> 
 </div>
