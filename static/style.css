@@ -114,6 +114,10 @@ blockquote {
     cursor: pointer;
 }
 
+.post-metadata {
+    font-size: 8pt;
+}
+
 .maximize-post {
     float: right;
     cursor: pointer;
